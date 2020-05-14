@@ -1,0 +1,23 @@
+{
+    "name": "haxifang/users",
+    "description": "haxifang/users",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "zengdawei",
+            "email": "zengdawei@haxibiao.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-0": {
+            "Haxifang\\Users": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Haxifang\\Users\\Tests\\": "tests/"
+        }
+    }
+}
