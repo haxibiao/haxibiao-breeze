@@ -1,9 +1,9 @@
 <?php
 
-namespace Haxifang\Users\WithSNS;
+namespace Haxibiao\Users\WithSNS;
 
 use anerg\OAuth2\OAuth as SnsOAuth;
-use Haxifang\Users\Exceptions\SNSException;
+use Haxibiao\Users\Exceptions\SNSException;
 
 class AlipayUtils
 {

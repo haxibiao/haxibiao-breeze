@@ -1,6 +1,6 @@
 <?php
 
-namespace Haxifang\Users\WithAuth;
+namespace Haxibiao\Users\WithAuth;
 
 use App\User;
 

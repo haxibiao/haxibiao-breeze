@@ -1,11 +1,11 @@
 <?php
 
-namespace Haxifang\Users\WithSNS;
+namespace Haxibiao\Users\WithSNS;
 
 use App\OAuth;
 use App\Wallet;
 use App\Withdraw;
-use Haxifang\Users\Exceptions\SNSException;
+use Haxibiao\Users\Exceptions\SNSException;
 use Illuminate\Support\Arr;
 
 trait WechatHelper
