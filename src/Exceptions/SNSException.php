@@ -1,6 +1,6 @@
 <?php
 
-namespace Haxibiao\Users\Exceptions;
+namespace haxibiao\Users\Exceptions;
 
 use Exception;
 
