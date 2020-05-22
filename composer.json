@@ -15,12 +15,12 @@
   },
   "autoload": {
     "psr-0": {
-      "haxibiao\\Users": "src/"
+      "haxibiao\\users": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "haxibiao\\Users\\Tests\\": "tests/"
+      "haxibiao\\users\\tests\\": "tests/"
     }
   }
 }

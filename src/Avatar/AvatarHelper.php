@@ -1,6 +1,6 @@
 <?php
 
-namespace haxibiao\Users\Avatar;
+namespace haxibiao\user\Avatar;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;

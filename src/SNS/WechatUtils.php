@@ -1,6 +1,6 @@
 <?php
 
-namespace haxibiao\Users\SNS;
+namespace haxibiao\user\SNS;
 
 class WechatUtils
 {
