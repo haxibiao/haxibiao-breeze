@@ -3,6 +3,7 @@
 namespace haxibiao\users\Auth;
 
 use App\User;
+use App\VerificationCode;
 use haxibiao\users\Exceptions\SignInException;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,11 +17,9 @@ trait AuthHelper
     public static function autoSignIn(string $account, string $uuid)
     {
         if (!empty($account)) {
-            //FIXME: 检查account 必须是手机号
-
-            $user = User::where('account', $account)->first();
-            if (empty($user)) {
-                //静默注册一个手机号为account的新账户
+            throw_if(!is_phone_number($account), SignInException::class, '手机号格式不正确!');
+            $doesntExist = User::where('account', $account)->doesntExist();
+            if ($doesntExist) {
                 $user = User::create([
                     'uuid'      => $uuid,
                     'account'   => $account,
@@ -30,8 +29,8 @@ trait AuthHelper
                 ]);
             }
         } else {
-            $user = User::where('uuid', $uuid)->first();
-            if (empty($user)) {
+            $doesntExist = User::where('uuid', $uuid)->doesntExist();
+            if ($doesntExist) {
                 //静默注册一个uuid为account的新账户
                 $user = User::create([
                     'uuid'      => $uuid,
@@ -42,8 +41,6 @@ trait AuthHelper
                 ]);
             }
         }
-
-        //FIXME: 其他操作
 
         Auth::login($user);
         return $user;
@@ -57,11 +54,10 @@ trait AuthHelper
      */
     public static function signIn(string $account, string $password, string $uuid)
     {
-        //FIXME: 检查account 必须是手机号
-
+        throw_if(!is_phone_number($account), SignInException::class, '手机号格式不正确!');
         $user = User::where('account', $account)->first();
 
-        throw_if(empty($user), SignInException::class, '账号不存在,请先注册~');
+        throw_if(empty($user), SignInException::class, '账号不存在,请先注册!');
         if (!password_verify($password, $user->password)) {
             throw new SignInException('登录失败,账号或者密码错误');
         }
@@ -82,9 +78,14 @@ trait AuthHelper
      */
     public static function signInWithSMSCode(string $account, string $sms_code, string $uuid)
     {
-        //FIXME: 检查account 必须是手机号
+        throw_if(!is_phone_number($account), SignInException::class, '手机号格式不正确!');
+        throw_if(empty($sms_code), SignInException::class, '验证码不能为空!');
 
-        //FIXME: 验证SMS code
+        $code = self::getLoginVerificationCode($account);
+
+        if (!strcmp($code, $sms_code)) {
+            throw_if(empty($sms_code), SignInException::class, '验证码不正确!');
+        }
 
         $user = User::where('account', $account)->first();
         throw_if(empty($user), SignInException::class, '账号不存在,请先注册~');
@@ -129,7 +130,13 @@ trait AuthHelper
      */
     public static function signUpWithSMSCode(string $account, string $uuid, string $sms_code)
     {
-        //FIXME: 验证 $sms_code， 依赖 SMSUtils + VerificationCode
+        throw_if(empty($sms_code), SignInException::class, '验证码不能为空!');
+
+        $code = self::getLoginVerificationCode($account);
+
+        if (!strcmp($code, $sms_code)) {
+            throw_if(empty($sms_code), SignInException::class, '验证码不正确!');
+        }
 
         throw_if(User::where('account', $account)->exists(), SignInException::class, '账号已存在');
 
@@ -145,4 +152,12 @@ trait AuthHelper
         return $user;
     }
 
+    public static function getLoginVerificationCode($account, $action = VerificationCode::USER_LOGIN)
+    {
+        return VerificationCode::where('account', $account)
+            ->byValid(VerificationCode::CODE_VALID_TIME)
+            ->where('action', $action)
+            ->latest('id')
+            ->first();
+    }
 }

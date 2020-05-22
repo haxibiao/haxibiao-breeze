@@ -32,8 +32,9 @@ trait AvatarHelper
 
         $fileTemplate = 'avatar-%s.%s'; //以后所有cos的头像保存文件名模板
         $storePrefix  = '/storage/app/avatars/'; //以后所有cos的头像保存位置就这样了
-        $avatarPath   = sprintf($storePrefix . $fileTemplate, $user->id, $extension);
-        $storeStatus  = Storage::cloud()->put($avatarPath, $imageStream);
+
+        $avatarPath  = sprintf($storePrefix . $fileTemplate, $user->id, $extension);
+        $storeStatus = Storage::cloud()->put($avatarPath, $imageStream);
         if ($storeStatus) {
             $user->update([
                 'avatar' => $avatarPath,
@@ -54,7 +55,7 @@ trait AvatarHelper
         $avatar = $this->attributes['avatar'];
 
         //FIXME: 答赚的 user->avatar 字段存的还不是标准的 cos_path, 答妹已修复 “cos:%” ...
-        $avatar_url = Storage::cloud()->url($avatar);
+        $avatar_url = \Storage::cloud()->url($avatar);
 
         //一分钟内的更新头像刷新cdn
         if ($this->updated_at > now()->subSeconds(60)) {

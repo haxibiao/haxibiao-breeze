@@ -10,8 +10,7 @@
   ],
   "minimum-stability": "dev",
   "require": {
-    "laravel/framework": "^7.0",
-    "anerg2046/sns_auth": "^2.0"
+    "haxibiao/helper": "*"
   },
   "autoload": {
     "psr-0": {
@@ -24,10 +23,6 @@
     }
   },
   "repositories": {
-    "matomo": {
-      "type": "vcs",
-      "url": "http://code.haxibiao.cn/packages/haxibiao-matomo.git"
-    },
     "helper": {
       "type": "vcs",
       "url": "http://code.haxibiao.cn/packages/haxibiao-helper.git"
