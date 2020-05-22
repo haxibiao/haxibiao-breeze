@@ -1,6 +1,6 @@
 <?php
 
-namespace haxibiao\user\Auth;
+namespace haxibiao\users\Auth;
 
 use App\Exceptions\SignInException;
 use App\User;

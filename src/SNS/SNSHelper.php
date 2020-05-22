@@ -1,6 +1,6 @@
 <?php
 
-namespace haxibiao\user\SNS;
+namespace haxibiao\users\SNS;
 
 use App\OAuth;
 use App\Wallet;

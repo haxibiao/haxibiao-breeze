@@ -1,5 +1,5 @@
 <?php
-namespace haxibiao\user;
+namespace haxibiao\users;
 
 use GuzzleHttp\Client;
 use Illuminate\Support\ServiceProvider;

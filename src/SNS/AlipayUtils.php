@@ -1,6 +1,6 @@
 <?php
 
-namespace haxibiao\user\SNS;
+namespace haxibiao\users\SNS;
 
 use anerg\OAuth2\OAuth as SnsOAuth;
 use haxibiao\user\Exceptions\SNSException;
