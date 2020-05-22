@@ -14,9 +14,9 @@ trait AvatarHelper
     /**
      * 保存头像
      * 可接受参数：
-     * 图像链接
-     * base64图像
-     * UploadedFile 上传的图像对象
+     * - 图像链接
+     * - base64图像
+     * - UploadedFile 上传图片对象
      */
     public static function saveAvatar($user, $avatar, $extension = 'jpeg', $fileTemplate = 'avatar-%s.%s', $storePrefix = '/storage/app/avatars/', $avatarField)
     {
@@ -76,7 +76,8 @@ trait AvatarHelper
      */
     public static function getDefaultAvatar()
     {
-        return '/images/avatars/avatar-' . rand(1, 20) . '.png';
+        $avatar = sprintf('storage/app/avatars/avatar-%d.png', mt_rand(1, 21));
+        return $avatar;
     }
 
     /**
