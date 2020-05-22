@@ -22,5 +22,15 @@
     "psr-4": {
       "haxibiao\\users\\tests\\": "tests/"
     }
+  },
+  "repositories": {
+    "matomo": {
+      "type": "vcs",
+      "url": "http://code.haxibiao.cn/packages/haxibiao-matomo.git"
+    },
+    "helper": {
+      "type": "vcs",
+      "url": "http://code.haxibiao.cn/packages/haxibiao-helper.git"
+    }
   }
 }

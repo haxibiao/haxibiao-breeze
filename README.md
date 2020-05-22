@@ -37,6 +37,10 @@
 6 directories, 13 files
 ```
 ## 依赖
+1. haxibiao/helper
+2. User需要avatar字段保存cos_path,否则null
+3. User需要字段uuid,account和关系wallet, profile
+
 #### 模型（Model）:
 - App\User
 - App\OAuth
@@ -53,4 +57,5 @@
 1. `composer.json`改动如下：
 在`repositories`中添加 vcs 类型远程仓库指向 
 `http://code.haxibiao.cn/packages/haxibiao-users` 
-1. 执行`composer require haxibiao/users`
+2. 执行`composer require haxibiao/users`
+3. env('COS_DEFAULT_AVATAR') 设置为true，如果要自定义默认头像的话

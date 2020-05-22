@@ -1,53 +1,45 @@
 <?php
-
 namespace haxibiao\users\Avatar;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
-/**
- * 依赖 app_track_user_event 触发事件
- */
 trait AvatarHelper
 {
 
     /**
      * 保存头像
-     * 可接受参数：
-     * - 图像链接
-     * - base64图像
-     * - UploadedFile 上传图片对象
+     * @param mixed $avatar 图像链接|base64图像|UploadedFile
+     *
      */
-    public static function saveAvatar($user, $avatar, $extension = 'jpeg', $fileTemplate = 'avatar-%s.%s', $storePrefix = '/storage/app/avatars/', $avatarField)
+    public function saveAvatar($avatar)
     {
-        app_track_user_event("更换头像", "更换头像");
+        $user      = $this;
+        $extension = 'jpeg';
         if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $avatar, $res)) {
+            //base64图像
             $extension     = $res[2];
             $base64_string = str_replace($res[1], '', $avatar);
             $imageStream   = base64_decode($base64_string);
         } else if ($avatar instanceof UploadedFile) {
+            //UploadedFile
             $extension   = $avatar->getClientOriginalExtension();
             $imageStream = file_get_contents($avatar->getRealPath());
         } else {
+            //图像链接
             $imageStream = file_get_contents($avatar);
         }
 
-        $avatarPath  = sprintf($storePrefix . $fileTemplate, $user->id, $extension);
-        $storeStatus = self::UploadAvatar($avatarPath, $imageStream);
+        $fileTemplate = 'avatar-%s.%s'; //以后所有cos的头像保存文件名模板
+        $storePrefix  = '/storage/app/avatars/'; //以后所有cos的头像保存位置就这样了
+        $avatarPath   = sprintf($storePrefix . $fileTemplate, $user->id, $extension);
+        $storeStatus  = Storage::cloud()->put($avatarPath, $imageStream);
         if ($storeStatus) {
-            $user::update([
-                $avatarField => $avatarPath,
+            $user->update([
+                'avatar' => $avatarPath,
             ]);
         }
         return $user;
-    }
-
-    /**
-     * 上传头像
-     */
-    public static function UploadAvatar($avatarPath, $fileStream)
-    {
-        return Storage::cloud()->put($avatarPath, $fileStream);
     }
 
     /**
@@ -55,29 +47,35 @@ trait AvatarHelper
      */
     public function getAvatarUrlAttribute()
     {
-        return $this->attributes['avatar'] ? $this->getAvatarLink() : url(self::getDefaultAvatar());
-    }
-
-    /**
-     * 获取头像链接
-     */
-    public function getAvatarLink(bool $AbsPath = true, $jumpCDNCache = false)
-    {
-        $avatar = 'avatar';
-        if ($jumpCDNCache) {
-            $avatar = $avatar . '?t=' . now()->timestamp;
+        if (is_null($this->attributes['avatar'])) {
+            return url(self::getDefaultAvatar());
         }
-        return $AbsPath ? Storage::cloud()->url($this->$avatar) : $avatar;
+
+        $avatar = $this->attributes['avatar'];
+
+        //FIXME: 答赚的 user->avatar 字段存的还不是标准的 cos_path, 答妹已修复 “cos:%” ...
+        $avatar_url = Storage::cloud()->url($avatar);
+
+        //一分钟内的更新头像刷新cdn
+        if ($this->updated_at > now()->subSeconds(60)) {
+            $avatar_url = $avatar_url . '?t=' . now()->timestamp;
+        }
+
+        return $avatar_url;
     }
 
     /**
-     * 获取默认头像相对路径
-     * TODO: 从images.haxibiao.com 获取默认头像数据
+     * 获取默认头像URL路径
      */
     public static function getDefaultAvatar()
     {
-        $avatar = sprintf('storage/app/avatars/avatar-%d.png', mt_rand(1, 21));
-        return $avatar;
+        //FIXME: 从 cos.haxibiao.com 获取默认头像数据,需要这个cdn准备好各种头像, 每个项目准备20个
+        $cos_folder = 'avatars/' . env('APP_NAME');
+        if (env('COS_DEFAULT_AVATAR')) {
+            $cos_folder = 'avatars';
+        }
+        $avatar_cdn_path = sprintf($cos_folder . '/avatar-%d.png', mt_rand(1, 20));
+        return "http://cos.haxibiao.com/" . $avatar_cdn_path;
     }
 
     /**
@@ -85,7 +83,6 @@ trait AvatarHelper
      */
     public function getQQAvatarAttribute(): string
     {
-        app_track_user_event("获取QQ头像", "获取QQ头像");
         return 'http://q1.qlogo.cn/g?b=qq&nk=' . $this->qq . '&s=100&t=' . time();
     }
 }
