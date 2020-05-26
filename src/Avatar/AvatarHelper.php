@@ -48,11 +48,10 @@ trait AvatarHelper
      */
     public function getAvatarUrlAttribute()
     {
-        if (is_null($this->attributes['avatar'])) {
+        $avatar = $this->getRawOriginal('avatar');
+        if (is_null($avatar)) {
             return url(self::getDefaultAvatar());
         }
-
-        $avatar = $this->attributes['avatar'];
 
         //FIXME: 答赚的 user->avatar 字段存的还不是标准的 cos_path, 答妹已修复 “cos:%” ...
         $avatar_url = \Storage::cloud()->url($avatar);
@@ -72,7 +71,7 @@ trait AvatarHelper
     {
         //FIXME: 从 cos.haxibiao.com 获取默认头像数据,需要这个cdn准备好各种头像, 每个项目准备20个
         $cos_folder = 'avatars/' . env('APP_NAME');
-        if (env('COS_DEFAULT_AVATAR')) {
+        if (env('COS_DEFAULT_AVATAR') == false) {
             $cos_folder = 'avatars';
         }
         $avatar_cdn_path = sprintf($cos_folder . '/avatar-%d.png', mt_rand(1, 20));

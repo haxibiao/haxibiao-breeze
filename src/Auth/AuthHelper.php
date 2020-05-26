@@ -14,7 +14,7 @@ trait AuthHelper
      * @param $account 静默获取的手机号，优先尊重
      * @param $uuid  手机号为空，$account用$uuid
      */
-    public static function autoSignIn(string $account, string $uuid)
+    public static function autoSignIn($account, string $uuid)
     {
         if (!empty($account)) {
             throw_if(!is_phone_number($account), SignInException::class, '手机号格式不正确!');
@@ -29,8 +29,8 @@ trait AuthHelper
                 ]);
             }
         } else {
-            $doesntExist = User::where('uuid', $uuid)->doesntExist();
-            if ($doesntExist) {
+            $user = User::where('uuid', $uuid)->first();
+            if (empty($user)) {
                 //静默注册一个uuid为account的新账户
                 $user = User::create([
                     'uuid'      => $uuid,
@@ -41,7 +41,6 @@ trait AuthHelper
                 ]);
             }
         }
-
         Auth::login($user);
         return $user;
     }
@@ -62,7 +61,7 @@ trait AuthHelper
             throw new SignInException('登录失败,账号或者密码错误');
         }
 
-        if (!strcmp($user->uuid, $uuid)) {
+        if (!empty($uuid) && !strcmp($user->uuid, $uuid)) {
             $user->update(['uuid' => $uuid]);
         }
 
@@ -83,8 +82,8 @@ trait AuthHelper
 
         $code = self::getLoginVerificationCode($account);
 
-        if (!strcmp($code, $sms_code)) {
-            throw_if(empty($sms_code), SignInException::class, '验证码不正确!');
+        if (empty($code) || !strcmp($code, $sms_code)) {
+            throw new SignInException('验证码不正确!');
         }
 
         $user = User::where('account', $account)->first();
