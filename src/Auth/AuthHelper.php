@@ -18,8 +18,8 @@ trait AuthHelper
     {
         if (!empty($account)) {
             throw_if(!is_phone_number($account), SignInException::class, '手机号格式不正确!');
-            $doesntExist = User::where('account', $account)->doesntExist();
-            if ($doesntExist) {
+            $user = User::where('account', $account)->first();
+            if (empty($user)) {
                 $user = User::create([
                     'uuid'      => $uuid,
                     'account'   => $account,
