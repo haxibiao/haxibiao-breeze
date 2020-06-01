@@ -1,6 +1,6 @@
 {
-  "name": "haxibiao/users",
-  "description": "haxibiao/users",
+  "name": "haxibiao/user",
+  "description": "haxibiao/user",
   "license": "MIT",
   "authors": [
     {
@@ -10,22 +10,29 @@
   ],
   "minimum-stability": "dev",
   "require": {
-    "haxibiao/helper": "*"
+    "haxibiao/helpers": "*"
   },
   "autoload": {
     "psr-0": {
-      "haxibiao\\users": "src/"
+      "haxibiao\\user": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "haxibiao\\users\\tests\\": "tests/"
+      "haxibiao\\user\\tests\\": "tests/"
     }
   },
   "repositories": {
-    "helper": {
+    "helpers": {
       "type": "vcs",
-      "url": "http://code.haxibiao.cn/packages/haxibiao-helper.git"
+      "url": "http://code.haxibiao.cn/packages/haxibiao-helpers.git"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "haxibiao\\user\\UserServiceProvider"
+      ]
     }
   }
 }

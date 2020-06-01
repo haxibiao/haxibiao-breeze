@@ -1,6 +1,6 @@
 <?php
 
-namespace haxibiao\users\Auth;
+namespace haxibiao\user;
 
 use App\User;
 use App\VerificationCode;
