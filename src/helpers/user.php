@@ -1,7 +1,19 @@
 <?php
+use App\BanDevice;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+
+function checkUserDevice()
+{
+    $deviceId = get_device_id();
+    if (!empty($deviceId)) {
+        $banDevice = BanDevice::deviceIsBaned($deviceId);
+        if (!is_null($banDevice)) {
+            $banDevice->fault();
+        }
+    }
+}
 
 //新老用户分类
 function getUserCategoryTag()
