@@ -4,7 +4,7 @@ namespace haxibiao\user;
 
 use App\User;
 use App\VerificationCode;
-use haxibiao\users\Exceptions\SignInException;
+use haxibiao\user\Exceptions\SignInException;
 use Illuminate\Support\Facades\Auth;
 
 trait AuthHelper
