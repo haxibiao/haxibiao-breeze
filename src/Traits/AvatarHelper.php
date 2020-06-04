@@ -33,7 +33,11 @@ trait AvatarHelper
         $fileTemplate = 'avatar-%s.%s'; //以后所有cos的头像保存文件名模板
         $storePrefix  = '/storage/app/avatars/'; //以后所有cos的头像保存位置就这样了
 
-        $avatarPath  = sprintf($storePrefix . $fileTemplate, $user->id, $extension);
+        $filename = $user->id;
+        if (!is_prod_env()) {
+            $filename = $user->id . "_test"; //测试不覆盖线上cos文件
+        }
+        $avatarPath  = sprintf($storePrefix . $fileTemplate, $filename, $extension);
         $storeStatus = Storage::cloud()->put($avatarPath, $imageStream);
         if ($storeStatus) {
             $user->update([
