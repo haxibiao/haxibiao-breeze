@@ -10,6 +10,13 @@ use Illuminate\Support\Facades\Auth;
 trait AuthHelper
 {
     /**
+     * 用户状态 -2:禁用(禁止提现) -1:禁言 0:正常启用
+     */
+    public static $DISABLE_STATUS = -2;
+    public static $MUTE_STATUS    = -1;
+    public static $ENABLE_STATUS  = 0;
+
+    /**
      * 静默登录/注册 - 一键登录/注册
      * @param $account 静默获取的手机号，优先尊重
      * @param $uuid  手机号为空，$account用$uuid
