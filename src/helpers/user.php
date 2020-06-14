@@ -19,7 +19,17 @@ function checkUserDevice()
 //新老用户分类
 function getUserCategoryTag()
 {
-    return User::categoryTag();
+    $user = getUser(false);
+    if (blank($user)) {
+        return "匿名用户";
+    }
+    if ($user->is_new_user) {
+        return '新用户';
+    }
+    if ($user->is_not_withdraw_user) {
+        return "未提现用户";
+    }
+    return '老用户';
 }
 
 /**
