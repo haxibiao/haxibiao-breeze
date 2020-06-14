@@ -23,10 +23,10 @@ function getUserCategoryTag()
     if (blank($user)) {
         return "匿名用户";
     }
-    if ($user->is_new_user) {
+    if ($user->created_at > now()->subDay()) {
         return '新用户';
     }
-    if ($user->is_not_withdraw_user) {
+    if (isset($user->total_withdraw_amount) && $user->total_withdraw_amount == 0) {
         return "未提现用户";
     }
     return '老用户';
