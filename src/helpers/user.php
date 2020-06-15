@@ -16,22 +16,6 @@ function checkUserDevice()
     }
 }
 
-//新老用户分类
-function getUserCategoryTag()
-{
-    $user = getUser(false);
-    if (blank($user)) {
-        return "匿名用户";
-    }
-    if ($user->created_at > now()->subDay()) {
-        return '新用户';
-    }
-    if (isset($user->total_withdraw_amount) && $user->total_withdraw_amount == 0) {
-        return "未提现用户";
-    }
-    return '老用户';
-}
-
 /**
  * 使用场景:主要提供于APP设计 用于GQL中调用或 restful api
  * APP全局辅助函数
