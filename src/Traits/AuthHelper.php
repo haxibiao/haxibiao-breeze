@@ -60,7 +60,7 @@ trait AuthHelper
      */
     public static function signIn(string $account, string $password, string $uuid)
     {
-        throw_if(!is_phone_number($account), SignInException::class, '手机号格式不正确!');
+        throw_if(!is_phone_number($account) || !is_email($account), SignInException::class, '账号格式不正确!');
         $user = User::where('account', $account)->first();
 
         throw_if(empty($user), SignInException::class, '账号不存在,请先注册!');
