@@ -166,4 +166,13 @@ trait AuthHelper
             ->latest('id')
             ->first();
     }
+
+    public function isBlack()
+    {
+        if (class_exists("App\\BlackList", true)) {
+            $black = \App\BlackList::where('user_id', $this->id);
+            $is_black = $black->exists();
+            return $is_black;
+        }
+    }
 }
