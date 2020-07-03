@@ -1,10 +1,10 @@
 <?php
 
-namespace haxibiao\user;
+namespace Haxibiao\User;
 
 use App\User;
 use App\VerificationCode;
-use haxibiao\user\Exceptions\SignInException;
+use Haxibiao\User\Exceptions\SignInException;
 use Illuminate\Support\Facades\Auth;
 
 trait AuthHelper
@@ -170,7 +170,7 @@ trait AuthHelper
     public function isBlack()
     {
         if (class_exists("App\\BlackList", true)) {
-            $black = \App\BlackList::where('user_id', $this->id);
+            $black    = \App\BlackList::where('user_id', $this->id);
             $is_black = $black->exists();
             return $is_black;
         }

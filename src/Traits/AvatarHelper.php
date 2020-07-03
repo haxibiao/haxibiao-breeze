@@ -1,5 +1,5 @@
 <?php
-namespace haxibiao\user;
+namespace Haxibiao\User;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;

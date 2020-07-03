@@ -57,5 +57,5 @@
 1. `composer.json`改动如下：
 在`repositories`中添加 vcs 类型远程仓库指向 
 `http://code.haxibiao.cn/packages/haxibiao-users` 
-2. 执行`composer require haxibiao/users`
+2. 执行`composer require Haxibiao\Users`
 3. env('COS_DEFAULT_AVATAR') 设置为true，如果要自定义默认头像的话

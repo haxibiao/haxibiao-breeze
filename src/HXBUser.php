@@ -1,6 +1,6 @@
 <?php
 
-namespace haxibiao\user;
+namespace Haxibiao\User;
 
 use Illuminate\Foundation\Auth\User;
 
