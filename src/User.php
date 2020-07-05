@@ -1,10 +1,13 @@
 <?php
 
-namespace Haxibiao\User;
+namespace Haxibiao\Base;
 
-use Illuminate\Foundation\Auth\User;
+use Haxibiao\Base\Traits\AuthHelper;
+use Haxibiao\Base\Traits\AvatarHelper;
+use Haxibiao\Base\Traits\UserResolvers;
+use Illuminate\Foundation\Auth\User as BaseUser;
 
-abstract class HXBUser extends User
+class User extends BaseUser
 {
     use AuthHelper;
     use AvatarHelper;

@@ -1,7 +1,8 @@
 <?php
+
 use App\BanDevice;
 use App\Exceptions\UserException;
-use App\User;
+use Haxibiao\Base\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 

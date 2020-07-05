@@ -1,4 +1,4 @@
-# 哈希表项目users模块
+# 哈希表项目Base模块
 ## 目录
 - SNS模块
   - 微信Utils
@@ -41,8 +41,7 @@
 2. User需要avatar字段保存cos_path,否则null
 3. User需要字段uuid,account和关系wallet, profile
 
-#### 模型（Model）:
-- App\User
+#### 部分依赖模型（Model）:
 - App\OAuth
 - App\Wallet
 - App\Withdraw

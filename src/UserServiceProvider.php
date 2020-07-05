@@ -1,6 +1,6 @@
 <?php
 
-namespace Haxibiao\User;
+namespace Haxibiao\Base;
 
 use Illuminate\Support\ServiceProvider;
 

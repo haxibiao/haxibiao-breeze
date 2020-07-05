@@ -1,9 +1,9 @@
 <?php
 
-namespace Haxibiao\User;
+namespace Haxibiao\Base\Traits;
 
 use App\Exceptions\GQLException;
-use App\User;
+use Haxibiao\Base\User;
 
 /**
  * 一些通用的兼容resolvers的静态方法

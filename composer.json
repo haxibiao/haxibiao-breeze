@@ -1,6 +1,6 @@
 {
-  "name": "Haxibiao/User",
-  "description": "Haxibiao/User",
+  "name": "Haxibiao/Base",
+  "description": "Haxibiao/Base",
   "license": "MIT",
   "authors": [
     {
@@ -14,12 +14,12 @@
   },
   "autoload": {
     "psr-0": {
-      "Haxibiao\\User": "src/"
+      "Haxibiao\\Base": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Haxibiao\\User\\tests\\": "tests/"
+      "Haxibiao\\Base\\tests\\": "tests/"
     }
   },
   "repositories": {
@@ -31,7 +31,7 @@
   "extra": {
     "laravel": {
       "providers": [
-        "Haxibiao\\User\\UserServiceProvider"
+        "Haxibiao\\Base\\UserServiceProvider"
       ]
     }
   }
