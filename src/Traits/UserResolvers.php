@@ -2,11 +2,11 @@
 
 namespace Haxibiao\Base\Traits;
 
-use App\Exceptions\GQLException;
+use Haxibiao\Base\Exceptions\GQLException;
 use Haxibiao\Base\User;
 
 /**
- * 一些通用的兼容resolvers的静态方法
+ * 一些通用的兼容resolvers的静态方法 - 目前工厂APP在用... //FIXME: 待重构
  */
 trait UserResolvers
 {
@@ -14,7 +14,7 @@ trait UserResolvers
     /**
      * 静默登录，uuid 必须传递，手机号可选
      */
-    public function resolveAutoSignIn($root, array $args, $context, $resolveInfo)
+    public static function resolveAutoSignIn($root, array $args, $context, $info)
     {
 
         $qb = User::where('uuid', $args['uuid']);
@@ -58,7 +58,7 @@ trait UserResolvers
     /**
      * 注册
      */
-    public function resolveSignUp($rootValue, array $args, $context, $resolveInfo)
+    public static function resolveSignUp($root, array $args, $context, $info)
     {
 
         if (isset($args['account'])) {
@@ -105,7 +105,7 @@ trait UserResolvers
     /**
      * 兼容哈希表邮箱登录的主动登录
      */
-    public function resolveSignIn($rootValue, array $args, $context, $resolveInfo)
+    public static function resolveSignIn($root, $args, $context, $info)
     {
         $account = $args['account'] ?? $args['email'];
         $qb      = User::where('phone', $account)->orWhere('email', $account)->orWhere('account', $account);
@@ -131,7 +131,7 @@ trait UserResolvers
     /**
      * 退出登录
      */
-    public function resolveSignOut($rootValue, array $args, $context, $resolveInfo)
+    public static function resolveSignOut($root, array $args, $context, $info)
     {
         $user_id = $args['user_id'];
         return User::findOrFail($user_id);

@@ -1,8 +1,10 @@
-# 哈希表项目Base模块
+# 哈希表项目 Base 模块
+
 ## 目录
-- SNS模块
-  - 微信Utils
-  - 支付宝Utils
+
+- SNS 模块
+  - 微信 Utils
+  - 支付宝 Utils
   - 绑定微信
   - 绑定支付宝
 - 登录模块
@@ -12,6 +14,7 @@
 - 头像模块
   - 上传头像
   - 默认头像
+
 ```bash
 .
 ├── LICENSE
@@ -26,7 +29,7 @@
     ├── Avatar
     │   └── AvatarHelper.php
     ├── Exceptions
-    │   ├── SNSException.php
+    │   ├── GQLException.php
     │   └── SignInException.php
     ├── SNS
     │   ├── AlipayUtils.php
@@ -36,25 +39,30 @@
 
 6 directories, 13 files
 ```
+
 ## 依赖
-1. haxibiao/helper
-2. User需要avatar字段保存cos_path,否则null
-3. User需要字段uuid,account和关系wallet, profile
+
+1. haxibiao/helpers
+2. User 需要 avatar 字段保存 cos_path,否则 null
+3. User 需要字段 uuid,account 和关系 wallet, profile
 
 #### 部分依赖模型（Model）:
+
 - App\OAuth
 - App\Wallet
 - App\Withdraw
 - Laravel Storage
 - anerg2046/sns_auth
+
 #### 异常（Exception）：
+
 - SNSException，授权异常
 - SignInException，登录异常
 
 ## 安装步骤
 
 1. `composer.json`改动如下：
-在`repositories`中添加 vcs 类型远程仓库指向 
-`http://code.haxibiao.cn/packages/haxibiao-users` 
-2. 执行`composer require Haxibiao\Users`
-3. env('COS_DEFAULT_AVATAR') 设置为true，如果要自定义默认头像的话
+   在`repositories`中添加 vcs 类型远程仓库指向
+   `http://code.haxibiao.cn/packages/haxibiao-base`
+2. 执行`composer require haxibiao\base`
+3. env('COS_DEFAULT_AVATAR') 设置为 true，如果要自定义默认头像的话

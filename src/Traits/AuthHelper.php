@@ -10,13 +10,6 @@ use Illuminate\Support\Facades\Auth;
 trait AuthHelper
 {
     /**
-     * 用户状态 -2:禁用(禁止提现) -1:禁言 0:正常启用
-     */
-    public static $DISABLE_STATUS = -2;
-    public static $MUTE_STATUS    = -1;
-    public static $ENABLE_STATUS  = 0;
-
-    /**
      * 静默登录/注册 - 一键登录/注册
      * @param $account 静默获取的手机号，优先尊重
      * @param $uuid  手机号为空，$account用$uuid
@@ -31,7 +24,7 @@ trait AuthHelper
                     'uuid'      => $uuid,
                     'account'   => $account,
                     'password'  => bcrypt('123456789'),
-                    'name'      => User::DEFAULT_USER_NAME,
+                    'name'      => User::DEFAULT_USER_NAME, //FIXME: 每个项目不同，应该从config env里取
                     'api_token' => str_random(60),
                 ]);
             }
@@ -58,7 +51,7 @@ trait AuthHelper
      * @param $password 密码
      * @param $uuid 获取到的UUID，保留最新的
      */
-    public static function signIn(string $account, string $password, string $uuid)
+    public static function signIn(string $account, string $password, string $uuid): User
     {
         throw_if(!is_phone_number($account) && !is_email($account), SignInException::class, '账号格式不正确!');
         $user = User::where('account', $account)->first();
@@ -87,7 +80,7 @@ trait AuthHelper
         throw_if(!is_phone_number($account), SignInException::class, '手机号格式不正确!');
         throw_if(empty($sms_code), SignInException::class, '验证码不能为空!');
 
-        $code = self::getLoginVerificationCode($account);
+        $code = User::getLoginVerificationCode($account);
 
         if (empty($code) || !strcmp($code, $sms_code)) {
             throw new SignInException('验证码不正确!');
@@ -112,7 +105,7 @@ trait AuthHelper
      * @param $password 密码
      * @param $uuid 获取到的UUID
      */
-    public static function signUp(string $account, string $uuid, string $password)
+    public static function signUp(string $account, string $uuid, string $password): User
     {
         throw_if(User::where('account', $account)->exists(), SignInException::class, '账号已存在');
 
@@ -134,7 +127,7 @@ trait AuthHelper
      * @param $uuid 获取到的UUID
      * @param $sms_code 手机验证码
      */
-    public static function signUpWithSMSCode(string $account, string $uuid, string $sms_code)
+    public static function signUpWithSMSCode(string $account, string $uuid, string $sms_code): User
     {
         throw_if(empty($sms_code), SignInException::class, '验证码不能为空!');
 
@@ -158,6 +151,7 @@ trait AuthHelper
         return $user;
     }
 
+    //FIXME: 这个表的migrations 应该用 base:install 处理好
     public static function getLoginVerificationCode($account, $action = VerificationCode::USER_LOGIN)
     {
         return VerificationCode::where('account', $account)
@@ -167,6 +161,7 @@ trait AuthHelper
             ->first();
     }
 
+    //FIXME: 这个依赖特殊表，需要放到自己项目先
     public function isBlack()
     {
         if (class_exists("App\\BlackList", true)) {
