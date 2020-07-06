@@ -151,7 +151,7 @@ trait AuthHelper
         return $user;
     }
 
-    //FIXME: 这个表的migrations 应该用 base:install 处理好
+    //FIXME: 这验证码功能，是基础 - @wuxiuzhang
     public static function getLoginVerificationCode($account, $action = VerificationCode::USER_LOGIN)
     {
         return VerificationCode::where('account', $account)
@@ -161,7 +161,7 @@ trait AuthHelper
             ->first();
     }
 
-    //FIXME: 这个依赖特殊表，需要放到自己项目先
+    //FIXME: 这个黑名单功能，也要迁移到base,是网警检查必须要有的功能，每个产品都要 - @zengdawei
     public function isBlack()
     {
         if (class_exists("App\\BlackList", true)) {

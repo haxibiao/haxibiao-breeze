@@ -5,6 +5,7 @@ namespace Haxibiao\Base;
 use Haxibiao\Base\Traits\AuthHelper;
 use Haxibiao\Base\Traits\AvatarHelper;
 use Haxibiao\Base\Traits\UserResolvers;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as BaseUser;
 
 class User extends BaseUser
@@ -81,5 +82,43 @@ class User extends BaseUser
      * 管理身份
      */
     const ADMIN_STATUS = 2;
+
+    //关系
+
+    public function user_profile(): HasOne
+    {
+        return $this->hasOne(UserProfile::class);
+    }
+
+    public function user_data(): HasOne
+    {
+        return $this->hasOne(UserData::class);
+    }
+
+    //属性
+
+    /**
+     * 用户资料
+     */
+    public function getProfileAttribute()
+    {
+        if ($profile = $this->user_profile) {
+            return $profile;
+        }
+        $profile = UserProfile::firstOrCreate(['user_id' => $this->id]);
+        return $profile;
+    }
+
+    /**
+     * 用户数据
+     */
+    public function getDataAttribute()
+    {
+        if ($data = $this->user_data) {
+            return $data;
+        }
+        $data = UserData::firstOrCreate(['user_id' => $this->id]);
+        return $data;
+    }
 
 }
