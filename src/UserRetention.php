@@ -1,6 +1,7 @@
 <?php
 namespace Haxibiao\Base;
 
+use Haxibiao\Base\User;
 use Illuminate\Database\Eloquent\Model;
 
 class UserRetention extends Model
@@ -30,8 +31,13 @@ class UserRetention extends Model
      */
     public static function recordUserRetention($user)
     {
+        $user = User::find($user->id);
+        if (!$user) {
+            return;
+        }
 
         try {
+            //baseUser 有唯一留存档案属性(lazy load)
             $retention = $user->retention;
 
             $diffDay = today()->startOfDay()->diffInDays($user->created_at->startOfDay());
