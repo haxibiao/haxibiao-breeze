@@ -15,6 +15,8 @@ class User extends BaseUser
     use AvatarHelper;
     use UserResolvers;
 
+    protected $guarded = [];
+
     /**
      * 用户状态 -2:禁用(禁止提现) -1:禁言 0:正常启用
      */
