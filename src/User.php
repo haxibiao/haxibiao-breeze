@@ -5,6 +5,7 @@ namespace Haxibiao\Base;
 use Haxibiao\Base\Traits\AuthHelper;
 use Haxibiao\Base\Traits\AvatarHelper;
 use Haxibiao\Base\Traits\UserResolvers;
+use Haxibiao\Base\UserRetention;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as BaseUser;
 
@@ -95,6 +96,11 @@ class User extends BaseUser
         return $this->hasOne(UserData::class);
     }
 
+    public function user_retention(): HasOne
+    {
+        return $this->hasOne(UserRetention::class);
+    }
+
     //属性
 
     /**
@@ -119,6 +125,18 @@ class User extends BaseUser
         }
         $data = UserData::firstOrCreate(['user_id' => $this->id]);
         return $data;
+    }
+
+    /**
+     * 留存档案
+     */
+    public function getRetentionAttribute()
+    {
+        if ($retention = $this->user_retention) {
+            return $retention;
+        }
+        //补刀创建
+        return UserRetention::firstOrCreate(['user_id' => $this->id]);
     }
 
 }

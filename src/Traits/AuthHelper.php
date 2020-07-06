@@ -42,6 +42,7 @@ trait AuthHelper
             }
         }
         Auth::login($user);
+        $user->retention; //完善留存档案
         return $user;
     }
 
@@ -118,6 +119,8 @@ trait AuthHelper
         ]);
 
         Auth::login($user);
+        $user->retention; //完善留存档案
+
         return $user;
     }
 
@@ -148,6 +151,8 @@ trait AuthHelper
         ]);
 
         Auth::login($user);
+        $user->retention; //完善留存档案
+
         return $user;
     }
 
