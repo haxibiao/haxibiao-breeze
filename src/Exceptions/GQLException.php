@@ -48,7 +48,7 @@ class GQLException extends Exception implements RendersErrorsExtensions
      */
     public function getCategory(): string
     {
-        return 'custom';
+        return 'on server ' . gethostname();
     }
 
     /**
@@ -60,7 +60,7 @@ class GQLException extends Exception implements RendersErrorsExtensions
     public function extensionsContent(): array
     {
         return [
-            'from'   => 'lighthouse-php',
+            'from'   => 'lighthouse-php ' . gethostname(),
             'reason' => $this->reason,
         ];
     }
