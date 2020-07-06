@@ -9,6 +9,8 @@ use Haxibiao\Base\Model;
  */
 class UserData extends Model
 {
+    protected $guarded = [];
+
     //FIX:升级laravel5.8后这里不一样了，data不自动带s
     protected $table = 'user_datas';
 

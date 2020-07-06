@@ -9,6 +9,7 @@ use Haxibiao\Base\Model;
  */
 class UserProfile extends Model
 {
+    protected $guarded = [];
     //首先兼容答赚...
     protected $table = 'user_profiles';
 }
