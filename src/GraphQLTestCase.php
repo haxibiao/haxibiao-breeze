@@ -2,7 +2,7 @@
 
 namespace Haxibiao\Base;
 
-use Haxibiao\Base\User;
+use App\User;
 use Illuminate\Foundation\Testing\TestCase;
 use Nuwave\Lighthouse\Testing\MakesGraphQLRequests;
 use Tests\CreatesApplication;

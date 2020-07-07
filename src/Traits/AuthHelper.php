@@ -2,9 +2,9 @@
 
 namespace Haxibiao\Base\Traits;
 
+use App\User;
 use App\VerificationCode;
 use Haxibiao\base\Exceptions\SignInException;
-use Haxibiao\Base\User;
 use Illuminate\Support\Facades\Auth;
 
 trait AuthHelper
