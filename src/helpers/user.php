@@ -2,7 +2,7 @@
 
 use App\BanDevice;
 use App\Exceptions\UserException;
-use Haxibiao\Base\User;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
@@ -39,8 +39,10 @@ function getUser($throw = true)
     if (Auth::check()) {
         return Auth::user();
     }
-    if (auth('api')->user()) {
-        return auth('api')->user();
+
+    //guard api token
+    if ($user = auth('api')->user()) {
+        return $user;
     }
 
     //APP的场景

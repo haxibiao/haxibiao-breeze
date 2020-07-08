@@ -2,8 +2,8 @@
 
 namespace Haxibiao\Base\Traits;
 
+use App\User;
 use Haxibiao\Base\Exceptions\GQLException;
-use Haxibiao\Base\User;
 
 /**
  * 一些通用的兼容resolvers的静态方法 - 目前工厂APP在用... //FIXME: 待重构
