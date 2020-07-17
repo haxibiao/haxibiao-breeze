@@ -2,7 +2,9 @@
 
 namespace Haxibiao\Base\Traits;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 trait ModelHelpers
 {
@@ -133,5 +135,29 @@ trait ModelHelpers
         $this->json = $data;
 
         return $this;
+    }
+
+    /**
+     * 模型批量插入
+     * 默认是严格模式会比较model fillable属性,将不存在fillable中的属性进行移除
+     * @param array $data
+     * @param boolean $strict
+     * @return boolean
+     */
+    public static function bulkInsert(array $data, $strict = true)
+    {
+        $self = new self();
+
+        if ($strict) {
+            $fillable = $self->getFillable();
+            $data     = array_map(function ($item) use ($fillable) {
+                return Arr::only($item, $fillable);
+            }, $data);
+        }
+        $table = $self->getTable();
+
+        $rs = DB::table($table)->insert($data);
+
+        return $rs;
     }
 }
