@@ -2,9 +2,9 @@
 
 namespace Haxibiao\Base\Traits;
 
+use App\Exceptions\GQLException;
 use App\User;
 use App\VerificationCode;
-use Haxibiao\Base\Exceptions\SignInException;
 use Illuminate\Support\Facades\Auth;
 
 trait AuthHelper
@@ -17,7 +17,7 @@ trait AuthHelper
     public static function autoSignIn($account, string $uuid)
     {
         if (!empty($account)) {
-            throw_if(!is_phone_number($account), SignInException::class, '手机号格式不正确!');
+            throw_if(!is_phone_number($account), GQLException::class, '手机号格式不正确!');
             $user = User::where('account', $account)->first();
             if (empty($user)) {
                 $user = User::create([
@@ -54,12 +54,12 @@ trait AuthHelper
      */
     public static function signIn(string $account, string $password, string $uuid): User
     {
-        throw_if(!is_phone_number($account) && !is_email($account), SignInException::class, '账号格式不正确!');
+        throw_if(!is_phone_number($account) && !is_email($account), GQLException::class, '账号格式不正确!');
         $user = User::where('account', $account)->first();
 
-        throw_if(empty($user), SignInException::class, '账号不存在,请先注册!');
+        throw_if(empty($user), GQLException::class, '账号不存在,请先注册!');
         if (!password_verify($password, $user->password)) {
-            throw new SignInException('登录失败,账号或者密码错误');
+            throw new GQLException('登录失败,账号或者密码错误');
         }
 
         if (!empty($uuid) && !strcmp($user->uuid, $uuid)) {
@@ -78,17 +78,17 @@ trait AuthHelper
      */
     public static function signInWithSMSCode(string $account, string $sms_code, string $uuid)
     {
-        throw_if(!is_phone_number($account), SignInException::class, '手机号格式不正确!');
-        throw_if(empty($sms_code), SignInException::class, '验证码不能为空!');
+        throw_if(!is_phone_number($account), GQLException::class, '手机号格式不正确!');
+        throw_if(empty($sms_code), GQLException::class, '验证码不能为空!');
 
         $code = User::getLoginVerificationCode($account);
 
         if (empty($code) || !strcmp($code, $sms_code)) {
-            throw new SignInException('验证码不正确!');
+            throw new GQLException('验证码不正确!');
         }
 
         $user = User::where('account', $account)->first();
-        throw_if(empty($user), SignInException::class, '账号不存在,请先注册~');
+        throw_if(empty($user), GQLException::class, '账号不存在,请先注册~');
 
         //更新uuid
         if (!strcmp($user->uuid, $uuid)) {
@@ -108,7 +108,7 @@ trait AuthHelper
      */
     public static function signUp(string $account, string $uuid, string $password): User
     {
-        throw_if(User::where('account', $account)->exists(), SignInException::class, '账号已存在');
+        throw_if(User::where('account', $account)->exists(), GQLException::class, '账号已存在');
 
         $user = User::create([
             'uuid'      => $uuid,
@@ -132,15 +132,15 @@ trait AuthHelper
      */
     public static function signUpWithSMSCode(string $account, string $uuid, string $sms_code): User
     {
-        throw_if(empty($sms_code), SignInException::class, '验证码不能为空!');
+        throw_if(empty($sms_code), GQLException::class, '验证码不能为空!');
 
         $code = self::getLoginVerificationCode($account);
 
         if (!strcmp($code, $sms_code)) {
-            throw_if(empty($sms_code), SignInException::class, '验证码不正确!');
+            throw_if(empty($sms_code), GQLException::class, '验证码不正确!');
         }
 
-        throw_if(User::where('account', $account)->exists(), SignInException::class, '账号已存在');
+        throw_if(User::where('account', $account)->exists(), GQLException::class, '账号已存在');
 
         $user = User::create([
             'uuid'      => $uuid,

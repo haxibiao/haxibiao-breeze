@@ -9,7 +9,6 @@
 #### 异常（Exception）：
 
 - GQLException，GQL 异常
-- SignInException，登录异常
 
 ## 安装步骤
 
