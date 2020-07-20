@@ -1,6 +1,6 @@
 <?php
 
-namespace Haxibiao\Base\Traits;
+namespace Haxibiao\User;
 
 use App\User;
 use Haxibiao\Base\Exceptions\GQLException;
