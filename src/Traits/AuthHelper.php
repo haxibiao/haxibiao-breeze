@@ -1,11 +1,11 @@
 <?php
 
-namespace Haxibiao\User;
+namespace Haxibiao\Base\Traits;
 
 use App\Exceptions\GQLException;
 use App\User;
 use App\VerificationCode;
-use Haxibiao\User\Exceptions\SignInException;
+use Haxibiao\Base\Exceptions\SignInException;
 use Illuminate\Support\Facades\Auth;
 
 trait AuthHelper

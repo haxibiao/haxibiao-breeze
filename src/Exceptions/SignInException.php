@@ -1,6 +1,6 @@
 <?php
 
-namespace Haxibiao\User\Exceptions;
+namespace Haxibiao\Base\Exceptions;
 
 use Exception;
 use Nuwave\Lighthouse\Exceptions\RendersErrorsExtensions;
