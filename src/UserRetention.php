@@ -62,6 +62,9 @@ class UserRetention extends Model
                 case 7: //7日留
                     $retention->day7_at = $retention->day7_at ?? now();
                     break;
+                case 15: //15日留
+                    $retention->day15_at = $retention->day15_at ?? now();
+                    break;   
                 case 30: //月留
                     $retention->day30_at = $retention->day30_at ?? now();
                     break;
