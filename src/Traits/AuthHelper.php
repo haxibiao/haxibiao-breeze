@@ -2,10 +2,11 @@
 
 namespace Haxibiao\Base\Traits;
 
+use App\Exceptions\ErrorCode\ErrorCode;
 use App\Exceptions\GQLException;
+use App\Exceptions\UserException;
 use App\User;
 use App\VerificationCode;
-use Haxibiao\Base\Exceptions\SignInException;
 use Illuminate\Support\Facades\Auth;
 
 trait AuthHelper
@@ -42,6 +43,10 @@ trait AuthHelper
                 ]);
             }
         }
+
+        //账号已注销
+        throw_if($user->isDegregister(), UserException::class, ErrorCode::DEREGISTER_USER);
+
         Auth::login($user);
         $user->retention; //完善留存档案
         return $user;
@@ -66,6 +71,9 @@ trait AuthHelper
         if (!empty($uuid) && !strcmp($user->uuid, $uuid)) {
             $user->update(['uuid' => $uuid]);
         }
+
+        //账号已注销
+        throw_if($user->isDegregister(), UserException::class, ErrorCode::DEREGISTER_USER);
 
         Auth::login($user);
         return $user;
