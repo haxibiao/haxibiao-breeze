@@ -45,7 +45,7 @@ trait AuthHelper
         }
 
         //账号已注销
-        throw_if($user->isDegregister(), UserException::class, ErrorCode::DEREGISTER_USER);
+        throw_if($user->isDegregister(), UserException::class, '操作失败,账户已注销!', ErrorCode::DEREGISTER_USER);
 
         Auth::login($user);
         $user->retention; //完善留存档案
@@ -73,7 +73,7 @@ trait AuthHelper
         }
 
         //账号已注销
-        throw_if($user->isDegregister(), UserException::class, ErrorCode::DEREGISTER_USER);
+        throw_if($user->isDegregister(), UserException::class, '操作失败,账户已注销!', ErrorCode::DEREGISTER_USER);
 
         Auth::login($user);
         return $user;
