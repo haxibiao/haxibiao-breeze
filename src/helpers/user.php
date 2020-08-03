@@ -36,7 +36,7 @@ function checkUser()
 function getUser($throw = true)
 {
     //已登录,swoole不能记录用户登录状态,会直接记录到服务器内存中,并且之后返回的都是该用户
-    if (Auth::check() && !config('app.enable_swoole', false)) {
+    if (Auth::check()) {
         return Auth::user();
     }
 
@@ -70,7 +70,7 @@ function getUser($throw = true)
         throw_if(is_null($user) && $throw, UserException::class, '客户端还没登录...');
 
         //授权,减少重复查询
-        if ($user && !config('app.enable_swoole', false)) {
+        if ($user) {
             Auth::login($user);
         }
 
