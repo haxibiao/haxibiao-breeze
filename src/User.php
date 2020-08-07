@@ -78,6 +78,10 @@ class User extends BaseUser
     /**
      * 普通身份
      */
+    const VISIT_STATUS = -1;
+    /**
+     * 普通身份
+     */
     const USER_STATUS = 0;
     /**
      * 编辑身份
