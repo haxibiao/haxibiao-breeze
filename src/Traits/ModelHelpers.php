@@ -146,7 +146,8 @@ trait ModelHelpers
      */
     public static function bulkInsert(array $data, $strict = true)
     {
-        $self = new self();
+        $self  = self::self();
+        $table = $self->getTable();
 
         if ($strict) {
             $fillable = $self->getFillable();
@@ -154,10 +155,40 @@ trait ModelHelpers
                 return Arr::only($item, $fillable);
             }, $data);
         }
-        $table = $self->getTable();
 
         $rs = DB::table($table)->insert($data);
 
         return $rs;
+    }
+
+    public static function self()
+    {
+        $self = new self();
+
+        return $self;
+    }
+
+    /**
+     * 获取随机数据,查询速度是order by rand() 10倍
+     *
+     * @param array $selectColumns
+     * @param integer $count
+     * @return collect
+     */
+    public static function randomData(int $count, $selectColumns = ['*'])
+    {
+        $self  = self::self();
+        $table = $self->getTable();
+
+        foreach ($selectColumns as &$column) {
+            $column = $table . '.' . $column;
+        }
+
+        $builder = $self->select($selectColumns)->join(DB::raw("(SELECT ROUND(RAND() * ((SELECT MAX(id) FROM `{$table}`)-(SELECT MIN(id) FROM `{$table}`))+(SELECT MIN(id) FROM `{$table}`)) AS id) AS t2 "), function ($join) {})
+            ->where("{$table}.id", ">=", DB::raw('t2.id'))
+            ->oldest("{$table}.id")
+            ->take($count);
+
+        return $builder;
     }
 }
