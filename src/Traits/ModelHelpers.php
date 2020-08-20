@@ -78,7 +78,7 @@ trait ModelHelpers
 
     public function refresh()
     {
-        unset($this->cachedAttributes);
+        $this->cachedAttributes = [];
 
         return parent::refresh();
     }
