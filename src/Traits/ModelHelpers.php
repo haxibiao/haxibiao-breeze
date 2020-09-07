@@ -52,6 +52,11 @@ trait ModelHelpers
         return $query->where($column, '>=', today());
     }
 
+    public function scopeYesterday($query, $column = 'created_at')
+    {
+        return $query->whereBetween($column, [today()->subDay(), today()]);
+    }
+
     public function scopeThisWeek($query, $column = 'created_at')
     {
         return $query->where($column, '>=', today()->subDay(7));
