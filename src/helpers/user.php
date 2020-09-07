@@ -41,14 +41,10 @@ function getUser($throw = true)
     }
 
     //guard api token
-    if ($user = auth('api')->user()) {
-        return $user;
-    }
+    $user = auth('api')->user() ?? request()->user();
 
     //APP的场景
-    $user = request()->user();
     if (blank($user)) {
-
         //兼容passport guard
         $token = request()->bearerToken();
 
@@ -66,15 +62,15 @@ function getUser($throw = true)
                 $user = User::find($user_id);
             }
         }
-
-        throw_if(is_null($user) && $throw, UserException::class, '客户端还没登录...');
-
-        //授权,减少重复查询
-        if ($user) {
-            Auth::login($user);
-        }
-
     }
+
+    throw_if(is_null($user) && $throw, UserException::class, '客户端还没登录...');
+
+    //授权,减少重复查询 && 授权背后有个event监听
+    if ($user) {
+        Auth::login($user);
+    }
+
     return $user;
 }
 
