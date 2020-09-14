@@ -8,6 +8,8 @@ class UserRetention extends Model
 {
     const CACHE_FORMAT = 'day%s_at_%s';
 
+    const INVITED_USER_CACHE_FORMAT = 'invited_user_retention_%s';
+
     protected $fillable = [
         'user_id',
     ];
@@ -64,7 +66,7 @@ class UserRetention extends Model
                     break;
                 case 15: //15日留
                     $retention->day15_at = $retention->day15_at ?? now();
-                    break;   
+                    break;
                 case 30: //月留
                     $retention->day30_at = $retention->day30_at ?? now();
                     break;
@@ -74,5 +76,11 @@ class UserRetention extends Model
             $retention->save();
         } catch (\Exception $ex) {}
 
+    }
+
+    public static function invitedUserCacheValue($date)
+    {
+        $key = sprintf(UserRetention::INVITED_USER_CACHE_FORMAT, $date);
+        return cache()->store('database')->get($key, 0);
     }
 }
