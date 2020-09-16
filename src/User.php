@@ -91,6 +91,10 @@ class User extends BaseUser
      * 管理身份
      */
     const ADMIN_STATUS = 2;
+    /**
+     * 马甲身份
+     */
+    const VEST_STATUS = 3;
 
     //关系
 
