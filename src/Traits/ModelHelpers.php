@@ -67,9 +67,18 @@ trait ModelHelpers
         return $query->where($column, '>=', today()->subDay(30));
     }
 
-    public function getCachedAttribute(string $key, callable $callable)
+    public function __get($key)
     {
-        if (!array_key_exists($key, $this->cachedAttributes)) {
+        if (isset($this->cacheable) && array_key_exists($key, $this->cacheable)) {
+            return $this->getCachedAttribute($key, [$this, $this->cacheable[$key]]);
+        }
+
+        return parent::__get($key);
+    }
+
+    public function getCachedAttribute(string $key, callable $callable, $refresh = false)
+    {
+        if (!array_key_exists($key, $this->cachedAttributes) || $refresh) {
             $this->setCachedAttribute($key, call_user_func($callable));
         }
 
@@ -86,6 +95,13 @@ trait ModelHelpers
         $this->cachedAttributes = [];
 
         return parent::refresh();
+    }
+
+    public function refreshAttributeCache($key)
+    {
+        if (array_key_exists($key, $this->cacheable)) {
+            return $this->getCachedAttribute($key, [$this, $this->cacheable[$key]], true);
+        }
     }
 
     //time的aliases 以前很多很多旧项目代码用过
