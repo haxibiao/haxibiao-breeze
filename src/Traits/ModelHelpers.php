@@ -67,14 +67,14 @@ trait ModelHelpers
         return $query->where($column, '>=', today()->subDay(30));
     }
 
-    public function __get($key)
-    {
-        if (isset($this->cacheable) && array_key_exists($key, $this->cacheable)) {
-            return $this->getCachedAttribute($key, [$this, $this->cacheable[$key]]);
-        }
+    // public function __get($key)
+    // {
+    //     if (isset($this->cacheable) && array_key_exists($key, $this->cacheable)) {
+    //         return $this->getCachedAttribute($key, [$this, $this->cacheable[$key]]);
+    //     }
 
-        return parent::__get($key);
-    }
+    //     return parent::__get($key);
+    // }
 
     public function getCachedAttribute(string $key, callable $callable, $refresh = false)
     {
@@ -205,7 +205,8 @@ trait ModelHelpers
             $column = $table . '.' . $column;
         }
 
-        $builder = $self->select($selectColumns)->join(DB::raw("(SELECT ROUND(RAND() * ((SELECT MAX(id) FROM `{$table}`)-(SELECT MIN(id) FROM `{$table}`))+(SELECT MIN(id) FROM `{$table}`)) AS id) AS t2 "), function ($join) {})
+        $builder = $self->select($selectColumns)->join(DB::raw("(SELECT ROUND(RAND() * ((SELECT MAX(id) FROM `{$table}`)-(SELECT MIN(id) FROM `{$table}`))+(SELECT MIN(id) FROM `{$table}`)) AS id) AS t2 "), function ($join) {
+        })
             ->where("{$table}.id", ">=", DB::raw('t2.id'))
             ->oldest("{$table}.id")
             ->take($count);
