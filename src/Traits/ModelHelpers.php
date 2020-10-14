@@ -73,14 +73,14 @@ trait ModelHelpers
     }
 
     // @FIX:如果此处与其他trait同名函数报错,建议在main class 通过 insteadof 来显示声明,优先级
-    public function __get($key)
-    {
-        if (isset($this->cacheable) && array_key_exists($key, $this->cacheable)) {
-            return $this->getCachedAttribute($key, [$this, $this->cacheable[$key]]);
-        }
+    // public function __get($key)
+    // {
+    //     if (isset($this->cacheable) && array_key_exists($key, $this->cacheable)) {
+    //         return $this->getCachedAttribute($key, [$this, $this->cacheable[$key]]);
+    //     }
 
-        return parent::__get($key);
-    }
+    //     return parent::__get($key);
+    // }
 
     public function getCachedAttribute(string $key, callable $callable, $refresh = false)
     {
