@@ -80,6 +80,8 @@ class CreateUserProfilesTable extends Migration
             $table->decimal('total_bonus_earnings')->default(0)->comment('分红总收益');
             $table->unsignedInteger('keep_signin_days')->default(0)->comment('连续签到日');
 
+            $table->tinyInteger('success_withdraw_counts')->nullable()->comment('用户成功提现次数 0:提现0次；1:提现1次；2:提现 2-7 次；3:提现7次以上');
+
             $table->timestamps();
         });
     }
