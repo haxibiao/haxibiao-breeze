@@ -1,4 +1,5 @@
 <?php
+
 namespace Haxibiao\Base\Traits;
 
 use Illuminate\Http\UploadedFile;
@@ -57,6 +58,9 @@ trait AvatarHelper
             return url(self::getDefaultAvatar());
         }
 
+        if (str_contains($avatar, "http")) {
+            return $avatar;
+        }
         //FIXME: 答赚的 user->avatar 字段存的还不是标准的 cos_path, 答妹已修复 “cos:%” ...
         $avatar_url = \Storage::cloud()->url($avatar);
 
