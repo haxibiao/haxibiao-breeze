@@ -19,6 +19,8 @@ class UserServiceProvider extends ServiceProvider
             require_once $filename;
         }
 
+        // 这一段会重写掉整个sentry的配置
+        $this->rewriteSentryDsn();
     }
 
     /**
@@ -29,5 +31,17 @@ class UserServiceProvider extends ServiceProvider
     public function boot()
     {
 
+    }
+
+    protected function rewriteSentryDsn()
+    {
+        $this->mergeConfigFrom(
+            __DIR__ . '/../config/site-sentry.php',
+            'site-sentry'
+        );
+        $sentryDsn = config('site-sentry.' . config('app.name') . '.dsn');
+        if (!empty($sentryDsn)) {
+            config(['sentry.dsn' => $sentryDsn]);
+        }
     }
 }
