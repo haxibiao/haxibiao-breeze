@@ -85,4 +85,25 @@ return [
     'dianmoge'       => [
         'dsn' => 'http://fe5250f50cf547898e0e896ac3228423@sentry.haxibiao.cn:9000/30',
     ],
+    'dongdianyi' => [
+        'dsn' => 'http://e78194e1aacc447eb68b565e65c56693@sentry.haxibiao.cn:9000/31',
+    ],
+    'dongdianyao' => [
+        'dsn' => 'http://698244769f6e48b09e3cccb5462381fa@sentry.haxibiao.cn:9000/32',
+    ],
+    'diudie' => [
+        'dsn' => 'http://d54c3bb468d040b29b5f90a5246c23c0@sentry.haxibiao.cn:9000/33',
+    ],
+    'dianyintujie' => [
+        'dsn' => 'http://d809d7c6c27c49868d89e983a72603e7@sentry.haxibiao.cn:9000/34',
+    ],
+    'dongmeiwei' => [
+        'dsn' => 'http://b6d16c8299be449e90cd3add4513ec41@sentry.haxibiao.cn:9000/35',
+    ],
+    'dongmiaomu' => [
+        'dsn' => 'http://d8798f810de646629e79e7ccaea844a6@sentry.haxibiao.cn:9000/36',
+    ],
+    'ablm' => [
+        'dsn' => 'http://74c9a4ca1b79430a890cb89e3e8dbac4@sentry.haxibiao.cn:9000/37',
+    ],
 ];
