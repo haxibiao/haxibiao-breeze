@@ -26,10 +26,10 @@ return [
         'dsn' => 'http://ee8fe0529b2a4dce8a78fd01cb988150@sentry.haxibiao.cn:9000/9',
     ],
     'quanminwenti.'  => [
-        'dsn' => 'http://96e0bfa75ce14018826540d9a524a44b@sentry.haxibiao.cn:9000/10',
+        'dsn' => 'https://0feea8154c284a6a927ac8e275a3a51f@o133851.ingest.sentry.io/5511889',
     ],
     'yinxiangshipin' => [
-        'dsn' => 'http://47d71a2382e54707a326529a6f73621c@sentry.haxibiao.cn:9000/11',
+        'dsn' => 'https://ba1d1db68e8e402485df572089fd7ee4@o133851.ingest.sentry.io/5511867',
     ],
     'happyfish'      => [
         'dsn' => 'http://61796c9c725440bcacc89fb5df58db12@sentry.haxibiao.cn:9000/12',
@@ -68,7 +68,7 @@ return [
         'dsn' => 'http://864695f033e940e79f69ebd3c1664b16@sentry.haxibiao.cn:9000/24',
     ],
     'caohan'         => [
-        'dsn' => 'http://771564c3feb7499e9b03fc9e1a352b12@sentry.haxibiao.cn:9000/25',
+        'dsn' => 'https://20e772f753a54153af2fb34f0283e81a@o133851.ingest.sentry.io/5511874',
     ],
     'dongwaiyu'      => [
         'dsn' => 'http://2c571673e6e545358c21909136bfaa05@sentry.haxibiao.cn:9000/26',
@@ -86,22 +86,22 @@ return [
         'dsn' => 'http://fe5250f50cf547898e0e896ac3228423@sentry.haxibiao.cn:9000/30',
     ],
     'dongdianyi' => [
-        'dsn' => 'http://e78194e1aacc447eb68b565e65c56693@sentry.haxibiao.cn:9000/31',
+        'dsn' => 'https://0b26e4143fb34384b5b6818d654f49c2@o133851.ingest.sentry.io/5511879',
     ],
     'dongdianyao' => [
-        'dsn' => 'http://698244769f6e48b09e3cccb5462381fa@sentry.haxibiao.cn:9000/32',
+        'dsn' => 'https://5088d787e16844fb98485952c704fbb3@o133851.ingest.sentry.io/5511880',
     ],
     'diudie' => [
-        'dsn' => 'http://d54c3bb468d040b29b5f90a5246c23c0@sentry.haxibiao.cn:9000/33',
+        'dsn' => 'https://61517b3723a34cdb99338ea6de248d60@o133851.ingest.sentry.io/5511883',
     ],
     'dianyintujie' => [
         'dsn' => 'http://d809d7c6c27c49868d89e983a72603e7@sentry.haxibiao.cn:9000/34',
     ],
     'dongmeiwei' => [
-        'dsn' => 'http://b6d16c8299be449e90cd3add4513ec41@sentry.haxibiao.cn:9000/35',
+        'dsn' => 'https://7ff200eb98154c389e6549db09b55153@o133851.ingest.sentry.io/5511885',
     ],
     'dongmiaomu' => [
-        'dsn' => 'http://d8798f810de646629e79e7ccaea844a6@sentry.haxibiao.cn:9000/36',
+        'dsn' => 'https://e051dfcafe1e4067a93e17df94f307cd@o133851.ingest.sentry.io/5511887',
     ],
     'ablm' => [
         'dsn' => 'http://74c9a4ca1b79430a890cb89e3e8dbac4@sentry.haxibiao.cn:9000/37',
