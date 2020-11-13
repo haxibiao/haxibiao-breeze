@@ -2,7 +2,7 @@
 
 return [
     'datizhuanqian'  => [
-        'dsn' => 'https://3193547b3bb3427cb2b6860398ddba0a@o475088.ingest.sentry.io/5512613',
+        'dsn' => 'https://5fb0017c7b0c47f8bd56c4bc755ee4f7@o133851.ingest.sentry.io/5513768',
     ],
     'damei'          => [
         'dsn' => 'http://4f1f8f6b0f054d0c9ee8b47bce7dd77b@sentry.haxibiao.cn:9000/3',
@@ -85,25 +85,25 @@ return [
     'dianmoge'       => [
         'dsn' => 'http://fe5250f50cf547898e0e896ac3228423@sentry.haxibiao.cn:9000/30',
     ],
-    'dongdianyi' => [
+    'dongdianyi'     => [
         'dsn' => 'https://0b26e4143fb34384b5b6818d654f49c2@o133851.ingest.sentry.io/5511879',
     ],
-    'dongdianyao' => [
+    'dongdianyao'    => [
         'dsn' => 'https://5088d787e16844fb98485952c704fbb3@o133851.ingest.sentry.io/5511880',
     ],
-    'diudie' => [
+    'diudie'         => [
         'dsn' => 'https://61517b3723a34cdb99338ea6de248d60@o133851.ingest.sentry.io/5511883',
     ],
-    'dianyintujie' => [
+    'dianyintujie'   => [
         'dsn' => 'http://d809d7c6c27c49868d89e983a72603e7@sentry.haxibiao.cn:9000/34',
     ],
-    'dongmeiwei' => [
+    'dongmeiwei'     => [
         'dsn' => 'https://7ff200eb98154c389e6549db09b55153@o133851.ingest.sentry.io/5511885',
     ],
-    'dongmiaomu' => [
+    'dongmiaomu'     => [
         'dsn' => 'https://e051dfcafe1e4067a93e17df94f307cd@o133851.ingest.sentry.io/5511887',
     ],
-    'ablm' => [
+    'ablm'           => [
         'dsn' => 'http://74c9a4ca1b79430a890cb89e3e8dbac4@sentry.haxibiao.cn:9000/37',
     ],
 ];
