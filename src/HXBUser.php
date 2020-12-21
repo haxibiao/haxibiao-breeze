@@ -2,6 +2,9 @@
 
 namespace Haxibiao\Base;
 
+use Haxibiao\Base\Traits\AuthHelper;
+use Haxibiao\Base\Traits\AvatarHelper;
+use Haxibiao\Base\Traits\UserResolvers;
 use Illuminate\Foundation\Auth\User;
 
 abstract class HXBUser extends User
