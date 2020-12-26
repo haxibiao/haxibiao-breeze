@@ -35,10 +35,24 @@ trait ModelHelpers
         return $user && $user->id == $this->user_id;
     }
 
-    //减少mysql select 返回text等大型字段用...
-    public function scopeExclude($query, $value = [])
+    /*
+     * 查询时排除相关列,减少传输消耗
+     * @param  [type] $query [description]
+     * @param  array  $value [description]
+     * @return [type]        [description]
+     */
+    public function scopeExclude($query, $value = array())
     {
-        return $query->select(array_diff($this->getTableColumns(), (array) $value));
+        //获取该表所有列
+        $columns = $this->getTableColumns();
+        //需要获取列名
+        $real_columns = array_diff($columns, (array) $value);
+
+        $tableName      = $this->getTable();
+        $format_colomns = array_map(function ($name) use ($tableName) {
+            return $tableName . '.' . $name;
+        }, $real_columns);
+        return $query->select($format_colomns);
     }
 
     //自动获取当前model的所有columns
