@@ -202,6 +202,11 @@ trait ModelHelpers
         return $rs;
     }
 
+    public function batchInster(array $data)
+    {
+        return DB::table($this->getTable())->insert($data);
+    }
+
     public static function self()
     {
         $self = new self();
@@ -232,5 +237,15 @@ trait ModelHelpers
             ->take($count);
 
         return $builder;
+    }
+
+    public function scopeDesc($query)
+    {
+        return $query->latest('id');
+    }
+
+    public function scopeWeek($query)
+    {
+        return $query->whereBetween('created_at', [today()->subWeek(), today()]);
     }
 }
