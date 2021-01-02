@@ -2,12 +2,12 @@
 
 namespace Haxibiao\Base\Traits;
 
-use App\Exceptions\ErrorCode\ErrorCode;
 use App\Exceptions\GQLException;
 use App\Exceptions\UserException;
 use App\User;
 use App\VerificationCode;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 trait AuthHelper
 {
@@ -26,8 +26,8 @@ trait AuthHelper
                     'uuid'      => $uuid,
                     'account'   => $account,
                     'password'  => bcrypt('123456789'),
-                    'name'      => User::DEFAULT_USER_NAME, //FIXME: 每个项目不同，应该从config env里取
-                    'api_token' => str_random(60),
+                    'name'      => config('auth.default_name', '匿名用户'),
+                    'api_token' => Str::random(60),
                 ]);
             }
         } else {
@@ -38,14 +38,14 @@ trait AuthHelper
                     'uuid'      => $uuid,
                     'account'   => $uuid,
                     'password'  => bcrypt('123456789'),
-                    'name'      => User::DEFAULT_USER_NAME,
-                    'api_token' => str_random(60),
+                    'name'      => config('auth.default_name', '匿名用户'),
+                    'api_token' => Str::random(60),
                 ]);
             }
         }
 
         //账号已注销
-        throw_if($user->isDegregister(), UserException::class, '操作失败,账户已注销!', ErrorCode::DEREGISTER_USER);
+        throw_if($user->isDegregister(), UserException::class, '操作失败,账户已注销!', config('auth.close_account', '9999'));
 
         Auth::login($user);
         $user->retention; //完善留存档案
@@ -73,7 +73,7 @@ trait AuthHelper
         }
 
         //账号已注销
-        throw_if($user->isDegregister(), UserException::class, '操作失败,账户已注销!', ErrorCode::DEREGISTER_USER);
+        throw_if($user->isDegregister(), UserException::class, '操作失败,账户已注销!', config('auth.close_account', '9999'));
 
         Auth::login($user);
         return $user;
@@ -123,8 +123,8 @@ trait AuthHelper
             'uuid'      => $uuid,
             'account'   => $account,
             'password'  => bcrypt($password),
-            'name'      => User::DEFAULT_USER_NAME,
-            'api_token' => str_random(60),
+            'name'      => config('auth.default_name', '匿名用户'),
+            'api_token' => Str::random(60),
         ]);
 
         Auth::login($user);
@@ -155,8 +155,8 @@ trait AuthHelper
             'uuid'      => $uuid,
             'account'   => $account,
             'password'  => bcrypt('12345678'),
-            'name'      => User::DEFAULT_USER_NAME,
-            'api_token' => str_random(60),
+            'name'      => config('auth.default_name', '匿名用户'),
+            'api_token' => Str::random(60),
         ]);
 
         Auth::login($user);

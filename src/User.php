@@ -2,12 +2,10 @@
 
 namespace Haxibiao\Base;
 
-use App\Follow;
 use Haxibiao\Base\Traits\AuthHelper;
 use Haxibiao\Base\Traits\AvatarHelper;
 use Haxibiao\Base\Traits\UserResolvers;
 use Haxibiao\Base\UserRetention;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as BaseUser;
 
@@ -111,12 +109,6 @@ class User extends BaseUser
     public function user_retention(): HasOne
     {
         return $this->hasOne(UserRetention::class);
-    }
-
-    // package/content 中使用getUser()获取到了该User，但是该User缺少follows关系
-    public function follows(): HasMany
-    {
-        return $this->hasMany(Follow::class);
     }
 
     //属性

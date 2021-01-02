@@ -6,9 +6,10 @@
 
 1. haxibiao/helpers
 
-#### 异常（Exception）：
+#### 配置说明
 
-- GQLException，GQL 异常
+-   默认用户名:匿名用户，可修改 config('auth.default_name')
+-   默认用户头像，可修改 config('auth.default_avatar')
 
 ## 安装步骤
 

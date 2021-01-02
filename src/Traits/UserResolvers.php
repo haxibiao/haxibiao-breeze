@@ -2,8 +2,9 @@
 
 namespace Haxibiao\Base\Traits;
 
-use App\User;
 use Haxibiao\Base\Exceptions\GQLException;
+use Haxibiao\Base\User;
+use Illuminate\Support\Str;
 
 /**
  * 一些通用的兼容resolvers的静态方法 - 目前工厂APP在用... //FIXME: 待重构
@@ -31,9 +32,9 @@ trait UserResolvers
             $user = User::create([
                 'uuid'      => $args['uuid'],
                 'account'   => $args['phone'] ?? $args['uuid'],
-                'name'      => User::DEFAULT_NAME,
-                'api_token' => str_random(60),
-                'avatar'    => User::AVATAR_DEFAULT,
+                'name'      => config('auth.default_name', '匿名用户'),
+                'api_token' => Str::random(60),
+                'avatar'    => config('auth.default_avatar'),
             ]);
             $user->name = $user->name . $user->id;
             $user->save();
@@ -49,9 +50,6 @@ trait UserResolvers
             // Ip::createIpRecord('users', $user->id, $user->id);
         }
         $user->updateProfileAppVersion($user);
-
-        app_track_event("首页", '静默登录');
-
         return $user;
     }
 
@@ -79,23 +77,21 @@ trait UserResolvers
             if ($exists) {
                 throw new GQLException('该账号已经存在');
             }
-            $name = $args['name'] ?? User::DEFAULT_NAME;
+            $name = $args['name'] ?? config('auth.default_name', '匿名用户');
             return self::createUser($name, $account, $args['password']);
         }
 
         $email  = $args['email'];
-        $exists = User::Where('email', $email)->exists();
+        $exists = \App\User::Where('email', $email)->exists();
 
         if ($exists) {
             throw new GQLException('该邮箱已经存在');
         }
 
-        $user        = self::createUser(User::DEFAULT_NAME, $email, $args['password']);
+        $user        = self::createUser(config('auth.default_name'), $email, $args['password'], '匿名用户');
         $user->phone = null;
         $user->email = $email;
         $user->save();
-
-        app_track_event('首页', "用户注册");
 
         //FIXME: 记得兼容网警需要的IP跟踪
         // Ip::createIpRecord('users', $user->id, $user->id);
@@ -134,7 +130,7 @@ trait UserResolvers
     public static function resolveSignOut($root, array $args, $context, $info)
     {
         $user_id = $args['user_id'];
-        return User::findOrFail($user_id);
+        return \App\User::findOrFail($user_id);
     }
 
 }
