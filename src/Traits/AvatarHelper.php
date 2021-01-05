@@ -62,7 +62,7 @@ trait AvatarHelper
             return $avatar;
         }
         //FIXME: 答赚的 user->avatar 字段存的还不是标准的 cos_path, 答妹已修复 “cos:%” ...
-        $avatar_url = \Storage::cloud()->url($avatar);
+        $avatar_url = cdnurl($avatar);
 
         //一分钟内的更新头像刷新cdn
         if ($this->updated_at > now()->subSeconds(60)) {
@@ -83,7 +83,7 @@ trait AvatarHelper
             $cos_folder = 'avatars';
         }
         $avatar_cdn_path = sprintf($cos_folder . '/avatar-%d.png', mt_rand(1, 20));
-        return "http://cos.haxibiao.com/" . $avatar_cdn_path;
+        return "https://cos.haxibiao.com/" . $avatar_cdn_path;
     }
 
     /**
@@ -91,6 +91,6 @@ trait AvatarHelper
      */
     public function getQQAvatarAttribute(): string
     {
-        return 'http://q1.qlogo.cn/g?b=qq&nk=' . $this->qq . '&s=100&t=' . time();
+        return 'https://q1.qlogo.cn/g?b=qq&nk=' . $this->qq . '&s=100&t=' . time();
     }
 }
