@@ -117,7 +117,7 @@ trait ModelHelpers
     {
         $cacheKey  = $this->getGeneralKey($key);
         $simpleKey = $this->getSimpleKey($key);
-        if (!array_key_exists($key, $this->attributes) && (method_exists(static::class, $cacheKey) || method_exists(static::class, $simpleKey))) {
+        if(method_exists(static::class, $cacheKey) || method_exists(static::class, $simpleKey)) {
             return true;
         }
 
