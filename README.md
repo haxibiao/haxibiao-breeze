@@ -18,3 +18,27 @@
    `http://code.haxibiao.cn/packages/haxibiao-base`
 2. 执行`composer require haxibiao\base`
 3. env('COS_DEFAULT_AVATAR') 设置为 true，如果要自定义默认头像的话
+
+## Roadmap & TODOs
+
+1. base:install provide 一些默认头像
+2. BaseUser 直接基于子系统模块，预先:
+
+    # use
+
+-   Content
+-   Media
+-   Question (待重构)
+-   Store (待重构)
+
+    # playWith
+
+-   Wallet
+-   Cms
+-   Game
+-   Task
+-   Live
+
+    # with
+
+-   Sns
