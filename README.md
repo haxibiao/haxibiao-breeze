@@ -24,21 +24,18 @@
 1. base:install provide 一些默认头像
 2. BaseUser 直接基于子系统模块，预先:
 
-    # use
+    # use 核心模块
 
--   Content
--   Media
--   Question (待重构)
--   Store (待重构)
+-   Cms 内容管理系统
+-   Content 内容
+-   Sns 社交
+-   Media 媒体
+-   Question 答题 (待重构)
+-   Store 商品(待重构)
+-   Wallet 钱包
 
-    # playWith
+    # playWith 附加模块
 
--   Wallet
--   Cms
--   Game
--   Task
--   Live
-
-    # with
-
--   Sns
+*   Task 任务
+*   Game 游戏
+*   Live 直播
