@@ -1,6 +1,6 @@
 <?php
 
-namespace Haxibiao\Base;
+namespace Haxibiao\Breeze;
 
 use Haxibiao\Content\Traits\UseContent;
 use Haxibiao\Media\Traits\UseMedia;

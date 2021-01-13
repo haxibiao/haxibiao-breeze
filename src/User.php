@@ -1,11 +1,11 @@
 <?php
 
-namespace Haxibiao\Base;
+namespace Haxibiao\Breeze;
 
-use Haxibiao\Base\Traits\AuthHelper;
-use Haxibiao\Base\Traits\AvatarHelper;
-use Haxibiao\Base\Traits\UserResolvers;
-use Haxibiao\Base\UserRetention;
+use Haxibiao\Breeze\Traits\AuthHelper;
+use Haxibiao\Breeze\Traits\AvatarHelper;
+use Haxibiao\Breeze\Traits\UserResolvers;
+use Haxibiao\Breeze\UserRetention;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as BaseUser;
 

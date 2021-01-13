@@ -1,6 +1,6 @@
 {
-    "name": "haxibiao/base",
-    "description": "Haxibiao 项目最小化基础包",
+    "name": "haxibiao/breeze",
+    "description": "Haxibiao 架构的基础包,从用户认证到基本内容社交系统，长视频短视频媒体内容系统...",
     "license": "MIT",
     "authors": [
         {
@@ -14,12 +14,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Haxibiao\\Base\\": "src/"
+            "Haxibiao\\Breeze\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Haxibiao\\Base\\tests\\": "tests/"
+            "Haxibiao\\Breeze\\tests\\": "tests/"
         }
     },
     "repositories": {
@@ -31,7 +31,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Haxibiao\\Base\\UserServiceProvider"
+                "Haxibiao\\Breeze\\BreezeServiceProvider"
             ]
         }
     }

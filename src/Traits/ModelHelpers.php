@@ -1,6 +1,6 @@
 <?php
 
-namespace Haxibiao\Base\Traits;
+namespace Haxibiao\Breeze\Traits;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
@@ -117,7 +117,7 @@ trait ModelHelpers
     {
         $cacheKey  = $this->getGeneralKey($key);
         $simpleKey = $this->getSimpleKey($key);
-        if(method_exists(static::class, $cacheKey) || method_exists(static::class, $simpleKey)) {
+        if (method_exists(static::class, $cacheKey) || method_exists(static::class, $simpleKey)) {
             return true;
         }
 

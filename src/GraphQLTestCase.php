@@ -1,6 +1,6 @@
 <?php
 
-namespace Haxibiao\Base;
+namespace Haxibiao\Breeze;
 
 use App\User;
 use Illuminate\Foundation\Testing\TestCase;

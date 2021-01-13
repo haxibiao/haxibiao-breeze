@@ -1,7 +1,7 @@
 <?php
-namespace Haxibiao\Base;
+namespace Haxibiao\Breeze;
 
-use Haxibiao\Base\User;
+use Haxibiao\Breeze\User;
 use Illuminate\Database\Eloquent\Model;
 
 class UserRetention extends Model

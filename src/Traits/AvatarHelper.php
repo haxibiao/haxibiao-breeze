@@ -1,6 +1,6 @@
 <?php
 
-namespace Haxibiao\Base\Traits;
+namespace Haxibiao\Breeze\Traits;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;

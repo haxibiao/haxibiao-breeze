@@ -1,8 +1,8 @@
 <?php
 
-namespace Haxibiao\Base;
+namespace Haxibiao\Breeze;
 
-use Haxibiao\Base\Model;
+use Haxibiao\Breeze\Model;
 
 /**
  * 专注用户数据分析统计用，profile之外的数据

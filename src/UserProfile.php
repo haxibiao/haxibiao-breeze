@@ -1,8 +1,8 @@
 <?php
 
-namespace Haxibiao\Base;
+namespace Haxibiao\Breeze;
 
-use Haxibiao\Base\Model;
+use Haxibiao\Breeze\Model;
 
 /**
  * 提供用户基础资料和公开统计数据，为task何dimension提供方便的数据获取

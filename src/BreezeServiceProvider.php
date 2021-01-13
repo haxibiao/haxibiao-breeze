@@ -1,10 +1,10 @@
 <?php
 
-namespace Haxibiao\Base;
+namespace Haxibiao\Breeze;
 
 use Illuminate\Support\ServiceProvider;
 
-class UserServiceProvider extends ServiceProvider
+class BreezeServiceProvider extends ServiceProvider
 {
     /**
      * Register services.

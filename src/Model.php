@@ -1,8 +1,8 @@
 <?php
 
-namespace Haxibiao\Base;
+namespace Haxibiao\Breeze;
 
-use Haxibiao\Base\Traits\ModelHelpers;
+use Haxibiao\Breeze\Traits\ModelHelpers;
 use Illuminate\Database\Eloquent\Model as BaseModel;
 
 class Model extends BaseModel

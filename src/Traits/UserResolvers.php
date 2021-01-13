@@ -1,9 +1,9 @@
 <?php
 
-namespace Haxibiao\Base\Traits;
+namespace Haxibiao\Breeze\Traits;
 
-use Haxibiao\Base\Exceptions\GQLException;
-use Haxibiao\Base\User;
+use Haxibiao\Breeze\Exceptions\GQLException;
+use Haxibiao\Breeze\User;
 use Illuminate\Support\Str;
 
 /**

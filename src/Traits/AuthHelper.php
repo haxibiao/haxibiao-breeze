@@ -1,6 +1,6 @@
 <?php
 
-namespace Haxibiao\Base\Traits;
+namespace Haxibiao\Breeze\Traits;
 
 use App\Exceptions\GQLException;
 use App\Exceptions\UserException;
