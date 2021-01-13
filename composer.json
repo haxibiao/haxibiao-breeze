@@ -1,38 +1,38 @@
 {
-  "name": "haxibiao/base",
-  "description": "Haxibiao/Base",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "zengdawei",
-      "email": "zengdawei@haxibiao.com"
+    "name": "haxibiao/base",
+    "description": "Haxibiao 项目最小化基础包",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "zengdawei",
+            "email": "zengdawei@haxibiao.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "haxibiao/helpers": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Haxibiao\\Base": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Haxibiao\\Base\\tests\\": "tests/"
+        }
+    },
+    "repositories": {
+        "helpers": {
+            "type": "vcs",
+            "url": "https://github.com/haxibiao/haxibiao-helpers.git"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Haxibiao\\Base\\UserServiceProvider"
+            ]
+        }
     }
-  ],
-  "minimum-stability": "dev",
-  "require": {
-    "haxibiao/helpers": "*"
-  },
-  "autoload": {
-    "psr-0": {
-      "Haxibiao\\Base": "src/"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Haxibiao\\Base\\tests\\": "tests/"
-    }
-  },
-  "repositories": {
-    "helpers": {
-      "type": "vcs",
-      "url": "http://code.haxibiao.cn/packages/haxibiao-helpers.git"
-    }
-  },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "Haxibiao\\Base\\UserServiceProvider"
-      ]
-    }
-  }
 }
