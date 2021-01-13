@@ -14,7 +14,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Haxibiao\\Base": "src/"
+            "Haxibiao\\Base\\": "src/"
         }
     },
     "autoload-dev": {
