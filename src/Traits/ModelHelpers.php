@@ -312,4 +312,9 @@ trait ModelHelpers
     {
         return $query->whereBetween('created_at', [today()->subWeek(), today()]);
     }
+
+    public function scopeReviewDay($query, $value)
+    {
+        return is_array($value) ? $query->whereIn('review_day', $value) : $query->where('review_day', $value);
+    }
 }
