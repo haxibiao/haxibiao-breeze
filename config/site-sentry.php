@@ -95,10 +95,10 @@ return [
         'dsn' => 'http://e7e918d4d6744a5ca37150c2d44dc34a@sentry.haxibiao.cn/3',
     ],
     'dianyintujie'   => [
-        'dsn' => 'http://d809d7c6c27c49868d89e983a72603e7@sentry.haxibiao.cn:9000/34',
+        'dsn' => 'http://21da6cfb37e946b19327e03f4e7f0efc@sentry.haxibiao.cn/9',
     ],
     'dongmeiwei'     => [
-        'dsn' => 'https://7ff200eb98154c389e6549db09b55153@o133851.ingest.sentry.io/5511885',
+        'dsn' => 'http://4cb57150a46f4283991b74f71e7c695d@sentry.haxibiao.cn/8',
     ],
     'dongmiaomu'     => [
         'dsn' => 'https://e051dfcafe1e4067a93e17df94f307cd@o133851.ingest.sentry.io/5511887',
