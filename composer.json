@@ -10,7 +10,9 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "haxibiao/helpers": "*"
+        "haxibiao/helpers": "*",
+        "haxibiao/config": "*",
+        "haxibiao/content": "*"
     },
     "autoload": {
         "psr-4": {
