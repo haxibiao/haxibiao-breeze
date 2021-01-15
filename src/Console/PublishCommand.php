@@ -31,6 +31,13 @@ class PublishCommand extends Command
     {
         $force = $this->option('force');
 
+        $this->info('先发布 lighthouse 和 playground..');
+
+        $this->call("vendor:publish", ["--provider" => "Nuwave\Lighthouse\LighthouseServiceProvider"]);
+        $this->call("vendor:publish", ["--provider" => "MLL\GraphQLPlayground\GraphQLPlaygroundServiceProvider"]);
+
+        $this->info('再发布breeze的子模块..');
+
         $this->call("vendor:publish", ['--tag' => 'cms-config']);
         $this->call("vendor:publish", ['--tag' => 'cms-resources']);
 

@@ -10,6 +10,7 @@
     ],
     "minimum-stability": "dev",
     "require": {
+        "mll-lab/laravel-graphql-playground": "^2.1",
         "haxibiao/helpers": "*",
         "haxibiao/config": "*",
         "haxibiao/content": "*"

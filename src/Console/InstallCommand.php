@@ -48,6 +48,7 @@ class InstallCommand extends Command
         $this->call("config:install", ['--force' => $force]);
         $this->call("media:install", ['--force' => $force]);
         $this->call("content:install", ['--force' => $force]);
+        $this->call("sns:install", ['--force' => $force]);
         $this->call("cms:install", ['--force' => $force]);
     }
 
