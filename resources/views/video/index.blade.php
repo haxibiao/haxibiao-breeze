@@ -14,14 +14,14 @@
     {{-- 最新电影 --}}
     @include('video.parts.latest_movies')
 
-    <div class="vd-head">
-      <h3 class="vd-title">
-        <span class="title-icon">
-          <i class="iconfont icon-huo"></i>视频专题
-        </span>
-      </h3>
-    </div>
-    @each('video.parts.hot_category_articles', $videos, "articles")
+{{--    <div class="vd-head">--}}
+{{--      <h3 class="vd-title">--}}
+{{--        <span class="title-icon">--}}
+{{--          <i class="iconfont icon-huo"></i>视频专题--}}
+{{--        </span>--}}
+{{--      </h3>--}}
+{{--    </div>--}}
+{{--    @each('video.parts.hot_category_articles', $videos, "articles")--}}
 
     <div class="vd-head">
           <h3 class="vd-title">
@@ -30,9 +30,8 @@
             </span>
           </h3>
     </div>
-    @each('video.parts.hot_category_articles', $data, "articles")
+    @include('video.parts.hot_category_articles')
 
-    {{-- 更多视频动态 --}}
     <video-list api="api/getlatestVideo" is-desktop="{{ isDeskTop() == 1 }}" ></video-list>
 </div>
 @stop

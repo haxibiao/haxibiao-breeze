@@ -1,19 +1,19 @@
 <div class="video-box">
-    @foreach($articles as $article)
-        @if($loop->last)
-            <div class="box-top">
-                <div class="top-left">
-                    <img  class="cateory-logo" src="{{ $article->category->logoUrl }}">
-                    <a href="/category/{{ $article->category->id }}">
-                        <p class="title">{{ $article->category->name }}</p>
-                    </a>
-                </div>
-                <div class="top-right">
-                    <a href="/category/{{ $article->category->id }}" class="more-cateory"><p>更多<i class="iconfont icon-youbian"></i></p></a>
-                </div>
-            </div>
-        @endif
-    @endforeach
+{{--    @foreach($articles as $article)--}}
+{{--        @if($loop->last)--}}
+{{--            <div class="box-top">--}}
+{{--                <div class="top-left">--}}
+{{--                    <img  class="cateory-logo" src="{{ $article->category->logoUrl }}">--}}
+{{--                    <a href="/category/{{ $article->category->id }}">--}}
+{{--                        <p class="title">{{ $article->category->name }}</p>--}}
+{{--                    </a>--}}
+{{--                </div>--}}
+{{--                <div class="top-right">--}}
+{{--                    <a href="/category/{{ $article->category->id }}" class="more-cateory"><p>更多<i class="iconfont icon-youbian"></i></p></a>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        @endif--}}
+{{--    @endforeach--}}
     <div class="box-body">
         <ul class="game-video-list">
             @foreach($articles as $article)
