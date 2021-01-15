@@ -6,6 +6,11 @@ use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
+function breeze_path($path)
+{
+    return __DIR__ . "../../" . $path;
+}
+
 function checkUserDevice()
 {
     $deviceId = get_device_id();

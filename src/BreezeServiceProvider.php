@@ -2,6 +2,7 @@
 
 namespace Haxibiao\Breeze;
 
+use Haxibiao\Breeze\Console\InstallCommand;
 use Illuminate\Support\ServiceProvider;
 
 class BreezeServiceProvider extends ServiceProvider
@@ -21,6 +22,12 @@ class BreezeServiceProvider extends ServiceProvider
 
         // 这一段会重写掉整个sentry的配置
         $this->rewriteSentryDsn();
+
+        // Register Commands
+        $this->commands([
+            InstallCommand::class,
+        ]);
+
     }
 
     /**
@@ -30,6 +37,11 @@ class BreezeServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        //合并配置
+        // if (!app()->configurationIsCached())
+        {
+            $this->mergeConfigFrom(__DIR__ . '/../config/view.php', 'view');
+        }
 
     }
 
