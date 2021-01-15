@@ -6,9 +6,24 @@ use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
+function content_path($path)
+{
+    return __DIR__ . "/../../../content/" . $path;
+}
+
+function media_path($path)
+{
+    return __DIR__ . "/../../../media/" . $path;
+}
+
+function cms_path($path)
+{
+    return __DIR__ . "/../../../cms/" . $path;
+}
+
 function breeze_path($path)
 {
-    return __DIR__ . "../../" . $path;
+    return __DIR__ . "/../../" . $path;
 }
 
 function checkUserDevice()

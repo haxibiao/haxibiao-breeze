@@ -3,6 +3,8 @@
 namespace Haxibiao\Breeze;
 
 use Haxibiao\Breeze\Console\InstallCommand;
+use Haxibiao\Breeze\Console\PublishCommand;
+use Illuminate\Contracts\Foundation\CachesConfiguration;
 use Illuminate\Support\ServiceProvider;
 
 class BreezeServiceProvider extends ServiceProvider
@@ -26,7 +28,18 @@ class BreezeServiceProvider extends ServiceProvider
         // Register Commands
         $this->commands([
             InstallCommand::class,
+            PublishCommand::class,
         ]);
+
+        //合并view config 配置
+        $view_config_path = __DIR__ . '/../config/view.php';
+        if (!(app() instanceof CachesConfiguration && app()->configurationIsCached())) {
+            $config = app()->make('config');
+            //用breeze的view config来覆盖
+            $config->set('view', array_merge(
+                $config->get('view', []), require $view_config_path
+            ));
+        }
 
     }
 
@@ -37,11 +50,6 @@ class BreezeServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //合并配置
-        // if (!app()->configurationIsCached())
-        {
-            $this->mergeConfigFrom(__DIR__ . '/../config/view.php', 'view');
-        }
 
     }
 
@@ -51,6 +59,7 @@ class BreezeServiceProvider extends ServiceProvider
             __DIR__ . '/../config/site-sentry.php',
             'site-sentry'
         );
+
         $sentryDsn = config('site-sentry.' . config('app.name') . '.dsn');
         if (!empty($sentryDsn)) {
             config(['sentry.dsn' => $sentryDsn]);

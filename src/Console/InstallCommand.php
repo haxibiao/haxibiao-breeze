@@ -35,8 +35,24 @@ class InstallCommand extends Command
         copyStubs(__DIR__, $force);
 
         $this->info('publish vendor css js');
-
         //复制所有nova stubs
+        $this->publishVendorAssets($force);
+
+        $this->info('安装子模块...');
+        $this->installModules($force);
+
+    }
+
+    public function installModules($force)
+    {
+        $this->call("config:install", ['--force' => $force]);
+        $this->call("media:install", ['--force' => $force]);
+        $this->call("content:install", ['--force' => $force]);
+        $this->call("cms:install", ['--force' => $force]);
+    }
+
+    public function publishVendorAssets($force)
+    {
         if (!is_dir(public_path('vendor/breeze/css/movie'))) {
             mkdir(public_path('vendor/breeze/css/movie'), 0777, true);
         }

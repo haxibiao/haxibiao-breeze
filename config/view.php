@@ -3,10 +3,13 @@
 return [
 
     /**
-     * 合并breeze的view paths //TODO: 这个目前需要手动去 config view paths 位置修改
+     * 合并 view paths
      */
     'paths' => [
+        resource_path('views'),
         breeze_path('resources/views'),
+        cms_path('resources/views'),
+        content_path('resources/views'),
     ],
 
 ];
