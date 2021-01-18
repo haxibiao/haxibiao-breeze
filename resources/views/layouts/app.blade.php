@@ -81,7 +81,7 @@
     @if (in_array(request()->path(), ['follow', 'notification', 'settings']))
         <script src="{{ asset('/vendor/breeze/js/spa.js') }}"></script>
     @else
-        <script src="{{ asset('/vendor/breeze/js/app.js') }}"></script>
+        <script src="{{ asset('/vendor/breeze/js/app.js') }}?v=1"></script>
     @endif
 
 

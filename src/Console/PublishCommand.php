@@ -55,5 +55,51 @@ class PublishCommand extends Command
         $this->call("vendor:publish", ['--tag' => 'sns-config']);
         $this->call("vendor:publish", ['--tag' => 'sns-graphql']);
 
+        $this->info('publish vendor css js');
+        //复制所有nova stubs
+        $this->publishVendorAssets(true);
+
+    }
+
+    public function publishVendorAssets($force)
+    {
+        if (!is_dir(public_path('vendor/breeze/css/movie'))) {
+            mkdir(public_path('vendor/breeze/css/movie'), 0777, true);
+        }
+        if (!is_dir(public_path('vendor/breeze/js/movie'))) {
+            mkdir(public_path('vendor/breeze/js/movie'), 0777, true);
+        }
+
+        $pwd = __DIR__;
+        foreach (glob($pwd . '/../../public/css/*.css') as $filepath) {
+            $filename = basename($filepath);
+            $dest     = public_path('vendor/breeze/css/' . $filename);
+            if (!file_exists($dest) || $force) {
+                copy($filepath, $dest);
+            }
+        }
+        foreach (glob($pwd . '/../../public/css/movie/*.css') as $filepath) {
+            $filename = basename($filepath);
+            $dest     = public_path('vendor/breeze/css/movie/' . $filename);
+            if (!file_exists($dest) || $force) {
+                copy($filepath, $dest);
+            }
+        }
+
+        foreach (glob($pwd . '/../../public/js/*.js') as $filepath) {
+            $filename = basename($filepath);
+            $dest     = public_path('vendor/breeze/js/' . $filename);
+            if (!file_exists($dest) || $force) {
+                copy($filepath, $dest);
+            }
+        }
+        foreach (glob($pwd . '/../../public/js/movie/*.js') as $filepath) {
+            $filename = basename($filepath);
+            $dest     = public_path('vendor/breeze/js/movie/' . $filename);
+            if (!file_exists($dest) || $force) {
+                copy($filepath, $dest);
+            }
+        }
+
     }
 }
