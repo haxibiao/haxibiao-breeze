@@ -51,6 +51,10 @@ class BreezeServiceProvider extends ServiceProvider
     public function boot()
     {
 
+        //注册路由
+        $this->loadRoutesFrom(
+            __DIR__ . '/../router.php'
+        );
     }
 
     protected function rewriteSentryDsn()
