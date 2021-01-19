@@ -1,3 +1,4 @@
+@if(!Agent::isRobot())
 {{-- 腾讯统计 --}}
 @php
 $tencent_appid = neihan_tencent_app_id();
@@ -96,3 +97,4 @@ $ga_id = neihan_ga_measure_id();
 
 </script>
 <!-- End Matomo Code -->
+@endif
