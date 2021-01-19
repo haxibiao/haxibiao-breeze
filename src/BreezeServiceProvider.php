@@ -41,6 +41,8 @@ class BreezeServiceProvider extends ServiceProvider
             ));
         }
 
+        $this->bindPathsInContainer();
+
     }
 
     /**
@@ -50,11 +52,30 @@ class BreezeServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        //安装时需要
+        if ($this->app->runningInConsole()) {
+            //数据库
+            $this->loadMigrationsFrom($this->app->make('path.haxibiao-breeze.migrations'));
+        }
 
         //注册路由
         $this->loadRoutesFrom(
             __DIR__ . '/../router.php'
         );
+    }
+
+    protected function bindPathsInContainer()
+    {
+        foreach ([
+            'path.haxibiao-breeze'            => $root = dirname(__DIR__),
+            'path.haxibiao-breeze.config'     => $root . '/config',
+            'path.haxibiao-breeze.database'   => $database = $root . '/database',
+            'path.haxibiao-breeze.migrations' => $database . '/migrations',
+            'path.haxibiao-breeze.seeders'    => $database . '/seeders',
+            'path.haxibiao-breeze.graphql'    => $root . '/graphql',
+        ] as $abstract => $instance) {
+            $this->app->instance($abstract, $instance);
+        }
     }
 
     protected function rewriteSentryDsn()

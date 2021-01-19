@@ -2,20 +2,37 @@
 
 namespace Haxibiao\Breeze;
 
-use Haxibiao\Breeze\Traits\AuthHelper;
-use Haxibiao\Breeze\Traits\AvatarHelper;
-use Haxibiao\Breeze\Traits\UserResolvers;
-use Haxibiao\Breeze\UserRetention;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Foundation\Auth\User as BaseUser;
+use Haxibiao\Breeze\BaseUser;
 
 class User extends BaseUser
 {
-    use AuthHelper;
-    use AvatarHelper;
-    use UserResolvers;
 
     protected $guarded = [];
+
+    protected $fillable = [
+        'name',
+        'uuid',
+        'phone',
+        'account',
+        'email',
+        'avatar',
+        'password',
+        'api_token',
+        'remember_token',
+        'created_at',
+        'updated_at',
+        'role_id',
+        'ticket',
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
 
     /**
      * 用户状态 -2:禁用(禁止提现) -1:禁言 0:正常启用
@@ -33,120 +50,50 @@ class User extends BaseUser
     // ==================== 下面是工厂APP的 ====================
 
     /**
-     * 性别：男
+     * 性别
      */
-    const MALE_GENDER = 0;
-    /**
-     * 性别：女
-     */
+    const MALE_GENDER   = 0;
     const FEMALE_GENDER = 1;
 
-    /**
-     * 正常状态
-     */
+    // 正常状态
     const STATUS_ONLINE = 0;
 
-    /**
-     * 封禁状态
-     */
+    //以前奇怪的冻结账户，怎么用status=1啊...
+    //FIXME: 这个后面要修复为-1, 注销修复为-2, 负数的status都是异常的
+
+    // 封禁状态
     const STATUS_OFFLINE = 1;
 
-    /**
-     * 暂时冻结的账户
-     */
+    //暂时冻结的账户
     const STATUS_FREEZE = -1;
 
-    /**
-     * 注销状态
-     */
+    // 注销状态
     const STATUS_DESTORY = -2; //这个注销状态值太诡异
 
-    /**
-     * 默认头像
-     * @deprecated 默认头像应该为null,然后随机显示20个默认头像中的一个
-     */
+    // 默认头像
     const AVATAR_DEFAULT = 'storage/avatar/avatar-1.jpg';
 
-    /**
-     * 默认用户名 - 工厂APP
-     * @deprecated 用getDefaultName()获取env里配置的
-     */
     const DEFAULT_NAME = '匿名用户';
 
     /**
-     * 普通身份
-     */
-    const VISIT_STATUS = -1;
-    /**
-     * 普通身份
-     */
-    const USER_STATUS = 0;
-    /**
      * 编辑身份
      */
+    const USER_STATUS   = 0;
     const EDITOR_STATUS = 1;
-    /**
-     * 管理身份
-     */
-    const ADMIN_STATUS = 2;
-    /**
-     * 马甲身份
-     */
-    const VEST_STATUS = 3;
+    const ADMIN_STATUS  = 2;
+    const VEST_STATUS   = 3;
 
-    //关系
+    //用户激励视频奖励
+    const VIDEO_REWARD_GOLD       = 10;
+    const VIDEO_REWARD_TICKET     = 10;
+    const VIDEO_REWARD_CONTRIBUTE = 6;
 
-    public function user_profile(): HasOne
+    public static function getGenders()
     {
-        return $this->hasOne(UserProfile::class);
-    }
-
-    public function user_data(): HasOne
-    {
-        return $this->hasOne(UserData::class);
-    }
-
-    public function user_retention(): HasOne
-    {
-        return $this->hasOne(UserRetention::class);
-    }
-
-    //属性
-
-    /**
-     * 用户资料
-     */
-    public function getProfileAttribute()
-    {
-        if ($profile = $this->user_profile) {
-            return $profile;
-        }
-        $profile = UserProfile::firstOrCreate(['user_id' => $this->id]);
-        return $profile;
-    }
-
-    /**
-     * 用户数据
-     */
-    public function getDataAttribute()
-    {
-        if ($data = $this->user_data) {
-            return $data;
-        }
-        $data = UserData::firstOrCreate(['user_id' => $this->id]);
-        return $data;
-    }
-
-    /**
-     * 留存档案
-     */
-    public function getRetentionAttribute()
-    {
-        if ($retention = $this->user_retention) {
-            return $retention;
-        }
-        //补刀创建
-        return UserRetention::firstOrCreate(['user_id' => $this->id]);
+        return [
+            self::MALE_GENDER   => '男',
+            self::FEMALE_GENDER => '女',
+        ];
     }
 
 }

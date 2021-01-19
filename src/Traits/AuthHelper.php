@@ -2,10 +2,10 @@
 
 namespace Haxibiao\Breeze\Traits;
 
-use App\Exceptions\GQLException;
-use App\Exceptions\UserException;
-use App\User;
 use App\VerificationCode;
+use Haxibiao\Breeze\Exceptions\GQLException;
+use Haxibiao\Breeze\Exceptions\UserException;
+use Haxibiao\Breeze\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
