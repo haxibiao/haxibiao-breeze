@@ -38,13 +38,13 @@ class VideoController extends Controller
         }
 
         //置顶 - 抖音合集
-        $collections = \App\Collection::orderBy('count', 'desc')->take(6)->get();
+        $collections = \App\Collection::latest('updated_at')->take(6)->get();
 
         //置顶 - 电影图解
         $articles = $site->stickyArticles()->whereType('diagrams')
             ->byStickableName('视频页-电影图解')
             ->latest('stickables.updated_at')
-            ->take(12)
+            ->take(6)
             ->get();
 
         return view('video.index')
