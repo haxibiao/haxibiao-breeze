@@ -46,5 +46,9 @@ class InstallCommand extends Command
         $this->call("content:install", ['--force' => $force]);
         $this->call("sns:install", ['--force' => $force]);
         $this->call("cms:install", ['--force' => $force]);
+        $this->call("task:install", ['--force' => $force]);
+        $this->call("dimension:install", ['--force' => $force]);
+        $this->call("wallet:install", ['--force' => $force]);
+
     }
 }

@@ -5,7 +5,7 @@ namespace Haxibiao\Breeze\Http\Api;
 use App\Action;
 use App\Favorite;
 use App\Http\Controllers\Controller;
-use App\Notifications\ArticleFavorited;
+use Haxibiao\Breeze\Notifications\ArticleFavorited;
 use Illuminate\Http\Request;
 
 class FavoriteController extends Controller

@@ -5,8 +5,8 @@ namespace Haxibiao\Breeze\Http\Controllers;
 use App\Category;
 use App\Issue;
 use App\Jobs\BonusAnswers;
-use App\Notifications\QuestionBonused;
 use App\Transaction;
+use Haxibiao\Breeze\Notifications\QuestionBonused;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 

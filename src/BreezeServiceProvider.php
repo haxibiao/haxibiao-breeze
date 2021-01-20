@@ -10,6 +10,29 @@ use Illuminate\Support\ServiceProvider;
 class BreezeServiceProvider extends ServiceProvider
 {
     /**
+     * The event listener mappings for the application.
+     *
+     * @var array
+     */
+    protected $listen = [
+        'Haxibiao\Breeze\Events\NewReport'  => [
+            'Haxibiao\Breeze\Listeners\SendNewReportNotification',
+        ],
+        'Haxibiao\Breeze\Events\NewLike'    => [
+            'Haxibiao\Breeze\Listeners\SendNewLikeNotification',
+        ],
+        'Haxibiao\Breeze\Events\NewFollow'  => [
+            'Haxibiao\Breeze\Listeners\SendNewFollowNotification',
+        ],
+        'Haxibiao\Breeze\Events\NewComment' => [
+            'Haxibiao\Breeze\Listeners\SendNewCommentNotification',
+        ],
+        'Haxibiao\Breeze\Events\NewMessage' => [
+            'Haxibiao\Breeze\Listeners\SendNewMessageNotification',
+        ],
+    ];
+
+    /**
      * Register services.
      *
      * @return void
@@ -62,6 +85,27 @@ class BreezeServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(
             __DIR__ . '/../router.php'
         );
+
+        $this->bindObservers();
+    }
+
+    public function bindObservers()
+    {
+
+        \Haxibiao\Sns\Message::observe(\Haxibiao\Breeze\Observers\MessageObserver::class);
+        \Haxibiao\Sns\Comment::observe(\Haxibiao\Breeze\Observers\CommentObserver::class);
+        \Haxibiao\Sns\Like::observe(\Haxibiao\Breeze\Observers\LikeObserver::class);
+        \Haxibiao\Sns\Follow::observe(\Haxibiao\Breeze\Observers\FollowObserver::class);
+        \Haxibiao\Sns\Report::observe(\Haxibiao\Breeze\Observers\ReportObserver::class);
+        \Haxibiao\Sns\Notice::observe(\Haxibiao\Breeze\Observers\NoticeObserver::class);
+        \Haxibiao\Media\Spider::observe(\Haxibiao\Breeze\Observers\SpiderObserver::class);
+        \Haxibiao\Breeze\User::observe(\Haxibiao\Breeze\Observers\UserObserver::class);
+
+        \Haxibiao\Breeze\BadWord::observe(\Haxibiao\Breeze\Observers\BadWordObserver::class);
+        \Haxibiao\Task\Contribute::observe(\Haxibiao\Breeze\Observers\ContributeObserver::class);
+        \Haxibiao\Media\Spider::observe(\Haxibiao\Breeze\Observers\SpiderObserver::class);
+        \Haxibiao\Wallet\Gold::observe(\Haxibiao\Breeze\Observers\GoldObserver::class);
+
     }
 
     protected function bindPathsInContainer()

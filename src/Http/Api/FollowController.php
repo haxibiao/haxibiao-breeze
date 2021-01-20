@@ -6,9 +6,9 @@ use App\Action;
 use App\Category;
 use App\Follow;
 use App\Http\Controllers\Controller;
-use App\Notifications\CategoryFollowed;
-use App\Notifications\UserFollowed;
 use App\User;
+use Haxibiao\Breeze\Notifications\CategoryFollowed;
+use Haxibiao\Breeze\Notifications\UserFollowed;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 

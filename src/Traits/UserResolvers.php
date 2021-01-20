@@ -251,53 +251,53 @@ trait UserResolvers
             case 'GROUP_COMMENT':
                 $qb = $notifications->orderBy('created_at', 'desc')
                     ->whereIn('type', [
-                        'App\Notifications\ReplyComment',
-                        'App\Notifications\ArticleCommented',
-                        'App\Notifications\CommentedNotification',
+                        'Haxibiao\Breeze\Notifications\ReplyComment',
+                        'Haxibiao\Breeze\Notifications\ArticleCommented',
+                        'Haxibiao\Breeze\Notifications\CommentedNotification',
                     ]);
                 //mark as read
                 $unread_notifications = $unreadNotifications
                     ->whereIn('type', [
-                        'App\Notifications\ReplyComment',
-                        'App\Notifications\ArticleCommented',
-                        'App\Notifications\CommentedNotification',
+                        'Haxibiao\Breeze\Notifications\ReplyComment',
+                        'Haxibiao\Breeze\Notifications\ArticleCommented',
+                        'Haxibiao\Breeze\Notifications\CommentedNotification',
                     ])->get();
                 $unread_notifications->markAsRead();
                 break;
             case 'GROUP_OTHERS':
                 $qb = $notifications->orderBy('created_at', 'desc')
                     ->whereIn('type', [
-                        'App\Notifications\CollectionFollowed',
-                        'App\Notifications\CategoryFollowed',
-                        'App\Notifications\ArticleApproved',
-                        'App\Notifications\ArticleRejected',
-                        'App\Notifications\CommentAccepted',
+                        'Haxibiao\Breeze\Notifications\CollectionFollowed',
+                        'Haxibiao\Breeze\Notifications\CategoryFollowed',
+                        'Haxibiao\Breeze\Notifications\ArticleApproved',
+                        'Haxibiao\Breeze\Notifications\ArticleRejected',
+                        'Haxibiao\Breeze\Notifications\CommentAccepted',
                     ]);
 
                 //mark as read
                 $unread_notifications = $unreadNotifications
                     ->whereIn('type', [
-                        'App\Notifications\CollectionFollowed',
-                        'App\Notifications\CategoryFollowed',
-                        'App\Notifications\ArticleApproved',
-                        'App\Notifications\ArticleRejected',
-                        'App\Notifications\CommentAccepted',
+                        'Haxibiao\Breeze\Notifications\CollectionFollowed',
+                        'Haxibiao\Breeze\Notifications\CategoryFollowed',
+                        'Haxibiao\Breeze\Notifications\ArticleApproved',
+                        'Haxibiao\Breeze\Notifications\ArticleRejected',
+                        'Haxibiao\Breeze\Notifications\CommentAccepted',
                     ])->get();
                 $unread_notifications->markAsRead();
                 break;
             case 'GROUP_LIKES':
                 $qb = $notifications->orderBy('created_at', 'desc')
                     ->whereIn('type', [
-                        'App\Notifications\ArticleLiked',
-                        'App\Notifications\CommentLiked',
-                        'App\Notifications\LikedNotification',
+                        'Haxibiao\Breeze\Notifications\ArticleLiked',
+                        'Haxibiao\Breeze\Notifications\CommentLiked',
+                        'Haxibiao\Breeze\Notifications\LikedNotification',
                     ]);
                 //mark as read
                 $unread_notifications = $unreadNotifications
                     ->whereIn('type', [
-                        'App\Notifications\ArticleLiked',
-                        'App\Notifications\CommentLiked',
-                        'App\Notifications\LikedNotification',
+                        'Haxibiao\Breeze\Notifications\ArticleLiked',
+                        'Haxibiao\Breeze\Notifications\CommentLiked',
+                        'Haxibiao\Breeze\Notifications\LikedNotification',
                     ])->get();
                 $unread_notifications->markAsRead();
                 break;

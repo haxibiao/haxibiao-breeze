@@ -27,7 +27,7 @@ class VideoController extends Controller
         $site = cms_get_site();
 
         // 置顶 - 电影
-        if ($site->stickyMovies()->byStickableName('视频页-电影')->count()) {
+        if ($site && $site->stickyMovies()->byStickableName('视频页-电影')->count()) {
             $movies = $site->stickyMovies()
                 ->byStickableName('视频页-电影')
                 ->latest('stickables.updated_at')
@@ -41,11 +41,18 @@ class VideoController extends Controller
         $collections = \App\Collection::latest('updated_at')->take(6)->get();
 
         //置顶 - 电影图解
-        $articles = $site->stickyArticles()->whereType('diagrams')
-            ->byStickableName('视频页-电影图解')
-            ->latest('stickables.updated_at')
-            ->take(6)
-            ->get();
+        if ($site) {
+            $articles = $site->stickyArticles()->whereType('diagrams')
+                ->byStickableName('视频页-电影图解')
+                ->latest('stickables.updated_at')
+                ->take(6)
+                ->get();
+        } else {
+            $articles = Article::query()->whereType('diagrams')
+                ->latest('updated_at')
+                ->take(6)
+                ->get();
+        }
 
         return view('video.index')
             ->with('data', $data)

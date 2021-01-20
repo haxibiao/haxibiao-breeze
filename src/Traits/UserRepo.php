@@ -649,29 +649,29 @@ trait UserRepo
         $unreadNotifications->each(function ($item) use (&$unreads) {
             switch ($item->type) {
                 //评论文章通知
-                case 'App\Notifications\ArticleCommented':
+                case 'Haxibiao\Breeze\Notifications\ArticleCommented':
                     $unreads['comments']++;
                     break;
-                case 'App\Notifications\CommentedNotification':
+                case 'Haxibiao\Breeze\Notifications\CommentedNotification':
                     $unreads['comments']++;
                     break;
-                case 'App\Notifications\ReplyComment':
+                case 'Haxibiao\Breeze\Notifications\ReplyComment':
                     $unreads['comments']++;
                     break;
                 //喜欢文章通知
-                case 'App\Notifications\LikedNotification':
+                case 'Haxibiao\Breeze\Notifications\LikedNotification':
                     $unreads['likes']++;
                     break;
                 //关注用户通知
-                case 'App\Notifications\UserFollowed':
+                case 'Haxibiao\Breeze\Notifications\UserFollowed':
                     $unreads['follows']++;
                     break;
                 //打赏文章通知
-                case 'App\Notifications\ArticleTiped':
+                case 'Haxibiao\Breeze\Notifications\ArticleTiped':
                     $unreads['tips']++;
                     break;
                 //打赏文章通知
-                case 'App\Notifications\ChatNewMessage':
+                case 'Haxibiao\Breeze\Notifications\ChatNewMessage':
                     $unreads['chats']++;
                     break;
                 //其他类型的通知
@@ -781,7 +781,7 @@ trait UserRepo
 
     public function sendEmailVerificationNotification()
     {
-        $this->notify(new \App\Notifications\VerifyEmail);
+        $this->notify(new \Haxibiao\Breeze\Notifications\VerifyEmail);
     }
 
     public function hasWithdrawToday(): bool

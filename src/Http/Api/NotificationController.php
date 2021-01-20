@@ -2,12 +2,12 @@
 
 namespace Haxibiao\Breeze\Http\Api;
 
-use App\Chat;
 use App\Http\Controllers\Controller;
-use App\Message;
-use App\User;
-use Auth;
+use Haxibiao\Sns\Chat;
+use Haxibiao\Sns\Message;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 
 class NotificationController extends Controller
 {
@@ -42,7 +42,7 @@ class NotificationController extends Controller
             'chat_id' => $chat->id,
             'message' => request()->get('message'),
         ]);
-        app_track_send_message();
+
         $chat->withUser->chats()->syncWithoutDetaching($chat->id);
         Auth::user()->chats()->syncWithoutDetaching($chat->id);
 
@@ -105,7 +105,7 @@ class NotificationController extends Controller
                 $user->forgetUnreads();
 
                 //fix avatar in local
-                if (\App::environment('local')) {
+                if (App::environment('local')) {
                     if (!empty($data['user_avatar']) && !empty($data['user_id'])) {
                         if ($user = User::find($data['user_id'])) {
                             $data['user_avatar'] = $user->avatarUrl;
