@@ -10,13 +10,17 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "mll-lab/laravel-graphql-playground": "^2.1",
+        "php": ">=7.3",
+        "laravel/framework": "^8.0",
+        "nuwave/lighthouse": "^4.10",
+        "laravel/nova": "*",
         "haxibiao/helpers": "*",
         "haxibiao/config": "*",
         "haxibiao/sns": "*",
         "haxibiao/wallet": "*",
         "haxibiao/dimension": "*",
         "haxibiao/task": "*",
+        "mll-lab/laravel-graphql-playground": "^2.1",
         "haxibiao/content": "*"
     },
     "autoload": {
