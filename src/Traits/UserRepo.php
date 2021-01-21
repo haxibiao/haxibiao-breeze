@@ -274,7 +274,6 @@ trait UserRepo
             $suffix          = strval(time());
             $user->name      = "手机用户" . $suffix;
             $user->api_token = str_random(60);
-            $user->avatar    = User::AVATAR_DEFAULT;
             $user->phone     = $token;
             $user->account   = $token;
             $user->save();
@@ -333,7 +332,6 @@ trait UserRepo
         return User::firstOrCreate([
             'name'      => User::DEFAULT_NAME,
             'api_token' => str_random(60),
-            'avatar'    => User::AVATAR_DEFAULT,
         ]);
     }
 
@@ -380,13 +378,10 @@ trait UserRepo
         if (is_phone_number($account)) {
             $user->phone = $account;
         }
-        $user->account  = $account;
-        $user->name     = $name;
-        $user->password = bcrypt($password);
-
-        $user->avatar    = User::AVATAR_DEFAULT;
+        $user->account   = $account;
+        $user->name      = $name;
+        $user->password  = bcrypt($password);
         $user->api_token = str_random(60);
-
         $user->save();
 
         $profile = UserProfile::create([

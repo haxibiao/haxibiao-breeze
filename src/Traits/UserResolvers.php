@@ -335,7 +335,6 @@ trait UserResolvers
                 'account'   => $args['phone'] ?? $args['uuid'],
                 'name'      => User::DEFAULT_NAME,
                 'api_token' => Str::random(60),
-                'avatar'    => User::AVATAR_DEFAULT,
             ]);
             UserProfile::create([
                 'user_id'      => $user->id,

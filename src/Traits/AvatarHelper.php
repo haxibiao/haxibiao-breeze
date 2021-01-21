@@ -77,13 +77,10 @@ trait AvatarHelper
      */
     public static function getDefaultAvatar()
     {
-        //FIXME: 从 cos.haxibiao.com 获取默认头像数据,需要这个cdn准备好各种头像, 每个项目准备20个
-        $cos_folder = 'avatars/' . env('APP_NAME');
-        if (env('COS_DEFAULT_AVATAR') == false) {
-            $cos_folder = 'avatars';
-        }
-        $avatar_cdn_path = sprintf($cos_folder . '/avatar-%d.png', mt_rand(1, 20));
-        return "https://cos.haxibiao.com/" . $avatar_cdn_path;
+        $avatar_path = sprintf('/vendor/breeze/images/avatar-%d.jpg', mt_rand(1, 15));
+        return url($avatar_path);
+        //以前的要求每个项目去cos上传默认头像文件，太费劲了
+        // return "https://cos.haxibiao.com/" . $avatar_path;
     }
 
     /**

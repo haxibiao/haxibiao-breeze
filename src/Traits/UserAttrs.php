@@ -132,8 +132,8 @@ trait UserAttrs
     public function getAvatarAttribute()
     {
         $avatar = $this->getRawOriginal('avatar');
-        if (is_null($avatar)) {
-            return self::getDefaultAvatar();
+        if (blank($avatar)) {
+            return User::getDefaultAvatar();
         }
 
         if (str_contains($avatar, 'http')) {

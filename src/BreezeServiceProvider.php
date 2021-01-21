@@ -107,6 +107,13 @@ class BreezeServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             //数据库
             $this->loadMigrationsFrom($this->app->make('path.haxibiao-breeze.migrations'));
+            //前端资源
+            $this->publishes([
+                __DIR__ . '/../public/css'    => public_path('vendor/breeze/css'),
+                __DIR__ . '/../public/images' => public_path('vendor/breeze/images'),
+                __DIR__ . '/../public/js'     => public_path('vendor/breeze/js'),
+            ], 'breeze-resources');
+
         }
 
         //注册路由

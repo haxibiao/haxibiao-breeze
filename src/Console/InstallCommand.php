@@ -30,33 +30,43 @@ class InstallCommand extends Command
     public function handle()
     {
         $force = $this->option('force');
-        $this->info("开始安装Breeze, 强制=" . $force);
+        if ($force) {
+            if (!$this->confirm("强制重新安装breeze?")) {
+                return;
+            }
+        } else {
+            $this->info("安装Breeze");
+        }
 
         $this->info(' - 复制 stubs ...');
         copyStubs(__DIR__, $force);
 
         $this->info(' - migrate基础数据库结构 ...');
-        $this->call('migrate');
+        $this->callSilent('migrate');
 
         $this->info(' - seed 基础站点和用户 ');
-        $this->call("db:seed", ['--class' => "Haxibiao\Breeze\Seeders\UserSeeder"]);
-        $this->call("db:seed", ['--class' => "Haxibiao\Breeze\Seeders\SiteSeeder"]);
+        $this->callSilent("db:seed", ['--class' => "Haxibiao\Breeze\Seeders\UserSeeder"]);
+        $this->callSilent("db:seed", ['--class' => "Haxibiao\Breeze\Seeders\SiteSeeder"]);
 
-        $this->info('- 安装子模块...');
+        $this->info(' - 安装子模块...');
         $this->installModules($force);
 
+        $this->info(' - 发布资源...');
+        $this->callSilent('breeze:publish', ['--force' => $force]);
+
+        $this->comment("完成安装");
     }
 
     public function installModules($force)
     {
-        $this->call("config:install", ['--force' => $force]);
-        $this->call("media:install", ['--force' => $force]);
-        $this->call("content:install", ['--force' => $force]);
-        $this->call("sns:install", ['--force' => $force]);
-        $this->call("cms:install", ['--force' => $force]);
-        $this->call("task:install", ['--force' => $force]);
-        $this->call("dimension:install", ['--force' => $force]);
-        $this->call("wallet:install", ['--force' => $force]);
+        $this->callSilent("config:install", ['--force' => $force]);
+        $this->callSilent("media:install", ['--force' => $force]);
+        $this->callSilent("content:install", ['--force' => $force]);
+        $this->callSilent("sns:install", ['--force' => $force]);
+        $this->callSilent("cms:install", ['--force' => $force]);
+        $this->callSilent("task:install", ['--force' => $force]);
+        $this->callSilent("dimension:install", ['--force' => $force]);
+        $this->callSilent("wallet:install", ['--force' => $force]);
 
     }
 }

@@ -43,7 +43,6 @@ class UserSeeder extends Seeder
         $pass          = env('DB_PASSWORD', 'REDIS_PASSWORD');
 
         $user->password  = bcrypt($pass);
-        $user->avatar    = '/images/avatar-' . rand(1, 15) . '.jpg';
         $user->api_token = str_random(60);
         $user->role_id   = 2; //管理员
         $user->save();
