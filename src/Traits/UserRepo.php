@@ -430,7 +430,7 @@ trait UserRepo
         try {
             Storage::cloud()->put($filename, file_get_contents($realPath));
             //上传到COS
-            $url          = Storage::cloud()->url($filename);
+            $url          = cdnurl($filename);
             $this->avatar = $url;
             $this->save();
         } catch (\Exception $e) {
@@ -453,7 +453,7 @@ trait UserRepo
         $filename = 'background/' . $this->id . '_' . time() . '.' . $extension;
         Storage::cloud()->put($filename, file_get_contents($realPath));
         //上传到COS失败
-        $bgurl = Storage::cloud()->url($filename);
+        $bgurl = cdnurl($filename);
 
         //save profile
         $profile             = $this->profile;

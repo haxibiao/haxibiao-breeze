@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddLastCategoryIdToUsersTable extends Migration
+class AddApiTokenToUsers extends Migration
 {
     /**
      * Run the migrations.
@@ -14,11 +14,9 @@ class AddLastCategoryIdToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-
-            if (!Schema::hasColumn('users', 'last_category_id')) {
-                $table->integer("last_category_id")->nullable()->comment('最后访问的分类/题库');
+            if (!Schema::hasColumn('users', 'api_token')) {
+                $table->string('api_token', 60)->unique();
             }
-
         });
     }
 

@@ -30,11 +30,19 @@ class InstallCommand extends Command
     public function handle()
     {
         $force = $this->option('force');
+        $this->info("开始安装Breeze, 强制=" . $force);
 
-        $this->info('复制 stubs ...');
+        $this->info(' - 复制 stubs ...');
         copyStubs(__DIR__, $force);
 
-        $this->info('安装子模块...');
+        $this->info(' - migrate基础数据库结构 ...');
+        $this->call('migrate');
+
+        $this->info(' - seed 基础站点和用户 ');
+        $this->call("db:seed", ['--class' => "Haxibiao\Breeze\Seeders\UserSeeder"]);
+        $this->call("db:seed", ['--class' => "Haxibiao\Breeze\Seeders\SiteSeeder"]);
+
+        $this->info('- 安装子模块...');
         $this->installModules($force);
 
     }
