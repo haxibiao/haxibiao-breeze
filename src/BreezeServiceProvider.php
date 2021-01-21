@@ -5,6 +5,8 @@ namespace Haxibiao\Breeze;
 use Haxibiao\Breeze\Console\InstallCommand;
 use Haxibiao\Breeze\Console\PublishCommand;
 use Illuminate\Contracts\Foundation\CachesConfiguration;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class BreezeServiceProvider extends ServiceProvider
@@ -64,7 +66,33 @@ class BreezeServiceProvider extends ServiceProvider
             ));
         }
 
+        //注册blade directives
+        $this->registerBladeDirectives();
+
         $this->bindPathsInContainer();
+
+    }
+
+    public function registerBladeDirectives()
+    {
+        Blade::directive('timeago', function ($expression) {
+            return "<?php echo diffForHumansCN($expression); ?>";
+        });
+        //将秒数转换成 分:秒
+        Blade::directive('sectominute', function ($expression) {
+            return "<?php echo gmdate('i:s', $expression); ?>";
+        });
+        Blade::if('admin', function () {
+            return Auth::check() && Auth::user()->checkAdmin();
+        });
+
+        Blade::if('editor', function () {
+            return Auth::check() && Auth::user()->checkEditor();
+        });
+
+        Blade::if('weixin', function () {
+            return request('weixin');
+        });
 
     }
 
