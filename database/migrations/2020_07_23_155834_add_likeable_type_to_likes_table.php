@@ -14,8 +14,11 @@ class AddLikeableTypeToLikesTable extends Migration
     public function up()
     {
         Schema::table('likes', function (Blueprint $table) {
-            //
-            $table->string('likable_type')->default('articles')->index();
+
+            if (!Schema::hasColumn('likes', 'likable_type')) {
+                $table->string('likable_type')->default('articles')->index();
+            }
+
         });
     }
 
