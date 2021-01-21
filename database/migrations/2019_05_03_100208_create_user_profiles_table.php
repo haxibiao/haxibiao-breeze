@@ -30,7 +30,7 @@ class CreateUserProfilesTable extends Migration
             $table->timestamp('birthday')->nullable()->comment('生日');
             $table->string('sub_name', 30)->nullable()->comment('头衔');
 
-            //xxx统计字段
+            //答题统计字段
             $table->integer('total_contributes')->index()->default(0)->comment('用户总贡献');
             $table->unsignedInteger('transaction_sum_amount')->default(0)->comment('提现总额'); //已淘汰，替换为 wallet->total_withdraw_amount
             $table->unsignedInteger('visited_count')->default(0)->comment('访问统计');
@@ -49,14 +49,14 @@ class CreateUserProfilesTable extends Migration
             $table->integer('followers_count')->index()->default(0)->comment('粉丝数');
             $table->integer('follows_count')->index()->default(0)->comment('关注数');
 
-            //xxx时间字段
+            //答题项目 时间字段
             $table->unsignedInteger('pay_info_change_count')->default(0)->comment('提现信息变更次数');
             $table->timestamp('pay_info_change_at')->nullable()->comment('提现信息变更时间');
             $table->timestamp('verified_at')->nullable()->comments('验证时间');
             $table->timestamp('last_login_at')->nullable()->comment('最后登录时间');
             $table->timestamp('last_reward_video_time')->nullable()->comment('最后激励视频时间');
 
-            //xxx比率
+            //答题 比率
             $table->double('question_pass_rate')->index()->default(0)->comment('出题通过率');
             $table->double('curation_pass_rate')->index()->default(0)->comment('纠题通过率');
             $table->double('answer_correct_rate')->index()->default(0)->comment('答题正确率');
