@@ -389,10 +389,13 @@ trait UserRepo
 
         $user->save();
 
-        UserProfile::create([
-            'user_id'     => $user->id,
-            'app_version' => request()->header('version', null),
+        $profile = UserProfile::create([
+            'user_id' => $user->id,
         ]);
+
+        // //FIXME: 记录用户的APP版本号
+        // $profile->app_version = request()->header('version', null);
+        // $profile->save();
 
         return $user;
     }

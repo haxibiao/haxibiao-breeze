@@ -1,14 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-//登录注册
-Auth::routes();
 //资源ID的规则
 Route::pattern('id', '\d+');
-//验证邮件
-Auth::routes(['verify' => true]);
 
 //主页
 Route::get('/', 'IndexController@index');

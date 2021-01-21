@@ -20,3 +20,12 @@ Route::group(
     ],
     __DIR__ . '/routes/web.php'
 );
+
+// auth routes.
+Route::group(
+    [
+        'middleware' => ['web'],
+        'namespace'  => 'Haxibiao\Breeze\Http\Controllers',
+    ],
+    __DIR__ . '/routes/auth.php'
+);
