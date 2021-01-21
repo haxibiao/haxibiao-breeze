@@ -2,11 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
-//问答
-// Route::resource('/question', 'IssueController');
-// Route::resource('/answer', 'ResolutionController');
-Route::get('/categories-for-question', 'IssueController@categories');
-Route::get('/question-bonused', 'IssueController@bonused');
+//主页
+Route::get('/', 'IndexController@index');
 
 //搜索
 Route::get('/search', 'SearchController@search');
