@@ -12,6 +12,9 @@ use TencentCloud\Common\Profile\HttpProfile;
 use TencentCloud\Vod\V20180717\Models\DescribeAllClassRequest;
 use TencentCloud\Vod\V20180717\VodClient;
 
+/**
+ * 生成vod的签名
+ */
 class VodController extends Controller
 {
 
@@ -19,7 +22,8 @@ class VodController extends Controller
 
     private $vodKeys = [];
 
-    public function __construct()
+    //请求vod获取keys
+    public function requestVodKeys()
     {
         $fromCache = Cache::get('tencent_vod_class_ids', []);
         //加入缓存
@@ -60,7 +64,7 @@ class VodController extends Controller
      */
     public function signature($site)
     {
-        $vodKeys = $this->vodKeys;
+        $vodKeys = $this->requestVodKeys();
         $from    = $site;
         if (!$from || !array_key_exists($from, $vodKeys)) {
             abort(500, '输入参数有误');
