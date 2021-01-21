@@ -4,6 +4,10 @@ use Illuminate\Support\Facades\Route;
 
 //主页
 Route::get('/', 'IndexController@index');
+//app
+Route::get('/app', 'IndexController@app');
+Route::get('/about-us', 'IndexController@aboutUs');
+Route::get('/trending', 'IndexController@trending');
 
 //搜索
 Route::get('/search', 'SearchController@search');
