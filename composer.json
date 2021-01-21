@@ -13,6 +13,10 @@
         "mll-lab/laravel-graphql-playground": "^2.1",
         "haxibiao/helpers": "*",
         "haxibiao/config": "*",
+        "haxibiao/sns": "*",
+        "haxibiao/wallet": "*",
+        "haxibiao/dimension": "*",
+        "haxibiao/task": "*",
         "haxibiao/content": "*"
     },
     "autoload": {
