@@ -8,13 +8,17 @@
 @endphp
 
 <div id="login">
-    <div class="logo"><a href="/"><img src="{{'/logo/'.get_domain().'.png' }}" alt="{{ config('app.name') }}"></a></div>
+    <div class="logo">
+        <a href="/">
+            <img src="{{ text_logo() }}" alt="{{ config('app.name') }}">
+        </a>
+    </div>
     <signs></signs>
-    
+
     @if($errors->any())
     <div class="alert alert-danger">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <strong>出错了！</strong> 
+        <strong>出错了！</strong>
         <ul>
             @foreach($errors->all() as $error)
             <li>{{ $error }}</li>

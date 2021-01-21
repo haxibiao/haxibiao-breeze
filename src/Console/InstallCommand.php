@@ -35,24 +35,22 @@ class InstallCommand extends Command
                 return;
             }
         } else {
-            $this->info("安装Breeze");
+            $this->comment("安装Breeze");
         }
-
-        $this->info(' - 复制 stubs ...');
-        copyStubs(__DIR__, $force);
-
-        $this->info(' - migrate基础数据库结构 ...');
-        $this->callSilent('migrate');
-
-        $this->info(' - seed 基础站点和用户 ');
-        $this->callSilent("db:seed", ['--class' => "Haxibiao\Breeze\Seeders\UserSeeder"]);
-        $this->callSilent("db:seed", ['--class' => "Haxibiao\Breeze\Seeders\SiteSeeder"]);
-
-        $this->info(' - 安装子模块...');
+        $this->info(' - 安装子模块');
         $this->installModules($force);
 
-        $this->info(' - 发布资源...');
-        $this->callSilent('breeze:publish', ['--force' => $force]);
+        $this->info(' - 复制基础代码(app+nova)stubs');
+        copyStubs(__DIR__, $force);
+
+        $this->info(' - 更新数据库结构');
+        $this->callSilent('migrate');
+
+        $this->info(' - 初始化基础数据');
+        $this->callSilent("db:seed", ['--class' => "Haxibiao\Breeze\Seeders\DatabaseSeeder"]);
+
+        $this->comment('发布资源');
+        $this->call('breeze:publish', ['--force' => $force]);
 
         $this->comment("完成安装");
     }

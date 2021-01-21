@@ -3,11 +3,11 @@
 		@section('logo')
 			@if( isMobile() )
 				<a class="logo" href="/" title="{{ seo_site_name() }}">
-					<img src="{{ seo_small_logo() }}" alt="{{ seo_site_name() }}">
+					<img src="{{ small_logo() }}" alt="{{ seo_site_name() }}">
 				</a>
 			@else
 			   <a class="logo" href="/" title="{{ seo_site_name() }}">
-					<img src="{{ seo_small_logo() }}" alt="{{ seo_site_name() }}">
+					<img src="{{ small_logo() }}" alt="{{ seo_site_name() }}">
 				</a>
 			@endif
 		@show
@@ -139,10 +139,10 @@
 						</ul>
 					</li>
 				</ul>
-				<a class="search"> 
+				<a class="search">
 					<search-box is-desktop="{{ isDeskTop() == 1 }}"></search-box>
 				</a>
-				<modal-post/>	
+				<modal-post/>
 			</div>
 		</div>
 	</div>
