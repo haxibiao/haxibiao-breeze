@@ -65,6 +65,7 @@ class InstallCommand extends Command
         $this->callSilent("task:install", ['--force' => $force]);
         $this->callSilent("dimension:install", ['--force' => $force]);
         $this->callSilent("wallet:install", ['--force' => $force]);
+        $this->callSilent("question:install", ['--force' => $force]);
 
     }
 }

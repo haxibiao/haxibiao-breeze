@@ -33,8 +33,8 @@ class PublishCommand extends Command
 
         $this->info(' - lighthouse 和 playground');
 
-        $this->callSilent("vendor:publish", ["--provider" => "Nuwave\Lighthouse\LighthouseServiceProvider", '--force' => $force]);
-        $this->callSilent("vendor:publish", ["--provider" => "MLL\GraphQLPlayground\GraphQLPlaygroundServiceProvider", '--force' => $force]);
+        $this->callSilent("vendor:publish", ["--provider" => "Nuwave\Lighthouse\LighthouseServiceProvider", '--force' => true]);
+        $this->callSilent("vendor:publish", ["--provider" => "MLL\GraphQLPlayground\GraphQLPlaygroundServiceProvider", '--force' => true]);
 
         $this->info(' - breeze 子模块的资源配置');
 
@@ -55,8 +55,11 @@ class PublishCommand extends Command
         $this->callSilent("vendor:publish", ['--tag' => 'sns-config', '--force' => $force]);
         $this->callSilent("vendor:publish", ['--tag' => 'sns-graphql', '--force' => $force]);
 
-        $this->info(' - Breeze的前端资源');
-        $this->callSilent("vendor:publish", ['--tag' => 'breeze-resources', '--force' => $force]);
+        $this->callSilent('wallet:publish', ['--force' => $force]);
+        $this->callSilent('question:publish', ['--force' => $force]);
+
+        $this->info(' - Breeze的资源');
+        $this->callSilent("vendor:publish", ['--provider' => 'Haxibiao\Breeze\BreezeServiceProvider', '--force' => true]);
 
     }
 

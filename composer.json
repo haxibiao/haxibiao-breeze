@@ -12,7 +12,7 @@
     "require": {
         "php": ">=7.3",
         "laravel/framework": "^8.0",
-        "nuwave/lighthouse": "^4.10",
+        "nuwave/lighthouse": "^5.0",
         "haxibiao/console": "*",
         "haxibiao/helpers": "*",
         "haxibiao/config": "*",
