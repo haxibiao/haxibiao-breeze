@@ -8,11 +8,10 @@ use Haxibiao\Breeze\Traits\UserRelations;
 use Haxibiao\Breeze\Traits\UserRepo;
 use Haxibiao\Breeze\Traits\UserResolvers;
 use Haxibiao\Breeze\Traits\UserScopes;
-use Haxibiao\Content\Traits\CanTag;
 use Haxibiao\Content\Traits\UseContent;
 use Haxibiao\Helpers\Traits\CanCacheAttributes;
 use Haxibiao\Media\Traits\UseMedia;
-use Haxibiao\Sns\Traits\CanFollow;
+use Haxibiao\Sns\Traits\UseSns;
 use Haxibiao\Task\Traits\PlayWithTasks;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
@@ -22,28 +21,19 @@ use Illuminate\Notifications\Notifiable;
 
 class BaseUser extends Model implements AuthenticatableContract, AuthorizableContract
 {
-
+    use CanCacheAttributes;
     use \Illuminate\Auth\Authenticatable, Authorizable;
-
-    use UserScopes;
-
-    use UseMedia;
-    use UseContent;
-
     use Notifiable;
+    use UserScopes;
     use UserAttrs;
     use UserRepo;
-    use UserRelations;
     use UserResolvers;
-    use UseMedia;
-    use UseContent;
-    use CanTag;
-
+    use UserRelations;
     use AvatarHelper;
 
-    use CanFollow;
+    use UseMedia;
+    use UseContent;
+    use UseSns;
     use PlayWithTasks;
-
-    use CanCacheAttributes;
 
 }

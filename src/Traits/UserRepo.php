@@ -545,19 +545,6 @@ trait UserRepo
         $this->save();
     }
 
-    public function reports()
-    {
-        $json = json_decode($this->json, true);
-        if (empty($json)) {
-            $json = [];
-        }
-        $reports = [];
-        if (isset($json['reports'])) {
-            $reports = $json['reports'];
-        }
-        return $reports;
-    }
-
     public function transfer($amount, $to_user, $log_mine = '转账', $log_theirs = '转账', $relate_id = null, $type = "打赏")
     {
         if ($this->balance < $amount) {

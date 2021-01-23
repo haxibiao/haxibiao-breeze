@@ -288,13 +288,13 @@ class UserController extends Controller
             return $articles;
         }
 
-        $data['followed_categories'] = Follow::with('followed')
+        $data['followed_categories'] = Follow::with('followable')
             ->where('user_id', $user->id)
             ->where('followed_type', 'categories')
             ->orderBy('id', 'desc')
             ->paginate(10);
 
-        $data['followed_collections'] = Follow::with('followed')
+        $data['followed_collections'] = Follow::with('followable')
             ->where('user_id', $user->id)
             ->where('followed_type', 'collections')
             ->orderBy('id', 'desc')

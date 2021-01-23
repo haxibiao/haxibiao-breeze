@@ -5,19 +5,16 @@ namespace Haxibiao\Breeze\Traits;
 use App\Action;
 use App\Chat;
 use App\Querylog;
-use App\Visit;
 use Haxibiao\Breeze\CheckIn;
 use Haxibiao\Breeze\OAuth;
 use Haxibiao\Breeze\UserBlock;
 use Haxibiao\Breeze\UserData;
 use Haxibiao\Breeze\UserProfile;
 use Haxibiao\Breeze\UserRetention;
-use Haxibiao\Content\Collection;
 use Haxibiao\Content\Issue;
 use Haxibiao\Content\IssueInvite;
 use Haxibiao\Content\Solution;
 use Haxibiao\Media\MovieHistory;
-use Haxibiao\Sns\Favorite;
 use Haxibiao\Sns\Feedback;
 use Haxibiao\Sns\Follow;
 use Haxibiao\Store\Order;
@@ -113,16 +110,6 @@ trait UserRelations
         return $this->hasMany(Transaction::class);
     }
 
-    public function favorites()
-    {
-        return $this->hasMany(Favorite::class);
-    }
-
-    public function favoritedArticles()
-    {
-        return $this->hasMany(Favorite::class)->where('faved_type', 'articles');
-    }
-
     public function userBlock()
     {
         return $this->hasMany(UserBlock::class);
@@ -148,24 +135,9 @@ trait UserRelations
         return $this->hasMany(Follow::class)->where('followed_type', 'users');
     }
 
-    public function visitedArticles()
-    {
-        return $this->visits()->where('visited_type', 'articles');
-    }
-
-    public function VisitedVideos(): HasMany
-    {
-        return $this->visits()->where('visited_type', 'videos');
-    }
-
     public function golds(): hasMany
     {
         return $this->hasMany(Gold::class);
-    }
-
-    public function collections()
-    {
-        return $this->hasMany(Collection::class);
     }
 
     public function actions()
@@ -183,11 +155,6 @@ trait UserRelations
     public function wallets(): HasMany
     {
         return $this->hasMany(Wallet::class);
-    }
-
-    public function visits()
-    {
-        return $this->hasMany(Visit::class);
     }
 
     public function issueInvites()

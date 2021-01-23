@@ -134,7 +134,7 @@ class FollowController extends Controller
                 $followed = $follow->followed;
                 if ($followed) {
                     if ($follow->followed_type == 'users') {
-                        $followed->collections = $followed->collections()->take(2)->get();
+                        $followed->collections = $followed->hasCollections()->take(2)->get();
                     }
 
                     $followed->is_followed      = $user->isFollow($follow->followed_type, $follow->followed_id);
@@ -150,7 +150,7 @@ class FollowController extends Controller
         $recommended_users = User::orderBy('id', 'desc')->paginate(10);
         foreach ($recommended_users as $recommended_user) {
             $recommended_user->followed    = $user->isFollow('users', $recommended_user->id);
-            $recommended_user->collections = $recommended_user->collections()->take(2)->get();
+            $recommended_user->collections = $recommended_user->hasCollections()->take(2)->get();
             $recommended_user->fillForJs();
         }
         $data['recommended_users'] = $recommended_users;
