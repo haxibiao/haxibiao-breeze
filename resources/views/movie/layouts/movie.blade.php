@@ -5,18 +5,23 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>@yield('title') {{ seo_site_name() }} - 内涵电影</title>
     <meta name="keywords" content="@yield('keywords')" />
     <meta name="description" content="@yield('description')" />
 
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    {{--  icon  --}}
+    <link rel="icon" type="image/png" href="{{ small_logo() }}" sizes="60*60">
+    <link rel="icon" type="image/png" href="{{ web_logo() }}" sizes="120*120">
+    <link rel="apple-touch-icon" href="{{ touch_logo() }}" sizes="160*160">
 
-    <link rel="icon" href="/picture/logo.png">
     <!-- Icons -->
     <link rel="stylesheet" href="https://at.alicdn.com/t/font_2196966_ku6kbo1v4j.css">
+
     <!-- Styles -->
     <link href="{{ asset('/vendor/breeze/css/movie/movie.css') }}" rel="stylesheet">
+
     @stack('head-styles')
     <!-- Scripts -->
     <script type="text/javascript" src="{{ asset('/vendor/breeze/js/movie/movie.js') }}"></script>
