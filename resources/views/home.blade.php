@@ -22,7 +22,7 @@
                     </h3>
                 </div>
                 <div class="panel-body">
-                    <img alt="{{ $user->name }}" width="100px" class="img img-circle" src="{{ $user->avatarUrl }}">
+                    <img alt="{{ $user->name }}" width="100px" class="img img-circle" src="{{ $user->avatar }}">
                         <h4>
                             <a href="/user/{{ $user->id }}">{{ $user->name }}</a>
                         </h4>
