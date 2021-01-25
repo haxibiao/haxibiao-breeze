@@ -55,7 +55,7 @@ class NewLike implements ShouldBroadcast
                     'title'        => '新点赞提醒',
                     'like_content' => $content,
                     'like_id'      => $this->like->id,
-                    'likeable_id'  => $this->likable->id,
+                    'likable_id'   => $this->likable->id,
                     'user_id'      => $this->like->user->id,
                     'user_avatar'  => $this->like->user->avatarUrl,
                     'user_name'    => $this->like->user->name,
