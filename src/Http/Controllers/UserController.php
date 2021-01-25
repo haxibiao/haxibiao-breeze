@@ -270,7 +270,7 @@ class UserController extends Controller
     public function likes(Request $request, $id)
     {
         $user              = User::findOrFail($id);
-        $user->followUsers = $user->followings()->where('followed_type', 'users')->count();
+        $user->followUsers = $user->followings()->where('followable_type', 'users')->count();
 
         $data['liked_articles'] = $user->likes()->where('likable_type', '!=', 'movies')
             ->orderBy('id', 'desc')->paginate(10);

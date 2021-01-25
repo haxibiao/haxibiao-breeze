@@ -132,7 +132,7 @@ trait UserRelations
 
     public function followingUsers()
     {
-        return $this->hasMany(Follow::class)->where('followed_type', 'users');
+        return $this->hasMany(Follow::class)->where('followable_type', 'users');
     }
 
     public function golds(): hasMany
