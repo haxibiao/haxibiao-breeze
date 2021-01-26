@@ -18,21 +18,12 @@ register_routes(dirname(__FILE__) . '/api');
 
 Route::post('/image/upload', 'Api\ImageController@upload');
 
-//收藏
-Route::middleware('auth:api')->post('/favorite/{id}/{type}', 'Api\FavoriteController@toggle');
-Route::middleware('auth:api')->get('/favorite/{id}/{type}', 'Api\FavoriteController@get');
-
 //获取VOD上传签名
 Route::get('/signature/vod-{site}', 'Api\VodController@signature');
 
 // Route::post('/live/screenShots', 'Api\LiveController@screenShots');
 // Route::post('/live/cutOut', 'Api\LiveController@cutOutLive');
 // Route::post('/live/recording', 'Api\LiveController@recording');
-
-//like赞
-Route::middleware('auth:api')->post('/like/{id}/{type}', 'Api\LikeController@toggle');
-Route::middleware('auth:api')->get('/like/{id}/{type}', 'Api\LikeController@get');
-Route::get('/like/{id}/{type}/guest', 'Api\LikeController@getForGuest');
 
 //图片
 Route::get('/image', 'Api\ImageController@index');
