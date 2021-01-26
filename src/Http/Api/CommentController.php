@@ -29,7 +29,7 @@ class CommentController extends Controller
         $comments = Comment::with(['user' => function ($query) {
             $query->select('id', 'name', 'avatar');
         }])
-            ->with(['commented.user' => function ($query) {
+            ->with(['commentable.user' => function ($query) {
                 $query->select('id', 'name', 'avatar');
             }])
             ->with(['replyComments.user' => function ($query) {
