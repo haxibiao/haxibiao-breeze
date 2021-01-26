@@ -46,7 +46,7 @@ class CollectionController extends Controller
      */
     public function show($id)
     {
-        $collection        = Collection::with('user')->with('follows')->findOrFail($id);
+        $collection        = Collection::with(['user','followables'])->findOrFail($id);
         $data['new']       = $collection->hasManyArticles()->orderBy('updated_at', 'desc')->paginate(10);
         $collection->count = count($data['new']);
         $data['commented'] = $collection->hasManyArticles()->orderBy('commented', 'desc')->paginate(10);
