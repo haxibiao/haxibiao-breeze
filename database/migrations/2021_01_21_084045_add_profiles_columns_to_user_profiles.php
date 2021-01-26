@@ -20,8 +20,8 @@ class AddProfilesColumnsToUserProfiles extends Migration
                 //count
                 $table->integer('count_articles')->default(0);
                 $table->integer('count_likes')->default(0);
-                $table->integer('count_follows')->default(0);
-                $table->integer('count_followings')->default(0);
+                $table->integer('count_follows')->default(0)->comment('粉丝数');
+                $table->integer('count_followings')->default(0)->comment('关注数');
                 $table->integer('count_words')->default(0);
                 $table->integer('count_collections')->default(0);
                 $table->integer('count_favorites')->default(0);
