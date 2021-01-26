@@ -16,32 +16,30 @@ register_routes(dirname(__FILE__) . '/api');
 
 //FIXME: 部分重构到content包里的api 可以清理了
 
-Route::post('/image/upload', 'Api\ImageController@upload');
+Route::post('/image/upload', 'ImageController@upload');
 
 //获取VOD上传签名
-Route::get('/signature/vod-{site}', 'Api\VodController@signature');
+Route::get('/signature/vod-{site}', 'VodController@signature');
 
 // Route::post('/live/screenShots', 'Api\LiveController@screenShots');
 // Route::post('/live/cutOut', 'Api\LiveController@cutOutLive');
 // Route::post('/live/recording', 'Api\LiveController@recording');
 
 //图片
-Route::get('/image', 'Api\ImageController@index');
-Route::middleware('auth:api')->post('/image', 'Api\ImageController@store');
-Route::middleware('auth:api')->post('/image/save', 'Api\ImageController@store'); //兼容1.0 or vue上传视频接口
+Route::get('/image', 'ImageController@index');
+Route::middleware('auth:api')->post('/image', 'ImageController@store');
+Route::middleware('auth:api')->post('/image/save', 'ImageController@store'); //兼容1.0 or vue上传视频接口
 
 ////注释的原因：RestFul方法废弃了，现在统一用GQL解析抖音视频
 //Route::post('/article/resolverDouyin', 'Api\ArticleController@resolverDouyinVideo');
-Route::post('/media/import', 'Api\SpiderController@importDouyinSpider');
-Route::any('/media/oldHook', 'Api\SpiderController@hook');
+Route::post('/media/import', 'SpiderController@importDouyinSpider');
+Route::any('/media/oldHook', 'SpiderController@hook');
 
-Route::namespace ('Api')->middleware('auth:api')->group(function () {
-    Route::post('/background', 'UserController@saveBackground');
-});
+Route::middleware('auth:api')->post('/background', 'UserController@saveBackground');
 
-Route::post('/douyin/import', 'Api\SpiderController@importDouYin');
+Route::post('/douyin/import', 'SpiderController@importDouYin');
 
-Route::post('/withdraw', 'Api\WithdrawController@withdraws');
+Route::post('/withdraw', 'WithdrawController@withdraws');
 
 //Route::any('/movie/history', 'Api\MovieController@movieHistory');
 //Route::post('/movie/toggle-like', 'Api\MovieController@toggoleLike');

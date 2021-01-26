@@ -7,7 +7,7 @@ Route::group(
     [
         'prefix'     => 'api',
         'middleware' => ['api'],
-        'namespace'  => 'Haxibiao\Breeze\Http',
+        'namespace'  => 'Haxibiao\Breeze\Http\Api',
     ],
     __DIR__ . '/routes/api.php'
 );

@@ -24,18 +24,15 @@ Route::get('/search/collections', 'SearchController@searchCollections');
 Route::get('/category/list', 'CategoryController@list');
 Route::resource('/category', 'CategoryController');
 
-Route::resource('/collection', 'CollectionController');
+
 Route::get('/tag/{name}', 'TagController@tagname');
 Route::resource('/tag', 'TagController');
 
 //片段
 Route::resource('/snippet', 'SnippetController');
 
-//消息
-Route::get('/notification', 'NotificationController@index');
+
 Route::get('/chat/with/{user_id}', 'ChatController@chat');
-//关注
-Route::get('/follow', 'FollowController@index');
 
 //用户
 Route::get('/settings', 'UserController@settings');

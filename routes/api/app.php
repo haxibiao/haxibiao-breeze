@@ -3,16 +3,16 @@
 use Illuminate\Support\Facades\Route;
 
 //APP登录
-Route::get('login', 'Api\UserController@login');
+Route::get('login', 'UserController@login');
 
 //APP注册
-Route::get('register', 'Api\UserController@register'); //测试用
-Route::post('register', 'Api\UserController@register');
+Route::get('register', 'UserController@register'); //测试用
+Route::post('register', 'UserController@register');
 
 //广告的配置(方便激励视频每看一次更新)
-Route::get('/ad-config', 'Api\AppController@adConfig');
+Route::get('/ad-config', 'AppController@adConfig');
 //app功能开关(含广告配置)
-Route::get('/app-config', 'Api\AppController@index');
+Route::get('/app-config', 'AppController@index');
 //app版本管理
-Route::any('/app-version', 'Api\AppController@version');
-Route::any('/configs', 'Api\AppController@configs');
+Route::any('/app-version', 'AppController@version');
+Route::any('/configs', 'AppController@configs');
