@@ -117,12 +117,12 @@ trait UserRelations
 
     public function followingCategories()
     {
-        return $this->hasMany(Follow::class)->where('followed_type', 'categories');
+        return $this->hasMany(Follow::class)->where('followable_type', 'categories');
     }
 
     public function followingCollections()
     {
-        return $this->hasMany(Follow::class)->where('followed_type', 'collections');
+        return $this->hasMany(Follow::class)->where('followable_type', 'collections');
     }
 
     public function movieHistory(): HasMany
