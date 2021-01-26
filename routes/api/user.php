@@ -10,11 +10,11 @@ Route::middleware('auth:api')->get('/unreads', 'UserController@unreads');
 
 //用户
 Route::get('/user/index', 'UserController@index');
-Route::middleware('auth:api')->get('/user/editors', 'UserController@editors');
 Route::get('/user/recommend', 'UserController@recommend');
 Route::middleware('auth:api')->post('/user/save-avatar', 'UserController@saveAvatar');
 Route::middleware('auth:api')->post('/user', 'UserController@save');
 Route::middleware('auth:api')->post('/user/{id}/follow', 'UserController@follows');
+Route::middleware('auth:api')->get('/user/editors', 'UserController@editors');
 Route::get('/user/{id}', 'UserController@show');
 
 //获取at相关用户

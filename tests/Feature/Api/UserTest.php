@@ -1,11 +1,12 @@
 <?php
 
-namespace Haxibiao\Breeze\Tests\Api;
+namespace Haxibiao\Breeze\Tests\Feature\Api;
 
 use Tests\TestCase;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 
 class UserTest extends TestCase
 {
@@ -25,17 +26,11 @@ class UserTest extends TestCase
 
     public function testIndex()
     {
-        $routeCollection = Route::getRoutes();
 
-        foreach ($routeCollection as $value) {
-            info($value->uri);
-        }
         $response = $this->get('api/user/index');
 
         $response->assertStatus(200);
     }
-
-
 
     public function testUser()
     {
@@ -74,12 +69,57 @@ class UserTest extends TestCase
           $response->assertStatus(200);
     }
 
-    // public function testRelatedUsers()
-    // {
-    //     $response = $this->get('/related-users');
-    //     $response->assertStatus(200);
-    // }
+    public function testRelatedUsers()
+    {
+        $user = \App\User::find(2);
+        $response = $this->get("/api/related-users?api_token={$user->api_token}");
+        $response->assertStatus(200);
+    }
 
+     public function testUnreads()
+    {
+        $user = \App\User::find(2);
+        $response = $this->get("/api/unreads?api_token={$user->api_token}");
+        $response->assertStatus(200);
+    }
+
+     public function testUserInfo()
+    {
+        $user = \App\User::find(2);
+        $response = $this->post("/api/user",[
+              'api_token' => $user->api_token,
+        ]);
+        $response->assertStatus(200);
+    }
+
+    public function testUserFollow()
+    {
+        $user = \App\User::find(2);
+        $response = $this->post("/api/user/2/follow",[
+              'api_token' => $user->api_token,
+        ]);
+        $response->assertStatus(200);
+    }
+
+      public function testEditors()
+    {
+        $user = \App\User::find(2);
+        $response = $this->get("/api/user/editors?api_token={$user->api_token}");
+        $response->assertStatus(200);
+    }
+
+      public function testSaveAvatar()
+    {
+        $user = \App\User::find(2);
+        $image1 = UploadedFile::fake()->image('avatar1.jpg');
+        dd($image1);
+        $response = $this->post("api/user/save-avatar",[
+              'api_token' => $user->api_token,
+              'avatar'=>$image1,
+        ]);
+        $response->assertStatus(200);
+    }
+    
 
     public function testRegister()
     {
