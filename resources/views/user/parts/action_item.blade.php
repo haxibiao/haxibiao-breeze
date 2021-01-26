@@ -20,7 +20,7 @@
         <span class="rotate-play">
             <i class="iconfont icon-shipin"></i>
         </span>
-        <i class="duration">{{ gmdate('i:s', $item->video->duration) }}</i> 
+        <i class="duration">{{ gmdate('i:s', $item->video->duration) }}</i>
       @endif
   </a>
   <div class="content">
@@ -192,6 +192,10 @@
     @php
         $follow = $action->actionable;
         $item = $follow->followed;
+        //避免脏数据
+        if(empty($item)){
+            return;
+        }
     @endphp
     @if(get_class($item) == 'App\User')
     <li class="feed-info">
@@ -239,7 +243,7 @@
           <a class="avatar"   href="/user/{{ $action->user->id }}">
             <img src="{{ $action->user->avatarUrl }}" alt="">
           </a>
-          <div class="info"> 
+          <div class="info">
             @if($action->user->is_signed)
                               <img class="badge-icon"  src="/images/signed.png" data-toggle="tooltip" data-placement="top" title="{{ config('app.name') }}签约作者" alt="">
                             @endif
