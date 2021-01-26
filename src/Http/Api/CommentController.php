@@ -32,7 +32,7 @@ class CommentController extends Controller
             ->with(['commentable.user' => function ($query) {
                 $query->select('id', 'name', 'avatar');
             }])
-            ->with(['replyComments.user' => function ($query) {
+            ->with(['comments.user' => function ($query) {
                 $query->select('id', 'name', 'avatar');
             }])->with('likes')
             ->orderBy('lou')
