@@ -12,40 +12,7 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
  */
-register_routes(dirname(__FILE__).'/api');
-
-
-
-//如果不是生产环境，就按require的方式，不然Unit Test会出现404
-// if ($is_testing) {
-// 	require 'api/user.php';
-//     require 'api/follow.php';
-//     require 'api/notification.php';
-//     require 'api/issue.php';
-//     require 'api/article.php';
-//     require 'api/comment.php';
-//     require 'api/collection.php';
-
-//     //保存文章相关片段数据
-//     require 'api/relation.php';
-//     require 'api/app.php';
-//     //搜索
-//     require 'api/search.php';
-// }else{
-//     require_once 'api/user.php';
-//     require_once 'api/follow.php';
-//     require_once 'api/notification.php';
-//     require_once 'api/issue.php';
-//     require_once 'api/article.php';
-//     require_once 'api/comment.php';
-//     require_once 'api/collection.php';
-
-//     //保存文章相关片段数据
-//     require_once 'api/relation.php';
-//     require_once 'api/app.php';
-//     //搜索
-//     require_once 'api/search.php';
-// }
+register_routes(dirname(__FILE__) . '/api');
 
 //FIXME: 部分重构到content包里的api 可以清理了
 

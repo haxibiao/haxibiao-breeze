@@ -1,7 +1,6 @@
 <?php
 
-use App\User;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 //用户设置
 Route::middleware('auth:api')->get('/user', "Api\UserController@getSetting");
@@ -28,4 +27,4 @@ Route::get('/user/{id}/videos', 'Api\UserController@videos');
 Route::get('/user/{id}/articles', 'Api\UserController@articles');
 
 //获取用户上传的视频
-Route::any('/user/{id}/videos/relatedVideos','Api\UserController@relatedVideos');
+Route::any('/user/{id}/videos/relatedVideos', 'Api\UserController@relatedVideos');

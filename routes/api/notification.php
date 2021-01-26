@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 //消息
 Route::middleware('auth:api')->get('notification/chats', 'Api\NotificationController@chats');
 Route::middleware('auth:api')->get('notification/chat/{id}', 'Api\NotificationController@chat');

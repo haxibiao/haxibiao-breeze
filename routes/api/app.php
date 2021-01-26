@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 //APP登录
 Route::get('login', 'Api\UserController@login');
 

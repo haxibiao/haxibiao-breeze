@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 //搜索
 Route::get('/search/hot-queries', 'Api\SearchController@hotQueries');
 //个人搜索历史
