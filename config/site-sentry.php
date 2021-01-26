@@ -91,8 +91,11 @@ return [
     'dongdianyao'    => [
         'dsn' => 'http://753b67a763864864822efdbf68a3ecd0@sentry.haxibiao.cn/4',
     ],
-    'diudie'         => [
+    'diudie-app'         => [
         'dsn' => 'http://e7e918d4d6744a5ca37150c2d44dc34a@sentry.haxibiao.cn/3',
+    ],
+    'diudie'         => [
+        'dsn' => 'http://30564dbb6ac94528b64ef476d98ff3f1@sentry.haxibiao.cn/11',
     ],
     'dianyintujie'   => [
         'dsn' => 'http://21da6cfb37e946b19327e03f4e7f0efc@sentry.haxibiao.cn/9',
