@@ -41,7 +41,7 @@ class CommentController extends Controller
             ->where('commentable_id', $id)
             ->paginate(5);
         foreach ($comments as $comment) {
-            $comment->time  = $comment->createdAt();
+            $comment->time  = diffForHumansCN($comment->created_at);
             $comment->liked = empty($user) ? 0 : $comment->likes()
                 ->where('user_id', $user->id)
                 ->exists();
