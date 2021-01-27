@@ -47,7 +47,7 @@ class InstallCommand extends Command
         $this->callSilent('migrate');
 
         $this->info(' - 初始化基础数据');
-        $this->callSilent("db:seed", ['--class' => "Haxibiao\Breeze\Seeders\DatabaseSeeder"]);
+        $this->callSilent("db:seed", ['--class' => "BreezeSeeder"]);
 
         $this->comment('发布资源');
         $this->call('breeze:publish', ['--force' => $force]);

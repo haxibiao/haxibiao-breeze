@@ -1,9 +1,9 @@
 <?php
-namespace Haxibiao\Breeze\Seeders;
+namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+class BreezeSeeder extends Seeder
 {
     /**
      * Run the database seeds.

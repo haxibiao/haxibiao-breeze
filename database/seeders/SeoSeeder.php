@@ -1,5 +1,5 @@
 <?php
-namespace Haxibiao\Breeze\Seeders;
+namespace Database\Seeders;
 
 use Haxibiao\Config\Seo;
 use Illuminate\Database\Seeder;

@@ -29,9 +29,11 @@
         }
     },
     "autoload-dev": {
-        "psr-4": {
-            "Haxibiao\\Breeze\\tests\\": "tests/"
-        }
+        "classmap": [
+            "database/factories/",
+            "database/seeder/",
+            "tests/"
+        ]
     },
     "repositories": {
         "helpers": {
