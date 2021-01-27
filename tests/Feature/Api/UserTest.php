@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Haxibiao\Breeze\User;
 
 class UserTest extends TestCase
 {
@@ -71,21 +72,24 @@ class UserTest extends TestCase
 
     public function testRelatedUsers()
     {
-        $user = \App\User::find(2);
+        $user =  User::inRandomOrder()
+            ->first();
         $response = $this->get("/api/related-users?api_token={$user->api_token}");
         $response->assertStatus(200);
     }
 
      public function testUnreads()
     {
-        $user = \App\User::find(2);
+         $user =  User::inRandomOrder()
+            ->first();
         $response = $this->get("/api/unreads?api_token={$user->api_token}");
         $response->assertStatus(200);
     }
 
      public function testUserInfo()
     {
-        $user = \App\User::find(2);
+         $user =  User::inRandomOrder()
+            ->first();
         $response = $this->post("/api/user",[
               'api_token' => $user->api_token,
         ]);
@@ -94,7 +98,8 @@ class UserTest extends TestCase
 
     public function testUserFollow()
     {
-        $user = \App\User::find(2);
+         $user =  User::inRandomOrder()
+            ->first();
         $response = $this->post("/api/user/2/follow",[
               'api_token' => $user->api_token,
         ]);
@@ -103,16 +108,18 @@ class UserTest extends TestCase
 
       public function testEditors()
     {
-        $user = \App\User::find(2);
+         $user =  User::inRandomOrder()
+            ->first();
         $response = $this->get("/api/user/editors?api_token={$user->api_token}");
         $response->assertStatus(200);
     }
 
       public function testSaveAvatar()
     {
-        $user = \App\User::find(2);
+         $user =  User::inRandomOrder()
+            ->first();
         $image1 = UploadedFile::fake()->image('avatar1.jpg');
-        dd($image1);
+        // dd($image1);
         $response = $this->post("api/user/save-avatar",[
               'api_token' => $user->api_token,
               'avatar'=>$image1,
