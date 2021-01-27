@@ -11,6 +11,7 @@ use App\Video;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
@@ -57,6 +58,12 @@ class UserController extends Controller
         $filename = time();
         if (!is_prod_env()) {
             $filename = $user->id . "_test"; //测试不覆盖线上cos文件
+            if (is_testing_env()) {
+                //提示UT的兄弟配置好disks cos
+                if (!config('filesystems.disks.cos.bucket')) {
+                    dd("兄弟，cos的配置先到.env里弄一下哈");
+                }
+            }
         }
         $avatarPath  = sprintf($storePrefix . $fileTemplate, $filename, $extension);
         $storeStatus = Storage::cloud()->put($avatarPath, $imageStream);
@@ -86,9 +93,9 @@ class UserController extends Controller
     {
         $auth_user = $request->user();
         //获取我关注的人
-        $followUserIds = \DB::table('follows')->where('user_id', $auth_user->id)
-            ->where('followed_type', 'users')
-            ->pluck('followed_id')->toArray();
+        $followUserIds = DB::table('follows')->where('user_id', $auth_user->id)
+            ->where('followable_type', 'users')
+            ->pluck('followable_id')->toArray();
 
         $followUserIds = array_unique($followUserIds);
 
@@ -201,11 +208,13 @@ class UserController extends Controller
     {
         $query = Video::with('category')
             ->where('user_id', $id)
-            ->where('count', '>=', 0)
             ->orderBy('id', 'desc');
+
+        //搜索视频
         if ($request->get('title')) {
             $query = $query->where('title', 'like', '%' . $request->get('title') . '%');
         }
+
         $videos = $query->paginate(12);
         foreach ($videos as $video) {
             $video->fillForJs();
@@ -240,8 +249,10 @@ class UserController extends Controller
 
         return $data;
     }
+
     public function follows(Request $request, $id)
     {
+        $data = null;
         $user = User::findOrFail($id);
         if (ajaxOrDebug() && $request->get('followings')) {
             $data = smartPager($user->followingUsers()->orderBy('id', 'desc'), 10);
