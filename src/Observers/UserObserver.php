@@ -12,7 +12,7 @@ class UserObserver
      */
     public function created($user)
     {
-        Gold::makeIncome($user, Gold::NEW_USER_GOLD, "新人注册奖励");
+        Gold::makeIncome($user, Gold::NEW_USER_GOLD, Gold::NEW_USER_REWARD_REASON);
     }
     /**
      * Handle the user "updated" event.
