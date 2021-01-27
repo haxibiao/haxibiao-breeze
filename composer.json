@@ -26,12 +26,14 @@
     "autoload": {
         "psr-4": {
             "Haxibiao\\Breeze\\": "src/"
-        }
+        },
+        "classmap": [
+            "database/seeders/"
+        ]
     },
     "autoload-dev": {
         "classmap": [
             "database/factories/",
-            "database/seeder/",
             "tests/"
         ]
     },
