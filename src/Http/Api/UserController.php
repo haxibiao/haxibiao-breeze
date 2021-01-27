@@ -306,14 +306,14 @@ class UserController extends Controller
      */
     public function relatedUsers()
     {
-        $user = Auth::guard('api')->user();
+        $user = getUser();
 
         //如果是编辑则返回所有用户
         if ($user->is_editor) {
             return $users = User::select(['id', 'name'])->orderBy('updated_at', 'desc')->get()->toArray();
         }
 
-        $followUsers = $user->followingUsers()->pluck('followed_id')->toArray();
+        $followUsers = $user->followingUsers()->pluck('followable_id')->toArray();
         $userFans    = $user->follows()->pluck('user_id')->toArray();
 
         $user_ids = array_merge($followUsers, $userFans);
