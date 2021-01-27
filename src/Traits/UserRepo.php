@@ -337,11 +337,11 @@ trait UserRepo
 
     public function followedUserIds($userIds)
     {
-        return $this->follows()->select('followed_id')
-            ->whereIn('followed_type', $userIds)
-            ->where('followed_type', 'users')
+        return $this->follows()->select('followable_id')
+            ->whereIn('followable_type', $userIds)
+            ->where('followable_type', 'users')
             ->get()
-            ->pluck('followed_id');
+            ->pluck('followable_id');
     }
 
     /**

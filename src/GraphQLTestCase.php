@@ -14,6 +14,7 @@ abstract class GraphQLTestCase extends TestCase
 
     public function startGraphQL($query, $variables = [], $header = [])
     {
+        $this->withExceptionHandling();
         $response = $this->postGraphQL([
             'query'     => $query,
             'variables' => $variables,
@@ -32,6 +33,8 @@ abstract class GraphQLTestCase extends TestCase
     {
         //主要测试新版本
         //$headers = array_merge($headers, ['version' => getLatestAppVersion()]);
+
+        $this->withExceptionHandling();
 
         $response = $this->postGraphQL([
             'query'     => $query,

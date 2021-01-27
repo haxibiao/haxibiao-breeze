@@ -355,8 +355,8 @@ trait UserAttrs
             if ($user = checkUser()) {
                 $follow = Follow::where([
                     'user_id'       => $user->id,
-                    'followed_type' => 'users',
-                    'followed_id'   => $this->id,
+                    'followable_type' => 'users',
+                    'followable_id'   => $this->id,
                 ])->select('id')->first();
                 if (!is_null($follow)) {
                     return $follow->id;

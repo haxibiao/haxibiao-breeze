@@ -13,6 +13,9 @@ class CreateImageablesTable extends Migration
      */
     public function up()
     {
+        if (Schema::hasTable('imageables')) {
+            return;
+        }
         Schema::create('imageables', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->morphs('imageable');

@@ -14,11 +14,16 @@ class CreateTaggableTable extends Migration
     public function up()
     {
         Schema::create('taggables', function (Blueprint $table) {
-            // $table->increments('id');
-            $table->integer('tag_id')->index();
-            $table->integer('taggable_id')->index();
-            $table->string('taggable_type')->index();
-            // $table->timestamps();
+            $table->increments('id');
+            $table->integer('tag_id')->unsigned();
+            $table->integer('user_id')->unsigned();
+            $table->morphs('taggable');
+            $table->string('tag_name');
+            $table->timestamps();
+
+            $table->unique(['tag_id', 'taggable_id', 'taggable_type']);
+            $table->index('user_id');
+            $table->index('tag_name');
         });
     }
 
