@@ -109,4 +109,7 @@ return [
     'ablm'           => [
         'dsn' => 'http://74c9a4ca1b79430a890cb89e3e8dbac4@sentry.haxibiao.cn:9000/37',
     ],
+    'yingdaquan'  => [
+        'dsn' => 'http://20c3036be6f6458293caccbee1730157@sentry.haxibiao.cn/12',
+    ],
 ];
