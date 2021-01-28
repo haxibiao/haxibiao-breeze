@@ -246,8 +246,8 @@ class UserController extends Controller
         if (checkUser()) {
             $user    = $request->user();
             $movieID = Favorite::where('user_id', $user->id)
-                ->where('faved_type', 'movies')
-                ->pluck('faved_id');
+                ->where('favorable_type', 'movies')
+                ->pluck('favorable_id');
             $movies = \App\Movie::whereIn('id', $movieID)->paginate(12);
 
             return view('user.favorites', [
