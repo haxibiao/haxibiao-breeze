@@ -2,6 +2,7 @@
 
 namespace Haxibiao\Breeze\Traits;
 
+use Illuminate\Database\Eloquent\Factories\Factory;
 trait HasFactory
 {
     /**
