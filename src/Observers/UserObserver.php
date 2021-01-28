@@ -2,8 +2,8 @@
 
 namespace Haxibiao\Breeze\Observers;
 
+use App\Gold;
 use Haxibiao\Breeze\User;
-use Haxibiao\Wallet\Gold;
 
 class UserObserver
 {
