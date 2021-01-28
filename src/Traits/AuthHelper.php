@@ -3,11 +3,12 @@
 namespace Haxibiao\Breeze\Traits;
 
 use App\VerificationCode;
+use Haxibiao\Breeze\User;
+use Illuminate\Support\Str;
+use Haxibiao\Breeze\BlackList;
+use Illuminate\Support\Facades\Auth;
 use Haxibiao\Breeze\Exceptions\GQLException;
 use Haxibiao\Breeze\Exceptions\UserException;
-use Haxibiao\Breeze\User;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 
 trait AuthHelper
 {

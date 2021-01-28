@@ -37,9 +37,10 @@ class User extends BaseUser
     /**
      * 用户状态 -2:禁用(禁止提现) -1:禁言 0:正常启用
      */
-    const DISABLE_STATUS = -2;
-    const MUTE_STATUS    = -1;
-    const ENABLE_STATUS  = 0;
+    const DISABLE_STATUS    = -2;
+    const MUTE_STATUS       = -1;
+    const ENABLE_STATUS     = 0;
+    const DEREGISTER_STATUS = -3;
 
     /**
      * 默认用户名

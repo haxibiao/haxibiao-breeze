@@ -821,4 +821,9 @@ trait UserRepo
     {
         return $this->wallet->total_withdraw_amount;
     }
+
+    public function isDegregister()
+    {
+        return $this->status == User::DEREGISTER_STATUS;
+    }
 }
