@@ -2,7 +2,7 @@
 
 return [
     'datizhuanqian'  => [
-        'dsn' => 'https://5fb0017c7b0c47f8bd56c4bc755ee4f7@o133851.ingest.sentry.io/5513768',
+        'dsn' => 'http://2fd6393b75d141618cca86ba17229ca8@sentry.haxibiao.cn/13',
     ],
     'damei'          => [
         'dsn' => 'http://4f1f8f6b0f054d0c9ee8b47bce7dd77b@sentry.haxibiao.cn:9000/3',

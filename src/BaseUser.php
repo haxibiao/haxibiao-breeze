@@ -15,7 +15,7 @@ use Haxibiao\Sns\Traits\UseSns;
 use Haxibiao\Task\Traits\PlayWithTasks;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Haxibiao\Breeze\Traits\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
