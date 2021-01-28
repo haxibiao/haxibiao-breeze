@@ -54,6 +54,9 @@ trait UserRelations
 
     public function withdraws(): HasManyThrough
     {
+        if (class_exists('\App\Wallet')) {
+            return $this->hasManyThrough(\App\Withdraw::class, \App\Wallet::class);
+        }
         return $this->hasManyThrough(Withdraw::class, Wallet::class);
     }
 
@@ -154,6 +157,10 @@ trait UserRelations
 
     public function wallets(): HasMany
     {
+        if (class_exists('\App\Wallet')) {
+            return $this->hasMany(\App\Wallet::class);
+        }
+
         return $this->hasMany(Wallet::class);
     }
 
