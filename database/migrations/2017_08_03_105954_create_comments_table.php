@@ -13,30 +13,32 @@ class CreateCommentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('comments', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('user_id')->index();
-            $table->integer('commentable_id')->index();
-            $table->string('commentable_type')->index();
+        if (!Schema::hasTable('comments')) {
+            Schema::create('comments', function (Blueprint $table) {
+                $table->increments('id');
+                $table->integer('user_id')->index();
+                $table->integer('commentable_id')->index();
+                $table->string('commentable_type')->index();
 
-            $table->text('body');
-            $table->integer('comment_id')->index()->nullable()->comment('楼中楼id');
-            $table->integer('lou')->index()->default(0);
+                $table->text('body');
+                $table->integer('comment_id')->index()->nullable()->comment('楼中楼id');
+                $table->integer('lou')->index()->default(0);
 
 
-            $table->integer('count_likes')->index()->default(0);
-            $table->integer('count_reports')->index()->default(0);
+                $table->integer('count_likes')->index()->default(0);
+                $table->integer('count_reports')->index()->default(0);
 
-            //for app @user
-            $table->integer('at_uid')->index()->nullable();
-            $table->integer('status')->index()->nullable();
+                //for app @user
+                $table->integer('at_uid')->index()->nullable();
+                $table->integer('status')->index()->nullable();
 
-            //评论被采纳
-            $table->boolean('is_accept')->default(false)->comment('是否被采纳');
+                //评论被采纳
+                $table->boolean('is_accept')->default(false)->comment('是否被采纳');
 
-            $table->timestamps();
-            $table->softDeletes();
-        });
+                $table->timestamps();
+                $table->softDeletes();
+            });
+        }
     }
 
     /**
