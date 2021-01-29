@@ -13,16 +13,18 @@ class CreateOAuthsTable extends Migration
      */
     public function up()
     {
-        Schema::create('o_auths', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('user_id')->comment('用户ID');
-            $table->string('oauth_type');
-            $table->string('oauth_id');
-            $table->json('data')->nullable()->comment('json');
-            $table->timestamps();
+        if (!Schema::hasTable('o_auths')) {
+            Schema::create('o_auths', function (Blueprint $table) {
+                $table->increments('id');
+                $table->unsignedInteger('user_id')->comment('用户ID');
+                $table->string('oauth_type');
+                $table->string('oauth_id');
+                $table->json('data')->nullable()->comment('json');
+                $table->timestamps();
 
-            $table->index(['user_id', 'oauth_type', 'oauth_id']);
-        });
+                $table->index(['user_id', 'oauth_type', 'oauth_id']);
+            });
+        }
     }
 
     /**
