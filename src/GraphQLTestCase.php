@@ -40,7 +40,6 @@ abstract class GraphQLTestCase extends TestCase
             'query'     => $query,
             'variables' => $variables,
         ], $headers);
-//        info($response->original);
         $response->assertOk();
         $this->assertNull($response->json('errors'));
         return $response;
@@ -54,7 +53,7 @@ abstract class GraphQLTestCase extends TestCase
         return $this->runGuestGQL(
             $query,
             $variables,
-            array_merge($headers, $this->getRandomUserHeaders())
+            array_merge($this->getRandomUserHeaders(), $headers)
         );
     }
 
@@ -74,8 +73,8 @@ abstract class GraphQLTestCase extends TestCase
 
     public function getRandomUser()
     {
-        //从最近的新用户中随机找一个，UT侧重新用户的体验问题
-        $user = User::latest('id')->take(100)->get()->random();
+        //大部分场景，随机3个seeder出来的不同身份的用户，能发现3种角色的问题
+        $user = User::whereIn('id', [1, 2, 3])->get()->random();
         return $user;
     }
 
