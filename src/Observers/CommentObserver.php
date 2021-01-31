@@ -4,7 +4,6 @@ namespace Haxibiao\Breeze\Observers;
 
 use Haxibiao\Breeze\Events\NewComment;
 use Haxibiao\Breeze\Ip;
-use Haxibiao\Breeze\Notifications\CommentAccepted;
 use Haxibiao\Content\Article;
 use Haxibiao\Content\Post;
 use Haxibiao\Sns\Action;
@@ -34,8 +33,10 @@ class CommentObserver
         }
         // App 发送即时通知
         event(new NewComment($comment));
-        // Web 发送即时通知
-        $comment->commentable->user->notify((new CommentAccepted($comment, $comment->commentable->user))->onQueue('notifications'));
+
+        // Web 发送即时通知 //TODO: 即时通知逻辑还需要检查
+        // $author = $comment->commentable->user;
+        // $author->notify((new CommentAccepted($comment, $author))->onQueue('notifications'));
 
         if ($comment->commentable instanceof Article) {
             $article                 = $comment->commentable;

@@ -32,6 +32,10 @@ class NewComment implements ShouldBroadcast
 
     public function broadcastWith()
     {
+        //评论遇到数据完整性问题，简单跳过逻辑即可
+        if (!isset($this->commentable)) {
+            return [];
+        }
 
         $user = $this->comment->user;
 
