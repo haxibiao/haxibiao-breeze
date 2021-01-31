@@ -129,7 +129,7 @@ class UserController extends Controller
                     $action = $action->load('actionable.commentable.user');
                     break;
                 case 'App\Favorite':
-                    $action = $action->load('actionable.faved.user');
+                    $action = $action->load('actionable.favorable.user');
                     break;
                 case 'App\Like':
                     $action = $action->load('actionable.liked.user');
