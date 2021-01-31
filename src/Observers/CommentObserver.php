@@ -34,6 +34,10 @@ class CommentObserver
         // App 发送即时通知
         event(new NewComment($comment));
 
+        if (blank($comment->commentable)) {
+            return;
+        }
+
         // Web 发送即时通知 //TODO: 即时通知逻辑还需要检查
         // $author = $comment->commentable->user;
         // $author->notify((new CommentAccepted($comment, $author))->onQueue('notifications'));
