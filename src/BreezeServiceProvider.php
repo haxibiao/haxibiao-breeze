@@ -165,7 +165,7 @@ class BreezeServiceProvider extends ServiceProvider
 
     protected function rewriteSentryDsn()
     {
-        if(!is_prod_env()){
+        if (!app()->environment('prod')) {
             return;
         }
         $this->mergeConfigFrom(
