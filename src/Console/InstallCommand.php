@@ -40,8 +40,13 @@ class InstallCommand extends Command
         $this->info(' - 安装子模块');
         $this->installModules($force);
 
-        $this->info(' - 复制基础代码(app+nova)stubs');
+        $this->info(' - 更新代码');
         copyStubs(__DIR__, $force);
+
+        //修复laralve 8 新安装默认的 Auth Config 差异
+        $auth_config = \file_get_contents(config_path('auth.php'));
+        $auth_config = str_replace("App\Models\User", "App\User", $auth_config);
+        file_put_contents(config_path('auth.php'), $auth_config);
 
         $this->info(' - 更新数据库结构');
         $this->callSilent('migrate');

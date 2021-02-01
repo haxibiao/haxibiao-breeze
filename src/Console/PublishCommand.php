@@ -59,8 +59,8 @@ class PublishCommand extends Command
         $this->callSilent('wallet:publish', ['--force' => $force]);
         $this->callSilent('question:publish', ['--force' => $force]);
 
-        $this->info(' - Breeze的资源');
-        $this->callSilent("vendor:publish", ['--provider' => 'Haxibiao\Breeze\BreezeServiceProvider', '--force' => $force]);
+        $this->info(' - Breeze的资源更新');
+        $this->callSilent("vendor:publish", ['--provider' => 'Haxibiao\Breeze\BreezeServiceProvider', '--force' => true]);
 
     }
 
