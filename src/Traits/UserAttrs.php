@@ -351,7 +351,7 @@ trait UserAttrs
 
     public function getFollowedIdAttribute()
     {
-        return $this->remember('followed_id', 0, function () {
+        return $this->remember('followable_id', 0, function () {
             if ($user = checkUser()) {
                 $follow = Follow::where([
                     'user_id'       => $user->id,

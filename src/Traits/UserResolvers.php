@@ -144,7 +144,7 @@ trait UserResolvers
         $friends = [];
         foreach ($follows as $follow) {
             $friend = $follow->followed; //被关注的人
-            $ffuids = $friend->followingUsers()->pluck('followed_id')->toArray();
+            $ffuids = $friend->followingUsers()->pluck('followable_id')->toArray();
             if (in_array($user->id, $ffuids)) {
                 $friends[] = $friend;
             }

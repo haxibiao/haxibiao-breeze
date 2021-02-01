@@ -52,6 +52,11 @@ trait UserRelations
         return $this->hasOne(UserRetention::class);
     }
 
+    public function retention(): HasOne
+    {
+        return $this->hasOne(UserRetention::class);
+    }
+
     public function withdraws(): HasManyThrough
     {
         if (class_exists('\App\Wallet')) {

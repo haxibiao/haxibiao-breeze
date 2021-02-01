@@ -35,7 +35,7 @@ class IssueController extends Controller
             ->whereRaw('DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= date(updated_at)')
             ->pluck('invite_user_id')->toArray();
         //获取当前关注的用户 并排除七天内邀请过的用户
-        $followUserIds = $user->followingUsers->whereNotIn('followed_id', $inviteIds)->pluck('followed_id')->toArray();
+        $followUserIds = $user->followingUsers->whereNotIn('followable_id', $inviteIds)->pluck('followable_id')->toArray();
 
         $users = [];
         if ($followUserIds) {
