@@ -66,8 +66,6 @@ class BreezeServiceProvider extends ServiceProvider
             ));
         }
 
-        $this->mergeConfigFrom(__DIR__ . '/../config/breeze.php', 'breeze');
-
         //注册blade directives
         $this->registerBladeDirectives();
 
@@ -105,10 +103,15 @@ class BreezeServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        if (!app()->configurationIsCached()) {
+            $this->mergeConfigFrom(__DIR__ . '/../config/breeze.php', 'breeze');
+        }
+
         //安装时需要
         if ($this->app->runningInConsole()) {
+
             // FIXME:临时添加了一个属性动态控制了migrations的加载。
-            if (config('breeze.migration_load')) {
+            if (config('breeze.migration_autoload')) {
                 $this->loadMigrationsFrom($this->app->make('path.haxibiao-breeze.migrations'));
             }
 
