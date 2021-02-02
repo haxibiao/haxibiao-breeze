@@ -206,8 +206,7 @@ class UserController extends Controller
 
     public function videos(Request $request, $id)
     {
-        $query = Video::with('category')
-            ->where('user_id', $id)
+        $query = Video::where('user_id', $id)
             ->orderBy('id', 'desc');
 
         //搜索视频
