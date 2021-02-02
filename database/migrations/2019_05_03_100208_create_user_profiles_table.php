@@ -29,6 +29,9 @@ class CreateUserProfilesTable extends Migration
             $table->string('introduction')->default('')->comment('介绍');
             $table->timestamp('birthday')->nullable()->comment('生日');
             $table->string('sub_name', 30)->nullable()->comment('头衔');
+            $table->string('qq')->nullable();
+            $table->string('background')->nullable()->comment('用户背景图');
+            $table->json('json')->nullable();
 
             //答题统计字段
             $table->integer('total_contributes')->index()->default(0)->comment('用户总贡献');
@@ -81,6 +84,26 @@ class CreateUserProfilesTable extends Migration
             $table->unsignedInteger('keep_signin_days')->default(0)->comment('连续签到日');
 
             $table->tinyInteger('success_withdraw_counts')->nullable()->comment('用户成功提现次数 0:提现0次；1:提现1次；2:提现 2-7 次；3:提现7次以上');
+
+            // 印象视频
+            $table->integer('count_articles')->default(0);
+            $table->integer('count_likes')->default(0);
+            $table->integer('count_follows')->default(0);
+            $table->integer('count_followings')->default(0);
+            $table->integer('count_words')->default(0);
+            $table->integer('count_collections')->default(0);
+            $table->integer('count_favorites')->default(0);
+            $table->integer('count_actions')->default(0);
+            $table->integer('count_reports')->default(0);
+            $table->integer('count_contributes')->default(0)->comment('用户贡献点');
+            $table->boolean('enable_tips')->default(1)->comment('开启打赏');
+            $table->string('tip_words')->nullable()->comment('打赏宣传语');
+            $table->tinyInteger('gender')->default(-1);
+            $table->string('website')->nullable();
+            $table->string('qrcode')->nullable();
+            $table->string('app_version')->nullable()->comment('用户最后活跃时的App版本号');
+            $table->unsignedInteger('keep_checkin_days')->default(0)->comment('连续签到日');
+
 
             $table->timestamps();
         });
