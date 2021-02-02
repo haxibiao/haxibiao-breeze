@@ -13,6 +13,10 @@ class AddProfileFieldsToProfilesTable extends Migration
      */
     public function up()
     {
+        // profiles已经重命名成user_peofiles
+        if(!Schema::hasTable('profiles')){
+            return;
+        }
         Schema::table('profiles', function (Blueprint $table) {
             if (!Schema::hasColumn('profiles', 'birthday')) {
                 $table->timestamp('birthday')->nullable()->comment('生日');

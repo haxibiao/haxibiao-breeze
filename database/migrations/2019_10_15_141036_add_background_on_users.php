@@ -14,7 +14,9 @@ class AddBackgroundOnUsers extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('background')->nullable()->comment('用户背景图');
+            if(!Schema::hasColumn('users','background')){
+                $table->string('background')->nullable()->comment('用户背景图');
+            }
         });
     }
 

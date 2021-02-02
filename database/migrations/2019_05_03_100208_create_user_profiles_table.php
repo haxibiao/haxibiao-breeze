@@ -13,8 +13,11 @@ class CreateUserProfilesTable extends Migration
      */
     public function up()
     {
+        if(Schema::hasTable('profiles') && !Schema::hasTable('user_profiles')){
+            Schema::rename('profiles', 'user_profiles');
+        }
+
         if (Schema::hasTable('user_profiles')) {
-            //FIXME: 表结构不一样的项目，需要修复好依赖的字段
             return;
         }
 

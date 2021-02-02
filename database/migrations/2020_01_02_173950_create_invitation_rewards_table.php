@@ -13,6 +13,9 @@ class CreateInvitationRewardsTable extends Migration
      */
     public function up()
     {
+        if(Schema::hasTable('invitation_rewards')){
+            return;
+        }
         Schema::create('invitation_rewards', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedInteger('user_id')->index()->comment('用户ID');

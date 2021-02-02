@@ -13,6 +13,9 @@ class CreateUserInvitationsTable extends Migration
      */
     public function up()
     {
+        if(Schema::hasTable('user_invitations')){
+            return;
+        }
         //TODO: 用户的发展阶段统计表， 叫InvitationPhase
         Schema::create('user_invitations', function (Blueprint $table) {
             $table->bigIncrements('id');

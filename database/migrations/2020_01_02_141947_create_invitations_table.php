@@ -13,6 +13,9 @@ class CreateInvitationsTable extends Migration
      */
     public function up()
     {
+        if(Schema::hasTable('invitations')){
+            return;
+        }
         //用户邀请关系表（好友列表，厂长）
         Schema::create('invitations', function (Blueprint $table) {
             $table->bigIncrements('id');

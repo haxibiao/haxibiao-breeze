@@ -13,6 +13,9 @@ class CreateInviteOpensTable extends Migration
      */
     public function up()
     {
+        if(Schema::hasTable('invite_opens')){
+            return;
+        }
         //文档: http://pm.haxibiao.com:8080/browse/DDZ-246
         Schema::create('invite_opens', function (Blueprint $table) {
             $table->bigIncrements('id');

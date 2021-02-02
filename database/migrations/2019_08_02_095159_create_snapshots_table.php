@@ -14,6 +14,9 @@ class CreateSnapshotsTable extends Migration
      */
     public function up()
     {
+        if(Schema::hasTable('snapshots')){
+            return;
+        }
         Schema::create('snapshots', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id')->index()->comment('用户ID');

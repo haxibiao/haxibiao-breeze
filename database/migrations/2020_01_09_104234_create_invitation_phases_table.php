@@ -13,6 +13,9 @@ class CreateInvitationPhasesTable extends Migration
      */
     public function up()
     {
+        if(Schema::hasTable('invitation_phases')){
+            return;
+        }
         //TODO: 这个阶段倍率表, 叫Phase表吧
         Schema::create('invitation_phases', function (Blueprint $table) {
             $table->bigIncrements('id');

@@ -13,6 +13,9 @@ class CreateInviteInstallsTable extends Migration
      */
     public function up()
     {
+        if(Schema::hasTable('invite_installs')){
+            return;
+        }
         Schema::create('invite_installs', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedInteger('user_id')->comment('受邀请的下级用户的id,先记录,方便后续修正');
