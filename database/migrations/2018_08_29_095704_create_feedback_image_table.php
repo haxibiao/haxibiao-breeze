@@ -13,6 +13,7 @@ class CreateFeedbackImageTable extends Migration
      */
     public function up()
     {
+        // Imageable
         Schema::create('feedback_image', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('feedback_id');
