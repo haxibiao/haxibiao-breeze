@@ -2,7 +2,7 @@
 
 namespace Haxibiao\Breeze\Nova\Metrics;
 
-use App\Profile;
+use App\UserProfile;
 use Illuminate\Http\Request;
 use Laravel\Nova\Metrics\Partition;
 use Laravel\Nova\Metrics\PartitionResult;
@@ -19,7 +19,7 @@ class UserAppVersionPartition extends Partition
     public function calculate(Request $request)
     {
         $data     = [];
-        $profiles = Profile::selectRaw(" app_version as version,count(*) as count ")
+        $profiles = UserProfile::selectRaw(" app_version as version,count(*) as count ")
             ->groupBy('version')->get();
         $profiles->each(function ($profile) use (&$data) {
             if (!$profile->version) {

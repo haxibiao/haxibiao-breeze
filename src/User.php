@@ -9,22 +9,6 @@ class User extends BaseUser
 
     protected $guarded = [];
 
-    protected $fillable = [
-        'name',
-        'uuid',
-        'phone',
-        'account',
-        'email',
-        'avatar',
-        'password',
-        'api_token',
-        'remember_token',
-        'created_at',
-        'updated_at',
-        'role_id',
-        'ticket',
-    ];
-
     /**
      * The attributes that should be hidden for arrays.
      *

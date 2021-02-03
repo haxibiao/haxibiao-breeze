@@ -3,12 +3,11 @@
 namespace Haxibiao\Breeze\Traits;
 
 use Haxibiao\Breeze\OAuth;
-use Haxibiao\Breeze\User;
 use Illuminate\Support\Arr;
 
 trait OAuthRepo
 {
-    public static function getUserOauth(User $user, $oAuthType)
+    public static function getUserOauth($user, $oAuthType)
     {
         return OAuth::where(['oauth_type' => $oAuthType, 'user_id' => $user->id])->first();
     }

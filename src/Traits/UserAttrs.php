@@ -2,6 +2,7 @@
 
 namespace Haxibiao\Breeze\Traits;
 
+use App\Notice;
 use Haxibiao\Breeze\BlackList;
 use Haxibiao\Breeze\Exceptions\GQLException;
 use Haxibiao\Breeze\User;
@@ -34,21 +35,6 @@ trait UserAttrs
         $profile = UserProfile::firstOrCreate(['user_id' => $this->id]);
         return $profile;
     }
-
-    // public function getProfileAttribute()
-    // {
-    //     if ($profile = $this->hasOne(Profile::class)->first()) {
-    //         return $profile;
-    //     }
-    //     if (empty($this) || empty($this->id)) {
-    //         return;
-    //     }
-    //     //确保profile数据完整
-    //     $profile          = new Profile();
-    //     $profile->user_id = $this->id;
-    //     $profile->save();
-    //     return $profile;
-    // }
 
     /**
      * 用户数据
@@ -414,12 +400,28 @@ trait UserAttrs
 
     public function getUnreadTipsAttribute()
     {
-        return $this->unreads('tips');
+        //公共消息
+        $publicNotice = Notice::active()
+            ->whereNull('to_user_id')->get();
+        $unreadNotice = $publicNotice->filter(function ($item) {
+            return $item->unread;
+        });
+        return $unreadNotice->count();
     }
 
     public function getUnreadOthersAttribute()
     {
-        return $this->unreads('others');
+        //系统中没有打赏通知，暂时借道作为个人系统通知
+        // return $this->unreads('others');
+        if ($user = getUser(false)) {
+            $personalNotice = Notice::active()
+                ->where('to_user_id', $user->id)->get();
+            $unreadNotice = $personalNotice->filter(function ($item) {
+                return $item->unread;
+            });
+            return $unreadNotice->count();
+
+        }
     }
 
     public function getCountPostsAttribute()
@@ -489,7 +491,7 @@ trait UserAttrs
 
     public function getGenderAttribute()
     {
-        return $this->profile->gender;
+        return data_get($this,'profile.gender');
     }
 
     public function getGenderMsgAttribute()

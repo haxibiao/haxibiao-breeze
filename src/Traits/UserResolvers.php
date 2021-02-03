@@ -2,6 +2,7 @@
 
 namespace Haxibiao\Breeze\Traits;
 
+use App\Gold;
 use Carbon\Carbon;
 use GraphQL\Type\Definition\ResolveInfo;
 use Haxibiao\Breeze\Exceptions\GQLException;
@@ -17,6 +18,13 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 trait UserResolvers
 {
+    public static function hasRewardResolver($root, array $args, $context, $info)
+    {
+        $user_id = data_get($args, 'user_id');
+        $remark  = data_get($args, 'remark');
+        return self::hasReward($user_id, $remark);
+    }
+
     public static function resolveReward($root, array $args, $context, $info)
     {
         $user   = getUser();
@@ -33,6 +41,22 @@ trait UserResolvers
     public static function getUserRewardEnum()
     {
         return [
+            'NEW_USER_REWARD'      => [
+                'value'       => [
+                    'gold'   => Gold::NEW_USER_GOLD,
+                    'remark' => '新人注册奖励',
+                    'action' => 'NEW_USER_REWARD',
+                ],
+                'description' => '新人注册奖励',
+            ],
+            'NEW_YEAR_REWARD'      => [
+                'value'       => [
+                    'gold'   => Gold::NEW_YEAR_GOLD,
+                    'remark' => '新年奖励-牛年',
+                    'action' => 'NEW_YEAR_REWARD',
+                ],
+                'description' => '新年奖励-牛年',
+            ],
             'WATCH_REWARD_VIDEO'   => [
                 'value'       => [
                     'gold'   => 10,
@@ -81,7 +105,7 @@ trait UserResolvers
             ],
             'CLICK_REWARD_VIDEO'   => [
                 'value'       => [
-                    'ticket'     => User::VIDEO_REWARD_TICKET,
+                    'ticket'     => \App\User::VIDEO_REWARD_TICKET,
                     'contribute' => User::VIDEO_REWARD_CONTRIBUTE,
                     'gold'       => User::VIDEO_REWARD_GOLD,
                     'remark'     => '点击激励视频奖励',
@@ -394,13 +418,10 @@ trait UserResolvers
                             }
                         }
                     }
-
                 }
             }
-            $user->update(array_diff($args, $profile_infos));
             if (!empty($profile_infos)) {
                 $profile = $user->profile;
-
                 $profile->update($profile_infos);
             }
 
@@ -459,5 +480,24 @@ trait UserResolvers
                 'app_version' => $version,
             ]);
         }
+    }
+
+    public function resolveUserQuery($root, array $args, $context, $info)
+    {
+        $user        = getUser(false);
+        $loginUserId = data_get($user, 'id');
+        if ($loginUserId) {
+            if ($loginUserId != data_get($args, 'id')) {
+                app_track_event("用户", "查询用户详情", "谁看谁:" . $loginUserId . "-" . $args['id']);
+            }
+        }
+        return \App\User::find(data_get($args, 'id'));
+    }
+
+    public static function hasNewUserReward($root, array $args, $context, $info)
+    {
+        $user_id = data_get($args, 'user_id');
+        return self::hasReward($user_id, '新人注册奖励');
+
     }
 }

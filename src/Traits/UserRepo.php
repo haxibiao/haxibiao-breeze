@@ -118,6 +118,13 @@ trait UserRepo
             //            }
         }
 
+        //检查是否发放过新人奖励了
+        if ($action == 'NEW_USER_REWARD' || $action == 'NEW_YEAR_REWARD') {
+            $hasReward = self::hasReward($user->id, $action);
+            throw_if(!$hasReward, \App\Exceptions\UserException::class, '领取失败,奖励只能领取一次哦!');
+
+        }
+
         //奖励次数校验
         $user->checkRewardCount($user, $reward['remark']);
 
@@ -274,6 +281,7 @@ trait UserRepo
             $suffix          = strval(time());
             $user->name      = "手机用户" . $suffix;
             $user->api_token = str_random(60);
+            $user->avatar    = \App\User::AVATAR_DEFAULT;
             $user->phone     = $token;
             $user->account   = $token;
             $user->save();
@@ -291,11 +299,11 @@ trait UserRepo
             $accessTokens = WechatUtils::getInstance()->accessToken($code);
             Log::info("微信用户登录接口回参", $accessTokens);
             if (!is_array($accessTokens) || !array_key_exists('unionid', $accessTokens) || !array_key_exists('openid', $accessTokens)) {
-                throw new GQLException("获取微信登录授权失败");
+                throw new \App\Exceptions\GQLException("获取微信登录授权失败");
             }
             $token = $accessTokens['unionid'];
 
-            $oAuth = OAuth::firstOrNew(['oauth_type' => 'wechat', 'oauth_id' => $token]);
+            $oAuth = \App\OAuth::firstOrNew(['oauth_type' => 'wechat', 'oauth_id' => $token]);
             //已授权的老用户
             if (isset($oAuth->id)) {
                 return $oAuth->user;
@@ -304,13 +312,13 @@ trait UserRepo
             $oAuth->data = Arr::only($accessTokens, ['openid', 'refresh_token']);
             $oAuth->save();
             $user                   = $this->getDefaultUser();
-            $wallet                 = Wallet::firstOrNew(['user_id' => $user->id]);
+            $wallet                 = \App\Wallet::firstOrNew(['user_id' => $user->id]);
             $wallet->wechat_account = $token;
             $wallet->save();
             //绑定微信信息
             $wechatUserInfo = WechatUtils::getInstance()->userInfo($accessTokens['access_token'], $accessTokens['openid']);
             Log::info("微信用户信息接口回参", $wechatUserInfo);
-            if ($wechatUserInfo && Str::contains($user->name, User::DEFAULT_NAME)) {
+            if ($wechatUserInfo && Str::contains($user->name, \App\User::DEFAULT_NAME)) {
                 WechatUtils::getInstance()->syncWeChatInfo($wechatUserInfo, $user);
                 Log::info("oauth", $oAuth->data);
                 $wechatData  = array_merge($oAuth->data, $wechatUserInfo);
@@ -825,5 +833,20 @@ trait UserRepo
     public function isDegregister()
     {
         return $this->status == User::DEREGISTER_STATUS;
+    }
+
+    public static function hasReward($user_id, $remark)
+    {
+        $remarkValue = data_get(self::getUserRewardEnum(), $remark . '.value.remark');
+        $gold        = \App\Gold::where('remark', $remarkValue)
+            ->where('user_id', $user_id)
+            ->get();
+        if ($gold->isEmpty()) {
+            $hasReward = true;
+        } else {
+            $hasReward = false;
+
+        }
+        return $hasReward;
     }
 }

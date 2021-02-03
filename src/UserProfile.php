@@ -15,17 +15,6 @@ class UserProfile extends Model
     //首先兼容答赚...
     protected $table = 'user_profiles';
 
-    //FIXME: 尝试处理个人介绍敏感词
-    // public static function boot()
-    // {
-    //     parent::boot();
-    //     self::saving(function ($profile) {
-    //         if ($profile->isDirty(['introduction'])) {
-    //             $profile->introduction = app('SensitiveUtils')->replace($profile->introduction, '*');
-    //         }
-    //     });
-    // }
-
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
