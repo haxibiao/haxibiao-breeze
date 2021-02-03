@@ -2,6 +2,7 @@
 
 namespace Haxibiao\Breeze\Traits;
 
+use Carbon\Carbon;
 use Haxibiao\Breeze\CheckIn;
 use Haxibiao\Breeze\Exceptions\GQLException;
 use Haxibiao\Breeze\Exceptions\UserException;
@@ -848,5 +849,16 @@ trait UserRepo
 
         }
         return $hasReward;
+    }
+
+    public function usedTicket($ticket)
+    {
+        $this->ticket -= $ticket;
+        //保证精力点不少于0
+        $this->ticket = $this->ticket > 0 ? $this->ticket : 0;
+    }
+
+    public function rewardExpAndLevelUp()
+    {//兼容接口
     }
 }

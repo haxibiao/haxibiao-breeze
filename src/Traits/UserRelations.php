@@ -4,6 +4,7 @@ namespace Haxibiao\Breeze\Traits;
 
 use App\Action;
 use App\Chat;
+use App\Curation;
 use App\Querylog;
 use Haxibiao\Breeze\CheckIn;
 use Haxibiao\Breeze\OAuth;
@@ -177,5 +178,10 @@ trait UserRelations
     public function oauth(): HasMany
     {
         return $this->hasMany(OAuth::class);
+    }
+
+    function curations(): HasMany
+    {
+        return $this->hasMany(Curation::class)->with('question');
     }
 }
