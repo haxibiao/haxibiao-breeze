@@ -1,0 +1,37 @@
+type Notice {
+  id: Int
+  user: User
+  title: String
+  content: String!
+  type: String!
+  unread: Boolean
+  expires_at: DateTime
+  created_at: DateTime
+  updated_at: DateTime
+}
+
+extend type Query {
+  notices: [Notice!]
+    @paginate(defaultCount: 10, builder: "App\\Notice@resolveNotices")
+  notice(id: Int! @eq): Notice @find
+
+  """
+  个人频道的消息
+  """
+  personalNotices(user_id: Int!): [Notice!]
+    @paginate(defaultCount: 10, builder: "App\\Notice@resolvePersonalNotices")
+}
+enum NoticeType {
+  """
+  活动通知
+  """
+  ACTIVITY @enum(value: activity)
+  """
+  扣款通知
+  """
+  DEDUCTION @enum(value: deduction)
+  """
+  系统通知
+  """
+  PUBLIC_NOTICE @enum(value: public_notice)
+}
