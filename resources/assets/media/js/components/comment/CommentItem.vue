@@ -21,7 +21,7 @@
         <span class="time">{{comment.time_ago}}</span>
         <span :class="['like', comment.is_Liked && 'liked']" v-on:click="likeHandler">
           <i :class="['iconfont', comment.is_Liked ? 'icon-good-fill' : 'icon-good']"></i>
-          <span>{{comment.like_count}}</span>
+          <span>{{comment.count_likes}}</span>
         </span>
         <!-- <span class="reply btn-hover btn-highlight">回复</span> -->
         <!-- <div class="operation more-operation">
@@ -46,8 +46,8 @@
     methods: {
       toggleLike() {
         this.comment.is_Liked
-                ? this.comment.like_count--
-                : this.comment.like_count++
+                ? this.comment.count_likes--
+                : this.comment.count_likes++
         this.comment.is_Liked = !this.comment.is_Liked
       },
       likeHandler() {

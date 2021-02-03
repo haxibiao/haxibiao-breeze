@@ -11,7 +11,7 @@
     <meta name="keywords" content="@yield('keywords')" />
     <meta name="description" content="@yield('description')" />
 
-    {{--  icon  --}}
+    {{-- icon --}}
     <link rel="icon" type="image/png" href="{{ small_logo() }}" sizes="60*60">
     <link rel="icon" type="image/png" href="{{ web_logo() }}" sizes="120*120">
     <link rel="apple-touch-icon" href="{{ touch_logo() }}" sizes="160*160">
@@ -37,6 +37,19 @@
     @include('movie.parts.footer')
     @yield('bottom')
 </body>
+
+@if (Auth::user())
+    <script type="text/javascript">
+        const appUser = {
+            id: '{{ Auth::user()->id }}',
+            token: '{{ Auth::user()->token }}',
+            name: '{{ Auth::user()->name }}',
+            avatar: '{{ Auth::user()->avatar }}',
+        };
+        window.appUser = appUser
+
+    </script>
+@endif
 
 @stack('foot-scripts')
 
