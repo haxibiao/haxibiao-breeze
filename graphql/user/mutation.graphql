@@ -58,6 +58,14 @@ type UserReward {
 
 enum RewardEnum {
     """
+    新人注册奖励
+    """
+    NEW_USER_REWARD
+    """
+    新年红包
+    """
+    NEW_YEAR_REWARD
+    """
     签到视频观看奖励
     """
     SIGNIN_VIDEO_REWARD

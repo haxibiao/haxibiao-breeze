@@ -1,0 +1,13 @@
+<?php
+
+namespace App;
+
+use Haxibiao\Breeze\UserBlock as BreezeUserBlock;
+
+class UserBlock extends BreezeUserBlock
+{
+
+
+    
+
+}

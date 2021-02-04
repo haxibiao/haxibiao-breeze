@@ -386,7 +386,7 @@ trait UserAttrs
 
     public function getUnreadChatAttribute()
     {
-        return $this->unreads('chat');
+        return $this->unreads('chats');
     }
     public function getUnreadFollowsAttribute()
     {

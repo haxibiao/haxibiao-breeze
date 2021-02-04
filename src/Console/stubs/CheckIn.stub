@@ -1,0 +1,12 @@
+<?php
+
+namespace App;
+
+use Haxibiao\Breeze\CheckIn as BreezeCheckIn;
+
+class CheckIn extends BreezeCheckIn
+{
+
+
+
+}

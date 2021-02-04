@@ -1,0 +1,12 @@
+<?php
+
+namespace App;
+
+use Haxibiao\Breeze\Verify as BreezeVerify;
+
+class Verify extends BreezeVerify
+{
+
+
+
+}

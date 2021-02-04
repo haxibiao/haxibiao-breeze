@@ -2,7 +2,6 @@
 namespace Haxibiao\Breeze;
 
 use Haxibiao\Breeze\User;
-use Haxibiao\Breeze\UserRetention;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 
@@ -18,7 +17,7 @@ class UserRetention extends Model
 
     public function user()
     {
-        return $this->belongsTo(\App\User::class);
+        return $this->belongsTo(User::class);
     }
 
     /**
