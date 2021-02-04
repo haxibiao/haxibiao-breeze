@@ -1,0 +1,45 @@
+#import "./signInFragment.graphql"
+
+# 登录
+mutation signInMutation($account: String!, $password: String!, $uuid: String) {
+    signIn(account: $account, password: $password, uuid: $uuid) {
+         uuid
+        token
+        id
+        age
+        name
+        avatar
+        gender
+        birthday_msg
+        introduction
+        background
+        count_likes
+        count_articles
+        count_followers
+        count_followings
+        count_favorites
+        followed_status
+        wallet {
+            id
+            type
+            balance
+            real_name
+            pay_account
+            total_withdraw_amount
+            available_balance
+            today_withdraw_left
+            platforms {
+                alipay
+                wechat
+            }
+        }
+        gold
+        ticket
+        balance
+        exchangeRate
+        total_contributes
+        today_contributes
+        phone
+        title_phone
+    }
+}

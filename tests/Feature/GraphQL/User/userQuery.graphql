@@ -1,0 +1,21 @@
+#import "./userFragment.graphql"
+
+# 用户信息
+query userQuery($id: Int!) {
+    user(id: $id) {
+        id
+        age
+        name
+        avatar
+        gender
+        birthday_msg
+        introduction
+        background
+        count_likes
+        count_articles
+        count_followers
+        count_followings
+        count_favorites
+        followed_status
+    }
+}

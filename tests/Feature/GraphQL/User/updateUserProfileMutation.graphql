@@ -1,0 +1,11 @@
+# 修改用户资料（涵盖所有）
+mutation updateUserProfileMutation($id: Int!, $data: updateUserInfo!) {
+    updateUserInfo(id: $id, input: $data) {
+        id
+        name
+        gender
+        birthday_msg
+        introduction
+        phone
+    }
+}
