@@ -9,7 +9,7 @@
                 <div>若在 3 个工作日后仍未到账，可以通过下列渠道进行咨询：</div>
                 <div class="text-center">
                     <p>微信公众号：{{ seo_site_name() }}</p>
-                    <img src="/qrcode/ainicheng.com.jpg" alt="{{ seo_site_name() }}"/>
+                    <img src="/qrcode/wechat.jpg" alt="{{ seo_site_name() }}"/>
                 </div>
             </div>
         </div>
