@@ -32,8 +32,6 @@ class IndexController extends Controller
 
     public function app()
     {
-        app_track_event('网页', 'App下载');
-
         return view('app');
     }
 
