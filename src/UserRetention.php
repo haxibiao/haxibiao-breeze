@@ -40,7 +40,7 @@ class UserRetention extends Model
         //     return;
         // }
 
-        $retention = $user->retention;
+        $retention = UserRetention::firstOrNew(['user_id' => $user->id]);
         //baseUser 有唯一留存档案属性(lazy load)
         try {
             $diffDay = today()->startOfDay()->diffInDays($user->created_at->startOfDay());
