@@ -2,29 +2,43 @@
 
 namespace Haxibiao\Breeze\Tests\Feature\Api;
 
+use App\User;
 use Tests\TestCase;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
-use Haxibiao\Breeze\User;
+use Illuminate\Support\Facades\Session;
 
 class UserTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
+    protected $user;
 
-    public function testUserRecommend()
+    protected function setUp(): void
     {
-          $response = $this->get('/api/user/recommend',[
-              'page' => '1'
-          ]);
-          $response->assertStatus(200);
+        parent::setUp();
+
+        $this->user = User::factory(
+            [
+                'uuid'  => "e0416b8f323a2dce",
+                'name'  => "faker",
+                'phone' => "15580235001",
+            ]
+        )->create();
     }
 
+    /**
+     * @group userApi
+     * @group testUserRecommend
+     */
+    public function testUserRecommend()
+    {
+        $response = $this->get('/api/user/recommend', [
+            'page' => '1',
+        ]);
+        $response->assertStatus(200);
+    }
+    /**
+     * @group userApi
+     * @group testIndex
+     */
     public function testIndex()
     {
 
@@ -32,105 +46,155 @@ class UserTest extends TestCase
 
         $response->assertStatus(200);
     }
-
+    /**
+     * @group userApi
+     * @group testUser
+     */
     public function testUser()
     {
-          $response = $this->get('/api/user/2');
-          $response->assertStatus(200);
+        $response = $this->get('/api/user/' . $this->user->id);
+        $response->assertStatus(200);
     }
-
-     public function testSearchUserName()
+    /**
+     * @group userApi
+     * @group testSearchUserName
+     */
+    public function testSearchUserName()
     {
-          $response = $this->get('/api/user/name/gaoxuan');
-          $response->assertStatus(200);
+        $response = $this->get('/api/user/name/' . $this->user->name);
+        $response->assertStatus(200);
     }
 
-      public function testUserImages()
+    /**
+     * @group userApi
+     * @group testUserImages
+     */
+    public function testUserImages()
     {
-          $response = $this->get('/api/user/2/images');
-          $response->assertStatus(200);
+        $response = $this->get('/api/user/' . $this->user->id . '/images');
+        $response->assertStatus(200);
     }
 
-     public function testUserVideos()
+    /**
+     * @group userApi
+     * @group testUserVideos
+     */
+    public function testUserVideos()
     {
-          $response = $this->get('/api/user/2/videos');
-          $response->assertStatus(200);
+        $response = $this->get('/api/user/' . $this->user->id . '/videos');
+        $response->assertStatus(200);
     }
 
-     public function testUserArticles()
+    /**
+     * @group userApi
+     * @group testUserArticles
+     */
+    public function testUserArticles()
     {
-          $response = $this->get('/api/user/2/articles');
-          $response->assertStatus(200);
+        $response = $this->get('/api/user/' . $this->user->id . '/articles');
+        $response->assertStatus(200);
     }
 
-
-     public function testRelatedVideos()
+    /**
+     * @group userApi
+     * @group testRelatedVideos
+     */
+    public function testRelatedVideos()
     {
-          $response = $this->get('/api/user/2/videos/relatedVideos');
-          $response->assertStatus(200);
+        $response = $this->get('/api/user/' . $this->user->id . '/videos/relatedVideos');
+        $response->assertStatus(200);
     }
 
+    /**
+     * @group userApi
+     * @group testRelatedUsers
+     */
     public function testRelatedUsers()
     {
-        $user =  User::inRandomOrder()
-            ->first();
-        $response = $this->get("/api/related-users?api_token={$user->api_token}");
+
+        $response = $this->get("/api/related-users?api_token={$this->user->api_token}");
         $response->assertStatus(200);
     }
 
-     public function testUnreads()
+    /**
+     * @group userApi
+     * @group testUnreads
+     */
+    public function testUnreads()
     {
-         $user =  User::inRandomOrder()
+        $user = User::inRandomOrder()
             ->first();
-        $response = $this->get("/api/unreads?api_token={$user->api_token}");
+        $response = $this->get("/api/unreads?api_token={$this->user->api_token}");
         $response->assertStatus(200);
     }
 
-     public function testUserInfo()
+    /**
+     * @group userApi
+     * @group testUserInfo
+     */
+    public function testUserInfo()
     {
-         $user =  User::inRandomOrder()
+        $user = User::inRandomOrder()
             ->first();
-        $response = $this->post("/api/user",[
-              'api_token' => $user->api_token,
+        $response = $this->post("/api/user", [
+            'api_token' => $user->api_token,
         ]);
         $response->assertStatus(200);
     }
 
+    /**
+     * @group userApi
+     * @group testUserFollow
+     */
     public function testUserFollow()
     {
-         $user =  User::inRandomOrder()
+        $user = User::inRandomOrder()
             ->first();
-        $response = $this->post("/api/user/2/follow",[
-              'api_token' => $user->api_token,
+        $response = $this->post('/api/user/' . $this->user->id . '/follow', [
+            'api_token' => $user->api_token,
         ]);
         $response->assertStatus(200);
     }
 
-      public function testEditors()
+    /**
+     * @group userApi
+     * @group testEditors
+     */
+    public function testEditors()
     {
-         $user =  User::inRandomOrder()
+        $user = User::inRandomOrder()
             ->first();
-        $response = $this->get("/api/user/editors?api_token={$user->api_token}");
+        $response = $this->get("/api/user/editors?api_token={$this->user->api_token}");
         $response->assertStatus(200);
     }
 
-      public function testSaveAvatar()
+    /**
+     * @group userApi
+     * @group testSaveAvatar
+     */
+    public function testSaveAvatar()
     {
-         $user =  User::inRandomOrder()
+        $user = User::inRandomOrder()
             ->first();
         $image1 = UploadedFile::fake()->image('avatar1.jpg');
         // dd($image1);
-        $response = $this->post("api/user/save-avatar",[
-              'api_token' => $user->api_token,
-              'avatar'=>$image1,
+        $response = $this->post("api/user/save-avatar", [
+            'api_token' => $user->api_token,
+            'avatar'    => $image1,
         ]);
         $response->assertStatus(200);
     }
-    
 
+    /**
+     * @group userApi
+     * @group testRegister
+     */
     public function testRegister()
     {
-         $response = $this->post('/register', [
+        $response = $this
+        ->actingAs($this->user)
+        ->withoutMiddleware()
+        ->post('/register', [
             'name'     => 'gaoxuan',
             'email'    => 'gaoxuan@haxibiao.com',
             'password' => '123123',
@@ -139,16 +203,23 @@ class UserTest extends TestCase
         $response->assertStatus(302);
     }
 
-     public function testLogin()
+    /**
+     * @group userApi
+     * @group testLogin
+     */
+    public function testLogin()
     {
-         $response = $this->post('/login', [
-            'email'    => 'gaoxuan@haxibiao.com',
-            'password' => '123123',
+            
+        $response = $this->actingAs($this->user)
+        ->withSession([
+            '_token'=>false,
+        ])
+        ->withoutMiddleware()
+        ->post('/login', [
+            'email'    => $this->user->email,
+            'password' => 'password',
         ]);
-
         $response->assertStatus(302);
     }
 
-  
-    
 }
