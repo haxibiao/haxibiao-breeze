@@ -38,4 +38,9 @@ class BaseUser extends Model implements AuthenticatableContract, AuthorizableCon
     use UseSns;
     use PlayWithTasks;
 
+    public function getMorphClass()
+    {
+        return 'users';
+    }
+
 }
