@@ -27,6 +27,8 @@ class IndexController extends Controller
         //首页文章 - 可置顶部分优质文章避免首页脏乱数据
         $data->articles = cmsTopArticles();
 
+		$data->carousel = get_top_articles();
+
         return view('index.index')->with('data', $data);
     }
 
