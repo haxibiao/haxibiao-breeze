@@ -211,12 +211,11 @@ class UserTest extends GraphQLTestCase
      */
     public function testLogin()
     {
-            
+        //注释的原因:
         $response = $this->actingAs($this->user)
         ->withSession([
             '_token'=>false,
         ])
-        ->withoutMiddleware()
         ->post('/login', [
             'email'    => $this->user->email,
             'password' => 'password',
