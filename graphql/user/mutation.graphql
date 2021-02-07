@@ -38,7 +38,7 @@ input updateUserInfo {
     email: String
     phone: String
     introduction: String
-    password: String @bcrypt
+    password: String @hash
     avatar: String
     birthday: String
 }
