@@ -28,7 +28,7 @@ class SendNewFollowNotification implements ShouldQueue
         $follow = $event->follow;
         $user   = $follow->user;
 
-        $is_deFollow = Follow::onlyTrashed()->where([
+        $is_deFollow = Follow::where([
             'user_id'         => $follow->user_id,
             'followable_type' => $follow->followable_type,
             'followable_id'   => $follow->followable_id,
