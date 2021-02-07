@@ -169,7 +169,7 @@ class Notification extends DatabaseNotification
         $modelId = data_get($this, 'data.id');
         if ($modelId) {
             $modelString = Relation::getMorphedModel($modelType);
-            return $modelString::withTrashed()->find($modelId);
+            return $modelString::find($modelId);
         }
         return null;
     }
