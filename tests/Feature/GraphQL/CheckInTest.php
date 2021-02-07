@@ -1,6 +1,6 @@
 <?php
 
-namespace Haxibiao\Media\Tests\Feature\GraphQL;
+namespace Haxibiao\Breeze\Tests\Feature\GraphQL;
 
 use App\User;
 use Haxibiao\Breeze\GraphQLTestCase;
