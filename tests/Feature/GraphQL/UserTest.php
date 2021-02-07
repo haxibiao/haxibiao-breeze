@@ -111,13 +111,13 @@ class UserTest extends GraphQLTestCase
         $code = rand(1000, 9999);
         Verify::create([
             'user_id' => $this->user->id,
-            'code'    => $code,
+            'code'    => strval($code),
             'channel' => 'sms',
             'account' => $this->user->phone,
             'action'  => 'RESET_PASSWORD',
         ]);
         $this->startGraphQL($query, [
-            'code'        => $code,
+            'code'        => strval($code),
             'phone'       => $this->user->phone,
             'newPassword' => '1122mm',
         ], []);
@@ -150,14 +150,14 @@ class UserTest extends GraphQLTestCase
 
         Verify::create([
             'user_id' => $this->user->id,
-            'code'    => $code,
+            'code'    => strval($code),
             'channel' => 'sms',
             'account' => $this->user->phone,
             'action'  => 'USER_LOGIN',
         ]);
         // 获取验证码
         $this->startGraphQL($query, [
-            'code'  => $code,
+            'code'  => strval($code),
             'phone' => $this->user->phone,
         ], []);
     }

@@ -58,12 +58,6 @@ class UserController extends Controller
         $filename = time();
         if (!is_prod_env()) {
             $filename = $user->id . "_test"; //测试不覆盖线上cos文件
-            if (is_testing_env()) {
-                //提示UT的兄弟配置好disks cos
-                if (!config('filesystems.disks.cos.bucket')) {
-                    dd("兄弟，cos的配置先到.env里弄一下哈");
-                }
-            }
         }
         $avatarPath  = sprintf($storePrefix . $fileTemplate, $filename, $extension);
         $storeStatus = Storage::cloud()->put($avatarPath, $imageStream);

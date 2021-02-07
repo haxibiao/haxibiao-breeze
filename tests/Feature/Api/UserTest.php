@@ -3,11 +3,10 @@
 namespace Haxibiao\Breeze\Tests\Feature\Api;
 
 use App\User;
-use Tests\TestCase;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Session;
+use Haxibiao\Breeze\GraphQLTestCase;
 
-class UserTest extends TestCase
+class UserTest extends GraphQLTestCase
 {
     protected $user;
 
@@ -122,8 +121,6 @@ class UserTest extends TestCase
      */
     public function testUnreads()
     {
-        $user = User::inRandomOrder()
-            ->first();
         $response = $this->get("/api/unreads?api_token={$this->user->api_token}");
         $response->assertStatus(200);
     }
@@ -134,10 +131,8 @@ class UserTest extends TestCase
      */
     public function testUserInfo()
     {
-        $user = User::inRandomOrder()
-            ->first();
         $response = $this->post("/api/user", [
-            'api_token' => $user->api_token,
+            'api_token' => $this->user->api_token,
         ]);
         $response->assertStatus(200);
     }
@@ -148,10 +143,8 @@ class UserTest extends TestCase
      */
     public function testUserFollow()
     {
-        $user = User::inRandomOrder()
-            ->first();
         $response = $this->post('/api/user/' . $this->user->id . '/follow', [
-            'api_token' => $user->api_token,
+            'api_token' => $this->user->api_token,
         ]);
         $response->assertStatus(200);
     }
@@ -162,8 +155,6 @@ class UserTest extends TestCase
      */
     public function testEditors()
     {
-        $user = User::inRandomOrder()
-            ->first();
         $response = $this->get("/api/user/editors?api_token={$this->user->api_token}");
         $response->assertStatus(200);
     }
@@ -174,13 +165,24 @@ class UserTest extends TestCase
      */
     public function testSaveAvatar()
     {
-        $user = User::inRandomOrder()
-            ->first();
-        $image1 = UploadedFile::fake()->image('avatar1.jpg');
-        // dd($image1);
+        /**
+         * base64格式
+         */
+        $image =  $this->getBase64ImageString();
         $response = $this->post("api/user/save-avatar", [
-            'api_token' => $user->api_token,
-            'avatar'    => $image1,
+            'api_token' => $this->user->api_token,
+            'avatar'    => $image,
+        ]);
+        $response->assertStatus(200);
+
+        /**
+         * file格式
+         */
+        $imageFile = UploadedFile::fake()->image('avatar1.jpg');
+        $image =  $this->getBase64ImageString();
+        $response = $this->post("api/user/save-avatar", [
+            'api_token' => $this->user->api_token,
+            'avatar'    => $imageFile,
         ]);
         $response->assertStatus(200);
     }
