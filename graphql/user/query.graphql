@@ -26,7 +26,7 @@ type User {
     count_collections: Int
     balance: Float
     error: String
-    followed_status: Int @rename(attribute: "followed_id")
+    followed_status: Int @rename(attribute: "followable_id")
     chats: [Chat!]
     categories: [Category!]
     created_at: DateTime!

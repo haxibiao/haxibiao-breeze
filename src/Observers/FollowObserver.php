@@ -55,7 +55,7 @@ class FollowObserver
         $user->profile->save();
 
         //同步被关注着的粉丝数
-        $count = Follow::where('followable_type', $follow->followable_type)->where("followed_id", $follow->followed_id)->count();
+        $count = Follow::where('followable_type', $follow->followable_type)->where("followable_id", $follow->followable_id)->count();
         if ($follow->followable_type == 'users') {
             $follow->followed->profile->update(['count_follows' => $count]);
         } else {
