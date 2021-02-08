@@ -6,17 +6,15 @@
     {!! seo_friendly_urls() !!}
 
     <div class="icp">
-        @if ($icp = cms_icp_info())
-            <div>
-                <a target="_blank" href="http://beian.miit.gov.cn/ ">{{ seo_value('备案', 'copyright') }}</a><br>
-                <a target="_blank" href="http://beian.miit.gov.cn/ ">{{ seo_value('备案', '备案号') }}
-                    邮箱：support@beian.gov.cn</a><br>
-                <a target="_blank" href="http://beian.miit.gov.cn/ ">
-                    <img src="http://cos.haxibiao.com/images/yyzz.png" alt="电子安全监督">
-                    {{ seo_value('备案', '公安网备号') }}
-                </a><br>
-            </div>
-        @endif
+        <div>
+            <a target="_blank" href="http://beian.miit.gov.cn/ ">{{ seo_value('备案', 'copyright') }}</a><br>
+            <a target="_blank" href="http://beian.miit.gov.cn/ ">{{ seo_value('备案', '备案号') }}
+                邮箱：support@beian.gov.cn</a><br>
+            <a target="_blank" href="http://beian.miit.gov.cn/ ">
+                <img src="http://cos.haxibiao.com/images/yyzz.png" alt="电子安全监督">
+                {{ seo_value('备案', '公安网备号') }}
+            </a><br>
+        </div>
         <p>
             本站所有图片和视频均来自互联网收集而来，版权归原创作者所有，本站只提供web页面服务，并不提供资源存储，也不参与录制，上传
         </p>
