@@ -53,6 +53,7 @@ class VodController extends Controller
         } catch (TencentCloudSDKException $e) {
             abort(500, '服务器内部错误');
         }
+        return $this->vodKeys;
     }
 
     const PROCEDURE = ''; //视频处理任务流
