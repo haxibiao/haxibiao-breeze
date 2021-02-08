@@ -3,7 +3,6 @@
 namespace Haxibiao\Breeze\Notifications;
 
 use Haxibiao\Breeze\User;
-use Haxibiao\Content\Article;
 use Haxibiao\Sns\Tip;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -21,7 +20,7 @@ class ArticleTiped extends Notification
      *
      * @return void
      */
-    public function __construct(Article $article, User $user, Tip $tip)
+    public function __construct($article, User $user, Tip $tip)
     {
         $this->article = $article;
         $this->user    = $user;
