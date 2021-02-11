@@ -2,7 +2,7 @@
 
 namespace Haxibiao\Breeze\Traits;
 
-use Carbon\Carbon;
+use Haxibiao\Breeze\BlackList;
 use Haxibiao\Breeze\CheckIn;
 use Haxibiao\Breeze\Exceptions\GQLException;
 use Haxibiao\Breeze\Exceptions\UserException;
@@ -21,6 +21,7 @@ use Haxibiao\Wallet\Wallet;
 use Haxibiao\Wallet\Withdraw;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -29,6 +30,44 @@ use Illuminate\Support\Str;
 
 trait UserRepo
 {
+
+    public function link()
+    {
+        return '<a href="/user/' . $this->id . '">' . $this->name . '</a>';
+    }
+
+    public function at_link()
+    {
+        return '<a href="/user/' . $this->id . '">@' . $this->name . '</a>';
+    }
+
+    public function ta()
+    {
+        return $this->isSelf() ? '我' : '他';
+    }
+
+    public function checkAdmin()
+    {
+        return $this->role_id >= User::ADMIN_STATUS;
+    }
+
+    public function checkEditor()
+    {
+        return $this->role_id >= User::EDITOR_STATUS;
+    }
+
+    public function isBlack()
+    {
+        $black    = BlackList::where('user_id', $this->id);
+        $is_black = $black->exists();
+        return $is_black;
+    }
+
+    public function isSelf()
+    {
+        return Auth::check() && Auth::id() == $this->id;
+    }
+
     /**
      * 保存用户头像到cloud
      */
@@ -120,7 +159,7 @@ trait UserRepo
         }
 
         //检查是否发放过新人奖励了
-        if ($action == 'NEW_USER_REWARD' || $action == 'NEW_YEAR_REWARD') {
+        if ('NEW_USER_REWARD' == $action || 'NEW_YEAR_REWARD' == $action) {
             $hasReward = self::hasReward($user->id, $action);
             throw_if(!$hasReward, \App\Exceptions\UserException::class, '领取失败,奖励只能领取一次哦!');
 
@@ -137,7 +176,7 @@ trait UserRepo
 
         //精力点奖励
         if (isset($reward['ticket'])) {
-            if ($action != 'SUCCESS_ANSWER_VIDEO_REWARD' && $action != 'FAIL_ANSWER_VIDEO_REWARD') {
+            if ('SUCCESS_ANSWER_VIDEO_REWARD' != $action && 'FAIL_ANSWER_VIDEO_REWARD' != $action) {
                 $user->increment('ticket', $reward['ticket']);
                 $result['ticket'] = $reward['ticket'];
             }
@@ -150,7 +189,7 @@ trait UserRepo
         }
         //统计激励视频当天
         $profile = $user->profile;
-        if ($action == 'WATCH_REWARD_VIDEO') {
+        if ('WATCH_REWARD_VIDEO' == $action) {
             if ($profile->last_reward_video_time < today()) {
                 $profile->today_reward_video_count = 1;
                 $profile->last_reward_video_time   = now();
@@ -165,7 +204,7 @@ trait UserRepo
         }
 
         //获取今日签到奖励-连续签到奖励
-        if ($action == 'KEEP_SIGNIN_REWARD') {
+        if ('KEEP_SIGNIN_REWARD' == $action) {
 
             $signIn = CheckIn::todaySigned($user->id);
             throw_if(is_null($signIn), UserException::class, '领取失败,请先完成签到!');
@@ -181,7 +220,7 @@ trait UserRepo
         }
 
         //签到额外奖励
-        if ($action == 'SIGNIN_VIDEO_REWARD') {
+        if ('SIGNIN_VIDEO_REWARD' == $action) {
             $signRewards = CheckIn::getSignInReward($profile->keep_checkin_days);
             //智慧点
             if (isset($signRewards['gold_reward'])) {
@@ -196,7 +235,7 @@ trait UserRepo
         }
 
         //签到双倍奖励
-        if ($action == 'DOUBLE_SIGNIN_REWARD') {
+        if ('DOUBLE_SIGNIN_REWARD' == $action) {
             $rewardRate = 2;
             $signIn     = CheckIn::todaySigned($user->id);
             throw_if(is_null($signIn), UserException::class, '领取失败,请先完成签到!');
@@ -265,7 +304,7 @@ trait UserRepo
         Log::info('移动获取号码接口参数', $accessTokens);
 
         $token = $accessTokens['msisdn'];
-        if ($accessTokens['resultCode'] != '103000' || !array_key_exists('msisdn', $accessTokens)) {
+        if ('103000' != $accessTokens['resultCode'] || !array_key_exists('msisdn', $accessTokens)) {
             throw new GQLException("获取手机号一键登录授权失败");
         }
 
@@ -612,7 +651,7 @@ trait UserRepo
                 if ($qq_img_data) {
                     file_put_contents(public_path($avatar_path), $qq_img_data);
                     $hash = md5_file(public_path($avatar_path));
-                    if ($hash != md5_file(public_path('/images/qq_default.png')) && $hash != md5_file(public_path('/images/qq_tim_default.png'))) {
+                    if (md5_file(public_path('/images/qq_default.png')) != $hash && md5_file(public_path('/images/qq_tim_default.png')) != $hash) {
                         $this->avatar = $avatar_path;
                     }
                 }
@@ -732,7 +771,7 @@ trait UserRepo
         if ($ddzUser = $this->getDDZUser()) {
             $wallet = $ddzUser->getWalletAttribute();
 
-            if ($wallet->is_withdraw_before !== null) {
+            if (null !== $wallet->is_withdraw_before) {
                 return $wallet->is_withdraw_before;
             }
 
@@ -813,12 +852,12 @@ trait UserRepo
 
     public function isEditorRole()
     {
-        return $this->role_id == User::EDITOR_STATUS;
+        return User::EDITOR_STATUS == $this->role_id;
     }
 
     public function isAdminRole()
     {
-        return $this->role_id == User::ADMIN_STATUS;
+        return User::ADMIN_STATUS == $this->role_id;
     }
 
     public function isHighRole()
@@ -833,7 +872,7 @@ trait UserRepo
 
     public function isDegregister()
     {
-        return $this->status == User::DEREGISTER_STATUS;
+        return User::DEREGISTER_STATUS == $this->status;
     }
 
     public static function hasReward($user_id, $remark)
@@ -859,6 +898,6 @@ trait UserRepo
     }
 
     public function rewardExpAndLevelUp()
-    {//兼容接口
+    { //兼容接口
     }
 }

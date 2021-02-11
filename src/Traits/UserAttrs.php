@@ -3,7 +3,6 @@
 namespace Haxibiao\Breeze\Traits;
 
 use App\Notice;
-use Haxibiao\Breeze\BlackList;
 use Haxibiao\Breeze\Exceptions\GQLException;
 use Haxibiao\Breeze\User;
 use Haxibiao\Breeze\UserData;
@@ -17,7 +16,6 @@ use Haxibiao\Wallet\Gold as AppGold;
 use Haxibiao\Wallet\Wallet;
 use Haxibiao\Wallet\Withdraw;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Auth;
 
 trait UserAttrs
 {
@@ -67,7 +65,7 @@ trait UserAttrs
      */
     public function getIsDisableAttribute()
     {
-        return $this->status == User::DISABLE_STATUS;
+        return User::DISABLE_STATUS == $this->status;
     }
 
     /**
@@ -250,44 +248,6 @@ trait UserAttrs
         return $transaction->balance;
     }
 
-    public function checkAdmin()
-    {
-        return $this->is_admin;
-    }
-
-    public function checkEditor()
-    {
-        return $this->is_editor || $this->is_admin;
-    }
-
-    public function isBlack()
-    {
-
-        $black    = BlackList::where('user_id', $this->id);
-        $is_black = $black->exists();
-        return $is_black;
-    }
-
-    public function link()
-    {
-        return '<a href="/user/' . $this->id . '">' . $this->name . '</a>';
-    }
-
-    public function at_link()
-    {
-        return '<a href="/user/' . $this->id . '">@' . $this->name . '</a>';
-    }
-
-    public function ta()
-    {
-        return $this->isSelf() ? '我' : '他';
-    }
-
-    public function isSelf()
-    {
-        return Auth::check() && Auth::id() == $this->id;
-    }
-
     public function getExchangeRateAttribute()
     {
         return Exchange::RATE;
@@ -340,7 +300,7 @@ trait UserAttrs
         return $this->remember('followable_id', 0, function () {
             if ($user = checkUser()) {
                 $follow = Follow::where([
-                    'user_id'       => $user->id,
+                    'user_id'         => $user->id,
                     'followable_type' => 'users',
                     'followable_id'   => $this->id,
                 ])->select('id')->first();
@@ -491,7 +451,7 @@ trait UserAttrs
 
     public function getGenderAttribute()
     {
-        return data_get($this,'profile.gender');
+        return data_get($this, 'profile.gender');
     }
 
     public function getGenderMsgAttribute()
@@ -574,7 +534,7 @@ trait UserAttrs
 
     public function getTitlePhoneAttribute()
     {
-        if ($this->phone !== null) {
+        if (null !== $this->phone) {
             return substr_replace($this->phone, '****', 3, 4);
         }
         return null;

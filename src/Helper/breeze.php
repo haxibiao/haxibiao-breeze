@@ -38,21 +38,21 @@ function checkUserDevice()
 }
 
 /**
- * 使用场景:主要提供于APP设计 用于GQL中调用或 restful api
- * APP全局辅助函数
+ * 检查并返回当前登录用户
+ *
+ * @return User
  */
 function checkUser()
 {
-    try {
-        $user = getUser();
-    } catch (\Exception $ex) {
-        return null;
-    }
-
-    return $user;
+    return getUser(false);
 }
 
-//获取当前用户
+/**
+ * 获取当前用户
+ *
+ * @param boolean $throw 是否丢未登录异常，默认丢
+ * @return User
+ */
 function getUser($throw = true)
 {
     //已登录,swoole不能记录用户登录状态,会直接记录到服务器内存中,并且之后返回的都是该用户
@@ -111,25 +111,38 @@ function canEdit($content)
 
 function user_id()
 {
-    return Auth::check() ? Auth::user()->id : false;
+    return Auth::check() ? Auth::user()->id : 0;
 }
 
 /**
- * @deprecated 请用新的 $user->is_follow($followable)
+ * 登录用户是否关注了
  */
 function is_follow($type, $id)
 {
-    return Auth::check() ? Auth::user()->isFollow($type, $id) : false;
+    if ($user = checkUser()) {
+        return $user->isFollow($type, $id);
+    }
+    return false;
 }
 
 /**
- * 旧web版本检查是否编辑身份
- * @deprecated
+ * 检查是否编辑以上身份
  */
 function checkEditor()
 {
-    if ($user = Auth::user()) {
+    if ($user = checkUser()) {
         return $user->checkEditor();
+    }
+    return false;
+}
+
+/**
+ * 检查是否管理以上身份
+ */
+function checkAdmin()
+{
+    if ($user = checkUser()) {
+        return $user->checkAdmin();
     }
     return false;
 }
