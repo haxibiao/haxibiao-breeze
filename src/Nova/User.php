@@ -11,37 +11,15 @@ use Laravel\Nova\Resource;
 
 class User extends Resource
 {
-    /**
-     * The model the resource corresponds to.
-     *
-     * @var string
-     */
-    public static $model = \App\User::class;
-
-    /**
-     * The single value that should be used to represent the resource when being displayed.
-     *
-     * @var string
-     */
-    public static $title = 'name';
-
-    /**
-     * The columns that should be searched.
-     *
-     * @var array
-     */
+    public static $model  = \App\User::class;
+    public static $title  = 'name';
     public static $search = [
         'id', 'name', 'email',
     ];
 
-    public static $group = "用户管理";
+    public static $group = "用户中心";
 
     public static function label()
-    {
-        return '用户';
-    }
-
-    public static function singularLabel()
     {
         return '用户';
     }

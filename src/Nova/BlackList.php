@@ -10,25 +10,8 @@ use Laravel\Nova\Resource;
 
 class BlackList extends Resource
 {
-    /**
-     * The model the resource corresponds to.
-     *
-     * @var string
-     */
-    public static $model = 'Haxibiao\Breeze\BlackList';
-
-    /**
-     * The single value that should be used to represent the resource when being displayed.
-     *
-     * @var string
-     */
-    public static $title = 'id';
-
-    /**
-     * The columns that should be searched.
-     *
-     * @var array
-     */
+    public static $model  = 'Haxibiao\Breeze\BlackList';
+    public static $title  = 'id';
     public static $search = [
         'id', 'user_id',
     ];
@@ -38,14 +21,8 @@ class BlackList extends Resource
         return "黑名单";
     }
 
-    public static $group = '用户管理';
+    public static $group = '用户中心';
 
-    /**
-     * Get the fields displayed by the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
     public function fields(Request $request)
     {
         return [

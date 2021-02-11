@@ -8,9 +8,12 @@ use App\Http\Controllers\Controller;
 use App\Version;
 use Illuminate\Http\Request;
 
-class AppController extends Controller {
+class AppController extends Controller
+{
+
     //返回 app-config (含ad config)
-    public function index(Request $request) {
+    public function appConfig(Request $request)
+    {
         //方便 &name=android 这样调试, 兼容旧版本传name..
         $group = request('name') ?? $request->header('name');
         $store = request('store') ?? $request->header('store');
@@ -20,12 +23,13 @@ class AppController extends Controller {
         }
 
         //华为单独有开关
-        if ($store == "huawei") {
+        if ("huawei" == $store) {
             $group = 'huawei';
         }
 
-        $array = [];
+        $array   = [];
         $configs = AppConfig::whereGroup($group)->get();
+
         foreach ($configs as $config) {
             $array[$config->name] = $config->status;
         }
@@ -35,12 +39,14 @@ class AppController extends Controller {
         return $array;
     }
 
-    public function configs(Request $request) {
+    public function configs(Request $request)
+    {
 
         return json_decode(\App\Config::query()->select(['name', 'value'])->get());
     }
 
-    public function getAdConfig() {
+    public function getAdConfig()
+    {
         $adData = [];
         foreach (AdConfig::all() as $adconfig) {
             $adData[$adconfig->name] = $adconfig->value;
@@ -48,7 +54,7 @@ class AppController extends Controller {
 
         //开屏混合 ----------------------------
         $splash_prodiver = $adData['splash_provider'] ?? null;
-        if ($splash_prodiver == '混合') {
+        if ('混合' == $splash_prodiver) {
             if (rand(1, 100) % 3 == 0) {
                 $splash_prodiver = '腾讯';
             } else if (rand(1, 100) % 3 == 1) {
@@ -60,7 +66,7 @@ class AppController extends Controller {
 
         //信息流混合 ----------------------------
         $feed_provider = $adData['feed_provider'] ?? null;
-        if ($feed_provider == '混合') {
+        if ('混合' == $feed_provider) {
             if (rand(1, 100) % 3 == 0) {
                 $feed_provider = '腾讯';
             } else if (rand(1, 100) % 3 == 1) {
@@ -72,16 +78,16 @@ class AppController extends Controller {
 
         //激励视频混合 ----------------------------
         $reward_video_provider = $adData['reward_video_provider'] ?? null;
-        if ($reward_video_provider == '混合') {
+        if ('混合' == $reward_video_provider) {
             if ($user = getUser(false)) {
                 //统计激励次数，并强制每次轮换平台
                 $counter = $user->rewardCounter;
-                if ($counter->last_provider == "头条") {
-                    $reward_video_provider = '腾讯';
+                if ("头条" == $counter->last_provider) {
+                    $reward_video_provider  = '腾讯';
                     $counter->count_tencent = $counter->count_tencent + 1;
                     $counter->last_provider = "腾讯";
                 } else {
-                    $reward_video_provider = '头条';
+                    $reward_video_provider  = '头条';
                     $counter->count_toutiao = $counter->count_toutiao + 1;
                     $counter->last_provider = "头条";
                 }
@@ -101,11 +107,13 @@ class AppController extends Controller {
     }
 
     //api/ad-config 返回广告的configs
-    public function adConfig(Request $request) {
+    public function adConfig(Request $request)
+    {
         return $this->getAdConfig();
     }
 
-    public function version(Request $request) {
+    public function version(Request $request)
+    {
 
         $builder = Version::where('os', 'Android')->orderByDesc('id');
         $package = $request->input('package');
@@ -122,12 +130,12 @@ class AppController extends Controller {
         $array = $version->toArray();
         return array_map(static function ($item) {
             return array(
-                'version' => $item['name'],
-                'apk' => $item['url'],
-                'is_force' => $item['is_force'],
+                'version'     => $item['name'],
+                'apk'         => $item['url'],
+                'is_force'    => $item['is_force'],
                 'description' => $item['description'],
-                'size' => formatSizeUnits($item['size']),
-                'package' => $item['package'],
+                'size'        => formatSizeUnits($item['size']),
+                'package'     => $item['package'],
             );
         }, $array);
     }
