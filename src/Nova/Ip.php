@@ -15,37 +15,14 @@ use Laravel\Nova\Resource;
 
 class Ip extends Resource
 {
-    /**
-     * The model the resource corresponds to.
-     *
-     * @var string
-     */
-    public static $model = 'Haxibiao\Breeze\Ip';
-
-    /**
-     * The single value that should be used to represent the resource when being displayed.
-     *
-     * @var string
-     */
-    public static $title = 'id';
-
-    /**
-     * The columns that should be searched.
-     *
-     * @var array
-     */
+    public static $model  = 'Haxibiao\Breeze\Ip';
+    public static $title  = 'id';
     public static $search = [
         'id', 'ip',
     ];
 
-    public static $group = '行为管理';
-
+    public static $group = '数据中心';
     public static function label()
-    {
-        return "IP地址";
-    }
-
-    public static function singularLabel()
     {
         return "IP地址";
     }
