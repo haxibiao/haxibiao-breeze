@@ -22,7 +22,8 @@ class CreateUserDatasTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('user_id')->unique()->comment('用户ID');
             $table->json('counts')->nullable()->comments('用户关键数据统计，profile之外的，数据分析用');
-            $table->json('position')->nullable()->comment('用户位置信息'); //FIXME: 修复数据后可以逐步删除这个
+            //FIXME: 修复数据后可以逐步删除这个
+            $table->json('position')->nullable()->comment('用户位置信息');
             $table->json('ips')->nullable()->comment('IP信息');
             $table->json('locations')->nullable()->comment('位置信息');
 

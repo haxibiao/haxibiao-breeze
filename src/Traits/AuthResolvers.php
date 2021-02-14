@@ -7,7 +7,8 @@ use Haxibiao\Breeze\User;
 use Illuminate\Support\Str;
 
 /**
- * 一些通用的兼容resolvers的静态方法 - 目前工厂APP在用... //FIXME: 待重构
+ * 一些通用的兼容resolvers的静态方法 - 目前工厂APP在用...
+ * //FIXME: 待重构
  */
 trait AuthResolvers
 {
@@ -23,9 +24,9 @@ trait AuthResolvers
         // 不是首次登录
         if ($qb->exists()) {
             $user = $qb->first();
-            if ($user->status === User::STATUS_OFFLINE) {
+            if (User::STATUS_OFFLINE === $user->status) {
                 throw new GQLException('登录失败！账户已被封禁');
-            } else if ($user->status === User::STATUS_DESTORY) {
+            } else if (User::STATUS_DESTORY === $user->status) {
                 throw new GQLException('登录失败！账户已被注销');
             }
         } else {
@@ -111,9 +112,9 @@ trait AuthResolvers
                 throw new GQLException('登录失败！账号或者密码不正确');
             }
 
-            if ($user->status === User::STATUS_OFFLINE) {
+            if (User::STATUS_OFFLINE === $user->status) {
                 throw new GQLException('登录失败！账户已被封禁');
-            } else if ($user->status === User::STATUS_DESTORY) {
+            } else if (User::STATUS_DESTORY === $user->status) {
                 throw new GQLException('登录失败！账户已被注销');
             }
 

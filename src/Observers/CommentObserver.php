@@ -38,7 +38,8 @@ class CommentObserver
             return;
         }
 
-        // Web 发送即时通知 //TODO: 即时通知逻辑还需要检查
+        // Web 发送即时通知
+        //TODO: 即时通知逻辑还需要检查
         // $author = $comment->commentable->user;
         // $author->notify((new CommentAccepted($comment, $author))->onQueue('notifications'));
 
