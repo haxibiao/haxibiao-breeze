@@ -26,19 +26,19 @@ class UserRetentionRate extends Value
 
         switch ($range) {
             case 1:
-                $query->whereDate('next_day_retention_at', $startTime);
+                $query->whereDate('day2_at', $startTime);
                 break;
             case 3:
-                $query->whereDate('third_day_retention_at', $startTime);
+                $query->whereDate('day3_at', $startTime);
                 break;
             case 5:
-                $query->whereDate('fifth_day_retention_at', $startTime);
+                $query->whereDate('day5_at', $startTime);
                 break;
             case 7:
-                $query->whereDate('sixth_day_retention_at', $startTime);
+                $query->whereDate('day7_at', $startTime);
                 break;
             case 30:
-                $query->whereDate('month_retention_at', $startTime);
+                $query->whereDate('day30_at', $startTime);
                 break;
         }
         $userRetentionNum = $query->count();
