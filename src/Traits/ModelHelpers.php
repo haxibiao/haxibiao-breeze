@@ -85,7 +85,13 @@ trait ModelHelpers
 
     public function scopeUserId($query, $value)
     {
-        return is_array($value) ? $query->whereIn('user_id', $value) : $query->where('user_id', $value);
+        return $query->byWho($value);
+    }
+
+    public function scopeByWho($query, $value, $column = 'user_id')
+    {
+        $method = is_array($value) ? 'whereIn' : 'where';
+        return $query->$method($column, $value);
     }
 
     // @FIX:如果此处与其他trait同名函数报错,建议在main class 通过 insteadof 来显示声明,优先级
@@ -316,5 +322,10 @@ trait ModelHelpers
     public function scopeReviewDay($query, $value)
     {
         return is_array($value) ? $query->whereIn('review_day', $value) : $query->where('review_day', $value);
+    }
+
+    public function scopeByName($query, $value)
+    {
+        return $query->where('name', $value);
     }
 }
