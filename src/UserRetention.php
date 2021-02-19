@@ -2,11 +2,14 @@
 namespace Haxibiao\Breeze;
 
 use Haxibiao\Breeze\User;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Database\Eloquent\Model;
+use Haxibiao\Breeze\Traits\ModelHelpers;
 
 class UserRetention extends Model
 {
+    use ModelHelpers;
+
     const CACHE_FORMAT = 'day%s_at_%s';
 
     const INVITED_USER_CACHE_FORMAT = 'invited_user_retention_%s';
