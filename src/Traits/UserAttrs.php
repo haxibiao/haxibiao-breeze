@@ -2,7 +2,6 @@
 
 namespace Haxibiao\Breeze\Traits;
 
-use App\Notice;
 use Haxibiao\Breeze\Exceptions\GQLException;
 use Haxibiao\Breeze\User;
 use Haxibiao\Breeze\UserData;
@@ -360,28 +359,13 @@ trait UserAttrs
 
     public function getUnreadTipsAttribute()
     {
-        //公共消息
-        $publicNotice = Notice::active()
-            ->whereNull('to_user_id')->get();
-        $unreadNotice = $publicNotice->filter(function ($item) {
-            return $item->unread;
-        });
-        return $unreadNotice->count();
+        return $this->unreads('tips');
     }
 
     public function getUnreadOthersAttribute()
     {
-        //系统中没有打赏通知，暂时借道作为个人系统通知
-        // return $this->unreads('others');
-        if ($user = getUser(false)) {
-            $personalNotice = Notice::active()
-                ->where('to_user_id', $user->id)->get();
-            $unreadNotice = $personalNotice->filter(function ($item) {
-                return $item->unread;
-            });
-            return $unreadNotice->count();
+        return $this->unreads('others');
 
-        }
     }
 
     public function getCountPostsAttribute()
