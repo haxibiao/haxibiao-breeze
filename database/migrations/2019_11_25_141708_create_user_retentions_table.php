@@ -36,7 +36,9 @@ class CreateUserRetentionsTable extends Migration
 		Schema::table('user_retentions', function (Blueprint $table) {
 			if(Schema::hasColumn('user_retentions','next_day_retention_at')){
 				$table->renameColumn('next_day_retention_at','day2_at');
-			} else {
+			} else if(Schema::hasColumn('user_retentions','day2_at')){
+				return;
+			}else{
 				$table->timestamp('day2_at')->nullable()->index()->comment('次日留存');
 			}
 
