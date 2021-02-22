@@ -3,6 +3,7 @@
 namespace Haxibiao\Breeze\Nova;
 
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Password;
@@ -51,6 +52,11 @@ class User extends Resource
                 ->onlyOnForms()
                 ->creationRules('required', 'string', 'min:8')
                 ->updateRules('nullable', 'string', 'min:8'),
+
+            DateTime::make('创建', 'created_at')
+                ->hideWhenUpdating()->hideWhenCreating(),
+            DateTime::make('登录', 'updated_at')
+                ->hideWhenUpdating()->hideWhenCreating(),
         ];
     }
 

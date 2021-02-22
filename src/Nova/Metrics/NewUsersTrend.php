@@ -7,10 +7,10 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Metrics\Trend;
 use Laravel\Nova\Metrics\TrendResult;
 
-class UsersPerDay extends Trend
+class NewUsersTrend extends Trend
 {
 
-    public $name = '每日新增用户趋势(位)';
+    public $name = '新用户趋势';
     /**
      * Calculate the value of the metric.
      *
@@ -78,8 +78,9 @@ class UsersPerDay extends Trend
      */
     public function uriKey()
     {
-        return 'users-per-day';
+        return 'new-users-trend';
     }
+
     public function getCustomDateUserCount(array $date)
     {
         return User::query()->whereBetween('created_at', $date)->count();
