@@ -24,13 +24,11 @@ Route::get('/search/collections', 'SearchController@searchCollections');
 Route::get('/category/list', 'CategoryController@list');
 Route::resource('/category', 'CategoryController');
 
-
 Route::get('/tag/{name}', 'TagController@tagname');
 Route::resource('/tag', 'TagController');
 
 //片段
 Route::resource('/snippet', 'SnippetController');
-
 
 Route::get('/chat/with/{user_id}', 'ChatController@chat');
 
@@ -53,13 +51,6 @@ Route::resource('/user', 'UserController');
 //dashbord
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/profile', 'HomeController@profile')->name('profile');
-
-//多媒体
-Route::resource('/image', 'ImageController');
-Route::get('/video/list', 'VideoController@list');
-Route::get('/video/{id}', 'VideoController@show');
-Route::get('/video/{id}/process', 'VideoController@processVideo');
-Route::resource('/video', 'VideoController');
 
 //Route::get('/share/collection/{id}', CollectionController::class . '@shareCollection');
 
