@@ -24,7 +24,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::orderBy('updated_at', 'desc')->paginate(24);
+        $users = User::latest('id')->paginate(24);
         return view('user.index')->withUsers($users);
     }
 
