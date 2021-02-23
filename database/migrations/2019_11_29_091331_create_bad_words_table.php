@@ -13,11 +13,13 @@ class CreateBadWordsTable extends Migration
      */
     public function up()
     {
-        Schema::create('bad_words', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('word')->index();
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('bad_words')) {
+            Schema::create('bad_words', function (Blueprint $table) {
+                $table->bigIncrements('id');
+                $table->string('word')->index();
+                $table->timestamps();
+            });
+        }
     }
 
     /**
