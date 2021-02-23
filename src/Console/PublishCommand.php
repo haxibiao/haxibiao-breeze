@@ -2,8 +2,9 @@
 
 namespace Haxibiao\Breeze\Console;
 
-use Illuminate\Console\Command;
 use Illuminate\Support\Str;
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
 
 class PublishCommand extends Command
 {
@@ -36,6 +37,10 @@ class PublishCommand extends Command
         //gqlp配置容易手动修改
         $this->callSilent("vendor:publish", ["--provider" => "Nuwave\Lighthouse\LighthouseServiceProvider", '--force' => $force]);
         $this->callSilent("vendor:publish", ["--provider" => "MLL\GraphQLPlayground\GraphQLPlaygroundServiceProvider", '--force' => $force]);
+
+        if($this->confirm("是否清理breeze分散的gqls")) {
+            File::deleteDirectory(base_path('graphql'));
+        }
 
         $this->info(' - breeze 子模块的资源配置');
 

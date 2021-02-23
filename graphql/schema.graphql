@@ -15,4 +15,4 @@ type Mutation {
   ): User! @field(resolver: "App\\User@signUp")
 }
 
-#import */*.graphql
+#import */*/*.graphql
