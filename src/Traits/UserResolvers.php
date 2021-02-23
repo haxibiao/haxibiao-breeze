@@ -420,6 +420,8 @@ trait UserResolvers
                     }
                 }
             }
+            $user->update(array_diff($args, $profile_infos));
+
             if (!empty($profile_infos)) {
                 $profile = $user->profile;
                 $profile->update($profile_infos);
