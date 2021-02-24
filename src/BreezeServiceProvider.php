@@ -58,10 +58,14 @@ class BreezeServiceProvider extends ServiceProvider
         $this->commands([
             InstallCommand::class,
             PublishCommand::class,
-            ArchiveAll::class,
-            ArchiveRetention::class,
-            ArchiveUser::class,
-            ArchiveWithdraw::class,
+
+            Console\Dimension\ArchiveAll::class,
+            Console\Dimension\ArchiveRetention::class,
+            Console\Dimension\ArchiveUser::class,
+            Console\Dimension\ArchiveWithdraw::class,
+
+            Console\Matomo\MatomoProxy::class,
+            Console\Matomo\MatomoClient::class,
         ]);
 
         //合并view config 配置
@@ -125,6 +129,10 @@ class BreezeServiceProvider extends ServiceProvider
 
             $this->publishes([
                 __DIR__ . '/../config/breeze.php' => config_path('breeze.php'),
+            ], 'breeze-config');
+
+            $this->publishes([
+                __DIR__ . '/../config/matomo.php' => config_path('matomo.php'),
             ], 'breeze-config');
 
             //前端资源

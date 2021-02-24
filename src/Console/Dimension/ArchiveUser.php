@@ -1,6 +1,6 @@
 <?php
 
-namespace Haxibiao\Breeze\Console;
+namespace Haxibiao\Breeze\Console\Dimension;
 
 use App\Answer;
 use App\User;
