@@ -2,6 +2,10 @@
 
 namespace Haxibiao\Breeze;
 
+use Haxibiao\Breeze\Console\ArchiveAll;
+use Haxibiao\Breeze\Console\ArchiveRetention;
+use Haxibiao\Breeze\Console\ArchiveUser;
+use Haxibiao\Breeze\Console\ArchiveWithdraw;
 use Haxibiao\Breeze\Console\InstallCommand;
 use Haxibiao\Breeze\Console\PublishCommand;
 use Illuminate\Contracts\Foundation\CachesConfiguration;
@@ -54,6 +58,10 @@ class BreezeServiceProvider extends ServiceProvider
         $this->commands([
             InstallCommand::class,
             PublishCommand::class,
+            ArchiveAll::class,
+            ArchiveRetention::class,
+            ArchiveUser::class,
+            ArchiveWithdraw::class,
         ]);
 
         //合并view config 配置
