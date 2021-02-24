@@ -1,0 +1,10 @@
+<?php
+
+namespace App\Nova;
+
+use Haxibiao\Breeze\Nova\Seo as NovaSeo;
+
+class Seo extends NovaSeo
+{
+    //
+}

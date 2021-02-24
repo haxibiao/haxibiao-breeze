@@ -1,7 +1,7 @@
 <?php
 namespace Database\Seeders;
 
-use Haxibiao\Config\Seo;
+use Haxibiao\Breeze\Seo;
 use Illuminate\Database\Seeder;
 
 class SeoSeeder extends Seeder

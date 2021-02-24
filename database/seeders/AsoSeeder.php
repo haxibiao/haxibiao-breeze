@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Haxibiao\Config\Aso;
+use Haxibiao\Breeze\Aso;
 use Illuminate\Database\Seeder;
 
 class AsoSeeder extends Seeder

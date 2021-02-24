@@ -1,0 +1,10 @@
+<?php
+
+namespace App\Nova;
+
+use Haxibiao\Breeze\Nova\Aso as NovaAso;
+
+class Aso extends NovaAso
+{
+    //
+}
