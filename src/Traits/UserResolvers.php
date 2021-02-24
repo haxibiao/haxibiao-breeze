@@ -420,7 +420,16 @@ trait UserResolvers
                     }
                 }
             }
-            $user->update(array_diff($args, $profile_infos));
+
+            if ($args['name'] ?? null) {
+                $user_infos['name'] = $args['name'];
+            }
+            if ($args['phone'] ?? null) {
+                $user_infos['phone'] = $args['phone'];
+            }
+            if (!empty($user_infos)) {
+                $user->update($user_infos);
+            }
 
             if (!empty($profile_infos)) {
                 $profile = $user->profile;
