@@ -427,6 +427,9 @@ trait UserResolvers
             if ($args['phone'] ?? null) {
                 $user_infos['phone'] = $args['phone'];
             }
+            if ($args['password'] ?? null) {
+                $user_infos['password'] = $args['password'];
+            }
             if (!empty($user_infos)) {
                 $user->update($user_infos);
             }
