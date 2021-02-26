@@ -29,7 +29,9 @@ trait UserAttrs
         if ($profile = $this->user_profile) {
             return $profile;
         }
-        $profile = UserProfile::firstOrCreate(['user_id' => $this->id]);
+
+        $app_version = request()->header('version', null);
+        $profile     = UserProfile::firstOrCreate(['user_id' => $this->id, "app_version" => $app_version]);
         return $profile;
     }
 
@@ -328,7 +330,7 @@ trait UserAttrs
             if ($introduction) {
                 return $introduction;
             }
-            return '这个人很懒，一点介绍都没留下...';
+            return User::INTRODUCTION;
         });
     }
 

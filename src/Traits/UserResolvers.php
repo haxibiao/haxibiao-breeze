@@ -8,7 +8,6 @@ use GraphQL\Type\Definition\ResolveInfo;
 use Haxibiao\Breeze\Exceptions\GQLException;
 use Haxibiao\Breeze\Ip;
 use Haxibiao\Breeze\User;
-use Haxibiao\Breeze\UserProfile;
 use Haxibiao\Task\Task;
 use Haxibiao\Task\UserTask;
 use Illuminate\Support\Arr;
@@ -332,12 +331,7 @@ trait UserResolvers
                 'name'      => User::DEFAULT_NAME,
                 'api_token' => Str::random(60),
             ]);
-            UserProfile::create([
-                'user_id'      => $user->id,
-                'introduction' => '这个人暂时没有 freestyle ',
-                'app_version'  => request()->header('version', null),
-            ]);
-
+            $user->update(['name' => $user->name . $user->id]);
             Ip::createIpRecord('users', $user->id, $user->id);
         }
         $user->updateProfileAppVersion($user);
