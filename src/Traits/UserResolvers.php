@@ -161,28 +161,6 @@ trait UserResolvers
         }
     }
 
-    public function resolveFriends($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
-    {
-        $user    = \App\User::findOrFail($args['user_id']);
-        $follows = $user->followingUsers()->take(500)->get();
-        $friends = [];
-        foreach ($follows as $follow) {
-            $friend = $follow->followed; //被关注的人
-            $ffuids = $friend->followingUsers()->pluck('followable_id')->toArray();
-            if (in_array($user->id, $ffuids)) {
-                $friends[] = $friend;
-            }
-        }
-        return $friends;
-    }
-
-    public function removeBlockUser($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
-    {
-        $user = getUser();
-        $user->blockUser($args['user_id']);
-        return $user;
-    }
-
     public function signIn($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         $account = $args['account'] ?? $args['email'];
@@ -246,12 +224,6 @@ trait UserResolvers
 
         Ip::createIpRecord('users', $user->id, $user->id);
         return $user;
-    }
-
-    public function signOut($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
-    {
-        $user_id = $args['user_id'];
-        return \App\User::findOrFail($user_id);
     }
 
     public function resolveRecommendAuthors($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)

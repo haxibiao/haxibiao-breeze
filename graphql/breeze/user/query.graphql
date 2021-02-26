@@ -101,6 +101,3 @@ extend type Query {
     searchUsers(keyword: String!): [User!] @paginate(defaultCount: 10, builder: "App\\User@resolveSearchUsers")
 }
 
-extend type Query @guard {
-    friends(user_id: Int!): [User!] @field(resolver: "App\\User@resolveFriends")
-}

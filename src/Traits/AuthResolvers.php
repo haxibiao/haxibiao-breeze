@@ -125,13 +125,4 @@ trait AuthResolvers
         }
     }
 
-    /**
-     * 退出登录
-     */
-    public static function resolveSignOut($root, array $args, $context, $info)
-    {
-        $user_id = $args['user_id'];
-        return \App\User::findOrFail($user_id);
-    }
-
 }
