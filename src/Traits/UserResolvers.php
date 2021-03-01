@@ -8,7 +8,6 @@ use GraphQL\Type\Definition\ResolveInfo;
 use Haxibiao\Breeze\Exceptions\GQLException;
 use Haxibiao\Breeze\Ip;
 use Haxibiao\Breeze\User;
-use Haxibiao\Breeze\UserProfile;
 use Haxibiao\Task\Task;
 use Haxibiao\Task\UserTask;
 use Illuminate\Support\Arr;
@@ -161,28 +160,6 @@ trait UserResolvers
         }
     }
 
-    public function resolveFriends($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
-    {
-        $user    = \App\User::findOrFail($args['user_id']);
-        $follows = $user->followingUsers()->take(500)->get();
-        $friends = [];
-        foreach ($follows as $follow) {
-            $friend = $follow->followed; //被关注的人
-            $ffuids = $friend->followingUsers()->pluck('followable_id')->toArray();
-            if (in_array($user->id, $ffuids)) {
-                $friends[] = $friend;
-            }
-        }
-        return $friends;
-    }
-
-    public function removeBlockUser($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
-    {
-        $user = getUser();
-        $user->blockUser($args['user_id']);
-        return $user;
-    }
-
     public function signIn($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         $account = $args['account'] ?? $args['email'];
@@ -246,12 +223,6 @@ trait UserResolvers
 
         Ip::createIpRecord('users', $user->id, $user->id);
         return $user;
-    }
-
-    public function signOut($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
-    {
-        $user_id = $args['user_id'];
-        return \App\User::findOrFail($user_id);
     }
 
     public function resolveRecommendAuthors($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
@@ -360,12 +331,7 @@ trait UserResolvers
                 'name'      => User::DEFAULT_NAME,
                 'api_token' => Str::random(60),
             ]);
-            UserProfile::create([
-                'user_id'      => $user->id,
-                'introduction' => '这个人暂时没有 freestyle ',
-                'app_version'  => request()->header('version', null),
-            ]);
-
+            $user->update(['name' => $user->name . $user->id]);
             Ip::createIpRecord('users', $user->id, $user->id);
         }
         $user->updateProfileAppVersion($user);
@@ -420,7 +386,19 @@ trait UserResolvers
                     }
                 }
             }
-            $user->update(array_diff($args, $profile_infos));
+
+            if ($args['name'] ?? null) {
+                $user_infos['name'] = $args['name'];
+            }
+            if ($args['phone'] ?? null) {
+                $user_infos['phone'] = $args['phone'];
+            }
+            if ($args['password'] ?? null) {
+                $user_infos['password'] = $args['password'];
+            }
+            if (!empty($user_infos)) {
+                $user->update($user_infos);
+            }
 
             if (!empty($profile_infos)) {
                 $profile = $user->profile;

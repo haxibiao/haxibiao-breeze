@@ -8,7 +8,7 @@ use App\Curation;
 use App\Querylog;
 use Haxibiao\Breeze\CheckIn;
 use Haxibiao\Breeze\OAuth;
-use Haxibiao\Breeze\UserBlock;
+use Haxibiao\Sns\UserBlock;
 use Haxibiao\Breeze\UserData;
 use Haxibiao\Breeze\UserProfile;
 use Haxibiao\Breeze\UserRetention;

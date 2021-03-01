@@ -1,0 +1,10 @@
+<?php
+
+namespace App;
+
+use Haxibiao\Breeze\Config as BaseConfig;
+
+class Config extends BaseConfig
+{
+    //
+}

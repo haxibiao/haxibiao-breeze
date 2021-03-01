@@ -60,6 +60,9 @@ class User extends BaseUser
 
     const DEFAULT_NAME = '匿名用户';
 
+    //默认签名
+    const INTRODUCTION = '这个人暂时没有 freestyle';
+
     /**
      * 编辑身份
      */
