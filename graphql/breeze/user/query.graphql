@@ -99,5 +99,9 @@ extend type Query {
     user(id: Int! @eq): User @find
     recommendAuthors: [User!] @paginate(defaultCount: 10, builder: "App\\User@resolveRecommendAuthors")
     searchUsers(keyword: String!): [User!] @paginate(defaultCount: 10, builder: "App\\User@resolveSearchUsers")
+    """
+    是否有奖励
+    """
+    hasReward(user_id: Int!, remark: RewardEnum!): Boolean @field(resolver: "App\\User@hasRewardResolver")
 }
 
