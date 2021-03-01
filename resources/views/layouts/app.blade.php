@@ -45,7 +45,6 @@
         @stack('section')
 
         <div id="side-tool">
-            <side-tool></side-tool>
             @stack('side_tool')
         </div>
 

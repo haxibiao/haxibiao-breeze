@@ -30,7 +30,6 @@ use Illuminate\Support\Str;
 
 trait UserRepo
 {
-
     public function link()
     {
         return '<a href="/user/' . $this->id . '">' . $this->name . '</a>';
@@ -41,6 +40,11 @@ trait UserRepo
         return '<a href="/user/' . $this->id . '">@' . $this->name . '</a>';
     }
 
+    /**
+     * @deprecated 用 getTaAttribute
+     *
+     * @return string
+     */
     public function ta()
     {
         return $this->isSelf() ? '我' : '他';

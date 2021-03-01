@@ -146,3 +146,10 @@ function checkAdmin()
     }
     return false;
 }
+
+if (!function_exists("app_track_event")) {
+    function app_track_event()
+    {
+        //FIXME: 临时兼容matomo还没完成合并到breeze内的异常问题
+    }
+}

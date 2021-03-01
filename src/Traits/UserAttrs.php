@@ -19,6 +19,11 @@ use Illuminate\Support\Carbon;
 trait UserAttrs
 {
 
+    public function getTaAttribute()
+    {
+        return $this->isSelf() ? '我' : '他';
+    }
+
     //属性
 
     /**
