@@ -3,7 +3,7 @@
 use Haxibiao\Breeze\Seo;
 use Haxibiao\Breeze\SEOFriendlyUrl;
 
-if (!function_exists('push_url_baidu')){
+if (!function_exists('push_url_baidu')) {
     function push_url_baidu($urls)
     {
         $urls    = array($urls);
@@ -22,14 +22,14 @@ if (!function_exists('push_url_baidu')){
     }
 }
 
-if (!function_exists('seo_friendly_urls')){
+if (!function_exists('seo_friendly_urls')) {
     function seo_friendly_urls()
     {
         return SEOFriendlyUrl::generate();
     }
 }
 
-if (!function_exists('seo_small_logo')){
+if (!function_exists('seo_small_logo')) {
     function seo_small_logo()
     {
         //logo主要针对请求域名变化
@@ -37,7 +37,7 @@ if (!function_exists('seo_small_logo')){
     }
 }
 
-if(!function_exists('seo_site_name')){
+if (!function_exists('seo_site_name')) {
     function seo_site_name()
     {
         //1尊重cms配置站群名称
@@ -56,7 +56,7 @@ if(!function_exists('seo_site_name')){
     }
 }
 
-if(!function_exists('matomo_site_id')){
+if (!function_exists('matomo_site_id')) {
     function matomo_site_id()
     {
         if (request() && $url = request()->getUri()) {
@@ -119,19 +119,17 @@ if(!function_exists('matomo_site_id')){
  *
  * @return boolean
  */
-if(!function_exists('is_beian_sites')){
+if (!function_exists('is_beian_sites')) {
     function is_beian_sites()
     {
         return in_array(get_domain(), array_keys(neihan_beian_domains()));
     }
 }
 
-
-
 /**
  * 所有内涵站群备案域名
  */
-if(!function_exists('neihan_beian_domains')){
+if (!function_exists('neihan_beian_domains')) {
     function neihan_beian_domains()
     {
         return [
@@ -148,7 +146,7 @@ if(!function_exists('neihan_beian_domains')){
 /**
  * 所有内涵站群未备案域名
  */
-if(!function_exists('neihan_sites_domains')){
+if (!function_exists('neihan_sites_domains')) {
     function neihan_sites_domains()
     {
         return [
@@ -200,7 +198,7 @@ if(!function_exists('neihan_sites_domains')){
     }
 }
 
-if(!function_exists('neihan_ga_measure_id')){
+if (!function_exists('neihan_ga_measure_id')) {
     function neihan_ga_measure_id()
     {
         if (request() && $url = request()->getUri()) {
@@ -258,7 +256,7 @@ if(!function_exists('neihan_ga_measure_id')){
     }
 }
 
-if(!function_exists('neihan_tencent_app_id')){
+if (!function_exists('neihan_tencent_app_id')) {
     function neihan_tencent_app_id()
     {
         if (request() && $url = request()->getUri()) {
@@ -314,7 +312,7 @@ if(!function_exists('neihan_tencent_app_id')){
     }
 }
 
-if(!function_exists('siteName')){
+if (!function_exists('siteName')) {
     function siteName()
     {
         if (request() && $url = request()->getUri()) {
@@ -379,7 +377,7 @@ if(!function_exists('siteName')){
     }
 }
 
-if(!function_exists('friend_links')){
+if (!function_exists('friend_links')) {
     function friend_links()
     {
         $zaixianSites = [
@@ -437,7 +435,7 @@ if(!function_exists('friend_links')){
     }
 }
 
-if(!function_exists('getDomain')){
+if (!function_exists('getDomain')) {
     function getDomain()
     {
         $urlInfo = parse_url(request()->getUri());
@@ -451,7 +449,7 @@ if(!function_exists('getDomain')){
     }
 }
 
-if(!function_exists('sitemap')){
+if (!function_exists('sitemap')) {
     function sitemap()
     {
         $host = getDomain();
@@ -467,7 +465,7 @@ if(!function_exists('sitemap')){
 }
 
 // 百度统计id
-if(!function_exists('baidu_id')){
+if (!function_exists('baidu_id')) {
     function baidu_id()
     {
         if (request() && $url = request()->getUri()) {
@@ -525,7 +523,7 @@ if(!function_exists('baidu_id')){
     }
 }
 
-if(!function_exists('seo_value')){
+if (!function_exists('seo_value')) {
     function seo_value($group, $name)
     {
         if ($seos = app('seos')) {
@@ -544,7 +542,7 @@ if(!function_exists('seo_value')){
 /**
  * @deprecated 统计合并到 cms_seo_js 里即可
  */
-if(!function_exists('get_seo_tj')){
+if (!function_exists('get_seo_tj')) {
     function get_seo_tj()
     {
         //站群模式
@@ -561,7 +559,7 @@ if(!function_exists('get_seo_tj')){
  * *****答赚web网页兼容*********
  * ***************************
  */
-if(!function_exists('get_seo_title')){
+if (!function_exists('get_seo_title')) {
     function get_seo_title()
     {
         //站群模式
@@ -576,7 +574,7 @@ if(!function_exists('get_seo_title')){
     }
 }
 
-if(!function_exists('get_seo_keywords')){
+if (!function_exists('get_seo_keywords')) {
     function get_seo_keywords()
     {
         //站群模式
@@ -591,7 +589,7 @@ if(!function_exists('get_seo_keywords')){
     }
 }
 
-if(!function_exists('get_seo_description')){
+if (!function_exists('get_seo_description')) {
     function get_seo_description()
     {
         //站群模式
@@ -606,7 +604,7 @@ if(!function_exists('get_seo_description')){
     }
 }
 
-if(!function_exists('get_seo_meta')){
+if (!function_exists('get_seo_meta')) {
     function get_seo_meta($group_name = "站长")
     {
         //配合调试模式才允许验证站长
@@ -625,12 +623,11 @@ if(!function_exists('get_seo_meta')){
     }
 }
 
-
 if (!function_exists('get_seo_push')) {
     function get_seo_push($seo_site_name = null, $group_name = "百度")
     {
         if ($seo_site_name) {
-            $js = Haxibiao\Config\Seo::query()
+            $js = Haxibiao\Breeze\Seo::query()
                 ->where('group', $group_name)
                 ->where('name', $seo_site_name . "_push")->first();
             if ($js) {

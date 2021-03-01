@@ -3,10 +3,9 @@
 namespace Haxibiao\Breeze\Console\Config;
 
 use Illuminate\Console\Command;
-use PHPUnit\Framework\Error\Deprecated;
 
 /**
- * @deprecated 目前主要用更简洁的 set:env Haxibiao\Config\Console\SetEnv.php
+ * 读取webconfig.json模式的，适合工厂，set:env适合单个项目单个服务器简单刷新私密配置
  */
 class EnvRefresh extends Command
 {
