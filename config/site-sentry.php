@@ -95,7 +95,9 @@ return [
         'dsn' => 'http://5a29bf7f74a6450ba8b6c7a24af01c42@sentry.haxibiao.cn/6',
     ],
     'diudie'         => [
-        'dsn' => 'http://3754959397b94c9ba95317454deb10c4@sentry.haxibiao.cn/5',
+        'dsn' => '',
+//		注释的原因：暂时关闭避免sentry服务器资源被占满。jp002服务器压力过大一直在抛出错误，准备从jp002中迁移出部分网站。
+//        'dsn' => 'http://3754959397b94c9ba95317454deb10c4@sentry.haxibiao.cn/5',
     ],
     'dianyintujie'   => [
         'dsn' => 'http://af33cfce28a4427ea42aaee7688e0c6b@sentry.haxibiao.cn/3',
