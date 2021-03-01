@@ -4,6 +4,8 @@ namespace Haxibiao\Breeze;
 
 use Haxibiao\Breeze\Console\InstallCommand;
 use Haxibiao\Breeze\Console\PublishCommand;
+use Haxibiao\Breeze\Facades\SEOFriendlyUrl;
+use Illuminate\Config\Repository as Config;
 use Illuminate\Contracts\Foundation\CachesConfiguration;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Blade;
@@ -54,6 +56,17 @@ class BreezeServiceProvider extends ServiceProvider
         $this->commands([
             InstallCommand::class,
             PublishCommand::class,
+
+            Console\Dimension\ArchiveAll::class,
+            Console\Dimension\ArchiveRetention::class,
+            Console\Dimension\ArchiveUser::class,
+            Console\Dimension\ArchiveWithdraw::class,
+
+            Console\Matomo\MatomoProxy::class,
+            Console\Matomo\MatomoClient::class,
+
+            Console\Config\EnvRefresh::class,
+            Console\Config\SetEnv::class,
         ]);
 
         //合并view config 配置
@@ -105,6 +118,7 @@ class BreezeServiceProvider extends ServiceProvider
     {
         if (!app()->configurationIsCached()) {
             $this->mergeConfigFrom(__DIR__ . '/../config/breeze.php', 'breeze');
+            $this->mergeConfigFrom(__DIR__ . '/../config/seo.php', 'seo');
         }
 
         //安装时需要
@@ -117,6 +131,10 @@ class BreezeServiceProvider extends ServiceProvider
 
             $this->publishes([
                 __DIR__ . '/../config/breeze.php' => config_path('breeze.php'),
+            ], 'breeze-config');
+
+            $this->publishes([
+                __DIR__ . '/../config/matomo.php' => config_path('matomo.php'),
             ], 'breeze-config');
 
             //前端资源
@@ -139,6 +157,20 @@ class BreezeServiceProvider extends ServiceProvider
         );
 
         $this->bindObservers();
+
+        $this->app->singleton('app.config.beian', function ($app) {
+            return \App\AppConfig::where([
+                'group' => 'record',
+                'name'  => 'web',
+            ])->first();
+        });
+
+        $this->app->singleton('asos', function ($app) {
+            return \App\Aso::all();
+        });
+        $this->app->singleton('seos', function ($app) {
+            return \App\Seo::all();
+        });
     }
 
     public function bindObservers()

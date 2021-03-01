@@ -44,15 +44,15 @@ class PublishCommand extends Command
 
         $this->info(' - breeze 子模块的资源配置');
 
-        $this->callSilent("vendor:publish", ['--tag' => 'cms-config', '--force' => $force]);
-        $this->callSilent("vendor:publish", ['--tag' => 'cms-resources', '--force' => $force]);
+//        $this->callSilent("vendor:publish", ['--tag' => 'cms-config', '--force' => $force]);
+//        $this->callSilent("vendor:publish", ['--tag' => 'cms-resources', '--force' => $force]);
 
         $this->callSilent("vendor:publish", ['--tag' => 'content-config', '--force' => $force]);
         $this->callSilent("vendor:publish", ['--tag' => 'content-graphql', '--force' => $force]);
         $this->callSilent("vendor:publish", ['--tag' => 'content-nova', '--force' => $force]);
         $this->callSilent("vendor:publish", ['--tag' => 'content-resources', '--force' => $force]);
 
-        $this->callSilent("vendor:publish", ['--tag' => 'matomo-resources', '--force' => $force]);
+//        $this->callSilent("vendor:publish", ['--tag' => 'matomo-resources', '--force' => $force]);
 
         $this->callSilent("vendor:publish", ['--tag' => 'media-config', '--force' => $force]);
         $this->callSilent("vendor:publish", ['--tag' => 'media-applist', '--force' => $force]);

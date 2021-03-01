@@ -1,0 +1,10 @@
+<?php
+
+namespace App\Nova;
+
+use Haxibiao\Breeze\Nova\AppConfig as NovaAppConfig;
+
+class AppConfig extends NovaAppConfig
+{
+    //
+}

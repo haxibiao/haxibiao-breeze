@@ -1,0 +1,10 @@
+<?php
+
+namespace App;
+
+use Haxibiao\Breeze\AdConfig as BaseAdConfig;
+
+class AdConfig extends BaseAdConfig
+{
+    //
+}

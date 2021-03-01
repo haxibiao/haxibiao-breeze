@@ -1,0 +1,10 @@
+<?php
+
+namespace App\Nova;
+
+use Haxibiao\Breeze\Nova\Dimension as NovaDimension;
+
+class Dimension extends NovaDimension
+{
+
+}

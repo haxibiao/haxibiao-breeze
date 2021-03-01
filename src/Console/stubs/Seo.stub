@@ -1,0 +1,10 @@
+<?php
+
+namespace App;
+
+use Haxibiao\Breeze\Seo as BaseSeo;
+
+class Seo extends BaseSeo
+{
+    //
+}

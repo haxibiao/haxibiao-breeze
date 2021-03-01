@@ -1,6 +1,5 @@
 extend type Mutation {
     signIn(account: String, email: String, password: String!, uuid: String): User! @field(resolver: "App\\User@signIn")
-    signOut(user_id: ID!): User @field(resolver: "App\\User@signOut")
     autoSignIn(uuid: String!, phone: String): User @field(resolver: "App\\User@autoSignIn")
     """
     第三方账号登录
@@ -25,9 +24,7 @@ enum RewardType {
     VIDEO @enum(value: "newUser")
 }
 
-# test
 extend type Mutation {
-    blockUser(user_id: Int!): blockInfo @field(resolver: "App\\User@removeBlockUser")
     updateUserInfo(id: Int @eq, input: updateUserInfo! @spread): User! @field(resolver: "App\\User@updateUserInfo")
 }
 

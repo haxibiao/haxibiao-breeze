@@ -1,0 +1,10 @@
+<?php
+
+namespace App;
+
+use Haxibiao\Breeze\Dimension as BaseDimension;
+
+class Dimension extends BaseDimension
+{
+
+}

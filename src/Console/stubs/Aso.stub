@@ -1,0 +1,10 @@
+<?php
+
+namespace App;
+
+use Haxibiao\Breeze\Aso as BaseAso;
+
+class Aso extends BaseAso
+{
+    //
+}

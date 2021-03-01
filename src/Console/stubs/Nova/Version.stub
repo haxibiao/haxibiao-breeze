@@ -1,0 +1,10 @@
+<?php
+
+namespace App\Nova;
+
+use Haxibiao\Breeze\Nova\Version as NovaVersion;
+
+class Version extends NovaVersion
+{
+    //
+}
