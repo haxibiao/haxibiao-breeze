@@ -4,7 +4,6 @@ namespace Haxibiao\Breeze;
 
 use Haxibiao\Breeze\Console\InstallCommand;
 use Haxibiao\Breeze\Console\PublishCommand;
-use Haxibiao\Breeze\Facades\SEOFriendlyUrl;
 use Illuminate\Config\Repository as Config;
 use Illuminate\Contracts\Foundation\CachesConfiguration;
 use Illuminate\Support\Facades\Auth;
@@ -84,29 +83,14 @@ class BreezeServiceProvider extends ServiceProvider
 
         $this->bindPathsInContainer();
 
-    }
+        $this->bindObservers();
 
-    public function registerBladeDirectives()
-    {
-        Blade::directive('timeago', function ($expression) {
-            return "<?php echo diffForHumansCN($expression); ?>";
-        });
-        //将秒数转换成 分:秒
-        Blade::directive('sectominute', function ($expression) {
-            return "<?php echo gmdate('i:s', $expression); ?>";
-        });
-        Blade::if('admin', function () {
-            return Auth::check() && Auth::user()->checkAdmin();
-        });
-
-        Blade::if('editor', function () {
-            return Auth::check() && Auth::user()->checkEditor();
-        });
-
-        Blade::if('weixin', function () {
-            return request('weixin');
-        });
-
+        if (is_null(config('breeze.routes_autoload')) || config('breeze.routes_autoload') === true) {
+            //默认注册breeze路由，允许配置关闭
+            $this->loadRoutesFrom(
+                __DIR__ . '/../router.php'
+            );
+        }
     }
 
     /**
@@ -150,11 +134,28 @@ class BreezeServiceProvider extends ServiceProvider
             ], 'breeze-graphql');
 
         }
+    }
 
-        //注册路由
-        $this->loadRoutesFrom(
-            __DIR__ . '/../router.php'
-        );
+    public function registerBladeDirectives()
+    {
+        Blade::directive('timeago', function ($expression) {
+            return "<?php echo diffForHumansCN($expression); ?>";
+        });
+        //将秒数转换成 分:秒
+        Blade::directive('sectominute', function ($expression) {
+            return "<?php echo gmdate('i:s', $expression); ?>";
+        });
+        Blade::if('admin', function () {
+            return Auth::check() && Auth::user()->checkAdmin();
+        });
+
+        Blade::if('editor', function () {
+            return Auth::check() && Auth::user()->checkEditor();
+        });
+
+        Blade::if('weixin', function () {
+            return request('weixin');
+        });
 
         $this->bindObservers();
 
