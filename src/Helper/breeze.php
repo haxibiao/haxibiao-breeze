@@ -56,9 +56,9 @@ function checkUser()
 function getUser($throw = true)
 {
     //已登录,swoole不能记录用户登录状态,会直接记录到服务器内存中,并且之后返回的都是该用户
-    if (Auth::check()) {
-        return Auth::user();
-    }
+    // if (Auth::check()) {
+    //     return Auth::user();
+    // }
 
     //guard api token
     $user = auth('api')->user() ?? request()->user();
@@ -87,9 +87,9 @@ function getUser($throw = true)
     throw_if(is_null($user) && $throw, UserException::class, '客户端还没登录...');
 
     //授权,减少重复查询 && 授权背后有个event监听
-    if ($user) {
-        Auth::login($user);
-    }
+    // if ($user) {
+    //     Auth::login($user);
+    // }
 
     return $user;
 }
@@ -102,6 +102,11 @@ function getUserId()
         return $user->id;
     }
     return 0;
+}
+
+function getUserById($id)
+{
+    return !is_null($id) ? User::find($id) : null;
 }
 
 function canEdit($content)
