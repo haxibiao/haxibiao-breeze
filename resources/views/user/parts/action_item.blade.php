@@ -191,7 +191,7 @@
 @elseif($action->actionable && get_class($action->actionable) == 'App\Follow')
     @php
         $follow = $action->actionable;
-        $item = $follow->followed;
+        $item = $follow->followable;
         //避免脏数据
         if(empty($item)){
             return;

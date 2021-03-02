@@ -34,9 +34,9 @@ class SendNewFollowNotification implements ShouldQueue
             'followable_id'   => $follow->followable_id,
         ])->exists();
 
-        if ($follow->followed instanceof \App\User) {
+        if ($follow->followable instanceof \App\User) {
             if (!$is_deFollow) {
-                $follow->followed->notify(new UserFollowed($user));
+                $follow->followable->notify(new UserFollowed($user));
             }
         }
 

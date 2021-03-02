@@ -24,9 +24,9 @@ class FollowObserver
         //同步被关注着的粉丝数
         $count = Follow::where('followable_type', $follow->followable_type)->where("followable_id", $follow->followable_id)->count();
         if ($follow->followable_type == 'users') {
-            $follow->followed->profile->update(['count_follows' => $count]);
+            $follow->followable->profile->update(['count_follows' => $count]);
         } else {
-            $follow->followed->update(['count_follows' => $count]);
+            $follow->followable->update(['count_follows' => $count]);
         }
     }
 
@@ -57,9 +57,9 @@ class FollowObserver
         //同步被关注着的粉丝数
         $count = Follow::where('followable_type', $follow->followable_type)->where("followable_id", $follow->followable_id)->count();
         if ($follow->followable_type == 'users') {
-            $follow->followed->profile->update(['count_follows' => $count]);
+            $follow->followable->profile->update(['count_follows' => $count]);
         } else {
-            $follow->followed->update(['count_follows' => $count]);
+            $follow->followable->update(['count_follows' => $count]);
         }
     }
 
