@@ -3,7 +3,7 @@
 /**
  * 主要的web网页请求事件track到matomo
  */
-if(!function_exists('track_web')){
+if (!function_exists('track_web')) {
     function track_web($category, $action = null, $name = null, $value = null)
     {
         $web_idSite = config('matomo.web_id');
@@ -13,11 +13,10 @@ if(!function_exists('track_web')){
     }
 }
 
-
 /**
  * 主要的后端事件track到matomo
  */
-if(!function_exists('app_track_event')){
+if (!function_exists('app_track_event')) {
     function app_track_event($category, $action = null, $name = null, $value = null)
     {
         //开启matomo开关功能
@@ -29,12 +28,12 @@ if(!function_exists('app_track_event')){
         if (is_testing_env()) {
             return;
         }
-        if (is_local_env()){
+        if (is_local_env()) {
             return;
         }
         //是否开启管理员账号行为不埋点
-        if(config('matomo.matomo_user',false)){
-            if(checkUser() && getUser()->role_id != \App\User::USER_STATUS){
+        if (config('matomo.matomo_user', false)) {
+            if (checkUser() && getUser()->role_id != \App\User::USER_STATUS) {
                 return;
             }
         }
@@ -60,12 +59,12 @@ if(!function_exists('app_track_event')){
             $tracker->setRequestTimeout(1); //最多卡1s
             $tracker->setForceVisitDateTime(time());
 
-            $tracker->setCustomVariable(1, '系统', $event['dimension1'], 'visit');
-            $tracker->setCustomVariable(2, '来源', $event['dimension2'], 'visit');
-            $tracker->setCustomVariable(3, '版本', $event['dimension3'], 'visit');
-            $tracker->setCustomVariable(4, '用户', $event['dimension4'], 'visit');
+            $tracker->setCustomVariable(1, '系统', $event['dimension1'] ?? null, 'visit');
+            $tracker->setCustomVariable(2, '来源', $event['dimension2'] ?? null, 'visit');
+            $tracker->setCustomVariable(3, '版本', $event['dimension3'] ?? null, 'visit');
+            $tracker->setCustomVariable(4, '用户', $event['dimension4'] ?? null, 'visit');
             $tracker->setCustomVariable(5, "服务器", gethostname(), "visit");
-            $tracker->setCustomVariable(6, '机型', $event['dimension5'], 'visit');
+            $tracker->setCustomVariable(6, '机型', $event['dimension5'] ?? null, 'visit');
 
             try {
                 //直接发送到matomo
@@ -78,7 +77,7 @@ if(!function_exists('app_track_event')){
     }
 }
 
-if(!function_exists('wrapMatomoEventData')){
+if (!function_exists('wrapMatomoEventData')) {
     function wrapMatomoEventData($event)
     {
         $event['user_id'] = getUniqueUserId();
@@ -99,7 +98,7 @@ if(!function_exists('wrapMatomoEventData')){
     }
 }
 
-if (!function_exists('sendMatomoTcpEvent')){
+if (!function_exists('sendMatomoTcpEvent')) {
     function sendMatomoTcpEvent(array $event)
     {
         //包装必要的事件参数进入数组
@@ -123,21 +122,21 @@ if (!function_exists('sendMatomoTcpEvent')){
     }
 }
 
-if (!function_exists('tcp_pack')){
+if (!function_exists('tcp_pack')) {
     function tcp_pack(string $data): string
     {
         return pack('n', strlen($data)) . $data;
     }
 }
 
-if (!function_exists('tcp_unpack')){
+if (!function_exists('tcp_unpack')) {
     function tcp_unpack(string $data): string
     {
         return substr($data, 2, unpack('n', substr($data, 0, 2), 0)[1]);
     }
 }
 
-if (!function_exists('getUniqueUserId')){
+if (!function_exists('getUniqueUserId')) {
     function getUniqueUserId()
     {
         try {
@@ -151,7 +150,7 @@ if (!function_exists('getUniqueUserId')){
 /**
  * 用户分类（匿名,新,未提现,老）
  */
-if (!function_exists('getUserCategoryTag')){
+if (!function_exists('getUserCategoryTag')) {
     function getUserCategoryTag()
     {
         $user = getUser(false);
