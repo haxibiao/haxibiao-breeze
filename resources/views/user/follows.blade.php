@@ -28,7 +28,7 @@
 					 <div class="article-list tab-content">
 					   <ul role="tabpanel" class="fade in active  user-list follow-user-list tab-pane" id="following">
 					   		@foreach($data['follows'] as $follow)
-					   			@include('user.parts.follow_item', ['user'=>$follow->followed])
+					   			@include('user.parts.follow_item', ['user'=>$follow->followable])
 					   		@endforeach
 					   		@if(Auth::check())
 								<follow-user-list api="/api/user/{{ $user->id }}/follow?followings=1" start-page="2" not-empty="{{count($data['follows'])>0}}" current-user-id="{{ user_id() }}">

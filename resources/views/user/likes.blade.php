@@ -37,7 +37,7 @@
 
                                 @foreach ($data['followed_categories'] as $follow)
                                     @php
-                                    $category = $follow->followed;
+                                    $category = $follow->followable;
                                     @endphp
                                     @if ($category)
                                         @include('user.parts.follow_category_item', ['category'=>$category])
@@ -56,7 +56,7 @@
 
                                 @foreach ($data['followed_collections'] as $follow)
                                     @php
-                                    $collection = $follow->followed;
+                                    $collection = $follow->followable;
                                     @endphp
                                     @if ($collection)
                                         <li class="note-info">
