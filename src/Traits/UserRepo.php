@@ -4,13 +4,13 @@ namespace Haxibiao\Breeze\Traits;
 
 use Haxibiao\Breeze\BlackList;
 use Haxibiao\Breeze\CheckIn;
+use Haxibiao\Breeze\Dimension;
 use Haxibiao\Breeze\Exceptions\GQLException;
 use Haxibiao\Breeze\Exceptions\UserException;
 use Haxibiao\Breeze\OAuth;
 use Haxibiao\Breeze\User;
 use Haxibiao\Breeze\UserProfile;
 use Haxibiao\Breeze\Verify;
-use Haxibiao\Dimension\Dimension;
 use Haxibiao\Helpers\utils\PhoneUtils;
 use Haxibiao\Helpers\utils\WechatUtils;
 use Haxibiao\Task\Contribute;
