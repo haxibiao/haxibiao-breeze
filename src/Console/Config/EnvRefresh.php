@@ -14,7 +14,7 @@ class EnvRefresh extends Command
      *
      * @var string
      */
-    protected $signature = 'env:refresh {--env=prod : 支持local develop staging prod 四个环境} {--db_host=} {--db_database=} {--db_port=}';
+    protected $signature = 'env:refresh {--db_host=} {--db_database=} {--db_port=}';
 
     /**
      * The console command description.
