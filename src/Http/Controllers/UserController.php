@@ -132,13 +132,13 @@ class UserController extends Controller
                     $action = $action->load('actionable.favorable.user');
                     break;
                 case 'App\Like':
-                    $action = $action->load('actionable.liked.user');
+                    $action = $action->load('actionable.likable.user');
                     break;
                 case 'App\Follow':
-                    if (get_class($action->actionable->followed) == 'App\Category') {
-                        $action = $action->load('actionable.followed.user');
+                    if (get_class($action->actionable->followable) == 'App\Category') {
+                        $action = $action->load('actionable.followable.user');
                     } else {
-                        $action = $action->load('actionable.followed');
+                        $action = $action->load('actionable.followable');
                     }
                     break;
             }
