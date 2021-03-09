@@ -123,7 +123,10 @@ trait UserAttrs
     {
         $avatar = $this->getRawOriginal('avatar');
         if (blank($avatar)) {
-            return User::getDefaultAvatar();
+            $avatar = User::getDefaultAvatar();
+            //保存到本地数据库，不然头像一直在换
+            $this->update(['avatar' => $avatar]);
+            return $avatar;
         }
 
         if (str_contains($avatar, 'http')) {
