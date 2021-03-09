@@ -21,8 +21,8 @@ Route::get('/search/categories', 'SearchController@searchCategories');
 Route::get('/search/collections', 'SearchController@searchCollections');
 
 //管理专题
-Route::get('/category/list', 'CategoryController@list');
-Route::resource('/category', 'CategoryController');
+//Route::get('/category/list', 'CategoryController@list');
+//Route::resource('/category', 'CategoryController');
 
 Route::get('/tag/{name}', 'TagController@tagname');
 Route::resource('/tag', 'TagController');
