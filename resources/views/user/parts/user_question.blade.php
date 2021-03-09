@@ -4,7 +4,7 @@
 @endphp
 {{-- 问答结束 pay + payed --}}
 <li class="question-item {{ $have_img }} {{ $is_pay ? $question->closed ? 'payed pay':'pay' : '' }} " >
-  <a class="title"   href="/question/{{ $question->id }}">
+  <a class="title"   href="/issue/{{ $question->id }}">
       <span>{{ $question->title }}</span>
   </a>
   <div class="question-info descriptor">
@@ -16,7 +16,7 @@
   <div class="question-warp">
 
     @if(!empty($question->relateImage()))
-      <a class="wrap-img" href="/question/{{ $question->id }}"  >
+      <a class="wrap-img" href="/issue/{{ $question->id }}"  >
           <img src="{{ $question->relateImage() }}" alt="">
       </a>
     @endif
@@ -48,13 +48,13 @@
         @endif
       </p>
       <div class="meta">
-        <a   href="/question/{{ $question->id }}">
+        <a   href="/issue/{{ $question->id }}">
           <i class="iconfont icon-liulan"></i> {{ $question->hits }}
         </a>        
-        <a   href="/question/{{ $question->id }}">
+        <a   href="/issue/{{ $question->id }}">
           <i class="iconfont icon-svg37"></i> {{ $question->count_comments }}
         </a>      
-        <a   href="/question/{{ $question->id }}"><i class="iconfont icon-03xihuan"></i> {{ $question->count_likes }}</a>
+        <a   href="/issue/{{ $question->id }}"><i class="iconfont icon-03xihuan"></i> {{ $question->count_likes }}</a>
         {{-- <span><i class="iconfont icon-qianqianqian"></i> 2</span> --}}
       </div>
     </div>

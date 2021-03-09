@@ -4,7 +4,7 @@
 
 @endphp
 <li class="question-item simple {{ $have_img }}">
-  <a class="title"   href="/question/{{ $question->id }}">
+  <a class="title"   href="/issue/{{ $question->id }}">
       <span>{{ $question->title }}</span>
   </a>
   @if($latestResolution)
@@ -32,7 +32,7 @@
       </p>
     </div>
     @if(!empty($question->relateImage()))
-      <a class="wrap-img" href="/question/{{ $question->id }}"  >
+      <a class="wrap-img" href="/issue/{{ $question->id }}"  >
           <img src="{{ $question->relateImage() }}" alt="">
       </a>
     @endif

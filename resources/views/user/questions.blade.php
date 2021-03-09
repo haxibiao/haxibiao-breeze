@@ -33,9 +33,9 @@
                                 <blank-content></blank-content>
                             @endif
                             @foreach ($data['questions'] as $question)
-                                <!-- {!!  Form::open(['method' => 'delete', 'route' => ['question.destroy', $question->id], 'class' => 'form-horizontal']) !!}
+                                {{-- {!!  Form::open(['method' => 'delete', 'route' => ['question.destroy', $question->id], 'class' => 'form-horizontal']) !!}
                                             {!!  Form::submit('删除', ['class' => 'btn btn-sm btn-danger']) !!}
-                                            {!!  Form::close() !!} -->
+                                            {!!  Form::close() !!} --}}
                                 @include('user.parts.user_question', ['question' => $question])
                             @endforeach
                         </ul>

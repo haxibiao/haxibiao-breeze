@@ -1,6 +1,6 @@
 <li class="col-sm-4 recommend-card">
   <div>
-    <a   href="/question?cid={{ $category->id }}">
+    <a   href="/issue?cid={{ $category->id }}">
       	<img class="avatar-category" src="{{ $category->logoUrl }}" alt="">
       <h4 class="name single-line">{{ $category->name }}</h4>
       <p class="category-description">

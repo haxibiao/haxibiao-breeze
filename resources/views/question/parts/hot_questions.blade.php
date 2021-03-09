@@ -4,7 +4,7 @@
       <span>
         精选回答
       </span>
-       {{-- <a href="/question" class="right">
+       {{-- <a href="/issue" class="right">
          更多<i class="iconfont icon-youbian"></i>
        </a> --}}
      </h3>

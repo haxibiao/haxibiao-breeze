@@ -18,7 +18,7 @@
     </a>
   </div>
    <div class="board-list">
-    <a class="question"   href="/question">
+    <a class="question"   href="/issue">
       <span class="board-title">{{ seo_site_name() }}问答<i class="iconfont icon-youbian"></i></span>
       <i class="iconfont icon-changjianwenti board-right"></i> 
     </a>

@@ -1,5 +1,5 @@
 <div class="recommend-question">
-  <a href="/question" class="question-label {{ request()->path() == 'question' && empty(request('cid')) ? 'active' : '' }} hot">
+  <a href="/issue" class="question-label {{ request()->path() == 'question' && empty(request('cid')) ? 'active' : '' }} hot">
     <img src="/images/hot.small.jpg" alt="">
     <span class="name">热门</span>
   </a>
@@ -9,9 +9,9 @@
   </a>
 
   @foreach($categories as $category)
-  <a href="/question?cid={{ $category->id }}" class="question-label {{ request('cid') == $category->id ? 'active' : '' }}">
+  <a href="/issue?cid={{ $category->id }}" class="question-label {{ request('cid') == $category->id ? 'active' : '' }}">
     <img src="{{ $category->iconUrl }}" alt="">
-    <span class="name">{{ $category->name }}</span>
+    <span class="name">{{ $category->name }}</span> 
   </a>
   @endforeach
   
