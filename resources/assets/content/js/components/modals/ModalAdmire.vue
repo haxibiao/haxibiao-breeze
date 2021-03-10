@@ -8,7 +8,7 @@
                 <div class="modal-body">
                     <form v-if="!wexinPay" class="new-reward">
                         <div class="reward-intro">
-                            <a class="avatar"><img src="/images/xbx.jpg" /></a> <span class="intro">支持作者</span>
+                            <a class="avatar"><img src="https://diudie-1251052432.cos.ap-guangzhou.myqcloud.com/images/xbx.jpg" /></a> <span class="intro">支持作者</span>
                             <i class="iconfont icon-jinqian1"></i>
                         </div>
                         <div class="main-inputs">
@@ -70,10 +70,10 @@
                         <div class="choose-pay">
                             <input id="method1" type="radio" name="pay-method" value="wx-pay" v-model="payMethod" />
                             <label for="method1" class="option"
-                                ><img src="/images/wechat-pay.png" class="wechat"
+                                ><img src="https://diudie-1251052432.cos.ap-guangzhou.myqcloud.com/images/wechat-pay.png" class="wechat"
                             /></label>
                             <input id="method2" type="radio" name="pay-method" value="alipay" v-model="payMethod" />
-                            <label for="method2" class="option"><img src="/images/alipay.png" class="alipay" /></label>
+                            <label for="method2" class="option"><img src="https://diudie-1251052432.cos.ap-guangzhou.myqcloud.com/images/alipay.png" class="alipay" /></label>
                         </div>
                     </form>
                     <div v-show="wexinPay" class="wx-qr-code">

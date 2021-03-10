@@ -29,10 +29,10 @@
 						        <a class="nickname"   href="/user/{{ $article->user_id }}">{{ $article->user->name }}</a>
 
 						        @if($article->user->is_signed)
-						        <img class="badge-icon" src="/images/signed.png" data-toggle="tooltip" data-placement="top" title="{{ config('app.name') }}签约作者" alt="">
+						        <img class="badge-icon" src="https://diudie-1251052432.cos.ap-guangzhou.myqcloud.com/images/signed.png" data-toggle="tooltip" data-placement="top" title="{{ config('app.name') }}签约作者" alt="">
 						        @endif
 						        @if($article->user->is_editor)
-						          <img class="badge-icon" src="/images/editor.png" data-toggle="tooltip" data-placement="top" title="{{ config('app.name') }}小编" alt="">
+						          <img class="badge-icon" src="https://diudie-1251052432.cos.ap-guangzhou.myqcloud.com/images/editor.png" data-toggle="tooltip" data-placement="top" title="{{ config('app.name') }}小编" alt="">
 						        @endif
 
 						        <span class="time" data-shared-at="{{ $article->created_at }}">{{ $article->timeAgo() }}</span>

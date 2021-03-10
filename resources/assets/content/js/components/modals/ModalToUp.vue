@@ -15,7 +15,7 @@
                       <div class="method">
                     		<span>选择支付方式</span>
                         <input type="radio" value="alipay" checked="checked">
-                        <img src="/images/alipay.png" class="alipay"> 
+                        <img src="https://diudie-1251052432.cos.ap-guangzhou.myqcloud.com/images/alipay.png" class="alipay">
                       </div>
 	                </div>
 	                <div class="modal-footer">

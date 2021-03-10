@@ -15,8 +15,8 @@
 					</a>
 					<div class="info">
 						<a v-if="article.user" class="nickname"    :href="'/user/'+article.user_id">{{ article.user.name }}</a>
-						<img v-if="article.user.is_signed" class="badge-icon" src="/images/signed.png" data-toggle="tooltip" data-placement="top" title="签约作者" alt="签约作者">
-						<img v-if="article.user.is_editor" class="badge-icon" src="/images/editor.png" data-toggle="tooltip" data-placement="top" title="小编" alt="小编">
+						<img v-if="article.user.is_signed" class="badge-icon" src="https://diudie-1251052432.cos.ap-guangzhou.myqcloud.com/images/signed.png" data-toggle="tooltip" data-placement="top" title="签约作者" alt="签约作者">
+						<img v-if="article.user.is_editor" class="badge-icon" src="https://diudie-1251052432.cos.ap-guangzhou.myqcloud.com/images/editor.png" data-toggle="tooltip" data-placement="top" title="小编" alt="小编">
 						<span class="time">{{ article.time_ago }}</span>
 					</div>
 				</div>
