@@ -134,7 +134,7 @@ class UserController extends Controller
         }
 
         foreach ($users as $user) {
-            $user->fillForJs();
+            //$user->fillForJs();
             if (Auth::guard('api')->check()) {
                 $user->is_followed = Auth::guard('api')->user()->isFollow('users', $user->id);
             }
