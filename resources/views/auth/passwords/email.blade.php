@@ -2,7 +2,8 @@
 
 @section('content')
 <div id="email-reset">
-    <div class="logo"><a href="/"><img src="{{'/logo/'.get_domain().'.text.png' ?:'/logo/'.get_domain().'.png' }}" alt="{{ config('app.name') }}"></a></div>
+    <div class="logo">
+        <a href="/"><img src="{{ web_logo() }}" alt="{{ config('app.name') }}"></a></div>
         <div class="reset-box">
                 <h4 class="title">用邮箱重置密码</h4>
                 <div class="panel-body">
