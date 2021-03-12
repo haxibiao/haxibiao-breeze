@@ -67,10 +67,7 @@ trait UserRepo
         return $is_black;
     }
 
-    public function isSelf()
-    {
-        return Auth::check() && Auth::id() == $this->id;
-    }
+
 
     /**
      * 保存用户头像到cloud
