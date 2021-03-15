@@ -7,9 +7,9 @@
                 <li class="hide-xs"><a href="/movie/riju" data-type-en="riju">日剧</a></li>
                 <li class="hide-xs"><a href="/movie/meiju" data-type-en="meiju">美剧</a></li>
                 <li class="hide-xs"><a href="/movie/hanju" data-type-en="hanju">韩剧</a></li>
-                @if (is_null(data_get(app('cms_site'),'company',null)))
-                    <li class="hide-xs"><a href="/movie/gangju" data-type-en="gangju">港剧</a></li>
-                @endif
+{{--                @if (is_null(data_get(app('cms_site'),'company',null)))--}}
+{{--                    <li class="hide-xs"><a href="/movie/gangju" data-type-en="gangju">港剧</a></li>--}}
+{{--                @endif--}}
             </ul>
             <ul class="app-header__user">
                 <li class="search">
