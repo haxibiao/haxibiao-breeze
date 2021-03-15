@@ -1,8 +1,11 @@
 @extends('layouts.blank')
 
 @section('content')
+@php
+    $small_logo = 'https://diudie-1251052432.cos.ap-guangzhou.myqcloud.com/web/public/logo/' . get_domain() . '.small.png';
+@endphp
 <div id="reset">
-        <div class="logo"><a href="/"><img src="{{'/logo/'.get_domain().'.text.png' ?:'/logo/'.get_domain().'.png' }}" alt="{{ config('app.name') }}"></a></div>
+        <div class="logo"><a href="/"><img src="$small_logo" alt="{{ config('app.name') }}"></a></div>
         <div class="resetPasswordMain">
                 <h4 class="reset-title">用邮箱重置密码</h4>
                 <div class="panel-body">
