@@ -1,7 +1,7 @@
 @php
     $small_logo = 'https://diudie-1251052432.cos.ap-guangzhou.myqcloud.com/web/public/logo/' . get_domain() . '.small.png';
     $web_logo   = 'https://diudie-1251052432.cos.ap-guangzhou.myqcloud.com/web/public/logo/' . get_domain() . '.web.png';
-​    $touch_logo = 'https://diudie-1251052432.cos.ap-guangzhou.myqcloud.com/web/public/logo/' . get_domain() . '.touch.png';
+    $touch_logo = 'https://diudie-1251052432.cos.ap-guangzhou.myqcloud.com/web/public/logo/' . get_domain() . '.touch.png';
 @endphp
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
