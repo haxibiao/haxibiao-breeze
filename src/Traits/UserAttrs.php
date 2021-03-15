@@ -569,4 +569,15 @@ trait UserAttrs
             throw new GQLException('行为异常,详情咨询QQ群:326423747');
         }
     }
+
+    public function getFollowedStatusAttribute()
+    {
+        $user = checkUser();
+
+        if (!is_null($user)) {
+            return $user->isFollow('users', $this->id);
+        }
+
+        return null;
+    }
 }
