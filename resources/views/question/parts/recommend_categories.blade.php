@@ -4,7 +4,7 @@
     <span class="name">热门</span>
   </a>
   <a href="/question-bonused" class="question-label {{ request()->path() == 'question-bonused' ? 'active' : '' }} money">
-    <img src="/images/money.small.jpg" alt="">
+    <img src="https://diudie-1251052432.cos.ap-guangzhou.myqcloud.com/web/public/images/money.small.jpg" alt="">
     <span class="name">付费</span>
   </a>
 

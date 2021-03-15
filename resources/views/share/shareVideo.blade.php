@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -36,14 +37,14 @@
     <div id="xiazaiimg">
         <div id="close" onclick="close()">X</div>
         <a onclick="openlink(getDownloadUrl())">
-            <img src="/vendor/breeze/images/images.png">
+            <img src="https://diudie-1251052432.cos.ap-guangzhou.myqcloud.com/web/public/images/images.png">
         </a>
     </div>
     <!-- 微信环境跳到浏览器提示 -->
     <div id="mask"
         style="position:fixed; z-index:999999999999; top: 0; width: 100%; height: 100%; background: rgba(102, 102, 102, 0.5); display: none;">
         <div style="position:absolute; width: 100%; height: 100%;">
-            <img src="/vendor/breeze/images/big-mask.jpg" style="width :100%; position:absolute;" alt="请通过浏览器打开">
+            <img src="https://diudie-1251052432.cos.ap-guangzhou.myqcloud.com/web/public/images/big-mask.jpg" style="width :100%; position:absolute;" alt="请通过浏览器打开">
             <span
                 style="color: #FFFFFF; width:70%; font-size: 15px; margin: 5% 30% 0 5%; position: relative; top: 30px; left:10%;">点击右上角按钮，然后在弹出的菜单中<br />点击
                 "用浏览器打开" 后再下载安装。</span>
@@ -61,14 +62,14 @@
                 </div>
 
                 <div class="info-item info-like">
-                    <img class="icon" src="/vendor/breeze/images/zan.png" />
+                    <img class="icon" src="https://diudie-1251052432.cos.ap-guangzhou.myqcloud.com/web/public/images/zan.png" />
                     <p class="count" style="color: #fff;font-size: .1rem;">{{ $article->count_likes }}</p>
                 </div>
                 <div class="info-item">
-                    <img class="icon" src="/vendor/breeze/images/pinglun.png" />
+                    <img class="icon" src="https://diudie-1251052432.cos.ap-guangzhou.myqcloud.com/web/public/images/pinglun.png" />
                 </div>
                 <div class="info-item">
-                    <img class="icon" src="/vendor/breeze/images/zhuanfa.png" />
+                    <img class="icon" src="https://diudie-1251052432.cos.ap-guangzhou.myqcloud.com/web/public/images/zhuanfa.png" />
                 </div>
             </div>
         </a>

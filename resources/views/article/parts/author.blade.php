@@ -7,7 +7,7 @@
       <div class="title">
         <a class="nickname" href="/user/{{ $article->user->id }}">{{ $article->user->name }}</a>
                          @if($article->user->is_signed)
-                                     <img class="badge-icon"  src="/images/signed.png" data-toggle="tooltip" data-placement="top" title="{{ seo_site_name() }}签约作者" alt="">
+                                     <img class="badge-icon"  src="https://diudie-1251052432.cos.ap-guangzhou.myqcloud.com/images/signed.png" data-toggle="tooltip" data-placement="top" title="{{ seo_site_name() }}签约作者" alt="">
                                    @endif
                                    @if($article->user->is_editor)
                                      <img class="badge-icon"  src="https://diudie-1251052432.cos.ap-guangzhou.myqcloud.com/images/editor.png" data-toggle="tooltip" data-placement="top" title="{{ seo_site_name() }}小编" alt="">
