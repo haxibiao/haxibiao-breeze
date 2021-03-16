@@ -5,7 +5,6 @@ namespace Haxibiao\Breeze;
 use Haxibiao\Breeze\Console\InstallCommand;
 use Haxibiao\Breeze\Console\PublishCommand;
 use Illuminate\Config\Repository as Config;
-use Illuminate\Contracts\Foundation\CachesConfiguration;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
@@ -68,14 +67,15 @@ class BreezeServiceProvider extends ServiceProvider
             Console\Config\SetEnv::class,
         ]);
 
-        //合并view config 配置
-        $view_config_path = __DIR__ . '/../config/view.php';
-        if (!(app() instanceof CachesConfiguration && app()->configurationIsCached())) {
-            $config = app()->make('config');
-            //用breeze的view config来覆盖
-            $config->set('view', array_merge(
-                $config->get('view', []), require $view_config_path
-            ));
+        //合并view paths
+        if (!app()->configurationIsCached()) {
+            $view_paths = array_merge(
+                //APP 的 views 最先匹配
+                config('view.paths'),
+                //然后 匹配 breeze的默认views
+                [__DIR__ . '/../resources/views']
+            );
+            config(['view.paths' => $view_paths]);
         }
 
         //注册blade directives
