@@ -123,7 +123,10 @@ trait UserAttrs
     {
         $avatar = $this->getRawOriginal('avatar');
         if (blank($avatar)) {
-            return User::getDefaultAvatar();
+            $avatar = User::getDefaultAvatar();
+            //保存到本地数据库，不然头像一直在换
+            $this->update(['avatar' => $avatar]);
+            return $avatar;
         }
 
         if (str_contains($avatar, 'http')) {
@@ -565,5 +568,16 @@ trait UserAttrs
             $user->update(['status' => User::STATUS_FREEZE]);
             throw new GQLException('行为异常,详情咨询QQ群:326423747');
         }
+    }
+
+    public function getFollowedStatusAttribute()
+    {
+        $user = checkUser();
+
+        if (!is_null($user)) {
+            return $user->isFollow('users', $this->id);
+        }
+
+        return null;
     }
 }

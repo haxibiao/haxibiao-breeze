@@ -26,7 +26,7 @@
 			<router-link to="/timeline"  tag="li" active-class="active">
 				<a href="javascript:;" class="follow-warp">
 					<div class="avatar">
-						<img src="/images/timeline.png" alt="">
+						<img src="https://diudie-1251052432.cos.ap-guangzhou.myqcloud.com/images/timeline.png" alt="">
 					</div>
 					<div class="name">城友圈</div>
 				</a>

@@ -7,10 +7,10 @@
       <div class="title">
         <a class="nickname" href="/user/{{ $article->user->id }}">{{ $article->user->name }}</a>
                          @if($article->user->is_signed)
-                                     <img class="badge-icon"  src="/images/signed.png" data-toggle="tooltip" data-placement="top" title="{{ seo_site_name() }}签约作者" alt="">
+                                     <img class="badge-icon"  src="https://diudie-1251052432.cos.ap-guangzhou.myqcloud.com/images/signed.png" data-toggle="tooltip" data-placement="top" title="{{ seo_site_name() }}签约作者" alt="">
                                    @endif
                                    @if($article->user->is_editor)
-                                     <img class="badge-icon"  src="/images/editor.png" data-toggle="tooltip" data-placement="top" title="{{ seo_site_name() }}小编" alt="">
+                                     <img class="badge-icon"  src="https://diudie-1251052432.cos.ap-guangzhou.myqcloud.com/images/editor.png" data-toggle="tooltip" data-placement="top" title="{{ seo_site_name() }}小编" alt="">
                                    @endif
         {{-- <a class="btn-base btn-follow btn-xs"><i class="iconfont icon-jia1"></i>关注</a> --}}
         @if(!$article->isSelf())
@@ -29,7 +29,7 @@
             @if($article->status == -1)
               {!! Form::hidden('restore', 'yes') !!}
             @endif
-              {!! Form::submit($article->status == -1 ? "恢复文章":"丢入回收站", ['class' => 'btn-base btn-sm btn-light btn-danger']) !!}                
+              {!! Form::submit($article->status == -1 ? "恢复文章":"丢入回收站", ['class' => 'btn-base btn-sm btn-light btn-danger']) !!}
               {!! Form::close() !!}
               @if($article->type == 'article')
                 <a class="btn-base btn-light btn-sm" href="/article/{{ $article->id }}/edit">编辑文章</a>
@@ -38,8 +38,8 @@
           @if($article->type == 'article')
             {{-- 自己的文章才允许编辑，动态目前只可以删除 --}}
             <a class="btn-base btn-light btn-sm" href="/write#/notebooks/{{ $article->collection_id }}/notes/{{ $article->id }}">编辑文章</a>
-          @else 
-            {!! Form::open(['method' => 'delete', 'route' => ['article.destroy', $article->id]]) !!}              
+          @else
+            {!! Form::open(['method' => 'delete', 'route' => ['article.destroy', $article->id]]) !!}
               @if($article->status == -1)
                 {!! Form::hidden('restore', 'yes') !!}
               @endif

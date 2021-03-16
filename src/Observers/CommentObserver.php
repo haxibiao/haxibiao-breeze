@@ -2,10 +2,7 @@
 
 namespace Haxibiao\Breeze\Observers;
 
-use Haxibiao\Breeze\Events\NewComment;
 use Haxibiao\Breeze\Ip;
-use Haxibiao\Content\Article;
-use Haxibiao\Content\Post;
 use Haxibiao\Sns\Action;
 use Haxibiao\Sns\Comment;
 use Haxibiao\Task\Contribute;
@@ -16,48 +13,37 @@ class CommentObserver
 
     public function creating(Comment $comment)
     {
-        // nova create with user id
-        if (empty($comment->user_id)) {
-            $comment->user_id = Auth()->id();
+        $user = auth()->user();
+        if ($user && is_null($comment->user_id)) {
+            $comment->user_id = auth()->user()->id;
+            $comment->top     = Comment::MAX_TOP_NUM;
         }
+    }
+
+    public function saving(Comment $comment)
+    {
+        $comment->comments_count = $comment->comments()->count();
     }
 
     public function created(Comment $comment)
     {
         if ($comment->user->isBlack()) {
-            // $article->delete();
             $comment->status = -1;
             $comment->save();
-            // throw new GQLException('发布失败,你以被禁言');
-
         }
-        // App 发送即时通知
-        event(new NewComment($comment));
 
         if (blank($comment->commentable)) {
             return;
         }
+        //评论通知 更新冗余数据
+        event(new \Haxibiao\Breeze\Events\NewComment($comment));
 
-        // Web 发送即时通知
-        //TODO: 即时通知逻辑还需要检查
-        // $author = $comment->commentable->user;
-        // $author->notify((new CommentAccepted($comment, $author))->onQueue('notifications'));
+        $commentable                 = $comment->commentable;
+        $commentable->count_comments = $commentable->comments()->whereNull('comment_id')->count();
+        $commentable->save();
+        $comment->lou = $commentable->count_comments;
+        $comment->save();
 
-        if ($comment->commentable instanceof Article) {
-            $article                 = $comment->commentable;
-            $article->count_replies  = $article->count_replies + 1;
-            $article->count_comments = $article->comments()->whereNull('comment_id')->count();
-            $article->save();
-            $comment->lou = $article->count_comments;
-            $comment->save();
-        }
-        if ($comment->commentable instanceof Post) {
-            $posts                 = $comment->commentable;
-            $posts->count_comments = $posts->comments()->whereNull('comment_id')->count();
-            $posts->save();
-            $comment->lou = $posts->count_comments;
-            $comment->save();
-        }
         $profile = $comment->commentable->user->profile;
         // 奖励贡献值
         if ($comment->user->id != $comment->commentable->user->id) {
@@ -71,21 +57,12 @@ class CommentObserver
 
     public function deleted(comment $comment)
     {
-        if ($comment->commentable instanceof Article) {
-            $article                 = $comment->commentable;
-            $article->count_replies  = $article->count_replies - 1;
-            $article->count_comments = $article->comments()->whereNull('comment_id')->count();
-            $article->save();
-            $comment->lou = $article->count_comments;
-            $comment->save();
-        }
-        if ($comment->commentable instanceof Post) {
-            $posts                 = $comment->commentable;
-            $posts->count_comments = $posts->comments()->whereNull('comment_id')->count();
-            $posts->save();
-            $comment->lou = $posts->count_comments;
-            $comment->save();
-        }
+        $commentable                 = $comment->commentable;
+        $commentable->count_comments = $commentable->comments()->whereNull('comment_id')->count();
+        $commentable->save();
+        $comment->lou = $commentable->count_comments;
+        $comment->save();
+
         $profile = $comment->commentable->user->profile;
         // 奖励贡献值
         if ($comment->user->id != $comment->commentable->user->id) {

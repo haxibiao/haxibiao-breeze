@@ -5,7 +5,7 @@
 		        <tr>
 		            <td class="top-line">
 		                <div class="avatar">
-		                	<img :src="user&&user.avatar ? user.avatar : '/images/xbx.jpg'" id="previewImage">
+		                	<img :src="user&&user.avatar ? user.avatar : 'https://diudie-1251052432.cos.ap-guangzhou.myqcloud.com/images/xbx.jpg'" id="previewImage">
 		                </div>
 		            </td>
 		            <td class="top-line">
@@ -113,7 +113,7 @@ export default {
 			width: 100px;
 			height: 100px;
 		}
-		@media screen and (max-width: 768px) { 
+		@media screen and (max-width: 768px) {
 			.avatar {
 				width: 60px;
 				height: 60px;

@@ -4,7 +4,7 @@
 
 @endphp
 <li class="question-item simple {{ $have_img }}">
-  <a class="title"   href="/question/{{ $question->id }}">
+  <a class="title"   href="/issue/{{ $question->id }}">
       <span>{{ $question->title }}</span>
   </a>
   @if($latestResolution)
@@ -14,7 +14,7 @@
     </a>
     <div class="info">
       <a class="nickname"   href="/user/{{ data_get($latestResolution,'user_id')}}">{{ data_get($latestResolution,'user.name')}}</a>
-      <img class="badge-icon" src="/images/verified.png" data-toggle="tooltip" data-placement="top" title="{{ seo_site_name() }}认证" alt="">
+      <img class="badge-icon" src="https://diudie-1251052432.cos.ap-guangzhou.myqcloud.com/images/verified.png" data-toggle="tooltip" data-placement="top" title="{{ seo_site_name() }}认证" alt="">
       <span class="time" data-shared-at="2017-11-06T09:20:28+08:00">知名自媒体人</span>
     </div>
     <div class="pull-right">{{ data_get($latestResolution,'count_likes',0) }}赞</div>
@@ -32,7 +32,7 @@
       </p>
     </div>
     @if(!empty($question->relateImage()))
-      <a class="wrap-img" href="/question/{{ $question->id }}"  >
+      <a class="wrap-img" href="/issue/{{ $question->id }}"  >
           <img src="{{ $question->relateImage() }}" alt="">
       </a>
     @endif

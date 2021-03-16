@@ -3,6 +3,8 @@
 namespace Haxibiao\Breeze;
 
 use Haxibiao\Breeze\Traits\AvatarHelper;
+use Haxibiao\Breeze\Traits\HasFactory;
+use Haxibiao\Breeze\Traits\ModelHelpers;
 use Haxibiao\Breeze\Traits\UserAttrs;
 use Haxibiao\Breeze\Traits\UserRelations;
 use Haxibiao\Breeze\Traits\UserRepo;
@@ -15,7 +17,6 @@ use Haxibiao\Sns\Traits\UseSns;
 use Haxibiao\Task\Traits\PlayWithTasks;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Haxibiao\Breeze\Traits\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
@@ -32,6 +33,7 @@ class BaseUser extends Model implements AuthenticatableContract, AuthorizableCon
     use UserResolvers;
     use UserRelations;
     use AvatarHelper;
+    use ModelHelpers;
 
     use UseMedia;
     use UseContent;

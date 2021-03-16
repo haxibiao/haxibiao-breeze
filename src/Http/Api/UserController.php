@@ -103,17 +103,15 @@ class UserController extends Controller
     {
         $page_size = 5;
 
-        if (Auth::guard('api')->check()) {
-            $users = User::whereIn('id', function ($query) {
-                $query->select('id')
-                    ->where('role_id', 1);
-            })->where('id', '!=', Auth::guard('api')->user()->id);
-        } else {
-            $users = User::where('role_id', 1);
-        }
+        $hasLogin  = Auth::guard('api')->check();
+        $loginUser = $hasLogin ? Auth::guard('api')->user() : null;
+        $qb        = User::where('role_id', 1);
 
-        $users = $users->orderByDesc('updated_at')
-            ->paginate($page_size);
+        if ($hasLogin) {
+            $qb = $qb->where('id', '!=', $loginUser->id);
+        }
+        $users = User::orderByDesc('updated_at')
+            ->exclude(['gold','count_posts'])->paginate($page_size);
 
         //当编辑和签约作者不足的时候 填充普通用户
         if ($num = $page_size - $users->count()) {
@@ -134,9 +132,8 @@ class UserController extends Controller
         }
 
         foreach ($users as $user) {
-            $user->fillForJs();
-            if (Auth::guard('api')->check()) {
-                $user->is_followed = Auth::guard('api')->user()->isFollow('users', $user->id);
+            if ($hasLogin) {
+                $user->is_followed = $loginUser->isFollow('users', $user->id);
             }
         }
         return $users;

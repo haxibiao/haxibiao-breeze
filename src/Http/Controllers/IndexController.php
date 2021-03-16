@@ -27,7 +27,7 @@ class IndexController extends Controller
         //首页文章 - 可置顶部分优质文章避免首页脏乱数据
         $data->articles = cmsTopArticles();
 
-		$data->carousel = get_top_articles();
+    $data->carousel = get_top_articles();
 
         return view('index.index')->with('data', $data);
     }
@@ -44,35 +44,22 @@ class IndexController extends Controller
 
     public function trending()
     {
+        $articles = [];
+        $qb       = Article::orderBy('hits', 'desc')
+            ->whereIn('type', ['diagrams', 'articles', 'article'])
+            ->where('status', '>', 0);
+
         if (request('type') == 'thirty') {
-            $articles = Article::orderBy('hits', 'desc')
-                ->whereIn('type', ['diagrams', 'articles', 'article'])
-                ->where('status', '>', 0)
-                ->where('updated_at', '>', Carbon::now()->addDays(-30))
+            $articles = $qb->where('updated_at', '>', Carbon::now()->addDays(-30))
                 ->paginate(10);
-            if ($articles) {
-                $articles = Article::orderBy('hits', 'desc')
-                    ->whereIn('type', ['diagrams', 'articles', 'article'])
-                    ->where('status', '>', 0)
-                    ->paginate(10);
-            }
         } else if (request('type') == 'seven') {
-            $articles = Article::orderBy('hits', 'desc')
-                ->whereIn('type', ['diagrams', 'articles', 'article'])
-                ->where('status', '>', 0)
+            $articles = $qb
                 ->where('updated_at', '>', Carbon::now()->addDays(-7))
                 ->paginate(10);
-            if ($articles) {
-                $articles = Article::orderBy('hits', 'desc')
-                    ->whereIn('type', ['diagrams', 'articles', 'article'])
-                    ->where('status', '>', 0)
-                    ->paginate(10);
-            }
-        } else {
-            $articles = Article::where('status', '>', 0)
-                ->whereIn('type', ['diagrams', 'articles', 'article'])
-                ->orderBy('hits', 'desc')
-                ->paginate(10);
+        }
+        //经典热门
+        if (isset($articles)) {
+            $articles = $qb->paginate(10);
         }
 
         return view('index.trending')->with('articles', $articles);

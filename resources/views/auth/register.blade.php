@@ -3,13 +3,15 @@
 @section('title')注册 - @stop
 
 @section('content')
+    @php
+        $small_logo = 'https://diudie-1251052432.cos.ap-guangzhou.myqcloud.com/web/public/logo/' . get_domain() . '.small.png';
+    @endphp
 
     @include('parts.header_guest', ['auth' => true])
-
     <div id="login" style="padding-top:20px">
         <div class="logo">
             <a href="/">
-                <img src="{{ text_logo() }}" alt="{{ config('app.name') }}">
+                <img src="{{ $small_logo }}" alt="{{ config('app.name') }}">
             </a>
         </div>
 

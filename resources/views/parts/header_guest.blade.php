@@ -1,14 +1,16 @@
-
+@php
+	$small_logo = 'https://diudie-1251052432.cos.ap-guangzhou.myqcloud.com/web/public/logo/' . get_domain() . '.small.png';
+@endphp
 <nav class="navbar navbar-default  navbar-fixed-top" role="navigation">
 		<div class="width-limit">
 			@section('logo')
 				@if( isMobile() )
 					<a class="logo" href="/" title="{{ seo_site_name() }}">
-						<img src="{{ small_logo() }}" alt="{{ seo_site_name() }}">
+						<img src="{{ $small_logo }}" alt="{{ seo_site_name() }}">
 					</a>
 				@else
 				   <a class="logo" href="/" title="{{ seo_site_name() }}">
-						<img src="{{ small_logo() }}" alt="{{ seo_site_name() }}">
+						<img src="{{ $small_logo }}" alt="{{ seo_site_name() }}">
 					</a>
 				@endif
 			@show

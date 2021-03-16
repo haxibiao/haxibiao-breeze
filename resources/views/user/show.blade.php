@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
-@section('title') {{ $user->name }} -{{ seo_site_name() }}
- @stop
+@section('title') {{ $user->name }} -{{ seo_site_name() }} @stop
+
+@section('description') {{ $user->introduction }} @stop
 
 @section('content')
 <div id="user">

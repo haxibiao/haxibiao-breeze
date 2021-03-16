@@ -17,7 +17,7 @@
                     </div>
                 @endif
                 <a href="/user/{{ $answer->user->id }}" class="name">{{ $answer->user->name }}</a>
-                <img class="badge-icon" src="/images/verified.png" data-toggle="tooltip" data-placement="top"
+                <img class="badge-icon" src="https://diudie-1251052432.cos.ap-guangzhou.myqcloud.com/images/verified.png" data-toggle="tooltip" data-placement="top"
                     title="{{ seo_site_name() }}认证" alt="">
                 <span
                     class="user-intro">{{ $answer->user->question_tag ? $answer->user->question_tag : seo_site_name() . '热心用户' }}</span>

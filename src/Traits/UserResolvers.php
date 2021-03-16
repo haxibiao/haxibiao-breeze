@@ -330,6 +330,7 @@ trait UserResolvers
                 'account'   => $args['phone'] ?? $args['uuid'],
                 'name'      => User::DEFAULT_NAME,
                 'api_token' => Str::random(60),
+                'avatar'    => User::AVATAR_DEFAULT,
             ]);
             $user->update(['name' => $user->name . $user->id]);
             Ip::createIpRecord('users', $user->id, $user->id);

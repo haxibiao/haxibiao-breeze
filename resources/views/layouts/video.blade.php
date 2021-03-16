@@ -1,12 +1,17 @@
+@php
+    $small_logo = 'https://diudie-1251052432.cos.ap-guangzhou.myqcloud.com/web/public/logo/' . get_domain() . '.small.png';
+    $web_logo   = 'https://diudie-1251052432.cos.ap-guangzhou.myqcloud.com/web/public/logo/' . get_domain() . '.web.png';
+​    $touch_logo = 'https://diudie-1251052432.cos.ap-guangzhou.myqcloud.com/web/public/logo/' . get_domain() . '.touch.png';
+@endphp
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/png" href="{{ small_logo() }}" sizes="60*60">
-    <link rel="icon" type="image/png" href="{{ web_logo() }}" sizes="120*120">
-    <link rel="apple-touch-icon" href="{{ touch_logo() }}" sizes="160*160">
+    <link rel="icon" type="image/png" href="{{ $small_logo }}" sizes="60*60">
+    <link rel="icon" type="image/png" href="{{ $web_logo }}" sizes="120*120">
+    <link rel="apple-touch-icon" href="{{ $touch_logo }}" sizes="160*160">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">

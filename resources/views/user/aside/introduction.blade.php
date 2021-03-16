@@ -43,6 +43,6 @@
 	@endif
 
 	<a href="javascript:;" class="social">
-		<img src="/images/weibo.svg" alt="">
+		<img src="https://diudie-1251052432.cos.ap-guangzhou.myqcloud.com/web/public/images/weibo.svg" alt="">
 	</a>
 </div>

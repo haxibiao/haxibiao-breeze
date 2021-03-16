@@ -19,7 +19,7 @@
             <img src="{{$collection->logo}}">
             <div id="top_right">
                 <div id="title">
-                    <img src="/images/collection_icon.png">
+                    <img src="https://diudie-1251052432.cos.ap-guangzhou.myqcloud.com/web/public/images/collection.png">
                     <strong>{{ $collection->name }}</strong>
                 </div>
                 <div id="top_main">

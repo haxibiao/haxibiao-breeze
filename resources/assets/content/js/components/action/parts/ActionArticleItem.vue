@@ -14,11 +14,11 @@
 	    <div class="author">
 	      <a class="avatar"   :href="'/user/'+ item.user.id">
 	        <img :src="item.user.avatar" alt="">
-	      </a> 
+	      </a>
 	      <div class="info">
 	        <a class="nickname"   :href="'/user/'+item.user.id">{{ item.user.name }}</a>
-	        	<img v-if="item.user.is_signed" class="badge-icon" src="/images/signed.png" data-toggle="tooltip" data-placement="top" title="签约作者" alt="签约作者">
-	    	    <img v-if="item.user.is_editor" class="badge-icon" src="/images/editor.png" data-toggle="tooltip" data-placement="top" title="小编" alt="小编">
+	        	<img v-if="item.user.is_signed" class="badge-icon" src="https://diudie-1251052432.cos.ap-guangzhou.myqcloud.com/images/signed.png" data-toggle="tooltip" data-placement="top" title="签约作者" alt="签约作者">
+	    	    <img v-if="item.user.is_editor" class="badge-icon" src="https://diudie-1251052432.cos.ap-guangzhou.myqcloud.com/images/editor.png" data-toggle="tooltip" data-placement="top" title="小编" alt="小编">
 	    	    <span class="time" data-shared-at="2017-11-06T09:20:28+08:00">发表了作品 {{ item.time }}</span>
 	      </div>
 	    </div>
@@ -29,10 +29,10 @@
 	    <div class="meta">
 	      <a   :href="'/article/'+item.actionable.id">
 	        <i class="iconfont icon-liulan"></i> {{ item.actionable.hits }}
-	      </a>        
+	      </a>
 	      <a   :href="'/article/'+item.actionable.id+'/#comments'">
 	        <i class="iconfont icon-svg37"></i> {{ item.actionable.count_replies }}
-	      </a>      
+	      </a>
 	      <span><i class="iconfont icon-03xihuan"></i> {{ item.actionable.count_likes }}</span>
 	    </div>
 	  </div>

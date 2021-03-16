@@ -1,10 +1,10 @@
 <div class="aside sm-right hidden-xs">
       <ul class="icon-text-list distance">
         @if($user->is_signed)
-          <li><a href="javascript:;"><img class="badge-icon" src="/images/signed.png" alt=""></i>{{ seo_site_name() }}签约作者</a></li>
+          <li><a href="javascript:;"><img class="badge-icon" src="https://diudie-1251052432.cos.ap-guangzhou.myqcloud.com/images/signed.png" alt=""></i>{{ seo_site_name() }}签约作者</a></li>
           @endif
           @if($user->is_editor)
-          <li><a href="javascript:;"><img class="badge-icon" src="/images/editor.png" alt=""></i>{{ seo_site_name() }}小编</a></li>    
+          <li><a href="javascript:;"><img class="badge-icon" src="https://diudie-1251052432.cos.ap-guangzhou.myqcloud.com/images/editor.png" alt=""></i>{{ seo_site_name() }}小编</a></li>
            @endif
       </ul>
 
@@ -20,7 +20,7 @@
         </a>
       </li>
     </ul>
-    
+
     @include('user.aside.managed_categories')
     @include('user.aside.collections')
 
