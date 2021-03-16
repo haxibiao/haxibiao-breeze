@@ -61,7 +61,7 @@
                                     @if ($collection)
                                         <li class="note-info">
                                             <a class="avatar-category" href="/collection/{{ $collection->id }}"><img
-                                                    src="https://diudie-1251052432.cos.ap-guangzhou.myqcloud.com/web/public/images/collection.png" alt=""></a>
+                                                    src="/images/collection.png" alt=""></a>
 
                                             <follow type="collections" id="{{ $collection->id }}" user-id="{{ user_id() }}"
                                                 followed="{{ is_follow('collections', $collection->id) }}">

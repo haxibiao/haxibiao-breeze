@@ -1,10 +1,6 @@
 @extends('layouts.blank')
 
 @section('content')
-@php
-    $small_logo = 'https://diudie-1251052432.cos.ap-guangzhou.myqcloud.com/web/public/logo/' . get_domain() . '.small.png';
-@endphp
-
 <div id="email-reset">
     <div class="logo">
         <a href="/"><img src="{{ web_logo() }}" alt="{{ config('app.name') }}"></a></div>

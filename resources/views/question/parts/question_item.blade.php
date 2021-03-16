@@ -29,7 +29,7 @@ $is_pay = $question->bonus > 0;
                         <div class="info">
                             <a class="nickname"  
                                 href="/user/{{ $question->latestAnswer->user_id }}">{{ $question->latestAnswer->user->name }}</a>
-                            <img class="badge-icon" src="https://diudie-1251052432.cos.ap-guangzhou.myqcloud.com/images/verified.png" data-toggle="tooltip"
+                            <img class="badge-icon" src="/images/verified.png" data-toggle="tooltip"
                                 data-placement="top" title="{{ seo_site_name() }}认证" alt="">
                             <span class="time">{{ $question->createdAt() }}</span>
                         </div>
