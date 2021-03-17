@@ -8,7 +8,6 @@ return [
     'paths' => [
         resource_path('views'),
         breeze_path('resources/views'),
-        cms_path('resources/views'),
         content_path('resources/views'),
     ],
 ];
