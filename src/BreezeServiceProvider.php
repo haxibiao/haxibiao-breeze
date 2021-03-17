@@ -73,7 +73,7 @@ class BreezeServiceProvider extends ServiceProvider
                 //APP 的 views 最先匹配
                 config('view.paths'),
                 //然后 匹配 breeze的默认views
-                [__DIR__ . '/../resources/views']
+                [breeze_path('resources/views')]
             );
             config(['view.paths' => $view_paths]);
         }

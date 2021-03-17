@@ -14,20 +14,6 @@ let { env } = require('minimist')(process.argv.slice(2));
 // 主题 - 怀旧港剧
 // require(`${__dirname}/packages/haxibiao/breeze/resources/themes/huaijiugangju/webpack.mix.js`);
 
-//电影模块 css
-mix.sass('packages/haxibiao/breeze/resources/assets/media/sass/movie.scss', 'public/css/movie').version();
-mix.sass('packages/haxibiao/breeze/resources/assets/media/sass/movie/home.scss', 'public/css/movie').version();
-mix.sass('packages/haxibiao/breeze/resources/assets/media/sass/movie/play.scss', 'public/css/movie').version();
-mix.sass('packages/haxibiao/breeze/resources/assets/media/sass/movie/search.scss', 'public/css/movie').version();
-mix.sass('packages/haxibiao/breeze/resources/assets/media/sass/movie/category.scss', 'public/css/movie').version();
-mix.sass('packages/haxibiao/breeze/resources/assets/media/sass/movie/favorites.scss', 'public/css/movie').version();
-
-//电影模块 js
-mix.js('packages/haxibiao/breeze/resources/assets/media/js/movie.js', 'public/js/movie').version();
-mix.js('packages/haxibiao/breeze/resources/assets/media/js/play.js', 'public/js/movie/_play.js').version();
-mix.scripts(['public/js/movie/_play.js', 'node_modules/hls.js/dist/hls.js'], 'public/js/movie/play.js');
-mix.js('packages/haxibiao/breeze/resources/assets/media/js/home.js', 'public/js/movie').version();
-
 // 内容模块 css
 mix.sass('packages/haxibiao/breeze/resources/assets/content/sass/app.scss', 'public/css')
     .version()

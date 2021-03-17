@@ -38,12 +38,14 @@ $post = $video->post;
                         </div>
                     </div>
                     <div class="video-body">
+                        @if($post->collections)
                         @foreach ($post->collections as $collection)
                             <a href="/category/{{ $collection->id }}" class="category-name"
                                 title="{{ $collection->id }}:{{ $collection->name }}">
                                 <span class="name">#{{ $collection->name }}</span>
                             </a>
                         @endforeach
+                        @endif
                         <span class="content">
                             {{$post->description }}
                         </span>
