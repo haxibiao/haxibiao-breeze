@@ -266,9 +266,11 @@
                 <div class="title">
                   <a class="name" href="/category/{{ $item->id }}">{{ $item->name }}</a>
                 </div>
-                <div class="info">
-                  <p><a href="/user/{{ $item->user->id }}">{{ $item->user->name }}</a> 创建，{{ $item->count }} 篇作品，{{ $item->count_follows }} 人关注</p>
-                </div>
+                @if(!empty($item->user))
+                  <div class="info">
+                    <p><a href="/user/{{ $item->user->id }}">{{ $item->user->name }}</a> 创建，{{ $item->count }} 篇作品，{{ $item->count_follows }} 人关注</p>
+                  </div>
+                @endif
             </div>
             <p class="signature">
                 {{ $item->description }}
