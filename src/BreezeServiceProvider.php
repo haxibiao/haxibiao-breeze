@@ -5,6 +5,7 @@ namespace Haxibiao\Breeze;
 use Haxibiao\Breeze\Console\InstallCommand;
 use Haxibiao\Breeze\Console\PublishCommand;
 use Illuminate\Config\Repository as Config;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
@@ -105,6 +106,11 @@ class BreezeServiceProvider extends ServiceProvider
             $this->mergeConfigFrom(__DIR__ . '/../config/seo.php', 'seo');
         }
 
+        //加载编译的breeze css js fonts images
+        load_breeze_assets();
+        //修复分页样式
+        Paginator::useBootstrap();
+
         //安装时需要
         if ($this->app->runningInConsole()) {
 
@@ -123,10 +129,11 @@ class BreezeServiceProvider extends ServiceProvider
 
             //前端资源
             $this->publishes([
-                __DIR__ . '/../public/css'    => public_path('vendor/breeze/css'),
-                __DIR__ . '/../public/images' => public_path('vendor/breeze/images'),
-                __DIR__ . '/../public/js'     => public_path('vendor/breeze/js'),
-            ], 'breeze-resources');
+                breeze_path('public/mix-manifest.json') => public_path('mix-manifest.json'),
+                // __DIR__ . '/../public/images'            => public_path('/images'),
+                // __DIR__ . '/../public/css'               => public_path('/css'),
+                // __DIR__ . '/../public/js'                => public_path('/js'),
+            ], 'breeze-assets');
 
             //发布 graphql
             $this->publishes([

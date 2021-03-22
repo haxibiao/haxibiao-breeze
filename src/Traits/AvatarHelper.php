@@ -77,7 +77,7 @@ trait AvatarHelper
      */
     public static function getDefaultAvatar()
     {
-        $avatar_path = sprintf('/vendor/breeze/images/avatar-%d.jpg', mt_rand(1, 15));
+        $avatar_path = sprintf('/images/avatar-%d.jpg', mt_rand(1, 15));
         return url($avatar_path);
         //以前的要求每个项目去cos上传默认头像文件，太费劲了
         // return "https://cos.haxibiao.com/" . $avatar_path;

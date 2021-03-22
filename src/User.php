@@ -56,7 +56,7 @@ class User extends BaseUser
     const STATUS_DESTORY = -2; //这个注销状态值太诡异
 
     // 默认头像(这是要求cos都存了默认头像图片...)
-    const AVATAR_DEFAULT = '/vendor/breeze/images/avatar.jpg';
+    const AVATAR_DEFAULT = '/images/avatar.jpg';
 
     const DEFAULT_NAME = '匿名用户';
 

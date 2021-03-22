@@ -22,11 +22,9 @@
     <meta name="description" content="{{ seo_site_name() }} - @yield('description')  ">
     @stack('seo_metatags')
     @stack('seo_og_result')
+
     <!-- Styles -->
-    <link href="{{ asset('/vendor/breeze/css/guest.css') }}" rel="stylesheet">
-    @if (Auth::check())
-        <link href="{{ asset('/vendor/breeze/css/editor.css') }}" rel="stylesheet">
-    @endif
+    <link href="{{ mix('/css/breeze.css') }}" rel="stylesheet">
 
     @stack('css')
 </head>
@@ -76,15 +74,9 @@
     @endif
     <script type="text/javascript">
         window.csrf_token = '{{ csrf_token() }}';
-
     </script>
 
-    @if (in_array(request()->path(), ['follow', 'notification', 'settings']))
-        <script src="{{ asset('/vendor/breeze/js/spa.js') }}"></script>
-    @else
-        <script src="{{ asset('/vendor/breeze/js/app.js') }}?v=1"></script>
-    @endif
-
+    <script src="{{ mix('/js/breeze.js') }}"></script>
 
     <script type="text/javascript">
         $.ajaxSetup({

@@ -34,7 +34,7 @@ class AsoSeeder extends Seeder
             'group' => '下载页',
             'name'  => '功能介绍1图',
         ]);
-        $item->value = '/vendor/breeze/images/app/1.png';
+        $item->value = '/images/app/1.png';
         $item->save();
 
         $item = Aso::firstOrCreate([
@@ -55,7 +55,7 @@ class AsoSeeder extends Seeder
             'group' => '下载页',
             'name'  => '功能介绍2图',
         ]);
-        $item->value = '/vendor/breeze/images/app/2.png';
+        $item->value = '/images/app/2.png';
         $item->save();
         $item = Aso::firstOrCreate([
             'group' => '下载页',
@@ -75,7 +75,7 @@ class AsoSeeder extends Seeder
             'group' => '下载页',
             'name'  => '功能介绍3图',
         ]);
-        $item->value = '/vendor/breeze/images/app/3.png';
+        $item->value = '/images/app/3.png';
         $item->save();
         $item = Aso::firstOrCreate([
             'group' => '下载页',
@@ -94,7 +94,7 @@ class AsoSeeder extends Seeder
             'group' => '下载页',
             'name'  => '功能介绍4图',
         ]);
-        $item->value = '/vendor/breeze/images/app/4.png';
+        $item->value = '/images/app/4.png';
         $item->save();
         $item = Aso::firstOrCreate([
             'group' => '下载页',

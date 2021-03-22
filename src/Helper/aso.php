@@ -5,7 +5,7 @@ use Haxibiao\Breeze\Aso;
 use Haxibiao\Breeze\Config;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
-if(!function_exists('adIsOpened')){
+if (!function_exists('adIsOpened')) {
     function adIsOpened()
     {
 
@@ -29,7 +29,7 @@ if(!function_exists('adIsOpened')){
     }
 }
 
-if(!function_exists('aso_value')){
+if (!function_exists('aso_value')) {
     function aso_value($group, $name)
     {
         if ($asos = app('asos')) {
@@ -45,7 +45,7 @@ if(!function_exists('aso_value')){
     }
 }
 
-if(!function_exists('getDownloadUrl')){
+if (!function_exists('getDownloadUrl')) {
     function getDownloadUrl()
     {
         $apkUrl = aso_value('下载页', '安卓地址');
@@ -56,7 +56,7 @@ if(!function_exists('getDownloadUrl')){
     }
 }
 
-if(!function_exists('douyinOpen')){
+if (!function_exists('douyinOpen')) {
     function douyinOpen()
     {
         $config = Config::where([
@@ -76,7 +76,7 @@ if(!function_exists('douyinOpen')){
  * ***************************
  */
 //是否处于备案状态
-if(!function_exists('isRecording')){
+if (!function_exists('isRecording')) {
     function isRecording()
     {
         if (class_exists("App\\AppConfig", true)) {
@@ -93,14 +93,14 @@ if(!function_exists('isRecording')){
     }
 }
 
-if(!function_exists('touch_logo')){
+if (!function_exists('touch_logo')) {
     function touch_logo()
     {
         return str_replace('.small.', '.touch.', small_logo());
     }
 }
 
-if(!function_exists('web_logo')){
+if (!function_exists('web_logo')) {
     function web_logo()
     {
         return str_replace('.small.', '.web.', small_logo());
@@ -111,7 +111,7 @@ if(!function_exists('web_logo')){
 /**
  * 注册登录场景用的文字logo
  */
-if(!function_exists('text_logo')){
+if (!function_exists('text_logo')) {
     function text_logo()
     {
         return str_replace('.small.', '.text.', small_logo());
@@ -121,7 +121,7 @@ if(!function_exists('text_logo')){
 /**
  * 小尺寸logo,大部分场景得到logo,尺寸60*60
  */
-if(!function_exists('small_logo')){
+if (!function_exists('small_logo')) {
     function small_logo()
     {
         $logo_path = '/logo/' . get_domain() . '.small.png';
@@ -129,14 +129,14 @@ if(!function_exists('small_logo')){
             return url($logo_path);
         }
         //breeze默认logo
-        return url("/vendor/breeze/images/logo/default.small.png");
+        return url("/images/logo/default.small.png");
     }
 }
 
 /**
  * 去下载APP的qrcode图片地址(自动生成)
  */
-if(!function_exists('app_qrcode_url')){
+if (!function_exists('app_qrcode_url')) {
     function app_qrcode_url()
     {
         $qrcode_path      = "/storage/qrcode." . get_domain() . ".jpg";
@@ -171,7 +171,7 @@ if(!function_exists('app_qrcode_url')){
 /**
  * @deprecated 返回的是base64 data到页面的，建议用app_qrcode_url返回图片地址
  */
-if(!function_exists('qrcode_url')){
+if (!function_exists('qrcode_url')) {
     function qrcode_url()
     {
         if (class_exists("Haxibiao\\Config\\Aso", true)) {

@@ -11,41 +11,33 @@ let { env } = require('minimist')(process.argv.slice(2));
  |
  */
 
+mix.setPublicPath('public');
+
 // 主题 - 怀旧港剧
-// require(`${__dirname}/packages/haxibiao/breeze/resources/themes/huaijiugangju/webpack.mix.js`);
+// require(`${__dirname}/resources/themes/huaijiugangju/webpack.mix.js`);
 
-// 内容模块 css
-mix.sass('packages/haxibiao/breeze/resources/assets/content/sass/app.scss', 'public/css')
-    .version()
-    .sass('packages/haxibiao/breeze/resources/assets/content/sass/write.scss', 'public/css')
-    .version()
-    .sass('packages/haxibiao/breeze/resources/assets/content/sass/simditor/simditor.scss', 'public/css')
-    .version();
-mix.styles(['public/css/app.css', 'public/fonts/iconfont.css'], 'public/css/guest.css').version();
-mix.styles(['public/css/simditor.css', 'public/css/write.css'], 'public/css/editor.css').version();
-
-// 内容模块 js
-mix.babel('packages/haxibiao/breeze/resources/assets/content/js/plugins/poster.js', 'public/js/poster.js');
-mix.copy('packages/haxibiao/breeze/resources/assets/content/js/plugins/jquery-form.js', 'public/js/jquery-form.js');
-
-//spa.js
-mix.js('packages/haxibiao/breeze/resources/assets/content/js/spa.js', 'public/js').version();
-
-//write.js
-mix.js('packages/haxibiao/breeze/resources/assets/content/js/write.js', 'public/js').version();
-
-//app.js
-mix.js('packages/haxibiao/breeze/resources/assets/content/js/app.js', 'public/js/_app.js');
-mix.scripts(
-    [
-        'public/js/_app.js',
-        'public/js/poster.js',
-        'public/js/jquery-form.js',
-        'packages/haxibiao/breeze/resources/assets/content/js/plugins/bootstrap-tagsinput.js',
-        'packages/haxibiao/breeze/resources/assets/content/js/plugins/at.js',
-        'packages/haxibiao/breeze/resources/assets/content/js/plugins/jquery.caret.js',
-    ],
-    'public/js/app.js',
+// breeze.css
+mix.sass('resources/assets/sass/app.scss', 'public/css');
+mix.sass('resources/assets/sass/simditor/simditor.scss', 'public/css');
+mix.styles(
+    ['public/css/app.css', 'public/fonts/iconfont.css', 'public/css/simditor.css'],
+    'public/css/breeze.css'
 ).version();
 
-mix.browserSync('l.diudie.com');
+//breeze.js
+mix.babel('resources/assets/js/plugins/poster.js', 'public/js/poster.js');
+mix.js('resources/assets/js/app.js', 'public/js/app.js');
+mix.scripts(
+    [
+        'public/js/app.js',
+        'public/js/poster.js',
+        'node_modules/hls.js/dist/hls.js',
+        'resources/assets/js/plugins/bootstrap-tagsinput.js',
+        'resources/assets/js/plugins/at.js',
+        'resources/assets/js/plugins/jquery-form.js',
+        'resources/assets/js/plugins/jquery.caret.js',
+    ],
+    'public/js/breeze.js'
+).version();
+
+// mix.browserSync('localhost:8000');

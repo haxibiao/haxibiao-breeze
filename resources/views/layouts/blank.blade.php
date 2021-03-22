@@ -16,10 +16,7 @@
     <meta name="description" content=" @yield('description'), {{ seo_site_name() }} ">
 
     <!-- Styles -->
-    <link href="{{ asset('/vendor/breeze/css/guest.css') }}" rel="stylesheet">
-    @if(Auth::check())
-        <link href="{{ asset('/vendor/breeze/css/editor.css') }}" rel="stylesheet">
-    @endif
+    <link href="{{ mix('/css/breeze.css') }}" rel="stylesheet">
 
     @stack('css')
 
@@ -49,14 +46,7 @@
             window.csrf_token = '{{ csrf_token() }}';
     </script>
 
-    @if(in_array(request()->path(), [
-            'follow',
-            'notification',
-            'write'
-        ]))
-        <script src="{{ asset('/vendor/breeze/js/spa.js') }}"></script>
-    @endif
-    <script src="{{ asset('/vendor/breeze/js/app.js') }}"></script>
+    <script src="{{ mix('/js/breeze.js') }}"></script>
 
     <script type="text/javascript">
         $.ajaxSetup({

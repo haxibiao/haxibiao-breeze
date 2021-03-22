@@ -18,10 +18,7 @@
     @stack('seo_og_result')
 
     <!-- Styles -->
-    <link href="{{ asset('/vendor/breeze/css/guest.css') }}" rel="stylesheet">
-    @if(Auth::check())
-        <link href="{{ asset('/vendor/breeze/css/editor.css') }}" rel="stylesheet">
-    @endif
+    <link href="{{ mix('/css/breeze.css') }}" rel="stylesheet">
 
     @stack('css')
 
@@ -63,7 +60,7 @@
     <script type="text/javascript">
             window.csrf_token = '{{ csrf_token() }}';
     </script>
-    <script src="{{ asset('/vendor/breeze/js/app.js') }}"></script>
+    <script src="{{ mix('/js/breeze.js') }}"></script>
 
     <script type="text/javascript">
         $.ajaxSetup({
