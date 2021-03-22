@@ -25,6 +25,13 @@ export default {
             },
         };
         this.player = new DPlayer(options);
+        if (this.source) {
+            console.log('开始播放 source:' + this.source);
+            this.player.switchVideo({
+                url: this.source,
+            });
+            this.player.play();
+        }
     },
     watch: {
         source(newV, oldV) {

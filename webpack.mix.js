@@ -29,9 +29,9 @@ mix.babel('resources/assets/js/plugins/poster.js', 'public/js/poster.js');
 mix.js('resources/assets/js/app.js', 'public/js/app.js');
 mix.scripts(
     [
+        'node_modules/hls.js/dist/hls.js',
         'public/js/app.js',
         'public/js/poster.js',
-        'node_modules/hls.js/dist/hls.js',
         'resources/assets/js/plugins/bootstrap-tagsinput.js',
         'resources/assets/js/plugins/at.js',
         'resources/assets/js/plugins/jquery-form.js',

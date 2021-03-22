@@ -5,7 +5,7 @@
  */
 
 require('./bootstrap');
-
+require('es6-promise').polyfill();
 import Vue from 'vue';
 window.$bus = new Vue();
 window.$bus.state = {

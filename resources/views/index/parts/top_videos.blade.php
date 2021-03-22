@@ -18,7 +18,7 @@
         <div class="thumb">
           <a href="/video/{{$post->video->id}}"  >
             @if(!empty($post->cover))
-            <img src="{{ $post->cover}}" alt="{{ $post->content }}">
+            <img src="{{ $post->cover}}" alt="{{ $post->description ?? $post->content }}">
             @endif
             <i class="duration">
               @sectominute($post->video->duration)
@@ -28,7 +28,7 @@
         </div>
         <ul class="info-list">
           <li class="video-title">
-            <a   href="/video/{{$post->video->id}}">{{ $post->content}}</a>
+            <a   href="/video/{{$post->video->id}}">{{ $post->description ?? $post->content}}</a>
           </li>
           <li>
             <p class="subtitle single-line">{{ random_int(1000,9999) }}次播放</p>
