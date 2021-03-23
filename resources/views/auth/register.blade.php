@@ -5,11 +5,11 @@
 @section('content')
     @include('parts.header_guest', ['auth' => true])
     <div id="login" style="padding-top:20px">
-        <div class="logo">
+        {{--  <div class="logo">
             <a href="/">
                 <img src="{{ text_logo() }}" alt="{{ config('app.name') }}">
             </a>
-        </div>
+        </div>  --}}
 
         {{-- 登录注册vue --}}
         <signs register></signs>
