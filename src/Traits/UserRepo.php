@@ -417,7 +417,7 @@ trait UserRepo
         return 0;
     }
 
-    public function createUser($name, $account, $password)
+    public static function createUser($name, $account, $password)
     {
         $user = new User();
 
