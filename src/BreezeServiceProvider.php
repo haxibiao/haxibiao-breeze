@@ -129,7 +129,7 @@ class BreezeServiceProvider extends ServiceProvider
 
             //前端资源
             $this->publishes([
-                breeze_path('public/mix-manifest.json') => public_path('mix-manifest.json'),
+                // breeze_path('public/mix-manifest.json') => public_path('mix-manifest.json'),
                 // __DIR__ . '/../public/images'            => public_path('/images'),
                 // __DIR__ . '/../public/css'               => public_path('/css'),
                 // __DIR__ . '/../public/js'                => public_path('/js'),
