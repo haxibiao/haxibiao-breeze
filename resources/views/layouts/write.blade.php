@@ -17,7 +17,7 @@
     <meta name="description" content=" @yield('description'), {{ seo_site_name() }} ">
 
     <!-- Styles -->
-    <link href="{{ mix('/css/breeze.css') }}" rel="stylesheet">
+    <link href="{{ breeze_mix('/css/breeze.css') }}" rel="stylesheet">
 
     <style>
         html,body {
@@ -54,7 +54,7 @@
         };
     </script>
     @endif
-    <script src="{{ mix('/js/breeze.js') }}"></script>
+    <script src="{{ breeze_mix('/js/breeze.js') }}"></script>
     <script type="text/javascript">
         $.ajaxSetup({
             headers: {

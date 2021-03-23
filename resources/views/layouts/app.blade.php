@@ -24,7 +24,7 @@
     @stack('seo_og_result')
 
     <!-- Styles -->
-    <link href="{{ mix('/css/breeze.css') }}" rel="stylesheet">
+    <link href="{{ breeze_mix('/css/breeze.css') }}" rel="stylesheet">
 
     @stack('css')
 </head>
@@ -76,7 +76,7 @@
         window.csrf_token = '{{ csrf_token() }}';
     </script>
 
-    <script src="{{ mix('/js/breeze.js') }}"></script>
+    <script src="{{ breeze_mix('/js/breeze.js') }}"></script>
 
     <script type="text/javascript">
         $.ajaxSetup({
