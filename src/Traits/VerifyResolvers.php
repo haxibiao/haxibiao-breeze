@@ -3,6 +3,7 @@
 namespace Haxibiao\Breeze\Traits;
 
 use GraphQL\Type\Definition\ResolveInfo;
+use Haxibiao\Breeze\Exceptions\GQLException;
 use Haxibiao\Breeze\User;
 use Haxibiao\Breeze\Verify;
 use Haxibiao\Helpers\utils\SMSUtils;
@@ -45,13 +46,13 @@ trait VerifyResolvers
 
     public function retrievePassword($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
+        app_track_event('用户','验证码修改密码');
         $verify = $this->checkVerifyCode($root, $args, $context, $resolveInfo);
-
         $user = $verify->user;
+        throw_if(!$user,GQLException::class,"用户不存在，不能修改密码！！！");
         $user->update([
-            'password' => bcrypt($args['newPassword']),
+            'password' => bcrypt(data_get($args,'newPassword')),
         ]);
-
         return $user;
     }
 
