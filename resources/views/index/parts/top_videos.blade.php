@@ -30,9 +30,11 @@
           <li class="video-title">
             <a   href="/video/{{$post->video->id}}">{{ $post->description ?? $post->content}}</a>
           </li>
+          @if(config('content.show_video_plays'))
           <li>
             <p class="subtitle single-line">{{ random_int(1000,9999) }}次播放</p>
           </li>
+          @endif
         </ul>
       </div>
     </div>
