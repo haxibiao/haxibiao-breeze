@@ -3,9 +3,10 @@ import VueRouter from 'vue-router';
 
 Vue.use(VueRouter);
 
-const routes = [
+let routes_write = [
     //write 编辑
-    { path: '/', redirect: '/notebooks' },
+    // { path: '/', redirect: '/notebooks' },
+
     { path: '/notebooks', component: require('../components/write/Notebooks.vue').default },
     {
         path: '/notebooks/:collectionId',
@@ -20,7 +21,9 @@ const routes = [
     },
     { path: '/recycle', component: require('../components/write/Recycle.vue').default },
     { path: '/recycle/:recycleId', component: require('../components/write/Recycle.vue').default, props: true },
+];
 
+let routes_spa = [
     //spa 关注 消息
     {
         path: '/comments',
@@ -96,6 +99,17 @@ const routes = [
         component: require('../components/setting/Reward.vue').default,
     },
 ];
+
+let routes = [];
+//编辑器 /write
+let pathname = window.location.pathname;
+if (pathname.indexOf('/write') !== -1) {
+    routes = [{ path: '/', redirect: '/notebooks' }, ...routes_write];
+}
+//关注，消息
+if (pathname.indexOf('/follow') !== -1 || pathname.indexOf('/follow') !== -1) {
+    routes = routes_spa;
+}
 
 export default new VueRouter({
     routes,
