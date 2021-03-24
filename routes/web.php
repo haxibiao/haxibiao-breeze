@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 // Scripts & Styles...
 Route::get('/css/{asset}', 'BreezeAssetController@show')->middleware(CheckResponseForModifications::class);
 Route::get('/js/{asset}', 'BreezeAssetController@show')->middleware(CheckResponseForModifications::class);
-Route::get('/fonts/{asset}', 'BreezeAssetController@show')->middleware(CheckResponseForModifications::class);
+// Route::get('/fonts/{asset}', 'BreezeAssetController@show')->middleware(CheckResponseForModifications::class);
 Route::get('/images/{asset}', 'BreezeAssetController@show')->middleware(CheckResponseForModifications::class);
 Route::get('/images/{asset_group}/{asset}', 'BreezeAssetController@show')->middleware(CheckResponseForModifications::class);
 
