@@ -1,8 +1,9 @@
 <template>
     <div class="related-video">
         <div class="title">
-            <h4 v-if="userId">作者其他视频</h4>
-            <div v-if="categoryId" class="recommend">其他推荐</div>
+            <h4 v-if="userId">同作者视频</h4>
+            <div v-if="categoryId" class="recommend">同分类推荐</div>
+            <div v-if="collectionId" class="recommend">同合集视频</div>
             <a v-if="last_page > 1" href="javascript:;" class="font" @click="fetchData()"
                 ><i class="iconfont icon-shuaxin" ref="fresh"></i>换一批</a
             >
@@ -11,12 +12,14 @@
             <li class="video-item" v-bind:key="post.id" v-for="post in posts">
                 <a :href="'/video/' + post.video.id + '?related_page=' + page" class="link">
                     <div class="cover">
-                        <img :src="post.video.cover" alt="" />
+                        <img :src="post.cover" alt="" />
                         <i class="hover-play"></i>
                         <span class="duration">{{ post.video.duration }}秒</span>
                     </div>
                     <div class="info">
-                        <div class="recommend-video-title">{{ post.content }}</div>
+                        <div class="recommend-video-title">
+                            {{ post.description ? post.description : post.content }}
+                        </div>
                         <span class="amount">
                             {{ post.count_likes + '次点赞' }}
                         </span>
@@ -30,18 +33,15 @@
 <script>
 export default {
     name: 'AuthorsVideo',
-
-    props: ['userId', 'categoryId', 'videoId', 'relatedPage'],
+    props: ['userId', 'categoryId', 'collectionId', 'videoId', 'relatedPage', 'num'],
 
     mounted() {
-        console.log('mounted');
         this.fetchData(this.relatedPage);
     },
 
     methods: {
         fetchData(relatedPage) {
             var vm = this;
-
             this.counter++;
             this.page++;
             //PM需求 点击后作者其他视频后 视频往下一页翻,故传入一个relatedPage来控制
@@ -50,33 +50,60 @@ export default {
             }
 
             $(this.$refs.fresh).css('transform', `rotate(${360 * this.counter}deg)`);
+            let num = this.num ?? 4;
+            //同用户api
             let apiUser =
                 '/api/user/' +
                 this.userId +
-                '/videos/relatedVideos?num=4&page=' +
+                '/videos/relatedVideos?num=' +
+                num +
+                '&page=' +
                 this.page +
                 '&video_id=' +
                 this.videoId;
-            // let apiCategory= '/api/category/'+this.categoryId+'/videos?video_id='+this.videoId+'&num=4&page='+this.page;
+            //同分类api
             let apiCategory =
-                '/api/collection/' + this.categoryId + '/posts?video_id=' + this.videoId + '&num=4&page=' + this.page;
+                '/api/category/' +
+                this.categoryId +
+                '/videos?video_id=' +
+                this.videoId +
+                '&num=' +
+                num +
+                '&page=' +
+                this.page;
+            //同合集api
+            let apiCollection =
+                '/api/collection/' +
+                this.collectionId +
+                '/posts?video_id=' +
+                this.videoId +
+                '&num=' +
+                num +
+                '&page=' +
+                this.page;
             if (this.userId) {
+                console.log('同用户视频', this.userId);
                 window.axios.get(apiUser).then(function(response) {
-                    vm.posts = response.data.data;
-
+                    vm.posts = response.data?.data;
                     vm.last_page = response.data.last_page;
-
                     if (vm.page == vm.last_page) {
                         vm.page = 1;
                     }
                 });
             } else if (this.categoryId) {
-                console.log('取专题');
-                console.log(this.categoryId);
+                console.log('同专题视频', this.categoryId);
                 window.axios.get(apiCategory).then(function(response) {
-                    vm.posts = response.data.data;
+                    vm.posts = response.data?.data;
                     vm.last_page = response.data.last_page;
-
+                    if (vm.page == vm.last_page) {
+                        vm.page = 1;
+                    }
+                });
+            } else if (this.collectionId) {
+                console.log('同合集视频', this.collectionId);
+                window.axios.get(apiCollection).then(function(response) {
+                    vm.posts = response.data?.data;
+                    vm.last_page = response.data.last_page;
                     if (vm.page == vm.last_page) {
                         vm.page = 1;
                     }

@@ -111,7 +111,7 @@ class UserController extends Controller
             $qb = $qb->where('id', '!=', $loginUser->id);
         }
         $users = User::orderByDesc('updated_at')
-            ->exclude(['gold','count_posts'])->paginate($page_size);
+            ->exclude(['gold', 'count_posts'])->paginate($page_size);
 
         //当编辑和签约作者不足的时候 填充普通用户
         if ($num = $page_size - $users->count()) {
@@ -276,16 +276,19 @@ class UserController extends Controller
      */
     public function relatedVideos(Request $request, $id)
     {
-        $user     = User::findOrFail($id);
+        $user = User::findOrFail($id);
+
+        //跳过当前的
         $video_id = $request->video_id;
-
-        $num  = $request->get('num') ? $request->get('num') : 10;
-        $data = Post::where('user_id', $user->id)->with('video')->paginate($num);
-        if (count($data) < 1) {
-            $data = Post::inRandomOrder()->with('video')->paginate($num);
-
+        $num      = $request->get('num') ? $request->get('num') : 10;
+        $posts    = Post::with('video')->where('user_id', $user->id)->where('video_id', '<>', $video_id)->paginate($num);
+        if (count($posts) < 1) {
+            $posts = Post::inRandomOrder()->with('video')->paginate($num);
         }
-        return $data;
+        foreach ($posts as $post) {
+            $post->fillForJs();
+        }
+        return $posts;
     }
 
     /**

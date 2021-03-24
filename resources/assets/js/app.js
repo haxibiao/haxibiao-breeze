@@ -158,9 +158,22 @@ Vue.component('thorough-delete', require('./components/write/thoroughDelete.vue'
 Vue.component('dplayer', require('./components/video/DPlayer.vue').default);
 
 import store from './store';
-import router from './router';
+import router_write from './router/write';
+import router_spa from './router/spa';
 
-const app = new Vue({
-    store,
-    router,
-}).$mount('#app');
+let pathname = window.location.pathname;
+if (pathname.indexOf('/write') !== -1) {
+    //编辑器 /write
+    routes = [{ path: '/', redirect: '/notebooks' }, ...routes_write];
+    const app = new Vue({
+        store,
+        router: router_write,
+    }).$mount('#app');
+} else if (pathname.indexOf('/follow') !== -1 || pathname.indexOf('/notification') !== -1) {
+    //关注，消息
+    const app = new Vue({
+        router: router_spa,
+    }).$mount('#app');
+} else {
+    const app = new Vue({}).$mount('#app');
+}
