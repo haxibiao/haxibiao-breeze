@@ -1,6 +1,9 @@
 <?php
 
 return [
+	'haxibiao'  => [
+		'dsn' => 'http://5d0c2ac2decb4918ba031ff37fc419ed@sentry.haxibiao.cn/39',
+	],
     'datizhuanqian'  => [
         'dsn' => 'http://215f8b7219244952a77598607048b2bd@sentry.haxibiao.cn/10',
     ],
