@@ -278,15 +278,19 @@ class UserController extends Controller
         $articles = $data['liked_articles'];
 
         //load more articles ...
-        if (request()->ajax() || request('debug')) {
-            $articles->transform(function ($article) use($user)  {
-//				$article = $user->likedArticles();
-                $article->fillForJs();
-                $article->time_ago = $article->updatedAt();
-                return $article;
-            });
-            return $articles;
-        }
+		if (request()->ajax() || request('debug')) {
+			$transFormedArticles = collect();
+			foreach ($articles as $like){
+				$article = $like->likable;
+				if(!$article){
+					continue;
+				}
+				$article->fillForJs();
+				$article->time_ago = $article->updatedAt();
+				$transFormedArticles->put($article);
+			}
+			return $transFormedArticles;
+		}
 
         $data['followed_categories'] = Follow::with('followable')
             ->where('user_id', $user->id)
