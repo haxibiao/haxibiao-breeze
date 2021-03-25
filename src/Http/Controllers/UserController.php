@@ -287,7 +287,7 @@ class UserController extends Controller
 				}
 				$article->fillForJs();
 				$article->time_ago = $article->updatedAt();
-				$transFormedArticles->put($article);
+				$transFormedArticles->push($article);
 			}
 			return $transFormedArticles;
 		}
