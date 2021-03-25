@@ -174,7 +174,7 @@ if (!function_exists('app_qrcode_url')) {
 if (!function_exists('qrcode_url')) {
     function qrcode_url()
     {
-        if (class_exists("Haxibiao\\Config\\Aso", true)) {
+        if (class_exists("App\\Aso", true)) {
             $apkUrl = aso_value('下载页', '安卓地址');
             if (array_key_exists(get_domain(), neihan_sites_domains())) {
                 $logo = seo_small_logo();
