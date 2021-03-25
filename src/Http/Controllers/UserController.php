@@ -280,7 +280,7 @@ class UserController extends Controller
         //load more articles ...
         if (request()->ajax() || request('debug')) {
             $articles->transform(function ($article) use($user)  {
-				$article = $user->likedArticles();
+//				$article = $user->likedArticles();
                 $article->fillForJs();
                 $article->time_ago = $article->updatedAt();
                 return $article;
