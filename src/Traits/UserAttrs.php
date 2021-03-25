@@ -2,6 +2,7 @@
 
 namespace Haxibiao\Breeze\Traits;
 
+use App\Wallet;
 use Haxibiao\Breeze\Exceptions\GQLException;
 use Haxibiao\Breeze\User;
 use Haxibiao\Breeze\UserData;
@@ -12,7 +13,6 @@ use Haxibiao\Task\Contribute;
 use Haxibiao\Task\RewardCounter;
 use Haxibiao\Wallet\Exchange;
 use Haxibiao\Wallet\Gold as AppGold;
-use Haxibiao\Wallet\Wallet;
 use Haxibiao\Wallet\Withdraw;
 use Illuminate\Support\Carbon;
 
