@@ -164,7 +164,6 @@ import router_spa from './router/spa';
 let pathname = window.location.pathname;
 if (pathname.indexOf('/write') !== -1) {
     //编辑器 /write
-    routes = [{ path: '/', redirect: '/notebooks' }, ...routes_write];
     const app = new Vue({
         store,
         router: router_write,
