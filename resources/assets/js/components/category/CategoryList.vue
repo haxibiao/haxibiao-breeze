@@ -3,7 +3,7 @@
     <li v-for="category in categories" class="col-sm-4 recommend-card">
       <div>
         <a   :href="'/category/'+category.id">
-          <img class="avatar-category" :src="category.logo" alt="">
+          <img class="avatar-category" :src="category.logo?category.logo:'http://haxibiao-1251052432.cos.ap-guangzhou.myqcloud.com/images/collection.png'" alt />
           <h4 class="name">{{ category.name }}</h4>
           <p class="category-description">{{ category.description }}</p>
           </a>    
