@@ -168,7 +168,11 @@ if (pathname.indexOf('/write') !== -1) {
         store,
         router: router_write,
     }).$mount('#app');
-} else if (pathname.indexOf('/follow') !== -1 || pathname.indexOf('/notification') !== -1) {
+} else if (
+    pathname.indexOf('/follow') !== -1 ||
+    pathname.indexOf('/notification') !== -1 ||
+    pathname.indexOf('/settings') !== -1
+) {
     //关注，消息
     const app = new Vue({
         router: router_spa,

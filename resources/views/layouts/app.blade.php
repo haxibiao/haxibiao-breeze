@@ -87,7 +87,6 @@
 
     </script>
 
-    <script src="//imgcache.qq.com/open/qcloud/js/vod/sdk/ugcUploader.js"></script>
 
     @stack('scripts')
     @stack('js')
@@ -95,6 +94,6 @@
          @include('parts.footer')
     </div>
 
-{!! cms_seo_js() !!}
+	{!! cms_seo_js() !!}
 </body>
 </html>

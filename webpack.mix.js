@@ -33,9 +33,10 @@ mix.scripts(
         'public/js/app.js',
         'public/js/poster.js',
         'resources/assets/js/plugins/bootstrap-tagsinput.js',
-        'resources/assets/js/plugins/at.js',
         'resources/assets/js/plugins/jquery-form.js',
+        'resources/assets/js/plugins/at.js',
         'resources/assets/js/plugins/jquery.caret.js',
+        'resources/assets/js/plugins/vod-js-sdk.js',
     ],
     'public/js/breeze.js'
 ).version();
