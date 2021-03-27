@@ -19,6 +19,11 @@ use Illuminate\Support\Carbon;
 trait UserAttrs
 {
 
+    public function getEnableTipsAttribute()
+    {
+        return $this->profile && $this->profile->enable_tips;
+    }
+
     public function getTaAttribute()
     {
         return $this->isSelf() ? '我' : '他';

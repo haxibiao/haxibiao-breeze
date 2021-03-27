@@ -116,7 +116,7 @@ class ArchiveWithdraw extends Command
         $day   = Carbon::parse($date);
         $day1  = (clone $day)->subDay();
         $dates = [$day1, $day];
-        $qb    = Withdraw::with('user.user_profile')
+        $qb    = Withdraw::with('user.profile')
             ->whereAmount(0.5)
             ->whereBetween('created_at', $dates);
         $result = [];
@@ -162,7 +162,7 @@ class ArchiveWithdraw extends Command
         $day   = Carbon::parse($date);
         $day1  = (clone $day)->subDay();
         $dates = [$day1, $day];
-        $qb    = Withdraw::with('user.user_profile')
+        $qb    = Withdraw::with('user.profile')
             ->whereAmount(0.5)
             ->whereBetween('created_at', $dates);
         $result = [];

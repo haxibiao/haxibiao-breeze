@@ -8,7 +8,6 @@ use App\Curation;
 use App\Querylog;
 use Haxibiao\Breeze\CheckIn;
 use Haxibiao\Breeze\OAuth;
-use Haxibiao\Sns\UserBlock;
 use Haxibiao\Breeze\UserData;
 use Haxibiao\Breeze\UserProfile;
 use Haxibiao\Breeze\UserRetention;
@@ -18,6 +17,7 @@ use Haxibiao\Content\Solution;
 use Haxibiao\Media\MovieHistory;
 use Haxibiao\Sns\Feedback;
 use Haxibiao\Sns\Follow;
+use Haxibiao\Sns\UserBlock;
 use Haxibiao\Store\Order;
 use Haxibiao\Task\Contribute;
 use Haxibiao\Wallet\Exchange;
@@ -33,7 +33,7 @@ trait UserRelations
 {
     //关系
 
-    public function user_profile(): HasOne
+    public function profile(): HasOne
     {
         return $this->hasOne(UserProfile::class);
     }
@@ -180,7 +180,7 @@ trait UserRelations
         return $this->hasMany(OAuth::class);
     }
 
-    function curations(): HasMany
+    public function curations(): HasMany
     {
         return $this->hasMany(Curation::class)->with('question');
     }

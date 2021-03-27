@@ -62,13 +62,10 @@ class InstallCommand extends Command
 
     public function installModules($force)
     {
-//        $this->callSilent("config:install", ['--force' => $force]);
         $this->callSilent("media:install", ['--force' => $force]);
         $this->callSilent("content:install", ['--force' => $force]);
         $this->callSilent("sns:install", ['--force' => $force]);
-//        $this->callSilent("cms:install", ['--force' => $force]);
         $this->callSilent("task:install", ['--force' => $force]);
-//        $this->callSilent("dimension:install", ['--force' => $force]);
         $this->callSilent("wallet:install", ['--force' => $force]);
         $this->callSilent("question:install", ['--force' => $force]);
 
