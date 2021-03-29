@@ -41,7 +41,7 @@
 						<h3>我管理的专题<a href="/category/create">新建</a></h3>
 						<ul class="category-list clearfix">
 							<li v-for="category in categoryList" class="col-xs-4">
-								<img class="avatar-category" alt="png" :src="category.logo">
+								<img class="avatar-category" alt="png" :src="category.logo?category.logo:'http://haxibiao-1251052432.cos.ap-guangzhou.myqcloud.com/images/collection.png'">
 								<div class="info">
 									<span>{{category.name}}</span>
 								</div>
@@ -65,7 +65,7 @@
 						<h3>推荐专题</h3>
 						<ul class="category-list clearfix">
 							<li v-for="category in recommendCategoryList" class="col-xs-6">
-								<img class="avatar-category" alt="png" :src="category.logo">
+								<img class="avatar-category" alt="png" :src="category.logo?category.logo:'http://haxibiao-1251052432.cos.ap-guangzhou.myqcloud.com/images/collection.png'">
 								<div class="info">
 									<span>{{category.name}}</span>
 									<em>{{ category.count }}篇作品·{{ category.follow }}人关注</em>
@@ -171,9 +171,9 @@ export default {
 			var _this = this;
 			window.axios.get(this.apiAdmin()).then(function(response) {
 				if (_this.page == 1) {
-					_this.categoryList = response.data.data;
+					_this.categoryList = response.data.categories.data;
 				} else {
-					_this.categoryList = _this.categoryList.concat(response.data.data);
+					_this.categoryList = _this.categoryList.concat(response.data.categories.data);
 					_this.page = response.data.current_page;
 					_this.page_total = response.data.lastPage;
 				}
@@ -191,7 +191,7 @@ export default {
 		fetchRecomand() {
 			var _this = this;
 			window.axios.get(this.apiRecommend()).then(function(response) {
-				_this.recommendCategoryList = _this.recommendCategoryList.concat(response.data.data);
+				_this.recommendCategoryList = _this.recommendCategoryList.concat(response.data.categories.data);
 				_this.page2 = response.data.current_page;
 				_this.page2_total = response.data.lastPage;
 				_this.lastPage = response.data.last_page;
