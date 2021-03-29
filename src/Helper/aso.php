@@ -3,6 +3,7 @@
 use Haxibiao\Breeze\AppConfig;
 use Haxibiao\Breeze\Aso;
 use Haxibiao\Breeze\Config;
+use Jenssegers\Agent\Facades\Agent;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 if (!function_exists('adIsOpened')) {
@@ -48,12 +49,30 @@ if (!function_exists('aso_value')) {
 if (!function_exists('getDownloadUrl')) {
     function getDownloadUrl()
     {
-        $apkUrl = aso_value('下载页', '安卓地址');
-        if (is_null($apkUrl) || empty($apkUrl)) {
-            return null;
+        if (Agent::isAndroidOS()) {
+            return getApkUrl();
+
         }
-        return $apkUrl;
+        return getIpaUrl();
     }
+}
+
+function getApkUrl()
+{
+    $apkUrl = aso_value('下载页', '安卓地址');
+    if (is_null($apkUrl) || empty($apkUrl)) {
+        return null;
+    }
+    return $apkUrl;
+}
+
+function getIpaUrl()
+{
+    $url = aso_value('下载页', '苹果地址');
+    if (is_null($url) || empty($url)) {
+        return null;
+    }
+    return $url;
 }
 
 if (!function_exists('douyinOpen')) {

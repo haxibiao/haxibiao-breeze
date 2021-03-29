@@ -85,9 +85,9 @@
     function getDownloadUrl() {
         let DownloadLink;
         if (isIos()) {
-            DownloadLink = "{{ aso_value('下载页', '苹果地址') }}";
+            DownloadLink = "{{ getIpaUrl() }}";
         } else {
-            DownloadLink = "{{ aso_value('下载页', '安卓地址') }}";
+            DownloadLink = "{{ getApkUrl() }}";
         }
         return DownloadLink;
     }
