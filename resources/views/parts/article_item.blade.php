@@ -27,7 +27,7 @@
             @if($article->user->is_editor)
               <img class="badge-icon" src="/images/editor.png" data-toggle="tooltip" data-placement="top" title="{{ seo_site_name() }}小编" alt="">
             @endif
-            <span class="time">{{ $article->updatedAt() }}</span>
+            <span class="time">{{ $article->updated_at }}</span>
           </div>
         </div>
         @endif
