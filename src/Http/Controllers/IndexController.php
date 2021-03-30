@@ -13,7 +13,7 @@ class IndexController extends Controller
      */
     public function index()
     {
-        if (isRecording()) {
+        if (isRecording() && !is_crawler()) {
             return view('app');
         }
 
