@@ -1,5 +1,5 @@
 <li class="user-info info-md">
-  if($user){
+  @if($user)
   <a class="avatar" href="/user/{{ $user->id }}"><img src="{{ $user->avatarUrl }}" alt=""></a>
 
   <follow type="users" id="{{ $user->id }}" user-id="{{ user_id() }}" followed="{{ is_follow('users', $user->id) }}">
@@ -16,5 +16,5 @@
       写了 {{ $user->count_words }} 字，获得了 {{ $user->count_likes }} 个喜欢
     </div>
   </div>
-  }
+  @endif
 </li>
