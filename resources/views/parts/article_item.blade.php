@@ -49,7 +49,7 @@
               {{ $article->category->name }}
             </a>
           @endif
-          @if( $article->type=='article' )
+          @if( $article->user && $article->type=='article' )
             <a class="nickname"   href="/user/{{ $article->user->id }}">{{ $article->user->name }}</a>
           @endif
           <a   href="{{ $article->url }}">
