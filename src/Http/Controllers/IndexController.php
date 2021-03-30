@@ -13,6 +13,10 @@ class IndexController extends Controller
      */
     public function index()
     {
+        if (isRecording()) {
+            return view('app');
+        }
+
         $data = (object) [];
 
         //置顶 - 电影 置顶优先原则（可无置顶）
@@ -27,7 +31,7 @@ class IndexController extends Controller
         //首页文章 - 可置顶部分优质文章避免首页脏乱数据
         $data->articles = cmsTopArticles();
 
-    $data->carousel = get_top_articles();
+        $data->carousel = get_top_articles();
 
         return view('index.index')->with('data', $data);
     }
