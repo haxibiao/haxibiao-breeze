@@ -190,6 +190,8 @@ if (!function_exists('neihan_sites_domains')) {
             "aishangyueyu.com"     => "爱上粤语",
             "laoyueyu.com"         => "老粤语",
 
+            "nageshipin.com"         => "那个视频",
+
             // "xingqilianren.com"    => "星期恋人",
             // "didipeipei.com"       => "滴滴陪陪",
             // "pipipei.com"          => "皮皮陪",
@@ -369,6 +371,7 @@ if (!function_exists('siteName')) {
                 'jinlaikaisuo.cn'      => '进来开锁',
                 'shiyongceping.cn'     => '使用测评',
                 'hushentouzi.cn'       => '沪深投资',
+                'nageshipin.com'       => '那个视频',
             ];
             $host = parse_url($url)['host'];
             $host = str_replace(['l.', 'www.', 'cdn.'], '', $host);
