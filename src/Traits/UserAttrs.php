@@ -40,8 +40,11 @@ trait UserAttrs
             return $profile;
         }
 
+        $profile     = UserProfile::firstOrNew(['user_id' => $this->id]);
         $app_version = request()->header('version', null);
-        $profile     = UserProfile::firstOrCreate(['user_id' => $this->id, "app_version" => $app_version]);
+        //用户开始新增时激活的版本号
+        $profile->app_version = $app_version;
+        $profile->save();
         return $profile;
     }
 
