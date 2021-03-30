@@ -9,7 +9,7 @@
             </div>
         </div>
         <div class="box-body">
-            <ul class="game-video-list">
+            <ul class="game-video-list" v-if="posts.length > 0">
                 <li v-for="post in posts" v-bind:key="post.id" class="game-video-item">
                     <a :href="'/video/' + post.video.id" class="video-info" :target="isDesktop ? '_blank' : '_self'">
                         <img class="video-photo" :src="post.cover" />
