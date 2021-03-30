@@ -315,7 +315,7 @@ class UserController extends Controller
         $user->followUsers = $user->followingUsers()->count();
 
         $data['follows']   = $user->followingUsers()->orderBy('id', 'desc')->paginate(10);
-        $data['followers'] = $user->follows()->orderBy('id', 'desc')->paginate(10);
+        $data['followers'] = $user->followers()->orderBy('id', 'desc')->paginate(10); 
 
         return view('user.follows')
             ->withUser($user)

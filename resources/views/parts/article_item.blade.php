@@ -27,7 +27,7 @@
             @if($article->user->is_editor)
               <img class="badge-icon" src="/images/editor.png" data-toggle="tooltip" data-placement="top" title="{{ seo_site_name() }}小编" alt="">
             @endif
-            <span class="time">{{ $article->updatedAt() }}</span>
+            <span class="time">{{ $article->updated_at }}</span>
           </div>
         </div>
         @endif
@@ -49,7 +49,7 @@
               {{ $article->category->name }}
             </a>
           @endif
-          @if( $article->type=='article' )
+          @if( $article->user && $article->type=='article' )
             <a class="nickname"   href="/user/{{ $article->user->id }}">{{ $article->user->name }}</a>
           @endif
           <a   href="{{ $article->url }}">

@@ -9,7 +9,7 @@
             </div>
         </div>
         <div class="box-body">
-            <ul class="game-video-list">
+            <ul class="game-video-list" v-if="posts.length > 0">
                 <li v-for="post in posts" v-bind:key="post.id" class="game-video-item">
                     <a :href="'/video/' + post.video.id" class="video-info" :target="isDesktop ? '_blank' : '_self'">
                         <img class="video-photo" :src="post.cover" />
@@ -43,49 +43,47 @@
 export default {
     name: 'VideoList',
 
-    props: ['api', 'startPage', 'isDesktop'],
+    props: ['api', 'startPage', 'isStick', 'isDesktop'],
 
     watch: {
         api(val) {
             this.clear();
             this.fetchData();
-        },
+        }
     },
 
     computed: {
         apiUrl: {
             get() {
-                var page = this.page;
-                var api = this.api ? this.api : this.apiDefault;
-                var api_url = api.indexOf('?') !== -1 ? api + '&page=' + page : api + '?page=' + page;
-                if (page == 0) api_url += '&stick=true';
+                var api_url =
+                    this.api.indexOf('?') !== -1 ? this.api + '&page=' + this.page : this.api + '?page=' + this.page;
+                if (this.isStick) api_url += '&stick=true';
                 return api_url;
-            },
-        },
+            }
+        }
     },
 
     mounted() {
         this.listenScrollBotton();
         this.fetchData();
-        this.loadData();
     },
 
     methods: {
         clear() {
             this.posts = [];
+            this.page = 1;
         },
         listenScrollBotton() {
             var m = this;
-            $(window).on('scroll', function () {
+            $(window).on('scroll', function() {
                 var aheadMount = 5;
-                var is_scroll_to_botton = $(this).scrollTop() >= $('body').height() - $(window).height() - aheadMount;
-                if (is_scroll_to_botton) {
+                var reachedBottom = $(this).scrollTop() >= $('body').height() - $(window).height() - aheadMount;
+                if (reachedBottom) {
                     m.fetchMore();
                 }
             });
         },
         fetchMore() {
-            ++this.page;
             if (this.lastPage > 0 && this.page > this.lastPage) {
                 console.log('已经到底了');
                 return;
@@ -93,29 +91,34 @@ export default {
             this.fetchData();
         },
         fetchData() {
-            var vm = this;
-            window.axios.get(this.apiUrl).then(function (response) {
-                vm.posts = vm.posts.concat(response.data.data);
-                vm.lastPage = response.data.lastPage;
-            });
-        },
-        loadData() {
-            if (this.posts.length < 1) {
-                ++this.page;
-                this.fetchData();
-            }
-            return;
-        },
+            if (this.loading) return;
+            this.loading = true;
+            var that = this;
+            window.axios
+                .get(this.apiUrl)
+                .then(function(response) {
+                    const data = response.data.data;
+                    if (data && data.length > 0) {
+                        ++that.page;
+                        that.posts = that.posts.concat(data);
+                        that.lastPage = response.data.last_page;
+                    }
+                    that.loading = false;
+                })
+                .catch(function(e) {
+                    that.loading = false;
+                });
+        }
     },
 
     data() {
         return {
-            apiDefault: '',
-            page: this.startPage ? this.startPage : 0,
-            lastPage: -1,
             posts: [],
+            page: this.startPage || 0,
+            lastPage: -1,
+            loading: false
         };
-    },
+    }
 };
 </script>
 

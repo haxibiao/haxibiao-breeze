@@ -175,7 +175,7 @@ class SearchController extends Controller
         $tags         = Tag::all();
         $matched_tags = [];
         foreach ($tags as $tag) {
-            if (str_contains($query, $tag->name)) {
+            if ( $query && str_contains($query, $tag->name)) {
                 foreach ($tag->articles as $article) {
                     $articles[] = $article;
                 }
