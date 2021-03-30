@@ -99,10 +99,10 @@ export default {
                 .then(function(response) {
                     const data = response.data.data;
                     if (data && data.length > 0) {
+                        ++that.page;
                         that.posts = that.posts.concat(data);
-                        that.lastPage = response.data.lastPage;
+                        that.lastPage = response.data.last_page;
                     }
-                    ++that.page;
                     that.loading = false;
                 })
                 .catch(function(e) {
