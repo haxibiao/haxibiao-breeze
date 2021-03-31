@@ -60,8 +60,10 @@ class UserController extends Controller
         $user                   = User::with('articles')->findOrFail($id);
         $user->followUsers      = $user->followingUsers()->count();
         $user->count_production = $user->articles()->count();
-        //作品
+        //个人作品 ，个人主页不展示爬取的文章
+        //个人发布的文集都有一个主文集，通过has('collection')过滤掉爬取的文章
         $qb = $user->articles()->with('category')
+            ->has('collection')
             ->where('status', '>', 0)
             ->orderBy('id', 'desc');
         $articles = smartPager($qb, 10);
