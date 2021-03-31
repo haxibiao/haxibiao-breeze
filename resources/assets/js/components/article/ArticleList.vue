@@ -2,7 +2,7 @@
 	<div>
 		<li v-for="article in articles" :class="article.cover_path?'content-item have-img':'content-item'">
 			<a v-if="article.cover_path" class="wrap-img" :href="'/article/'+article.id"   >
-				<img :src="article.cover_path" :alt="article.cover_path">
+				<img :src="article.cover" :alt="article.cover">
 				<span v-if="article.type =='video'" class="rotate-play">
 		        <i class="iconfont icon-shipin"></i>
 		      </span>
