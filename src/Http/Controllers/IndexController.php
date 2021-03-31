@@ -13,14 +13,7 @@ class IndexController extends Controller
      */
     public function index()
     {
-		/**
-		 * 暂时硬编码了，对用户关闭深圳哈希坊下八个站点的视频/电影播放模块
-		 * https://pm.haxifang.com/browse/HXB-288
-		 */
-		$isRecording = in_array(get_domain(),['dongdianhai.com','dongshengyin.com','tongjiuxiu.com','dongtaolu.cn','dongdezhuan.com','dongyundong.com','dongwuli.com']);
-    	if($isRecording && !is_crawler()){
-			return view('app');
-		}
+
         if (isRecording() && !is_crawler()) {
             return view('app');
         }
