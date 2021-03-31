@@ -15,6 +15,15 @@ class SeoSeeder extends Seeder
     {
         Seo::truncate();
 
+        //未备案代理跳板域名 修复 get_domain 返回顶级域名 - 示范
+        // $item = Seo::firstOrCreate([
+        //     'group' => 'proxy_domains',
+        //     'name'  => env('APP_DOMAIN', 'yingdaqian.com'),  //SEO用顶级未备案域名
+        //     'value' => env('APP_DOMAIN_PROXY', 'yingdaquan.haxifang.com'), //实际机房请求的备案二级域名
+        // ]);
+        // $item->save();
+        //多域名站群实例，proxy_domains可以有多个，用让 get_domain()返回顶级seo用途域名
+
         //TKD
         $item = Seo::firstOrCreate([
             'group' => 'TKD',
