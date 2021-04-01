@@ -6,13 +6,8 @@
 
 require('./bootstrap');
 require('es6-promise').polyfill();
+import './global';
 import Vue from 'vue';
-window.$bus = new Vue();
-window.$bus.state = {
-    answer: {
-        answerIds: [],
-    },
-};
 Vue.prototype.$http = window.axios;
 
 /**
@@ -30,6 +25,7 @@ Vue.component('follow', require('./components/button/Follow.vue').default);
 Vue.component('favorite', require('./components/button/Favorite.vue').default);
 Vue.component('like', require('./components/button/Like.vue').default);
 Vue.component('video-like', require('./components/button/VideoLike.vue').default);
+Vue.component('comment-module', require('./components/comment/CommentModule').default);
 Vue.component('comments', require('./components/comment/Comments.vue').default);
 Vue.component('new-comment', require('./components/comment/NewComment.vue').default);
 Vue.component('reply-comment', require('./components/comment/ReplyComment.vue').default);
