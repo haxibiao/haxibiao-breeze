@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -21,29 +22,39 @@
     @stack('css')
 
 </head>
+
 <body>
     <div id="app" class="blank">
         @yield('content')
     </div>
 
     <!-- Scripts -->
-    @if(Auth::check())
-    <script type="text/javascript">
+    @if (Auth::check())
+        <script type="text/javascript">
             window.appName = '{{ seo_site_name() }}';
-            window.tokenize =　 function(api_url){
+            window.csrf_token = '{{ csrf_token() }}';
+            window.tokenize = function(api_url) {
                 var api_token = '{{ Auth::user()->api_token }}'
-                if(api_url.indexOf('?') === -1) {
+                if (api_url.indexOf('?') === -1) {
                     api_url += '?api_token=' + api_token;
                 } else {
                     api_url += '&api_token' + api_token;
                 }
                 return api_url;
             };
-            window.csrf_token = '{{ csrf_token() }}';
-    </script>
+            window.user = {
+                id: {{ Auth::user()->id }},
+                token: '{{ Auth::user()->api_token }}',
+                name: '{{ Auth::user()->name }}',
+                avatar: '{{ Auth::user()->avatar }}',
+                balance: {{ Auth::user()->balance }}
+            }
+
+        </script>
     @endif
     <script type="text/javascript">
-            window.csrf_token = '{{ csrf_token() }}';
+        window.csrf_token = '{{ csrf_token() }}';
+
     </script>
 
     <script src="{{ breeze_mix('/js/breeze.js') }}"></script>
@@ -54,6 +65,7 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
     </script>
 
     @stack('scripts')
@@ -61,12 +73,12 @@
 
     @include('parts.to_up')
 
-	<div class="container">
-		@include('parts.footer')
-	</div>
+    <div class="container">
+        @include('parts.footer')
+    </div>
 
     {{-- 百度自动推送js 更新模板即可 --}}
-	{!! cms_seo_js() !!}
+    {!! cms_seo_js() !!}
 </body>
-</html>
 
+</html>

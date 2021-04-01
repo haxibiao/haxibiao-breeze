@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -20,39 +21,51 @@
     <link href="{{ breeze_mix('/css/breeze.css') }}" rel="stylesheet">
 
     <style>
-        html,body {
+        html,
+        body {
             width: 100%;
             height: 100%;
             overflow-y: unset;
         }
+
         #app {
             width: 100%;
             height: 100%;
             padding: 0 !important;
         }
+
     </style>
     @stack('css')
 
 </head>
+
 <body>
     <div id="app">
         @yield('content')
     </div>
 
     <!-- Scripts -->
-    @if(Auth::check())
-    <script type="text/javascript">
-        window.appName = '{{ seo_site_name() }}';
-        window.tokenize =　 function(api_url){
-            var api_token = '{{ Auth::user()->api_token }}'
-            if(api_url.indexOf('?') === -1) {
-                api_url += '?api_token=' + api_token;
-            } else {
-                api_url += '&api_token=' + api_token;
+    @if (Auth::check())
+        <script type="text/javascript">
+            window.appName = '{{ seo_site_name() }}';
+            window.tokenize = function(api_url) {
+                var api_token = '{{ Auth::user()->api_token }}'
+                if (api_url.indexOf('?') === -1) {
+                    api_url += '?api_token=' + api_token;
+                } else {
+                    api_url += '&api_token=' + api_token;
+                }
+                return api_url;
+            };
+            window.user = {
+                id: {{ Auth::user()->id }},
+                token: '{{ Auth::user()->api_token }}',
+                name: '{{ Auth::user()->name }}',
+                avatar: '{{ Auth::user()->avatar }}',
+                balance: {{ Auth::user()->balance }}
             }
-            return api_url;
-        };
-    </script>
+
+        </script>
     @endif
     <script src="{{ breeze_mix('/js/breeze.js') }}"></script>
     <script type="text/javascript">
@@ -61,9 +74,11 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
     </script>
     @stack('scripts')
     @stack('js')
 
 </body>
+
 </html>

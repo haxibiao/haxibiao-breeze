@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    {{--  icon  --}}
+    {{-- icon --}}
     <link rel="icon" type="image/png" href="{{ small_logo() }}" sizes="60*60">
     <link rel="icon" type="image/png" href="{{ web_logo() }}" sizes="120*120">
     <link rel="apple-touch-icon" href="{{ touch_logo() }}" sizes="160*160">
@@ -64,7 +64,8 @@
                 return api_url;
             };
             window.user = {
-                id:{{ Auth::user()->id }},
+                id: {{ Auth::user()->id }},
+                token: '{{ Auth::user()->api_token }}',
                 name: '{{ Auth::user()->name }}',
                 avatar: '{{ Auth::user()->avatar }}',
                 balance: {{ Auth::user()->balance }}
@@ -74,6 +75,7 @@
     @endif
     <script type="text/javascript">
         window.csrf_token = '{{ csrf_token() }}';
+
     </script>
 
     <script src="{{ breeze_mix('/js/breeze.js') }}"></script>
@@ -91,9 +93,10 @@
     @stack('scripts')
     @stack('js')
     <div class="container">
-         @include('parts.footer')
+        @include('parts.footer')
     </div>
 
-	{!! cms_seo_js() !!}
+    {!! cms_seo_js() !!}
 </body>
+
 </html>
