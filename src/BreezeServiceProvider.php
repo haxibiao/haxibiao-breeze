@@ -48,6 +48,9 @@ class BreezeServiceProvider extends ServiceProvider
             require_once $filename;
         }
 
+        //加载编译的breeze css js fonts images
+        load_breeze_assets(breeze_path('public'));
+
         // 这一段会重写掉整个sentry的配置
         $this->rewriteSentryDsn();
 
@@ -106,8 +109,6 @@ class BreezeServiceProvider extends ServiceProvider
             $this->mergeConfigFrom(__DIR__ . '/../config/seo.php', 'seo');
         }
 
-        //加载编译的breeze css js fonts images
-        load_breeze_assets();
         //修复分页样式
         Paginator::useBootstrap();
 
@@ -129,7 +130,7 @@ class BreezeServiceProvider extends ServiceProvider
 
             //前端资源
             $this->publishes([
-                // breeze_path('public/mix-manifest.json') => public_path('mix-manifest.json'),
+                // __DIR__ . '/../public/fonts' => public_path('/fonts'),
                 // __DIR__ . '/../public/images'            => public_path('/images'),
                 // __DIR__ . '/../public/css'               => public_path('/css'),
                 // __DIR__ . '/../public/js'                => public_path('/js'),

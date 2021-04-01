@@ -2,39 +2,9 @@
 
 use App\BanDevice;
 use App\User;
-use Haxibiao\Breeze\Breeze;
 use Haxibiao\Breeze\Exceptions\UserException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
-
-function load_breeze_assets()
-{
-    //FIXME:: load css js images
-    foreach (glob(breeze_path('public/css/*')) as $filepath) {
-        $asset_path = str_replace(breeze_path('public'), '', $filepath);
-        Breeze::asset($asset_path, $filepath);
-    }
-
-    foreach (glob(breeze_path('public/js/*')) as $filepath) {
-        $asset_path = str_replace(breeze_path('public'), '', $filepath);
-        Breeze::asset($asset_path, $filepath);
-    }
-
-    foreach (glob(breeze_path('public/images/*')) as $filepath) {
-        $asset_path = str_replace(breeze_path('public'), '', $filepath);
-        Breeze::asset($asset_path, $filepath);
-    }
-
-    foreach (glob(breeze_path('public/images/app/*')) as $filepath) {
-        $asset_path = str_replace(breeze_path('public'), '', $filepath);
-        Breeze::asset($asset_path, $filepath);
-    }
-
-    foreach (glob(breeze_path('public/images/logo/*')) as $filepath) {
-        $asset_path = str_replace(breeze_path('public'), '', $filepath);
-        Breeze::asset($asset_path, $filepath);
-    }
-}
 
 function breeze_path($path)
 {
