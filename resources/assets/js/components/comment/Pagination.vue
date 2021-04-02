@@ -23,15 +23,9 @@
 <script>
 export default {
     props: {
-        count: {
+        totalPage: {
             type: Number,
             required: true,
-        },
-        offset: {
-            type: Number,
-            default: function() {
-                return 10;
-            },
         },
         current: {
             type: Number,
@@ -41,9 +35,6 @@ export default {
         },
     },
     computed: {
-        totalPage() {
-            return Math.ceil(this.count / this.offset);
-        },
         pageNumbers() {
             var arr = [];
 

@@ -1,6 +1,6 @@
 <template>
     <div id="comment_module" class="comment-wrapper">
-        <comment-send ref="commentSend" @submitComment="createComment" />
+        <comment-input :commentable-id="id" :commentable-type="type" @update="updateComments" />
         <div class="module-head">
             <span class="count_comment">{{ totalComments || 0 }}</span>
             <span>评论</span>
@@ -24,26 +24,169 @@
         </div>
         <div class="comment-container">
             <div class="comment-box">
-                <div class="comment-list">
-                    <comment-item v-for="comment in comments" :key="comment.id" :comment="comment" />
+                <div v-if="loading" style="margin:20px 5px">
+                    <loading-more />
                 </div>
-                <pagination :count="Number(totalComments)" :offset="Number(pageOffset)" :current.sync="currentPage" />
-                <!-- <comment-send v-if="totalComments>10" ref="commentSend" @submitComment="createComment" /> -->
+                <div v-else class="comment-list">
+                    <comment-item
+                        v-for="comment in comments"
+                        :key="comment.id"
+                        :comment="comment"
+                        :commentable-id="id"
+                        :commentable-type="type"
+                    />
+                </div>
+                <pagination :totalPage="Number(lastPage)" :current.sync="currentPage" />
+                <comment-input v-if="totalComments >= 5" :commentable-id="id" :commentable-type="type" />
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import commentApi from './api';
+const res = {
+    current_page: 1,
+    data: [
+        {
+            id: 83562,
+            user_id: 54,
+            commentable_id: 151439,
+            commentable_type: 'articles',
+            body: '\ud83c\udf1a',
+            comment_id: null,
+            lou: 1,
+            count_likes: 1,
+            count_reports: 0,
+            at_uid: null,
+            status: null,
+            created_at: '2021-03-26T01:13:39.000000Z',
+            updated_at: '2021-03-26T01:13:39.000000Z',
+            is_accept: 0,
+            deleted_at: null,
+            content: '哈哈\ud83c\udf1a',
+            reply_id: null,
+            rank: 0,
+            top: 0,
+            reports_count: 0,
+            comments_count: 0,
+            time: '5\u5929\u524d',
+            liked: false,
+            reported: false,
+            replying: 0,
+            user: { id: 54, name: '\u738b\u5b87\u5764', avatar: 'http://cos.haxibiao.com/avatar/54_1594866588.jpeg' },
+            reply_comments: [
+                {
+                    id: 83564,
+                    user_id: 54,
+                    commentable_id: 151439,
+                    commentable_type: 'articles',
+                    body: '买买买',
+                    comment_id: null,
+                    lou: 1,
+                    count_likes: 1,
+                    count_reports: 0,
+                    at_uid: null,
+                    status: null,
+                    created_at: '2021-03-26T01:13:39.000000Z',
+                    updated_at: '2021-03-26T01:13:39.000000Z',
+                    is_accept: 0,
+                    deleted_at: null,
+                    content: '回复 <a :href="/user/1" target="_blank">@i掰掰GOODBYE </a>:哈哈\ud83c\udf1a',
+                    reply_id: null,
+                    rank: 0,
+                    top: 0,
+                    reports_count: 0,
+                    time: '5\u5929\u524d',
+                    liked: false,
+                    reported: false,
+                    replying: 0,
+                    user: {
+                        id: 54,
+                        name: '\u738b\u5b87\u5764',
+                        avatar: 'http://cos.haxibiao.com/avatar/54_1594866588.jpeg',
+                    },
+                },
+            ],
+            likes: [
+                {
+                    id: 881,
+                    user_id: 51,
+                    likable_id: 83562,
+                    likable_type: 'comments',
+                    created_at: '2021-03-28T06:19:01.000000Z',
+                    updated_at: '2021-03-28T06:19:01.000000Z',
+                    deleted_at: null,
+                },
+            ],
+        },
+        {
+            id: 83563,
+            user_id: 54,
+            commentable_id: 151439,
+            commentable_type: 'articles',
+            body: '\ud83c\udf1a',
+            comment_id: null,
+            lou: 1,
+            count_likes: 1,
+            count_reports: 0,
+            at_uid: null,
+            status: null,
+            created_at: '2021-03-26T01:13:39.000000Z',
+            updated_at: '2021-03-26T01:13:39.000000Z',
+            is_accept: 0,
+            deleted_at: null,
+            content: '哈哈\ud83c\udf1a',
+            reply_id: null,
+            rank: 0,
+            top: 0,
+            reports_count: 0,
+            comments_count: 0,
+            time: '5\u5929\u524d',
+            liked: false,
+            reported: false,
+            replying: 0,
+            user: { id: 54, name: '\u738b\u5b87\u5764', avatar: 'http://cos.haxibiao.com/avatar/54_1594866588.jpeg' },
+            reply_comments: [],
+            likes: [
+                {
+                    id: 881,
+                    user_id: 51,
+                    likable_id: 83562,
+                    likable_type: 'comments',
+                    created_at: '2021-03-28T06:19:01.000000Z',
+                    updated_at: '2021-03-28T06:19:01.000000Z',
+                    deleted_at: null,
+                },
+            ],
+        },
+    ],
+    first_page_url: 'https://haxibiao.com/api/comment/151439/articles/with-token?page=1',
+    from: 1,
+    last_page: 2,
+    last_page_url: 'https://haxibiao.com/api/comment/151439/articles/with-token?page=1',
+    links: [
+        { url: null, label: '&laquo; Previous', active: false },
+        { url: 'https://haxibiao.com/api/comment/151439/articles/with-token?page=1', label: 1, active: true },
+        { url: null, label: 'Next &raquo;', active: false },
+    ],
+    next_page_url: null,
+    path: 'https://haxibiao.com/api/comment/151439/articles/with-token',
+    per_page: 5,
+    prev_page_url: null,
+    to: 1,
+    total: 1,
+};
+import serviceApi from './api';
 import CommentItem from './CommentItem';
-import CommentSend from './CommentSend';
+import CommentInput from './CommentInput';
+import LoadingMore from './LoadingMore';
 import Pagination from './Pagination';
 
 export default {
     components: {
         CommentItem,
-        CommentSend,
+        CommentInput,
+        LoadingMore,
         Pagination,
     },
     props: {
@@ -67,12 +210,6 @@ export default {
                 return 0;
             },
         },
-        pageOffset: {
-            type: Number,
-            default: function() {
-                return 5;
-            },
-        },
     },
     created() {
         this.fetchData();
@@ -93,7 +230,7 @@ export default {
         // 获取评论数据
         fetchData() {
             this.loading = true;
-            commentApi['comment/query']({
+            serviceApi['comment/query']({
                 variables: {
                     id: this.id,
                     type: this.type,
@@ -105,43 +242,26 @@ export default {
                 },
             })
                 .then(function(response) {
+                    console.log('comment/query：response', response);
                     if (response && response.data && typeof response.data === 'object') {
                         this.comments = response.data.data;
                         this.totalComments = response.data.total;
+                        this.lastPage = response.data.last_page;
                     }
                 })
-                .catch(e => {})
+                .catch(e => {
+                    console.log('comment/query：err', e);
+                })
                 .then(() => {
+                    this.comments = res.data;
+                    this.totalComments = res.datatotal;
+                    this.lastPage = res.last_page;
                     this.loading = false;
                 });
         },
-        //写新评论
-        createComment(body) {
-            commentApi['comment/create']({
-                variables: {
-                    id: this.id,
-                    type: this.type,
-                },
-                params: {
-                    api_token: this.user.token,
-                },
-                data: {
-                    body,
-                    user: this.user,
-                },
-            })
-                .then(response => {
-                    if (response && response.data && typeof response.data === 'object') {
-                        const newComment = response.data.data;
-                        if (newComment) {
-                            this.comments = [newComment, ...this.comments];
-                        }
-                    }
-                })
-                .catch(e => {})
-                .then(() => {
-                    this.$refs.commentSend.submitted();
-                });
+        //更新评论
+        updateComments(comment) {
+            this.comments.splice(0, 0, comment);
         },
     },
     watch: {
@@ -153,11 +273,12 @@ export default {
     },
     data() {
         return {
+            loading: false,
             order: 'likes',
             currentPage: 1,
+            lastPage: 1,
             comments: [],
             totalComments: this.countComments,
-            loading: false,
         };
     },
 };
@@ -214,6 +335,6 @@ export default {
     background: #fff;
 }
 .comment-list {
-    padding: 20px 0;
+    padding: 20px 0 0;
 }
 </style>
