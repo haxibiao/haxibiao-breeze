@@ -6,9 +6,8 @@
 
 require('./bootstrap');
 require('es6-promise').polyfill();
-import './global';
-import Vue from 'vue';
-Vue.prototype.$http = window.axios;
+require('./global');
+const Vue = require('vue');
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

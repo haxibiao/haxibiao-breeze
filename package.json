@@ -27,17 +27,18 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "bootstrap-tagsinput": "^0.7.1",
         "dplayer": "^1.26.0",
-        "hls.js": "^0.14.16",
+        "element-ui": "^2.15.1",
         "es6-promise-promise": "^1.0.0",
+        "hls.js": "^0.14.16",
+        "node-sass": "^4.7.2",
         "simditor": "2.3.6",
         "simditor-dropzone": "2.0.1",
-        "bootstrap-tagsinput": "^0.7.1",
-        "node-sass": "^4.7.2",
-        "vue-multiselect": "^2.0.8",
-        "vue-router": "3.0.1",
         "video.js": "^7.10.2",
         "videojs-contrib-hls": "^5.15.0",
+        "vue-multiselect": "^2.0.8",
+        "vue-router": "3.0.1",
         "vuex": "^3.0.1"
     }
 }

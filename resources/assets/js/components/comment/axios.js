@@ -1,8 +1,12 @@
 import axios from 'axios';
 const AXIOS_DEFAULT_CONFIG = {
-    timeout: 10000,
+    timeout: 20000,
     maxContentLength: 2000,
-    headers: {},
+    baseURL: '/api',
+    withCredentials: true,
+    headers: {
+        'X-Requested-With': 'XMLHttpRequest',
+    },
 };
 const CONSOLE_REQUEST_ENABLE = true;
 
@@ -30,7 +34,7 @@ function responseSuccessFunc(response) {
             return resData.data;
         default:
             // 特殊code逻辑，在这里做统一处理，也可以下放到业务层
-            !response.config.noShowDefaultError && GLOBAL.VueBus.$emit('global.$dialog.show', resData.msg);
+            !response.config.noShowDefaultError && GLOBAL.vueBus.$emit('global.$dialog.show', resData.msg);
             return Promise.reject(resData);
     }
 }

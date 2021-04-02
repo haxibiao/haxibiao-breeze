@@ -6,7 +6,7 @@ var API_CONFIG = {
             name: 'query',
             method: 'GET',
             desc: '评论列表',
-            path: '/api/comment/{{id}}/{{type}}',
+            path: '/comment/{{id}}/{{type}}',
             params: {
                 page: 1,
                 order: 'like',
@@ -17,15 +17,21 @@ var API_CONFIG = {
             name: 'create',
             method: 'POST',
             desc: '写评论',
-            path: '/api/comment/{{id}}/{{type}}',
+            path: '/comment',
             params: {
                 api_token: 'api_token',
             },
             data: {
+                // 后端检索body中的'@xxx '字符串，验证xxx是否为正确存在的用户名
                 body: '评论内容',
+                commentable_id: 1,
+                commentable_type: 'articles',
+                //父级评论
+                comment_id: 11,
+                //回复的人
                 user: {
-                    id: 1,
-                    name: '用户昵称',
+                    id: 22,
+                    name: 'AA',
                 },
             },
         },
@@ -33,13 +39,13 @@ var API_CONFIG = {
             name: 'like',
             method: 'POST',
             desc: '点赞评论',
-            path: '/api/comment/{{id}}/like',
+            path: '/comment/{{id}}/like',
         },
         {
             name: 'report',
             method: 'POST',
             desc: '举报评论',
-            path: '/api/comment/{{id}}/report',
+            path: '/comment/{{id}}/report',
         },
     ],
 };
