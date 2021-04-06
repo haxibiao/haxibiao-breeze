@@ -35,9 +35,8 @@
                 <comment-input
                     v-show="inputVisible"
                     ref="commentInput"
-                    :comment="comment"
-                    :commentable-id="comment.id"
                     commentable-type="comments"
+                    :commentable-id="comment.id"
                     @createdComment="updateComments"
                 />
             </transition>

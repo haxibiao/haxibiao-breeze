@@ -76,7 +76,7 @@ export default {
                             message: '评论发表成功',
                             type: 'success',
                         });
-                        this.$emit('update', response);
+                        this.$emit('createdComment', response);
                     }
                 })
                 .catch(err => {
