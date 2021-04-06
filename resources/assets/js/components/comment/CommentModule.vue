@@ -1,6 +1,6 @@
 <template>
     <div id="comment_module" class="comment-wrapper">
-        <comment-input :commentable-id="id" :commentable-type="type" @update="updateComments" />
+        <comment-input :commentable-id="id" :commentable-type="type" @createdComment="updateComments" />
         <div class="module-head">
             <span class="count_comment">{{ totalComments || 0 }}</span>
             <span>评论</span>
@@ -24,10 +24,7 @@
         </div>
         <div class="comment-container">
             <div class="comment-box">
-                <div v-if="loading" style="margin:20px 5px">
-                    <loading-more />
-                </div>
-                <div v-else class="comment-list">
+                <div class="comment-list">
                     <comment-item
                         v-for="comment in comments"
                         :key="comment.id"
@@ -36,8 +33,18 @@
                         :commentable-type="type"
                     />
                 </div>
-                <pagination :totalPage="Number(lastPage)" :current.sync="currentPage" />
-                <comment-input v-if="totalComments >= 5" :commentable-id="id" :commentable-type="type" />
+                <div v-if="loading" style="padding:20px 5px">
+                    <loading-more />
+                </div>
+                <div class="pagination-wrap">
+                    <pagination :totalPage="Number(lastPage)" :current.sync="currentPage" />
+                </div>
+                <comment-input
+                    v-if="comments.length >= 5 && !loading"
+                    :commentable-id="id"
+                    :commentable-type="type"
+                    @createdComment="updateComments"
+                />
             </div>
         </div>
     </div>
@@ -82,17 +89,11 @@ export default {
     created() {
         this.fetchData();
     },
-    computed: {
-        user() {
-            return window.user || {};
-        },
-    },
     methods: {
         // 排序
         changeCommentsOrder(order) {
             this.order = order;
             this.currentPage = 1;
-            this.comments = [];
             this.fetchData();
         },
         // 获取评论数据
@@ -106,20 +107,17 @@ export default {
                 params: {
                     order: this.order,
                     page: this.currentPage,
-                    api_token: this.user.token,
+                    api_token: this.$user.token,
                 },
             })
-                .then(function(response) {
-                    console.log('comment/query：response', response);
-                    if (response && response.data && typeof response.data === 'object') {
-                        this.comments = response.data.data;
-                        this.totalComments = response.data.total;
-                        this.lastPage = response.data.last_page;
+                .then(response => {
+                    if (response && typeof response === 'object') {
+                        this.comments = response.data;
+                        this.lastPage = response.last_page;
+                        this.totalComments = response.total;
                     }
                 })
-                .catch(e => {
-                    console.log('comment/query：err', e);
-                })
+                .catch(e => {})
                 .then(() => {
                     this.loading = false;
                 });
@@ -201,5 +199,8 @@ export default {
 }
 .comment-list {
     padding: 20px 0 0;
+}
+.pagination-wrap {
+    margin: 20px 0;
 }
 </style>

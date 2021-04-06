@@ -1,5 +1,5 @@
 <template>
-    <div class="comment-item" :data-id="comment.id">
+    <div class="comment-item">
         <div class="user-face">
             <a :href="`/user/${comment.user.id}`" target="_blank">
                 <div class="app-avatar">
@@ -36,9 +36,9 @@
                     v-show="inputVisible"
                     ref="commentInput"
                     :comment="comment"
-                    :commentable-id="commentableId"
-                    :commentable-type="commentableType"
-                    @update="updateComments"
+                    :commentable-id="comment.id"
+                    commentable-type="comments"
+                    @createdComment="updateComments"
                 />
             </transition>
         </div>
@@ -58,21 +58,6 @@ export default {
         comment: {
             type: Object,
             required: true,
-        },
-        commentableId: {
-            type: [String, Number],
-            required: true,
-        },
-        commentableType: {
-            type: String,
-            default: function() {
-                return 'articles';
-            },
-        },
-    },
-    computed: {
-        user() {
-            return window.user || {};
         },
     },
     mounted() {
@@ -98,6 +83,10 @@ export default {
     },
     methods: {
         toggleInput(subComment) {
+            if (!this.$user.token) {
+                window.location.href = '/login';
+                return;
+            }
             GLOBAL.vueBus.$emit('comment.toggleInput', { comment: this.comment, subComment });
             // this.inputVisible = !this.inputVisible;
         },
@@ -106,7 +95,7 @@ export default {
             this.comment.liked = !this.comment.liked;
         },
         likeHandler() {
-            if (!this.user.token) {
+            if (!this.$user.token) {
                 window.location.href = '/login';
                 return;
             }
@@ -114,6 +103,9 @@ export default {
             serviceApi['comment/like']({
                 variables: {
                     id: this.comment.id,
+                },
+                params: {
+                    api_token: this.$user.token,
                 },
             }).catch(err => {
                 console.log('comment/like：err', err);
@@ -127,7 +119,7 @@ export default {
             handler[c]();
         },
         reportHandler() {
-            if (!this.user.token) {
+            if (!this.$user.token) {
                 window.location.href = '/login';
                 return;
             }
@@ -214,7 +206,7 @@ export default {
             word-wrap: break-word;
             position: relative;
             .name {
-                color: #808695;
+                color: #2b2b2b;
             }
             .vip-color {
                 color: #fe7705;

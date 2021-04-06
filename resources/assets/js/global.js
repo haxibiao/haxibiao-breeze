@@ -22,3 +22,4 @@ Vue.use(ElementUI);
 // prototype
 Vue.prototype.$http = axios;
 Vue.prototype.$optional = optionalChaining;
+Vue.prototype.$user = window.user || window.appUser || {};

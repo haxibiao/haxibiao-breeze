@@ -1,7 +1,7 @@
 <template>
-    <div :class="['comment-send', comment && 'small', !user.token && 'no-login']">
+    <div :class="['comment-send', commentableType === 'comments' && 'small', !$user.token && 'no-login']">
         <div class="user-face">
-            <img class="user-head" :src="user.avatar || '/images/movie/noavatar.png'" />
+            <img class="user-head" :src="$user.avatar || '/images/movie/noavatar.png'" />
         </div>
         <div class="textarea-container clearfix">
             <div class="baffle-wrap">
@@ -46,29 +46,17 @@ export default {
                 return 'articles';
             },
         },
-        comment: {
-            type: Object,
-        },
-    },
-    computed: {
-        user() {
-            return window.user || {};
-        },
     },
     methods: {
         onSend() {
             this.loading = true;
             const data = {
                 body: this.body,
-                user: this.user,
                 commentable_id: this.commentableId,
                 commentable_type: this.commentableType,
             };
-            if (this.comment && typeof this.comment === 'object') {
-                data.comment_id = this.comment.id;
-            }
             if (this.replyingUser) {
-                data.user = this.replyingUser;
+                data.reply = this.replyingUser;
             }
             this.createComment(data);
         },
@@ -76,13 +64,12 @@ export default {
         createComment(data) {
             serviceApi['comment/create']({
                 params: {
-                    api_token: this.user.token,
+                    api_token: this.$user.token,
                 },
                 data,
             })
                 .then(response => {
-                    console.log('comment/create：response', response);
-                    if (response.data && typeof response.data === 'object') {
+                    if (response && typeof response === 'object') {
                         const newComment = response.data;
                         if (newComment) {
                             this.body = null;
@@ -91,16 +78,11 @@ export default {
                                 message: '评论发表成功',
                                 type: 'success',
                             });
-                            if (data.comment) {
-                                GLOBAL.vueBus.$emit('comment.reply', newComment);
-                            } else {
-                                GLOBAL.vueBus.$emit('comment.new', newComment);
-                            }
+                            this.$emit('update', newComment);
                         }
                     }
                 })
                 .catch(err => {
-                    console.log('comment/create：err', err);
                     this.$message({
                         showClose: true,
                         message: '评论发表失败',

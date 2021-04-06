@@ -1,18 +1,18 @@
 <template>
     <div class="reply-item reply-wrap">
-        <a :href="`/user/${comment.user.id}`" target="_blank" class="reply-face">
-            <img :src="comment.user.avatar" alt="" />
+        <a :href="`/user/${comment.user && comment.user.id}`" target="_blank" class="reply-face">
+            <img :src="comment.user && comment.user.avatar" alt="" />
         </a>
         <div class="reply-body">
+            <a :href="`/user/${comment.user && comment.user.id}`" target="_blank" class="name">
+                {{ comment.user ? comment.user.name : '匿名用户' }}
+            </a>
             <div class="content">
-                <a :href="`/user/${comment.user.id}`" target="_blank" class="name">
-                    {{ comment.user.name }}
-                </a>
                 <span class="text-cont" v-html="comment.content"> </span>
             </div>
         </div>
         <div class="info">
-            <span class="time">{{ comment.time }}</span>
+            <span class="time">{{ comment.time || comment.updated_at }}</span>
             <span :class="['like', comment.liked && 'liked']" @click="likeHandler">
                 <i></i>
                 <span>{{ comment.count_likes }}</span>
@@ -39,18 +39,13 @@ export default {
             required: true,
         },
     },
-    computed: {
-        user() {
-            return window.user || {};
-        },
-    },
     methods: {
         toggleLike() {
             this.comment.liked ? this.comment.count_likes-- : this.comment.count_likes++;
             this.comment.liked = !this.comment.liked;
         },
         likeHandler() {
-            if (!this.user.token) {
+            if (!this.$user.token) {
                 window.location.href = '/login';
                 return;
             }
@@ -58,6 +53,9 @@ export default {
             serviceApi['comment/like']({
                 variables: {
                     id: this.comment.id,
+                },
+                params: {
+                    api_token: this.$user.token,
                 },
             }).catch(e => {
                 this.toggleLike();
@@ -70,7 +68,7 @@ export default {
             handler[c]();
         },
         reportHandler() {
-            if (!this.user.token) {
+            if (!this.$user.token) {
                 window.location.href = '/login';
                 return;
             }
@@ -110,26 +108,27 @@ export default {
             width: 28px;
             height: 28px;
             border-radius: 50%;
+            background: #f0f0f0;
         }
     }
     .reply-body {
         display: inline-block;
         width: calc(100% - 38px);
-        .content {
+        .name {
             font-size: 13px;
-            line-height: 18px;
+            height: 20px;
+            line-height: 20px;
+            font-weight: 700;
+            color: #808695;
+            .vip-color {
+                color: #fe7705;
+            }
+        }
+        .content {
             padding-bottom: 8px;
             display: block;
             word-wrap: break-word;
             position: relative;
-            .name {
-                font-weight: 700;
-                color: #808695;
-
-                .vip-color {
-                    color: #fe7705;
-                }
-            }
             .text-cont {
                 font-size: 14px;
                 line-height: 20px;

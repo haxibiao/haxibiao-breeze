@@ -26,23 +26,21 @@ function requestFailFunc(error) {
 
 function responseSuccessFunc(response) {
     CONSOLE_REQUEST_ENABLE && console.info('responseSuccessFunc', response);
-    const resData = response.data;
-    const { code } = resData;
-    switch (code) {
-        case 0:
-            // 如果业务成功，直接进成功回调
-            return resData.data;
-        default:
-            // 特殊code逻辑，在这里做统一处理，也可以下放到业务层
-            !response.config.noShowDefaultError && GLOBAL.vueBus.$emit('global.$dialog.show', resData.msg);
-            return Promise.reject(resData);
-    }
+    response.config.successMessage &&
+        GLOBAL.vueBus.$emit('global.$dialog.show', {
+            response,
+            type: 'success',
+        });
+    return response.data;
 }
 
 function responseFailFunc(error) {
     CONSOLE_REQUEST_ENABLE && console.info('responseFailFunc', error);
-    // 响应失败，可根据 error.message 和 error.response.status 来做监控处理
-    // ...
+    error.config.errorMessage &&
+        GLOBAL.vueBus.$emit('global.$dialog.show', {
+            error,
+            type: 'error',
+        });
     return Promise.reject(error);
 }
 

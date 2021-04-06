@@ -10,7 +10,12 @@ var API_CONFIG = {
             params: {
                 page: 1,
                 order: 'like',
-                api_token: 'api_token',
+                api_token: 'token',
+            },
+            // path {{}} variable
+            variables: {
+                id: 1,
+                type: 'articles',
             },
         },
         {
@@ -19,33 +24,39 @@ var API_CONFIG = {
             desc: '写评论',
             path: '/comment',
             params: {
-                api_token: 'api_token',
+                api_token: 'token',
             },
             data: {
                 // 后端检索body中的'@xxx '字符串，验证xxx是否为正确存在的用户名
                 body: '评论内容',
                 commentable_id: 1,
                 commentable_type: 'articles',
-                //父级评论
+                //父级评论的id
                 comment_id: 11,
                 //回复的人
                 user: {
                     id: 22,
-                    name: 'AA',
+                    name: '用户名',
                 },
             },
         },
         {
             name: 'like',
-            method: 'POST',
+            method: 'GET',
             desc: '点赞评论',
             path: '/comment/{{id}}/like',
+            variables: {
+                id: 1,
+            },
         },
         {
             name: 'report',
-            method: 'POST',
+            method: 'GET',
             desc: '举报评论',
             path: '/comment/{{id}}/report',
+            variables: {
+                id: 1,
+            },
         },
     ],
 };
