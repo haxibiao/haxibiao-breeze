@@ -70,16 +70,13 @@ export default {
             })
                 .then(response => {
                     if (response && typeof response === 'object') {
-                        const newComment = response.data;
-                        if (newComment) {
-                            this.body = null;
-                            this.$message({
-                                showClose: true,
-                                message: '评论发表成功',
-                                type: 'success',
-                            });
-                            this.$emit('update', newComment);
-                        }
+                        this.body = null;
+                        this.$message({
+                            showClose: true,
+                            message: '评论发表成功',
+                            type: 'success',
+                        });
+                        this.$emit('update', response);
                     }
                 })
                 .catch(err => {
