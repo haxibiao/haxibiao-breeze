@@ -190,7 +190,7 @@ if (!function_exists('neihan_sites_domains')) {
             "aishangyueyu.com"     => "爱上粤语",
             "laoyueyu.com"         => "老粤语",
 
-            "nageshipin.com"         => "那个视频",
+            "nageshipin.com"       => "那个视频",
 
             // "xingqilianren.com"    => "星期恋人",
             // "didipeipei.com"       => "滴滴陪陪",
@@ -516,6 +516,23 @@ if (!function_exists('baidu_id')) {
                 "laoyueyu.com"         => "28",
                 "cheliange.cn"         => "38dcbe82fe7f03235d6cde7a1c6b4c19",
                 'dianmoge.com'         => '3bd05fbfcaaf8dad90231ea3de958d76',
+            ];
+
+            $host = parse_url($url)['host'];
+            $host = str_replace(['l.', 'www.', 'cdn.'], '', $host);
+            // 默认内函电影的
+            return $sites[$host] ?? '1';
+        }
+    }
+}
+
+if (!function_exists('cnzz_id')) {
+    function cnzz_id()
+    {
+        if (request() && $url = request()->getUri()) {
+            $sites = [
+                "neihandianying.com" => "1279817045",
+                "xiamaoshipin.com"   => "1279817267",
             ];
 
             $host = parse_url($url)['host'];
