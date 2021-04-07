@@ -44,31 +44,34 @@ function getUser($throw = true)
         return $user;
     }
 
-    //兼容 web routes
-    if ($user = Auth::check()) {
-        return $user;
-    }
-
     //兼容 api routes
     $user = auth('api')->user() ?? request()->user();
 
-    //兼容 app的场景，gql模式
     if (blank($user)) {
+        //兼容 app的场景，gql模式
+
         //获得token，兼容api guard 和 token guard, 和旧版自定义token header
         $token = request()->bearerToken();
         if (blank($token)) {
-            $token = request()->header('token') ?? request()->get('token');
+            $token = request()->header('token') ?? request('api_token') ?? request('token');
         }
+
         //获得用户身份
         if ($token) {
             $user = User::where('api_token', $token)->first();
         }
+
+        if (blank($user)) {
+            //兼容 web routes - 极少用
+            if ($user = Auth::user()) {
+                return $user;
+            }
+        }
     }
 
     throw_if(is_null($user) && $throw, UserException::class, '客户端还没登录...');
-    //add to request context, cache current user ,暂时还没生效....
+    //add to request context, cache current user
     request()->request->add(['user' => $user]);
-    request()->merge(['user' => $user]);
 
     return $user;
 }
