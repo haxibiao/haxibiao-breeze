@@ -42,10 +42,14 @@ function getUser($throw = true)
     //fetch current request context cached user
     if ($userJson = request('user')) {
         $userData = json_decode($userJson, true);
-        $user     = new User();
-        $user->forceFill($userData);
-        $user->id = $userData['id'] ?? null;
-        return $user;
+        //获取有效的context缓存用户信息
+        $user_id = $userData['id'] ?? null;
+        if ($user_id) {
+            $user = new User();
+            $user->forceFill($userData);
+            $user->id = $user_id;
+            return $user;
+        }
     }
 
     //兼容 api routes
