@@ -4,7 +4,6 @@ use App\BanDevice;
 use App\User;
 use Haxibiao\Breeze\Exceptions\UserException;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 
 function breeze_path($path)
 {
@@ -33,48 +32,42 @@ function checkUser()
 }
 
 /**
- * 获取当前用户
+ * 获取当前用户，兼容api guard 和 token guard, 和旧版自定义token header
  *
  * @param boolean $throw 是否丢未登录异常，默认丢
  * @return User
  */
 function getUser($throw = true)
 {
-    if (Auth::check()) {
-        return Auth::user();
+    //fetch current request context cached user
+    if ($user = request('user')) {
+        return $user;
     }
 
-    //guard api token
+    //兼容 web routes
+    if ($user = Auth::check()) {
+        return $user;
+    }
+
+    //兼容 api routes
     $user = auth('api')->user() ?? request()->user();
 
-    //APP的场景
+    //兼容 app的场景，gql模式
     if (blank($user)) {
-        //兼容passport guard
+        //获得token，兼容api guard 和 token guard, 和旧版自定义token header
         $token = request()->bearerToken();
-
-        //兼容我们自定义token方式
         if (blank($token)) {
             $token = request()->header('token') ?? request()->get('token');
         }
+        //获得用户身份
         if ($token) {
             $user = User::where('api_token', $token)->first();
-        }
-
-        //调试旧/graphiql 的场景
-        if (is_giql() && !$user) {
-            if ($user_id = Cache::get('giql_uid')) {
-                $user = User::find($user_id);
-            }
         }
     }
 
     throw_if(is_null($user) && $throw, UserException::class, '客户端还没登录...');
-
-    //授权,减少重复查询 && 授权背后有个event监听
-    // if ($user) {
-    //     Auth::login($user);
-    // }
-
+    //add to request context cache user
+    request()->add(['user' => $user]);
     return $user;
 }
 
