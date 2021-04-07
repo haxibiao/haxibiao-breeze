@@ -2,11 +2,11 @@
 
 namespace Haxibiao\Breeze\Traits;
 
+use App\UserProfile;
 use App\Wallet;
 use Haxibiao\Breeze\Exceptions\GQLException;
 use Haxibiao\Breeze\User;
 use Haxibiao\Breeze\UserData;
-use Haxibiao\Breeze\UserProfile;
 use Haxibiao\Breeze\UserRetention;
 use Haxibiao\Sns\Follow;
 use Haxibiao\Task\Contribute;
@@ -36,7 +36,7 @@ trait UserAttrs
      */
     public function getProfileAttribute()
     {
-        if ($profile = $this->user_profile) {
+        if ($profile = $this->attributes['profile'] ?? null) {
             return $profile;
         }
 
