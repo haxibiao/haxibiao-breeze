@@ -30,10 +30,8 @@ var API_CONFIG = {
                 // 后端检索body中的'@xxx '字符串，验证xxx是否为正确存在的用户名
                 body: '评论内容',
                 commentable_id: 1,
-                commentable_type: 'articles',
-                //父级评论的id
-                comment_id: 11,
-                //回复的人
+                commentable_type: 'articles/comments',
+                // 被回复的用户
                 user: {
                     id: 22,
                     name: '用户名',
