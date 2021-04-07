@@ -107,7 +107,7 @@ function user_id()
 function is_follow($type, $id)
 {
 	$user = checkUser();
-    if (!is_string($user)) {
+    if ($user && !is_string($user)) {
         return $user->isFollow($type, $id);
     }
     return false;
