@@ -41,7 +41,10 @@ function getUser($throw = true)
 {
     //fetch current request context cached user
     if ($userJson = request('user')) {
-        $user = json_decode($userJson);
+        $userData = json_decode($userJson, true);
+        $user     = new User();
+        $user->forceFill($userData);
+        $user->id = $userData['id'] ?? null;
         return $user;
     }
 
