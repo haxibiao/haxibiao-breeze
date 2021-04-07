@@ -66,8 +66,10 @@ function getUser($throw = true)
     }
 
     throw_if(is_null($user) && $throw, UserException::class, '客户端还没登录...');
-    //add to request context cache user
-    request()->add(['user' => $user]);
+    //add to request context, cache current user ,暂时还没生效....
+    request()->request->add(['user' => $user]);
+    request()->merge(['user' => $user]);
+
     return $user;
 }
 
