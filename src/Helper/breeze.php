@@ -40,7 +40,8 @@ function checkUser()
 function getUser($throw = true)
 {
     //fetch current request context cached user
-    if ($user = request('user')) {
+    if ($userJson = request('user')) {
+        $user = json_decode($userJson);
         return $user;
     }
 
@@ -71,7 +72,7 @@ function getUser($throw = true)
 
     throw_if(is_null($user) && $throw, UserException::class, '客户端还没登录...');
     //add to request context, cache current user
-    request()->request->add(['user' => $user]);
+    request()->request->add(['user' => json_encode($user)]);
 
     return $user;
 }
@@ -106,7 +107,7 @@ function user_id()
  */
 function is_follow($type, $id)
 {
-	$user = checkUser();
+    $user = checkUser();
     if ($user && !is_string($user)) {
         return $user->isFollow($type, $id);
     }
