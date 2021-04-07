@@ -1,21 +1,10 @@
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
-
-require('./bootstrap');
 require('es6-promise').polyfill();
+require('./bootstrap');
 require('./global');
+require('./element');
 const Vue = require('vue');
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-
-//客人用户：　所能看到的js组件...
+// Guest visible vue
 Vue.component('blank-content', require('./components/BlankContent.vue').default);
 Vue.component('loading-more', require('./components/pure/LoadingMore.vue').default);
 Vue.component('single-list', require('./components/SingleList.vue').default);
@@ -50,7 +39,7 @@ Vue.component('captcha', require('./components/logins/Captcha.vue').default);
 Vue.component('social-login', require('./components/logins/SocialLogin.vue').default);
 Vue.component('signs', require('./components/logins/Signs.vue').default);
 
-//登录用户：　可见高级输入框组件...
+// Authentication visible vue
 Vue.component('follow-user-list', require('./components/follow/FollowUserList.vue').default);
 Vue.component('follow-categories-list', require('./components/follow/FollowCategoriesList.vue').default);
 
@@ -84,9 +73,9 @@ Vue.component('question-bottom', require('./components/question/QuestionBottom.v
 
 Vue.component('request-covers', require('./components/video/RequestCovers.vue').default);
 
-//编辑用户：　能见到编辑编辑器，专题管理等
+// Editor visible vue
 Vue.component('editor', require('./components/Editor.vue').default);
-//modals ...
+//modals
 Vue.component('my-image-list', require('./components/image/MyImageList.vue').default);
 Vue.component('my-video-list', require('./components/video/MyVideoList.vue').default);
 Vue.component('single-list-create', require('./components/SingleListCreate.vue').default);
@@ -122,7 +111,7 @@ Vue.component('share-module', require('./components/ShareModule.vue').default);
 Vue.component('close-share', require('./components/CloseShare.vue').default);
 Vue.component('modal-contribute', require('./components/modals/ModalContribute.vue').default);
 
-// write 编辑协作
+//write 编辑写作
 Vue.component('write', require('./components/write/Write.vue').default);
 Vue.component('note-books', require('./components/write/Notebooks.vue').default);
 Vue.component('notes', require('./components/write/Notes.vue').default);
@@ -133,25 +122,26 @@ Vue.component('scroll-top', require('./components/write/ScrollTop.vue').default)
 Vue.component('published', require('./components/write/Published.vue').default);
 Vue.component('modal-tips', require('./components/modals/ModalTips.vue').default);
 
-//免费图片素材
+//图片素材
 Vue.component('modal-images', require('./components/modals/ModalImages.vue').default);
 Vue.component('image-list', require('./components/image/ImageList.vue').default);
 
-// 文集重命名
+//文集重命名
 Vue.component('modification-name', require('./components/write/modificationName.vue').default);
-// 常见问题
+//常见问题
 Vue.component('frequently-asked-questions', require('./components/write/FAQ.vue').default);
-// 删除文集
+//删除文集
 Vue.component('delete-notebook', require('./components/write/deleteNotebook.vue').default);
 
-// 删除文章
+//删除文章
 Vue.component('delete-note', require('./components/write/deleteNote.vue').default);
-// 彻底删除
+//彻底删除
 Vue.component('thorough-delete', require('./components/write/thoroughDelete.vue').default);
 
 //支持hls的视频播放器dplayer
 Vue.component('dplayer', require('./components/video/DPlayer.vue').default);
 
+//spa
 import store from './store';
 import router_write from './router/write';
 import router_spa from './router/spa';

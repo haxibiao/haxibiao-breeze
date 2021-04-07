@@ -1,25 +1,22 @@
 import Vue from 'vue';
 import axios from 'axios';
-import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
 import { optionalChaining } from './plugins/vue-properties';
 
-// GLOBAL
+// window.property
 Object.defineProperty(window, 'GLOBAL', {
     value: {},
     writable: false,
     enumerable: true,
     configurable: false,
 });
+// $bus
 window.$bus = GLOBAL.vueBus = new Vue();
 window.$bus.state = {
     answer: {
         answerIds: [],
     },
 };
-//element
-Vue.use(ElementUI);
-// prototype
+//vue plugin/prototype
 Vue.prototype.$http = axios;
+Vue.prototype.$user = window.user || {};
 Vue.prototype.$optional = optionalChaining;
-Vue.prototype.$user = window.user || window.appUser || {};
