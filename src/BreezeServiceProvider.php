@@ -194,6 +194,8 @@ class BreezeServiceProvider extends ServiceProvider
         \Haxibiao\Media\Spider::observe(\Haxibiao\Breeze\Observers\SpiderObserver::class);
         \Haxibiao\Breeze\User::observe(\Haxibiao\Breeze\Observers\UserObserver::class);
 
+        \Haxibiao\Content\Collectable::observe(\Haxibiao\Breeze\Observers\CollectableObserver::class);
+
         \Haxibiao\Breeze\BadWord::observe(\Haxibiao\Breeze\Observers\BadWordObserver::class);
         \Haxibiao\Task\Contribute::observe(\Haxibiao\Breeze\Observers\ContributeObserver::class);
         \Haxibiao\Media\Spider::observe(\Haxibiao\Breeze\Observers\SpiderObserver::class);
