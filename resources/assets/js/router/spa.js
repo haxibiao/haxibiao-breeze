@@ -1,8 +1,5 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-
-Vue.use(VueRouter);
-
 let routes = [
     //spa 关注 消息
     {
@@ -81,5 +78,6 @@ let routes = [
 ];
 
 export default new VueRouter({
+    mode: 'history',
     routes,
 });

@@ -143,11 +143,13 @@ Vue.component('dplayer', require('./components/video/DPlayer.vue').default);
 
 //spa
 import store from './store';
+import VueRouter from 'vue-router';
 import router_write from './router/write';
 import router_spa from './router/spa';
 
 let pathname = window.location.pathname;
 if (pathname.indexOf('/write') !== -1) {
+    Vue.use(VueRouter);
     //编辑器 /write
     const app = new Vue({
         store,
@@ -158,6 +160,7 @@ if (pathname.indexOf('/write') !== -1) {
     pathname.indexOf('/notification') !== -1 ||
     pathname.indexOf('/settings') !== -1
 ) {
+    Vue.use(VueRouter);
     //关注，消息
     const app = new Vue({
         router: router_spa,

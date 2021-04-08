@@ -1,8 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
-Vue.use(VueRouter);
-
 let routes = [
     { path: '/', redirect: '/notebooks' },
     { path: '/notebooks', component: require('../components/write/Notebooks.vue').default },
@@ -22,5 +20,6 @@ let routes = [
 ];
 
 export default new VueRouter({
+    mode: 'history',
     routes,
 });
