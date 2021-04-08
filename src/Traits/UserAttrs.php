@@ -109,8 +109,10 @@ trait UserAttrs
                 ->get();
             foreach ($withdraws as $withdraw) {
                 $user = $withdraw->user;
-                if ($user->status == $this->ENABLE_STATUS) {
-                    return true;
+                if ($user) {
+                    if ($user->status == $this->ENABLE_STATUS) {
+                        return true;
+                    }
                 }
             }
         }
