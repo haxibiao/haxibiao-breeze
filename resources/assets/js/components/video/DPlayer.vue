@@ -11,6 +11,8 @@ export default {
         if (Hls.isSupported()) {
             console.log('hello hls.js isSupported!');
         }
+        let video_type = this.source.indexOf('.m3u8') !== -1 ? 'hls' : 'auto';
+        console.log('video_type', video_type);
         let options = {
             container: document.getElementById('dplayer'),
             preload: true,
@@ -18,7 +20,7 @@ export default {
             screenshot: true,
             video: {
                 url: this.source,
-                type: 'hls',
+                type: video_type,
             },
             pluginOptions: {
                 hls: {},
@@ -26,7 +28,7 @@ export default {
         };
         this.player = new DPlayer(options);
         if (this.source) {
-            console.log('开始播放 source:' + this.source);
+            console.log('mounted 开始播放 source:' + this.source);
             this.player.switchVideo({
                 url: this.source,
             });
@@ -35,10 +37,11 @@ export default {
     },
     watch: {
         source(newV, oldV) {
-            console.log('开始播放 url:' + newV);
+            console.log('watch 开始播放 source:' + newV);
             if (this.player) {
                 this.player.switchVideo({
                     url: newV,
+                    type: newV.indexOf('.m3u8') !== -1 ? 'hls' : 'auto',
                 });
                 this.player.play();
             }
