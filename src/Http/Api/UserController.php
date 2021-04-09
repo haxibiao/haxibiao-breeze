@@ -278,12 +278,14 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
 
-        //跳过当前的
         $video_id = $request->video_id;
         $num      = $request->get('num') ? $request->get('num') : 10;
-        $posts    = Post::with('video')->where('user_id', $user->id)->where('video_id', '<>', $video_id)->paginate($num);
+        $posts    = Post::publish()->with('video')
+            ->where('user_id', $user->id)
+            ->where('video_id', '<>', $video_id) //跳过当前的视频
+            ->paginate($num);
         if (count($posts) < 1) {
-            $posts = Post::inRandomOrder()->with('video')->paginate($num);
+            $posts = Post::publish()->inRandomOrder()->with('video')->paginate($num);
         }
         foreach ($posts as $post) {
             $post->fillForJs();
