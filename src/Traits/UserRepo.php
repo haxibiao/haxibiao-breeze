@@ -419,7 +419,7 @@ trait UserRepo
 
     public static function createUser($name, $account, $password)
     {
-        $user = new User();
+        $user = new \App\User();
 
         if (filter_var($account, FILTER_VALIDATE_EMAIL)) {
             $user->email = $account;
