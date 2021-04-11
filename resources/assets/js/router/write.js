@@ -20,6 +20,7 @@ let routes = [
 ];
 
 export default new VueRouter({
-    mode: 'history',
+    // mode: 'history',
+    // FIXME: 先简单处理一下 mode 导致发布页面白屏
     routes,
 });
