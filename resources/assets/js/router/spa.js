@@ -77,7 +77,4 @@ let routes = [
     },
 ];
 
-export default new VueRouter({
-    mode: 'history',
-    routes,
-});
+export default routes;

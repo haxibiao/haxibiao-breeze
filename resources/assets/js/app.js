@@ -144,16 +144,21 @@ Vue.component('dplayer', require('./components/video/DPlayer.vue').default);
 //spa
 import store from './store';
 import VueRouter from 'vue-router';
-import router_write from './router/write';
-import router_spa from './router/spa';
+import routes_write from './router/write';
+import routes_spa from './router/spa';
 
 let pathname = window.location.pathname;
 if (pathname.indexOf('/write') !== -1) {
     Vue.use(VueRouter);
-    //编辑器 /write
+    // 编辑器 /write
+
+    // Bin: 先做路由判断再 new VueRouter 对象就不会污染全局路由。
+    const router = new VueRouter({
+        routes: routes_write,
+    });
     const app = new Vue({
         store,
-        router: router_write,
+        router,
     }).$mount('#app');
 } else if (
     pathname.indexOf('/follow') !== -1 ||
@@ -162,8 +167,13 @@ if (pathname.indexOf('/write') !== -1) {
 ) {
     Vue.use(VueRouter);
     //关注，消息
+
+    // Bin: 先做路由判断再 new VueRouter 对象就不会污染全局路由。
+    const router = new VueRouter({
+        routes: routes_spa,
+    });
     const app = new Vue({
-        router: router_spa,
+        router,
     }).$mount('#app');
 } else {
     const app = new Vue({}).$mount('#app');
