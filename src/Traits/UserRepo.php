@@ -692,8 +692,14 @@ trait UserRepo
                 case 'Haxibiao\Breeze\Notifications\ReplyComment':
                     $unreads['comments']++;
                     break;
+                case 'App\Notifications\ArticleCommented':
+                    $unreads['comments']++;
+                    break;
                 //喜欢文章通知
                 case 'Haxibiao\Breeze\Notifications\LikedNotification':
+                    $unreads['likes']++;
+                    break;
+                case 'App\Notifications\LikedNotification':
                     $unreads['likes']++;
                     break;
                 //关注用户通知
