@@ -21,7 +21,7 @@
 						<a :href="'/user/'+chat.with_id" class="nickname">{{ chat.with_name }}</a>
 					</div>
 					<router-link :to="'/chat/'+chat.id">
-						<div class="info"><p>{{ chat.last_message }}</p></div>
+						<div class="info"><p>{{ chat.last_message_content }}</p></div>
 					</router-link>
 				</div>
 			</li>
