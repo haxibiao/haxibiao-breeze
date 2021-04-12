@@ -165,8 +165,6 @@ class BreezeServiceProvider extends ServiceProvider
             return request('weixin');
         });
 
-        $this->bindObservers();
-
         $this->app->singleton('app.config.beian', function ($app) {
             return \App\AppConfig::where([
                 'group' => 'record',
@@ -185,20 +183,11 @@ class BreezeServiceProvider extends ServiceProvider
     public function bindObservers()
     {
 
-        \Haxibiao\Sns\Message::observe(\Haxibiao\Breeze\Observers\MessageObserver::class);
-        \Haxibiao\Sns\Comment::observe(\Haxibiao\Breeze\Observers\CommentObserver::class);
-        \Haxibiao\Sns\Like::observe(\Haxibiao\Breeze\Observers\LikeObserver::class);
-        \Haxibiao\Sns\Follow::observe(\Haxibiao\Breeze\Observers\FollowObserver::class);
-        \Haxibiao\Sns\Report::observe(\Haxibiao\Breeze\Observers\ReportObserver::class);
-        \Haxibiao\Sns\Notice::observe(\Haxibiao\Breeze\Observers\NoticeObserver::class);
-        \Haxibiao\Media\Spider::observe(\Haxibiao\Breeze\Observers\SpiderObserver::class);
         \Haxibiao\Breeze\User::observe(\Haxibiao\Breeze\Observers\UserObserver::class);
-
-        \Haxibiao\Content\Collectable::observe(\Haxibiao\Breeze\Observers\CollectableObserver::class);
 
         \Haxibiao\Breeze\BadWord::observe(\Haxibiao\Breeze\Observers\BadWordObserver::class);
         \Haxibiao\Task\Contribute::observe(\Haxibiao\Breeze\Observers\ContributeObserver::class);
-        \Haxibiao\Media\Spider::observe(\Haxibiao\Breeze\Observers\SpiderObserver::class);
+
         //\Haxibiao\Wallet\Gold::observe(\Haxibiao\Breeze\Observers\GoldObserver::class);
 
     }

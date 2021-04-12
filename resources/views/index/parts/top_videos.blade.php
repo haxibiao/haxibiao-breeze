@@ -16,9 +16,9 @@
     <div class="col-xs-6 col-md-3 video">
       <div class="video-item vt">
         <div class="thumb">
-          <a href="/video/{{$post->video->id}}"  >
+          <a href="/post/{{$post->id}}"  >
             @if(!empty($post->cover))
-            <img src="{{ $post->cover}}" alt="{{ $post->description ?? $post->content }}">
+            <img src="{{ $post->cover}}" alt="{{ $post->description }}">
             @endif
             <i class="duration">
               @sectominute($post->video->duration)
@@ -28,7 +28,7 @@
         </div>
         <ul class="info-list">
           <li class="video-title">
-            <a   href="/video/{{$post->video->id}}">{{ $post->description ?? $post->content}}</a>
+            <a   href="/post/{{$post->id}}">{{ $post->description}}</a>
           </li>
           @if(config('content.show_video_plays'))
           <li>

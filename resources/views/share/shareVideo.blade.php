@@ -9,8 +9,8 @@
         content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>{{ seo_site_name() }}</title>
-    <link rel="stylesheet" href="assets('/css/breeze.css')" />
-    <link rel="stylesheet" href="{{ assets('/css/index.css') }}" />
+    <link rel="stylesheet" href="{{ breeze_mix('/css/breeze.css') }}" />
+    <link rel="stylesheet" href="{{ asset('/css/index.css') }}" />
 </head>
 
 <body>
@@ -80,7 +80,7 @@
     </div>
 </body>
 <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
-<script src="{{ assets('/js/main.js') }}"></script>
+<script src="{{ asset('/js/main.js') }}"></script>
 <script type="text/javascript">
     function getDownloadUrl() {
         let DownloadLink;
