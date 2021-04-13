@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Cache;
 
 class SearchController extends Controller
 {
-    public function searchArticles(Request $request)
+    public function search(Request $request)
     {
         $page_size = 10;
         $page      = request('page') ? request('page') : 1;
@@ -65,14 +65,15 @@ class SearchController extends Controller
         // }
 
         //用户，专题
-        // $data['users'] = User::where('name', 'like', "%$query%")
-        //     ->where('status', '>=', 0)
-        //     ->paginate($page_size);
-        // $data['categories'] = Category::where('name', 'like', "%$query%")
-        //     ->where('status', '>=', 0)
-        //     ->orderBy('parent_id', 'asc')
-        //     ->orderBy('count_follows', 'desc')
-        //     ->paginate($page_size);
+        $data['users'] = User::where('name', 'like', "%$query%")
+            ->where('status', '>=', 0)
+            ->paginate($page_size);
+        $data['categories'] = Category::where('name', 'like', "%$query%")
+            ->where('status', '>=', 0)
+            ->orderBy('parent_id', 'asc')
+            ->orderBy('count_follows', 'desc')
+            ->paginate($page_size);
+        $data['movies'] = \App\Movie::where('name', 'like', "%$query%")->paginate($page_size);
 
         $data['articles'] = $articles;
         $data['query']    = $query;
@@ -95,7 +96,7 @@ class SearchController extends Controller
         return view('search.video')->withData($data);
     }
 
-    public function search()
+    public function searchMovies()
     {
         $page_size     = 10;
         $page          = request('page') ? request('page') : 1;
@@ -103,16 +104,6 @@ class SearchController extends Controller
         $data['movie'] = \App\Movie::where('name', 'like', "%$query%")->paginate($page_size);
         $data['query'] = $query;
         $total         = count($data['movie']);
-
-        //用户，专题
-        $data['users'] = User::where('name', 'like', "%$query%")
-            ->where('status', '>=', 0)
-            ->paginate($page_size);
-        $data['categories'] = Category::where('name', 'like', "%$query%")
-            ->where('status', '>=', 0)
-            ->orderBy('parent_id', 'asc')
-            ->orderBy('count_follows', 'desc')
-            ->paginate($page_size);
 
         if (!empty($query)) {
             //保存全局搜索
