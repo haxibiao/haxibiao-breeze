@@ -591,4 +591,9 @@ trait UserAttrs
 
         return null;
     }
+
+    public function getCountWordsAttribute()
+    {
+        return $this->profile->count_words;
+    }
 }

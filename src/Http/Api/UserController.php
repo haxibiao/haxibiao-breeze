@@ -135,6 +135,8 @@ class UserController extends Controller
             if ($hasLogin) {
                 $user->is_followed = $loginUser->isFollow('users', $user->id);
             }
+            $user->count_words = $user->profile->count_words;
+            $user->count_likes = $user->likes()->count();
         }
         return $users;
     }
