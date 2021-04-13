@@ -31,7 +31,7 @@
 						<i class="iconfont icon-zhuanti1"></i>
 						{{ article.category.name }}
 					</a>
-					<a v-if="article.user && article.type =='diagrams'" class="nickname"    :href="'/user/'+article.user.id">{{ article.user.name }}</a>
+					<a v-if="article.user" class="nickname"    :href="'/user/'+article.user.id">{{ article.user.name }}</a>
 					<a   :href="'/article/'+article.id">
 						<i class="iconfont icon-liulan"></i> {{ article.hits }}
 					</a>
