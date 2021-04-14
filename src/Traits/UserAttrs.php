@@ -15,6 +15,7 @@ use Haxibiao\Wallet\Exchange;
 use Haxibiao\Wallet\Gold as AppGold;
 use Haxibiao\Wallet\Withdraw;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 
 trait UserAttrs
 {
@@ -140,10 +141,18 @@ trait UserAttrs
             return $avatar;
         }
 
-        if (str_contains($avatar, 'http')) {
-            return $avatar;
+        //不支持url,都存path,本地不存storage
+        // if (str_contains($avatar, 'http')) {
+        //     return $avatar;
+        // }
+        $avatar_path = parse_url($avatar, PHP_URL_PATH);
+
+        //breeze默认头像
+        if (Str::contains($avatar_path, 'images/avatar-')) {
+            return url($avatar_path);
         }
-        return cdnurl($avatar);
+        //更新头像到could的
+        return cdnurl($avatar_path);
     }
 
     /**
