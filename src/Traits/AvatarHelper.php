@@ -4,6 +4,7 @@ namespace Haxibiao\Breeze\Traits;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 trait AvatarHelper
 {
@@ -58,9 +59,17 @@ trait AvatarHelper
             return url(self::getDefaultAvatar());
         }
 
-        if (str_contains($avatar, "http")) {
-            return $avatar;
+        //不支持url,都存path,本地不存storage
+        // if (str_contains($avatar, 'http')) {
+        //     return $avatar;
+        // }
+        $avatar_path = parse_url($avatar, PHP_URL_PATH);
+
+        //breeze默认头像
+        if (Str::contains($avatar_path, 'images/avatar')) {
+            return url($avatar_path);
         }
+
         //FIXME: 答赚的 user->avatar 字段存的还不是标准的 cos_path, 答妹已修复 “cos:%” ...
         $avatar_url = cdnurl($avatar);
 

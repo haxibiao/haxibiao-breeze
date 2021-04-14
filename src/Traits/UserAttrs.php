@@ -148,7 +148,7 @@ trait UserAttrs
         $avatar_path = parse_url($avatar, PHP_URL_PATH);
 
         //breeze默认头像
-        if (Str::contains($avatar_path, 'images/avatar-')) {
+        if (Str::contains($avatar_path, 'images/avatar')) {
             return url($avatar_path);
         }
         //更新头像到could的
