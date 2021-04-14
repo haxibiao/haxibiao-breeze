@@ -85,9 +85,9 @@ export default {
             });
         },
     	submit(article) {
-    		var api = window.tokenize('/api/categories/'+article.id+'/submit-category-'+this.get_cate_id());
+    		var api = window.tokenize('/api/category/'+article.id+'/submit-category-'+this.get_cate_id());
             if(article.submit_status.indexOf("收录") !== -1 || article.submit_status.indexOf("移除") !== -1) {
-                api = window.tokenize('/api/categories/'+article.id+'/add-category-'+this.get_cate_id());
+                api = window.tokenize('/api/category/'+article.id+'/add-category-'+this.get_cate_id());
             }
             window.axios.get(api).then(function(response){
                 article.submit_status = response.data.submit_status;
