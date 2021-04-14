@@ -12,7 +12,7 @@
           </p>
       </a>
   </div>
-  @foreach($videoPosts as $post)
+  @foreach($posts as $post)
     <div class="col-xs-6 col-md-3 video">
       <div class="video-item vt">
         <div class="thumb">

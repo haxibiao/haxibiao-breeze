@@ -14,11 +14,11 @@
             {{-- 主要内容 --}}
             <div class="main sm-left">
                 {{-- 轮播图 --}}
-                {{-- <div class="poster-container">
-                    @if (config('editor.ui.show_poster'))
-                        @include('index.parts.poster')
-                    @endif
-                </div> --}}
+                @if(isset($data->carousel))
+                <div class="poster-container">
+                     @include('index.parts.poster', ['items' => $data->carousel])
+                </div>
+                @endif
                 {{-- 最新电影 --}}
                 @include('index.parts.top_movies', ['movies'=>$data->movies])
                 {{-- 推荐专题 --}}
@@ -26,7 +26,7 @@
 				<recommend-category></recommend-category>
 
                 {{-- top 4 videos --}}
-                @include('index.parts.top_videos', ['videoPosts' => $data->videoPosts])
+                @include('index.parts.top_videos', ['posts' => $data->posts])
 
                 {{-- 文章列表 --}}
                 <ul class="article-list">
@@ -50,26 +50,7 @@
                 </ul>
             </div>
             {{-- 侧栏 --}}
-            <div class="aside sm-right hidden-xs">
-                @include('index.parts.trendings')
-
-				{{--  问答分类  --}}
-				{{--  @if(isDeskTop())
-					<div class="recommend-follower">
-						<div class="plate-title">问答分类</div>
-						@include('index.parts.recommend_questions')
-					</div>
-				@endif  --}}
-
-				{{-- 下载APP --}}
-				@include('index.parts.download_app')
-
-                {{-- 日报 --}}
-                {{-- @include('index.parts.daily') --}}
-                {{-- 推荐作者 --}}
-				<recommend-authors is-login="{{ Auth::check() ? true : false }}"></recommend-authors>
-
-            </div>
+            @include('index.parts.side')
         </div>
     </div>
 

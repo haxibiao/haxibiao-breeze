@@ -20,19 +20,20 @@ class IndexController extends Controller
 
         $data = (object) [];
 
-        //置顶 - 电影 置顶优先原则（可无置顶）
+        //置顶 - 或最近有更新的电影
         $data->movies = cmsTopMovies();
 
-        //置顶 - 专题
+        //置顶 - 或最近有更新的专题
         $data->categories = cmsTopCategories();
 
-        //置顶 合集视频
-        $data->videoPosts = cmsTopVideos();
+        //置顶 - 或最近有更新的视频
+        $data->posts = cmsTopVideos();
 
-        //首页文章 - 可置顶部分优质文章避免首页脏乱数据
+        //置顶 - 或最近有更新的文章
         $data->articles = cmsTopArticles();
 
-        $data->carousel = get_top_articles();
+        //FIXME: 轮播图，需要运营控制宽屏图片素材
+        // $data->carousel = get_top_articles();
 
         return view('index.index')->with('data', $data);
     }
@@ -51,7 +52,7 @@ class IndexController extends Controller
     {
         $articles = [];
         $qb       = Article::orderBy('hits', 'desc')
-            ->whereIn('type', ['diagrams', 'articles', 'article'])
+        // ->whereIn('type', ['diagrams', 'articles', 'article'])
             ->where('status', '>', 0);
 
         if (request('type') == 'thirty') {

@@ -30,11 +30,7 @@
 				</ul>
 			</div>
 			{{-- 侧栏 --}}
-			<div class="aside sm-right hidden-xs">
-				@if(Auth::check())
-				<recommend-authors></recommend-authors>
-				@endif
-			</div>
+			@include('index.parts.side')
 		</div>
 	</div>
 @endsection

@@ -1,12 +1,13 @@
- {{-- 轮播图 --}}
-  <div id="poster" class="hidden-xs">
-  </div>
+@if(isset($items)))
+{{-- 轮播图 --}}
+<div id="poster" class="hidden-xs">
+</div>
 
-  @push('scripts')
+@push('scripts')
     <script>
       var poster_items = [];
       @foreach($data->carousel as $index => $item)
-          poster_items.push(['/movie/{{$item->id}}','{{$item->cover}}','{{ $item->name }}']);
+          poster_items.push(['{{$item->url}}','{{$item->cover}}','{{ $item->name }}']);
       @endforeach
 
       var options = {
@@ -18,4 +19,5 @@
       let poster = new Poster(options);
       poster.init();
     </script>
-  @endpush
+@endpush
+@endif
