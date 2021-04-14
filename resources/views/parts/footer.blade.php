@@ -1,6 +1,6 @@
 <footer id="footer">
     {{-- 站点地图 --}}
-    @include('parts.sitemap_links')
+    {{-- @include('parts.sitemap_links') --}}
 
     {{-- 友情链接 --}}
     {!! seo_friendly_urls() !!}
