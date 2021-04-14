@@ -41,7 +41,7 @@ function getUser($throw = true)
 {
     //fetch current request context cached user
     if ($userJson = request('user')) {
-        $userData = json_decode($userJson, true);
+        $userData = is_array($userJson) ? $userJson : json_decode($userJson, true);
         //获取有效的context缓存用户信息
         $user_id = $userData['id'] ?? null;
         if ($user_id) {
