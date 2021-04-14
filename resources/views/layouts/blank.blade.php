@@ -54,7 +54,6 @@
     @endif
     <script type="text/javascript">
         window.csrf_token = '{{ csrf_token() }}';
-
     </script>
 
     <script src="{{ breeze_mix('/js/breeze.js') }}"></script>
@@ -73,9 +72,7 @@
 
     @include('parts.to_up')
 
-    <div class="container">
-        @include('parts.footer')
-    </div>
+    @yield('footer')
 
     {{-- 百度自动推送js 更新模板即可 --}}
     {!! cms_seo_js() !!}

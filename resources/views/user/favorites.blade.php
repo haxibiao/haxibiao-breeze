@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-    收藏的文章 - {{ seo_site_name() }}
+    收藏的文章 -
 @stop
 @section('content')
         <div id="bookmarks">
@@ -31,7 +31,7 @@
                                 @endif
                                 <div class="main">
                                     <div class="movie-list clearfix">
-                                        
+
                                         <table>
                                             @for($h = 0;$h < 3;$h++)
                                                 <tr style="height:250px">

@@ -108,14 +108,14 @@ if (!function_exists('isRecording')) {
                 return true;
             }
         }
-		/**
-		 * 暂时硬编码了，对用户关闭深圳哈希坊下八个站点的视频/电影播放模块
-		 * https://pm.haxifang.com/browse/HXB-288
-		 */
-		$isRecording = in_array(get_domain(),['dongdianhai.com','dongshengyin.com','tongjiuxiu.com','dongtaolu.cn','dongdezhuan.com','dongyundong.com','dongwuli.com']);
-		if($isRecording){
-			return true;
-		}
+        /**
+         * 暂时硬编码了，对用户关闭深圳哈希坊下八个站点的视频/电影播放模块
+         * https://pm.haxifang.com/browse/HXB-288
+         */
+        $isRecording = in_array(get_domain(), ['dongdianhai.com', 'dongshengyin.com', 'tongjiuxiu.com', 'dongtaolu.cn', 'dongdezhuan.com', 'dongyundong.com', 'dongwuli.com']);
+        if ($isRecording) {
+            return true;
+        }
         return false;
     }
 }
@@ -222,9 +222,13 @@ if (!function_exists('qrcode_url')) {
                 }
 
                 if (!empty($apkUrl)) {
-                    $qrcode = $qrcode->generate($apkUrl);
-                    $data   = base64_encode($qrcode);
-                    return $data;
+                    try {
+                        $qrcode = $qrcode->generate($apkUrl);
+                        $data   = base64_encode($qrcode);
+                        return $data;
+                    } catch (\Throwable$ex) {
+                        //FIXME: 暂时兼容php8实例页面不崩，qrcode想办法每个项目生成下载扫码URL图片来部署
+                    }
                 }
             }
 

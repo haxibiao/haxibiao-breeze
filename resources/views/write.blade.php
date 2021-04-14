@@ -1,4 +1,4 @@
-@extends('layouts.write')
+@extends('layouts.blank')
 @section('title')写文章 - @stop
 @section('content')
    <write></write>

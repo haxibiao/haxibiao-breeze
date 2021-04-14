@@ -1,4 +1,4 @@
-@extends('layouts.blank')
+@extends('layouts.app')
 
 @section('title')注册 - @stop
 

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-    关注 - {{ seo_site_name() }}
+    关注 -
 @stop
 @section('content')
     <div id="follow">

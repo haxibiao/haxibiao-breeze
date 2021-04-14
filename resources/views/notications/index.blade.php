@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-	消息 - {{ seo_site_name() }}
+	消息 -
 @stop
 @section('content')
 	<div id="notification">

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-    编辑面板 - {{ seo_site_name() }}
+    编辑面板 -
 @stop
 @section('content')
 <div class="container-fluid">

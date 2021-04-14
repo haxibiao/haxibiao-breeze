@@ -1,6 +1,6 @@
-@extends('layouts.blank')
+@extends('layouts.app')
 
-@section('title')登录 - 
+@section('title')登录 -
 @stop
 
 @php

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-  {{ seo_site_name() }}移动应用 App - {{ seo_site_name() }}
+  {{ seo_site_name() }}移动应用 App -
 @endsection
 @push('section')
 
