@@ -1,62 +1,140 @@
 @keyframes scaleOne {
-  0% {
-      opacity: 0.8;
-      -webkit-transform: scale(.8)
-  }
-  100% {
-      opacity: 1;
-      -webkit-transform: scale(1)
-  }
+    0% {
+        opacity: 0.8;
+        -webkit-transform: scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        -webkit-transform: scale(1);
+    }
 }
 @keyframes scaleTwo {
     0% {
         opacity: 1;
-        -webkit-transform: scale(1)
+        -webkit-transform: scale(1);
     }
     100% {
         opacity: 0.8;
-        -webkit-transform: scale(.8)
+        -webkit-transform: scale(0.8);
     }
 }
 
-#login,#register {
-	height: 100vh;
-	text-align: center;
-	font-size: 14px;
-	// background-color: $light-color2;
-	&:before {
-	    content: "";
-	    display: inline-block;
-	    height: 85%;
-	    vertical-align: middle;
-	}
-	.logo {
-		position: absolute;
-    top: 50px;
-    margin-left: 50px;
-    width: 10%;
-    min-width: 140px;
-    max-width: 220px;
-    a {
-    	width: 100%;
-    	img {
-    		width: 100%;
-    	}
+#login,
+#register {
+    height: 100vh;
+    text-align: center;
+    font-size: 14px;
+    // background-color: $light-color2;
+
+    &:before {
+        content: '';
+        display: inline-block;
+        height: 20%;
+        vertical-align: middle;
     }
-	}
-  @media screen and (max-width:768px) {
-  	&::before {
-  		display: none;
-  	}
-		.logo {
-			display: none;
-		}
-		.signs {
-			width: 100%;
-			max-width: 100%;
-			height: 100%;
-			margin: 0;
-			padding: 10% 5%;
-		}
-	}
+
+    .sign-containers {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+
+        .download-container {
+            width: 420px;
+            margin-right: 30px;
+            background-size: 65%;
+            background-repeat: no-repeat;
+            background-position: 45px 0px;
+            position: relative;
+
+            .download-content {
+                padding: 0 45px;
+                padding-top: 20px;
+                background: #f9f9f9;
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                position: absolute;
+                bottom: 0px;
+
+                .download-btn {
+                    flex: 1 1 0%;
+                    font-size: 18px;
+                    padding: 12px;
+                    background: rgb(217, 106, 95);
+                    text-align: center;
+                    color: rgb(255, 255, 255);
+                }
+
+                .download-qrcode {
+                    width: 45px;
+                    height: 45px;
+                    background: rgba(0, 0, 0, 0.31);
+                    padding: 5px;
+                    border-radius: 5px;
+                    margin-left: 30px;
+
+                    .qrcode-big {
+                        display: none;
+                        width: 170px;
+                        height: 170px;
+                        background-color: #fff;
+                        border-radius: 4px;
+                        padding: 5px;
+                        box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+                        position: absolute;
+                        top: -160px;
+                        right: 45px;
+
+                        img {
+                            width: 100%;
+                        }
+                    }
+                }
+
+                .download-qrcode:hover {
+                    background: rgba(0, 0, 0, 0.79);
+
+                    .qrcode-big {
+                        display: block;
+                    }
+                }
+            }
+        }
+    }
+
+    .logo {
+        position: absolute;
+        top: 50px;
+        margin-left: 50px;
+        width: 10%;
+        min-width: 140px;
+        max-width: 220px;
+        a {
+            width: 100%;
+            img {
+                width: 100%;
+            }
+        }
+    }
+    @media screen and (max-width: 768px) {
+        &::before {
+            display: none;
+        }
+        .logo {
+            display: none;
+        }
+
+        .download-container {
+            display: none;
+        }
+
+        .signs {
+            width: 100%;
+            max-width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 10% 5%;
+        }
+    }
 }

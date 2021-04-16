@@ -113,7 +113,7 @@ export default {
     width: 40%;
     min-width: 340px;
     max-width: 400px;
-    margin: 60px auto 0;
+    // margin: 60px auto 0;
     padding: 50px 50px 30px;
     background-color: #fff;
     border-radius: 4px;
