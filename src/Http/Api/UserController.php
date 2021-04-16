@@ -79,7 +79,8 @@ class UserController extends Controller
     public function save(Request $request)
     {
         $user = $request->user();
-        $user->update($request->all());
+        $user->update($request->except('gender','introduction','age'));
+        $user->profile->update($request->only('gender','introduction','age'));
         return $user;
     }
 
