@@ -71,7 +71,7 @@ trait AvatarHelper
         }
 
         //FIXME: 答赚的 user->avatar 字段存的还不是标准的 cos_path, 答妹已修复 “cos:%” ...
-        $avatar_url = cdnurl($avatar);
+        $avatar_url = cdnurl($avatar_path);
 
         //一分钟内的更新头像刷新cdn
         if ($this->updated_at > now()->subSeconds(60)) {
