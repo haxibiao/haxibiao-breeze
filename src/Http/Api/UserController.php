@@ -79,8 +79,8 @@ class UserController extends Controller
     public function save(Request $request)
     {
         $user = $request->user();
-        $user->update($request->except('gender','introduction','age'));
-        $user->profile->update($request->only('gender','introduction','age'));
+        $user->update($request->except('gender', 'introduction', 'age'));
+        $user->profile->update($request->only('gender', 'introduction', 'age'));
         return $user;
     }
 
@@ -112,7 +112,9 @@ class UserController extends Controller
             $qb = $qb->where('id', '!=', $loginUser->id);
         }
         $users = User::orderByDesc('updated_at')
-            ->exclude(['gold', 'count_posts'])->paginate($page_size);
+            ->exclude(['gold', 'count_posts'])
+            ->where('name', 'not like', '%匿名%')
+            ->paginate($page_size);
 
         //当编辑和签约作者不足的时候 填充普通用户
         if ($num = $page_size - $users->count()) {
