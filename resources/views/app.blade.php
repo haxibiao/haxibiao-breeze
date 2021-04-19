@@ -30,13 +30,11 @@
           </div>
           <div class="download-phone">
 
-
-
-            <!-- <input  class="download2" type="button"  onclick="download_btn()" style="background:url('/images/app/android_app.png') no-repeat;" />
-            <a href="{{ aso_value('下载页','安卓地址') }}"><img src="/images/app/android_app.png" class="download2" alt="download-andorid"></a> -->
-            <img src="/images/app/android_app.png"  onclick="download_btn()" class="download2" alt="download-andorid">
-
-
+            @if(isRobot())
+                <a href="{{ aso_value('下载页','安卓地址') }}"><img src="/images/app/android_app.png" class="download2" alt="download-andorid"></a>
+            @else
+                <img src="/images/app/android_app.png"  onclick="download_btn()" class="download2" alt="download-andorid">
+            @endif
 
             <a href="{{ aso_value('下载页','苹果地址') }}"><img src="/images/app/ios_app.png" class="download2" alt="download-ios"></a>
             <img class="background-img" src="/images/app/appBackground.png" alt="Misc background">
@@ -87,7 +85,13 @@
           <div>扫码下载{{ seo_site_name() }}</div>
         </div>
         <div class="download-phone">
-          <img src="/images/app/android_app.png"  onclick="download_btn()" class="download2" alt="download-andorid">
+
+        @if(isRobot())
+            <a href="{{ aso_value('下载页','安卓地址') }}"><img src="/images/app/android_app.png" class="download2" alt="download-andorid"></a>
+        @else
+            <img src="/images/app/android_app.png"  onclick="download_btn()" class="download2" alt="download-andorid">
+        @endif
+
           <a href="{{ aso_value('下载页','苹果地址') }}"><img src="/images/app/ios_app.png" class="download2" alt="download-ios"></a>
           <img class="background-img" src="/images/app/appBackground.png" alt="Misc background">
           <h4>点击下载{{ seo_site_name() }}App</h4>

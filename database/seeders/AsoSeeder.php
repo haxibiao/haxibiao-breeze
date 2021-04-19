@@ -20,14 +20,16 @@ class AsoSeeder extends Seeder
             'group' => '下载页',
             'name'  => '安卓地址',
         ]);
-        $item->value = 'http://cos.diudie.com/fengkuangmeiju.apk';
+        // 示范代码，项目下需要覆盖AsoSeeder 或者 AsoTableSeeder来修复单个项目的app下载地址(小火箭的下载版本管理做好之前)
+        $item->value = 'https://cos.haxibiao.com/apk/yingdaquan_4.0.0.apk';
         $item->save();
 
         $item = Aso::firstOrCreate([
             'group' => '下载页',
             'name'  => '苹果地址',
         ]);
-        $item->value = 'https://itunes.apple.com/cn/app/%E7%82%B9%E5%A2%A8%E9%96%A3/id1434767781?mt=8';
+        // 示范代码，项目下需要覆盖AsoSeeder 或者 AsoTableSeeder来修复单个项目的app下载地址(小火箭的下载版本管理做好之前)
+        $item->value = 'itms-services:///?action=download-manifest&url=https://cos.haxibiao.com/ipa/yingdaquan_4.0.0_1.manifest.plist';
         $item->save();
 
         $item = Aso::firstOrCreate([
