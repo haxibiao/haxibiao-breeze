@@ -10,7 +10,7 @@
         </div>
         <ul class="video-list">
             <li class="video-item" v-bind:key="post.id" v-for="post in posts">
-                <a :href="'/video/' + post.video.id + '?related_page=' + page" class="link">
+                <a :href="'/post/' + post.id + '?related_page=' + page" class="link">
                     <div class="cover">
                         <img :src="post.cover" alt="" />
                         <i class="hover-play"></i>
@@ -18,7 +18,7 @@
                     </div>
                     <div class="info">
                         <div class="recommend-video-title">
-                            {{ post.description ? post.description : post.content }}
+                            {{ post.description }}
                         </div>
                         <span class="amount">
                             {{ post.count_likes + '次点赞' }}

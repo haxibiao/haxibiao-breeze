@@ -11,13 +11,13 @@
         <div class="box-body">
             <ul class="game-video-list" v-if="posts.length > 0">
                 <li v-for="post in posts" v-bind:key="post.id" class="game-video-item">
-                    <a :href="'/video/' + post.video.id" class="video-info" :target="isDesktop ? '_blank' : '_self'">
+                    <a :href="'/post/' + post.id" class="video-info">
                         <img class="video-photo" :src="post.cover" />
                         <i class="hover-play"> </i>
                     </a>
-                    <a :href="'/video/' + post.video.id" class="video-title" :target="isDesktop ? '_blank' : '_self'">{{
-                        post.content
-                    }}</a>
+                    <a :href="'/post/' + post.id" class="video-title">
+                        {{ post.description }}
+                    </a>
                     <div class="info">
                         <a class="user" :href="'/user/' + post.user.id">
                             <img :src="post.user.avatar" class="avatar" />
@@ -49,7 +49,7 @@ export default {
         api(val) {
             this.clear();
             this.fetchData();
-        }
+        },
     },
 
     computed: {
@@ -59,8 +59,8 @@ export default {
                     this.api.indexOf('?') !== -1 ? this.api + '&page=' + this.page : this.api + '?page=' + this.page;
                 if (this.isStick) api_url += '&stick=true';
                 return api_url;
-            }
-        }
+            },
+        },
     },
 
     mounted() {
@@ -108,7 +108,7 @@ export default {
                 .catch(function(e) {
                     that.loading = false;
                 });
-        }
+        },
     },
 
     data() {
@@ -116,11 +116,10 @@ export default {
             posts: [],
             page: this.startPage || 0,
             lastPage: -1,
-            loading: false
+            loading: false,
         };
-    }
+    },
 };
 </script>
 
-<style lang="css" scoped>
-</style>
+<style lang="css" scoped></style>
