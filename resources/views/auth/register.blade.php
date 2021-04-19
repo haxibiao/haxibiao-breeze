@@ -11,8 +11,14 @@
             </a>
         </div>  --}}
 
-        {{-- 登录注册vue --}}
-        <signs register></signs>
+        <div class="sign-containers">
+
+            @include('auth.download_app')
+
+            {{-- 登录注册vue --}}
+            <signs></signs>
+
+        </div>
 
         @if($errors->any())
         <div class="alert alert-danger">
