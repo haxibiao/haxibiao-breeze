@@ -41,7 +41,8 @@ class UserController extends Controller
 			$users,
 			$total,
 			$perPage,
-			$currentPage
+			$currentPage,
+			['path' => url('user')]
 		);
 
         return view('user.index')->withUsers($result);
