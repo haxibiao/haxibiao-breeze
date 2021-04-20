@@ -9,6 +9,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Actions\Actionable;
 use Laravel\Nova\Fields\ActionFields;
@@ -44,7 +45,9 @@ class UpdateUser extends Action
             foreach ($models as $model) {
                 if (isset($fields->status)) {
                     $model->status = $fields->status;
-                    $model->phone  = null;
+                    if ($fields->status == User::STATUS_OFFLINE) {
+                        $model->api_token = Str::random(60);
+                    }
                 }
                 $model->save();
             }
