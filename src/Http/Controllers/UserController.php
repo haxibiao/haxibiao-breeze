@@ -25,15 +25,14 @@ class UserController extends Controller
      */
     public function index()
     {
+
 		$currentPage = request()->get('page',1);
 		$perPage     = request()->get('count',24);
 		$total       = User::count();
 
-		$users = User::with([
-			'articles'=>function($query){
-				$query->take(3)->orderBy('id','desc');
-			}
-		])->skip(($currentPage * $perPage) - $perPage)
+		$users = User::with(['articles'=>function($query){
+			$query->orderBy('id','desc')->take(60);
+		}])->skip(($currentPage * $perPage) - $perPage)
 			->take($perPage)
 			->get();
 
