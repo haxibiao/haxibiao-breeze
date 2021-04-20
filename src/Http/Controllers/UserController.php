@@ -9,6 +9,7 @@ use App\Issue;
 use App\Solution;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -24,8 +25,26 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::latest('id')->paginate(24);
-        return view('user.index')->withUsers($users);
+		$currentPage = request()->get('page',1);
+		$perPage     = request()->get('count',24);
+		$total       = User::count();
+
+		$users = User::with([
+			'articles'=>function($query){
+				$query->take(3)->orderBy('id','desc');
+			}
+		])->skip(($currentPage * $perPage) - $perPage)
+			->take($perPage)
+			->get();
+
+		$result = new \Illuminate\Pagination\LengthAwarePaginator(
+			$users,
+			$total,
+			$perPage,
+			$currentPage
+		);
+
+        return view('user.index')->withUsers($result);
     }
 
     /**
@@ -317,7 +336,7 @@ class UserController extends Controller
         $user->followUsers = $user->followingUsers()->count();
 
         $data['follows']   = $user->followingUsers()->orderBy('id', 'desc')->paginate(10);
-        $data['followers'] = $user->followers()->orderBy('id', 'desc')->paginate(10); 
+        $data['followers'] = $user->followers()->orderBy('id', 'desc')->paginate(10);
 
         return view('user.follows')
             ->withUser($user)
