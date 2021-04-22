@@ -55,12 +55,13 @@ class IndexController extends Controller
         // ->whereIn('type', ['diagrams', 'articles', 'article'])
             ->where('status', '>', 0);
 
+        //用created_at比updated_at更好些，经常数据改动又会把几年前的article排上来
         if (request('type') == 'thirty') {
-            $articles = $qb->where('updated_at', '>', Carbon::now()->addDays(-30))
+            $articles = $qb->where('created_at', '>', Carbon::now()->addDays(-30))
                 ->paginate(10);
         } else if (request('type') == 'seven') {
             $articles = $qb
-                ->where('updated_at', '>', Carbon::now()->addDays(-7))
+                ->where('created_at', '>', Carbon::now()->addDays(-7))
                 ->paginate(10);
         }
         //经典热门
