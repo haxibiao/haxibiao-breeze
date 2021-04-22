@@ -3,6 +3,7 @@
 namespace Haxibiao\Breeze\Console;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
 class InstallCommand extends Command
@@ -47,6 +48,11 @@ class InstallCommand extends Command
         $auth_config = \file_get_contents(config_path('auth.php'));
         $auth_config = str_replace("App\Models\User", "App\User", $auth_config);
         file_put_contents(config_path('auth.php'), $auth_config);
+
+        $this->info(' - 更新laravel新版本队列需要的tables');
+        Schema::dropIfExists('failed_jobs');
+        Schema::dropIfExists('jobs');
+        $this->callSilent('queue:table');
 
         $this->info(' - 更新数据库结构');
         $this->callSilent('migrate');
