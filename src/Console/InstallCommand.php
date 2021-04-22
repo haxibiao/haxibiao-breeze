@@ -63,6 +63,9 @@ class InstallCommand extends Command
         $this->comment('发布资源');
         $this->call('breeze:publish', ['--force' => $force]);
 
+        $this->comment('安装nova');
+        $this->callSilent('nova:install');
+
         $this->comment("完成安装");
     }
 
