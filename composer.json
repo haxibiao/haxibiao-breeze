@@ -22,6 +22,12 @@
         "haxibiao/wallet": "*",
         "haxibiao/task": "*"
     },
+    "repositories": {
+        "nova": {
+            "type": "vcs",
+            "url": "https://code.haxibiao.cn/web/nova.git"
+        }
+    },
     "autoload": {
         "psr-4": {
             "Haxibiao\\Breeze\\": "src/"
@@ -35,12 +41,6 @@
             "database/factories/",
             "tests/"
         ]
-    },
-    "repositories": {
-        "helpers": {
-            "type": "vcs",
-            "url": "https://github.com/haxibiao/haxibiao-helpers.git"
-        }
     },
     "extra": {
         "laravel": {
