@@ -2,8 +2,64 @@
 
 use App\BanDevice;
 use App\User;
+use Haxibiao\Breeze\Breeze;
 use Haxibiao\Breeze\Exceptions\UserException;
 use Illuminate\Support\Facades\Auth;
+
+function register_routes($path)
+{
+    $is_testing = false;
+    try {
+        $phpunit    = simplexml_load_file('phpunit.xml');
+        $is_testing = !app()->environment('prod');
+    } catch (Exception $ex) {
+    }
+    $files = [];
+    get_allfiles($path, $files);
+    foreach ($files as $apiFile) {
+        if ($is_testing) {
+            require $apiFile;
+        } else {
+            require_once $apiFile;
+        }
+    }
+}
+
+/**
+ * 加载 个breeze模块 下 views 依赖的 css js images
+ */
+function load_breeze_assets($public_path)
+{
+    foreach (glob($public_path . '/css/*') as $filepath) {
+        $asset_path = str_replace($public_path, '', $filepath);
+        Breeze::asset($asset_path, $filepath);
+    }
+
+    foreach (glob($public_path . '/js/*') as $filepath) {
+        $asset_path = str_replace($public_path, '', $filepath);
+        Breeze::asset($asset_path, $filepath);
+    }
+
+    foreach (glob($public_path . '/images/*') as $filepath) {
+        $asset_path = str_replace($public_path, '', $filepath);
+        Breeze::asset($asset_path, $filepath);
+    }
+
+    foreach (glob($public_path . '/images/movie/*') as $filepath) {
+        $asset_path = str_replace($public_path, '', $filepath);
+        Breeze::asset($asset_path, $filepath);
+    }
+
+    foreach (glob($public_path . '/images/app/*') as $filepath) {
+        $asset_path = str_replace($public_path, '', $filepath);
+        Breeze::asset($asset_path, $filepath);
+    }
+
+    foreach (glob($public_path . '/images/logo/*') as $filepath) {
+        $asset_path = str_replace($public_path, '', $filepath);
+        Breeze::asset($asset_path, $filepath);
+    }
+}
 
 function breeze_path($path)
 {
@@ -150,3 +206,49 @@ function checkAdmin()
 //         //FIXME: 临时兼容matomo还没完成合并到breeze内的异常问题
 //     }
 // }
+
+function get_files($path, $full_path = true, $allowExtension = '*')
+{
+    $files = [];
+    if (is_file($path)) {
+        $files[] = $path;
+    }
+
+    if (is_dir($path)) {
+        $handler = opendir($path);
+        while (($filename = readdir($handler)) !== false) {
+            //使用!==，防止目录下出现类似文件名“0”等情况
+            if ($filename != "." && $filename != "..") {
+                if ($allowExtension != '*' && get_file_ext($filename) != $allowExtension) {
+                    continue;
+                }
+                $files[] = $full_path ? $path . '/' . $filename : $filename;
+            }
+        }
+        closedir($handler);
+    }
+
+    return $files;
+}
+
+function get_allfiles($path, &$files)
+{
+    if (is_dir($path)) {
+        $dp = dir($path);
+        while ($file = $dp->read()) {
+            if ($file !== "." && $file !== "..") {
+                get_allfiles($path . "/" . $file, $files);
+            }
+        }
+        $dp->close();
+    }
+    if (is_file($path)) {
+        $files[] = $path;
+    }
+}
+
+function get_file_ext($file)
+{
+    $ext = substr($file, strpos($file, '.') + 1); //获取文件后缀
+    return $ext;
+}
