@@ -13,14 +13,15 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        if (env('DB_PASSWORD') == null) {
-            dd("请设置 超管密码 env('DB_PASSWORD')");
+        if (env('APP_DOMAIN') == null) {
+            dd("请设置 网站域名 env('APP_DOMAIN')");
         }
         if (env('APP_NAME_CN') == null) {
             dd("请设置 网站中文名称 env('APP_NAME_CN')");
         }
 
-        $admin_email = env('MAIL_USERNAME');
+        $admin_email  = "master@" . env('APP_DOMAIN');
+        $default_pass = env('REDIS_PASSWORD', 'dadada');
 
         //删除冗余的admin新账户？
         foreach (User::whereEmail($admin_email)->get() as $admin) {
@@ -40,7 +41,7 @@ class UserSeeder extends Seeder
         $admin->account = $admin->email;
         $admin->phone   = $admin->email;
         $admin->name    = env('APP_NAME_CN');
-        $pass           = env('REDIS_PASSWORD');
+        $pass           = $default_pass;
 
         $admin->password  = bcrypt($pass);
         $admin->api_token = str_random(60);
@@ -60,7 +61,7 @@ class UserSeeder extends Seeder
         $editor->account   = $editor->email;
         $editor->phone     = $editor->email;
         $editor->name      = env('APP_NAME_CN') . "小编";
-        $pass              = env('REDIS_PASSWORD');
+        $pass              = $default_pass;
         $editor->password  = bcrypt($pass);
         $editor->api_token = str_random(60);
         $editor->role_id   = User::EDITOR_STATUS; //小编
@@ -78,7 +79,7 @@ class UserSeeder extends Seeder
         $user->account   = $user->email;
         $user->phone     = $user->email;
         $user->name      = env('APP_NAME_CN') . "用户";
-        $pass            = env('REDIS_PASSWORD');
+        $pass            = $default_pass;
         $user->password  = bcrypt($pass);
         $user->api_token = str_random(60);
         //role_id 默认为普通用户
