@@ -274,7 +274,7 @@ trait UserRepo
         throw_if(!is_phone_number($phone), UserException::class, '手机号格式不正确!');
         throw_if(empty($sms_code), UserException::class, '验证码不能为空!');
 
-        $qb = User::withoutGlobalScope('offline')->wherePhone($phone);
+        $qb = User::wherePhone($phone);
         Verify::checkSMSCode($sms_code, $phone, Verify::USER_LOGIN);
         if ($qb->exists()) {
             $user = $qb->first();
@@ -318,7 +318,7 @@ trait UserRepo
         if (isset($oAuth->id)) {
             return $oAuth->user;
         }
-        $qb = User::withoutGlobalScope('offline')->wherePhone($token);
+        $qb = User::wherePhone($token);
         if ($qb->exists()) {
             $user = $qb->first();
             if ($user->status === User::STATUS_OFFLINE) {
