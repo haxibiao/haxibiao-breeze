@@ -10,8 +10,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class SendNewLikeNotification implements ShouldQueue
 {
 
-    public $delay = 10;
-
     public function __construct()
     {
         //

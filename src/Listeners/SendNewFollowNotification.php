@@ -9,7 +9,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class SendNewFollowNotification implements ShouldQueue
 {
-    public $delay = 60 * 10;
     public function __construct()
     {
         //
