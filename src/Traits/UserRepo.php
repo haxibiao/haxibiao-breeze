@@ -67,8 +67,6 @@ trait UserRepo
         return $is_black;
     }
 
-
-
     /**
      * 保存用户头像到cloud
      */
@@ -276,10 +274,16 @@ trait UserRepo
         throw_if(!is_phone_number($phone), UserException::class, '手机号格式不正确!');
         throw_if(empty($sms_code), UserException::class, '验证码不能为空!');
 
-        $qb = User::wherePhone($phone);
+        $qb = User::withoutGlobalScope('offline')->wherePhone($phone);
         Verify::checkSMSCode($sms_code, $phone, Verify::USER_LOGIN);
         if ($qb->exists()) {
-            return $qb->get()->first();
+            $user = $qb->first();
+            if ($user->status === User::STATUS_OFFLINE) {
+                throw new GQLException('登录失败！账户已被封禁');
+            } else if ($user->status === User::STATUS_DESTORY) {
+                throw new GQLException('登录失败！账户已被注销');
+            }
+            return $user;
         } else {
             //新用户注册账号
             $user          = User::getDefaultUser();
@@ -314,11 +318,21 @@ trait UserRepo
         if (isset($oAuth->id)) {
             return $oAuth->user;
         }
-        $user = User::firstOrNew([
-            'phone' => $token,
-        ]);
+        $qb = User::withoutGlobalScope('offline')->wherePhone($token);
+        if ($qb->exists()) {
+            $user = $qb->first();
+            if ($user->status === User::STATUS_OFFLINE) {
+                throw new GQLException('登录失败！账户已被封禁');
+            } else if ($user->status === User::STATUS_DESTORY) {
+                throw new GQLException('登录失败！账户已被注销');
+            }
+        }
+        $user = $qb->first();
         //初次授权的新用户
-        if (!isset($user->id)) {
+        if (!isset($user)) {
+            $user = User::firstOrNew([
+                'phone' => $token,
+            ]);
             $suffix          = strval(time());
             $user->name      = "手机用户" . $suffix;
             $user->api_token = str_random(60);
@@ -347,7 +361,15 @@ trait UserRepo
             $oAuth = \App\OAuth::firstOrNew(['oauth_type' => 'wechat', 'oauth_id' => $token]);
             //已授权的老用户
             if (isset($oAuth->id)) {
-                return $oAuth->user;
+                $user = $oAuth->user;
+                if (isset($user)) {
+                    if ($user->status === User::STATUS_OFFLINE) {
+                        throw new GQLException('登录失败！账户已被封禁');
+                    } else if ($user->status === User::STATUS_DESTORY) {
+                        throw new GQLException('登录失败！账户已被注销');
+                    }
+                    return $user;
+                }
             }
             //初次授权的新用户
             $oAuth->data = Arr::only($accessTokens, ['openid', 'refresh_token']);
