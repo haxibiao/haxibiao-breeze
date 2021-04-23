@@ -14,45 +14,45 @@ class Notification extends DatabaseNotification
     {
         //赞了你 评论的内容  @某某某 内容
         switch ($this->type) {
-            case "App\\Notifications\\ArticleApproved":
+            case "Haxibiao\\Breeze\\Notifications\\ArticleApproved":
                 return "收录了动态";
-            case "App\\Notifications\\ArticleRejected":
+            case "Haxibiao\\Breeze\\Notifications\\ArticleRejected":
                 return "拒绝了动态";
-            case "App\\Notifications\\ArticleCommented":
+            case "Haxibiao\\Breeze\\Notifications\\ArticleCommented":
                 $comment = Comment::find($this->data['comment_id']);
                 return str_limit($comment->body, 15, '...');
-            case "App\\Notifications\\CommentedNotification":
+            case "Haxibiao\\Breeze\\Notifications\\CommentedNotification":
                 $comment = Comment::find($this->data['comment_id']);
                 return str_limit($comment->body, 15, '...');
-            case "App\\Notifications\\ArticleFavorited":
+            case "Haxibiao\\Breeze\\Notifications\\ArticleFavorited":
                 return "收藏了动态";
-            case "App\\Notifications\\ArticleLiked":
+            case "Haxibiao\\Breeze\\Notifications\\ArticleLiked":
                 return "喜欢了文章";
-            case "App\\Notifications\\LikedNotification":
+            case "Haxibiao\\Breeze\\Notifications\\LikedNotification":
                 $type = data_get($this, 'date.type');
                 if ($type == 'comments') {
                     return "点赞了评论";
                 }
                 return "喜欢了动态";
-            case "App\\Notifications\\CommentLiked":
+            case "Haxibiao\\Breeze\\Notifications\\CommentLiked":
                 return "赞了评论";
-            case "App\\Notifications\\ArticleTiped":
+            case "Haxibiao\\Breeze\\Notifications\\ArticleTiped":
                 return "打赏了动态";
-            case "App\\Notifications\\CategoryFollowed":
+            case "Haxibiao\\Breeze\\Notifications\\CategoryFollowed":
                 return "关注了专题";
-            case "App\\Notifications\\CategoryRequested":
+            case "Haxibiao\\Breeze\\Notifications\\CategoryRequested":
                 return "投稿了专题";
-            case "App\\Notifications\\CollectionFollowed":
+            case "Haxibiao\\Breeze\\Notifications\\CollectionFollowed":
                 return "关注了文集";
-            case "App\\Notifications\\UserFollowed":
+            case "Haxibiao\\Breeze\\Notifications\\UserFollowed":
                 return "关注了";
-            case "App\\Notifications\\ReplyComment":
+            case "Haxibiao\\Breeze\\Notifications\\ReplyComment":
                 $comment = Comment::find($this->data['comment_id']);
                 return str_limit($comment->body, 15, '...');
-            case "App\\Notifications\\CommentAccepted":
+            case "Haxibiao\\Breeze\\Notifications\\CommentAccepted":
                 $comment = Comment::find($this->data['comment_id']);
                 return str_limit($comment->body, 15, '...');
-            case "App\\Notifications\\ReceiveAward":
+            case "Haxibiao\\Breeze\\Notifications\\ReceiveAward":
                 return $this->data["subject"] . $this->data["gold"] . '金币';
             default:
                 return "其他";
@@ -63,40 +63,40 @@ class Notification extends DatabaseNotification
     {
         //回复了你的评论、在评论中提到了你...等等通知类型
         switch ($this->type) {
-            case "App\\Notifications\\ArticleApproved":
+            case "Haxibiao\\Breeze\\Notifications\\ArticleApproved":
                 return "收录了动态";
-            case "App\\Notifications\\ArticleRejected":
+            case "Haxibiao\\Breeze\\Notifications\\ArticleRejected":
                 return "拒绝了动态";
-            case "App\\Notifications\\ArticleCommented":
+            case "Haxibiao\\Breeze\\Notifications\\ArticleCommented":
                 return "评论了动态";
-            case "App\\Notifications\\CommentedNotification":
+            case "Haxibiao\\Breeze\\Notifications\\CommentedNotification":
                 return "评论了";
-            case "App\\Notifications\\ArticleFavorited":
+            case "Haxibiao\\Breeze\\Notifications\\ArticleFavorited":
                 return "收藏了动态";
-            case "App\\Notifications\\ArticleLiked":
+            case "Haxibiao\\Breeze\\Notifications\\ArticleLiked":
                 return "喜欢了文章";
-            case "App\\Notifications\\LikedNotification":
+            case "Haxibiao\\Breeze\\Notifications\\LikedNotification":
                 if (data_get($this, 'data.type') == 'comments') {
                     return "点赞了评论";
                 }
                 return "喜欢了动态";
-            case "App\\Notifications\\CommentLiked":
+            case "Haxibiao\\Breeze\\Notifications\\CommentLiked":
                 return "赞了评论";
-            case "App\\Notifications\\ArticleTiped":
+            case "Haxibiao\\Breeze\\Notifications\\ArticleTiped":
                 return "打赏了动态";
-            case "App\\Notifications\\CategoryFollowed":
+            case "Haxibiao\\Breeze\\Notifications\\CategoryFollowed":
                 return "关注了专题";
-            case "App\\Notifications\\CategoryRequested":
+            case "Haxibiao\\Breeze\\Notifications\\CategoryRequested":
                 return "投稿了专题";
-            case "App\\Notifications\\CollectionFollowed":
+            case "Haxibiao\\Breeze\\Notifications\\CollectionFollowed":
                 return "关注了文集";
-            case "App\\Notifications\\UserFollowed":
+            case "Haxibiao\\Breeze\\Notifications\\UserFollowed":
                 return "关注了";
-            case "App\\Notifications\\ReplyComment":
+            case "Haxibiao\\Breeze\\Notifications\\ReplyComment":
                 return "回复了评论";
-            case "App\\Notifications\\CommentAccepted":
+            case "Haxibiao\\Breeze\\Notifications\\CommentAccepted":
                 return "评论被采纳";
-            case "App\\Notifications\\ReceiveAward":
+            case "Haxibiao\\Breeze\\Notifications\\ReceiveAward":
                 return $this->data["subject"] . $this->data["gold"] . '金币';
             default:
                 return "其他";
@@ -132,7 +132,7 @@ class Notification extends DatabaseNotification
             return null;
         }
         $comment = $this->getCommentAttribute();
-        if (data_get($this, 'type') == 'App\Notifications\LikedNotification') {
+        if (data_get($this, 'type') == 'Haxibiao\Breeze\Notifications\LikedNotification') {
             $commentable = data_get($comment, 'commentable');
             if ($commentable instanceof Comment) {
                 return data_get($comment, 'commentable.commentable');
