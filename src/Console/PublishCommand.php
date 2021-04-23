@@ -32,38 +32,22 @@ class PublishCommand extends Command
     {
         $force = $this->option('force');
 
-        $this->info(' - lighthouse 和 playground');
-
-        //gqlp配置容易手动修改
+        // lighthouse 和 playground
+        // gqlp配置 后面自己手动修改
         $this->callSilent("vendor:publish", ["--provider" => "Nuwave\Lighthouse\LighthouseServiceProvider", '--force' => $force]);
         $this->callSilent("vendor:publish", ["--provider" => "MLL\GraphQLPlayground\GraphQLPlaygroundServiceProvider", '--force' => $force]);
 
-        if ($this->confirm("是否清理breeze分散的gqls")) {
-            File::deleteDirectory(base_path('graphql'));
-        }
+        // 清理breeze分散的gqls
+        File::deleteDirectory(base_path('graphql'));
 
-        $this->info(' - breeze 子模块的资源配置');
-
-//        $this->callSilent("vendor:publish", ['--tag' => 'cms-config', '--force' => $force]);
-//        $this->callSilent("vendor:publish", ['--tag' => 'cms-resources', '--force' => $force]);
-
-        $this->callSilent("vendor:publish", ['--tag' => 'content-config', '--force' => $force]);
-        $this->callSilent("vendor:publish", ['--tag' => 'content-graphql', '--force' => $force]);
-        $this->callSilent("vendor:publish", ['--tag' => 'content-nova', '--force' => $force]);
-        $this->callSilent("vendor:publish", ['--tag' => 'content-resources', '--force' => $force]);
-
-//        $this->callSilent("vendor:publish", ['--tag' => 'matomo-resources', '--force' => $force]);
-
-        $this->callSilent("vendor:publish", ['--tag' => 'media-config', '--force' => $force]);
-        $this->callSilent("vendor:publish", ['--tag' => 'media-graphql', '--force' => $force]);
-
-        $this->callSilent("vendor:publish", ['--tag' => 'sns-config', '--force' => $force]);
-        $this->callSilent("vendor:publish", ['--tag' => 'sns-graphql', '--force' => $force]);
-
+        // breeze子模块的资源配置
+        $this->callSilent('content:publish', ['--force' => $force]);
+        $this->callSilent('media:publish', ['--force' => $force]);
+        $this->callSilent('sns:publish', ['--force' => $force]);
+        $this->callSilent('task:publish', ['--force' => $force]);
         $this->callSilent('wallet:publish', ['--force' => $force]);
         $this->callSilent('question:publish', ['--force' => $force]);
 
-        $this->info(' - Breeze的资源更新');
         $this->callSilent("vendor:publish", ['--provider' => 'Haxibiao\Breeze\BreezeServiceProvider', '--force' => true]);
 
     }

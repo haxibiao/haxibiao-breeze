@@ -1,0 +1,6 @@
+#!/bin/bash
+echo "安装依赖..."
+composer install -o --no-dev
+
+echo "更新git子模块代码(非git源码方式，可选)..."
+git submodule init && git submodule update && git pull --recurse-submodules

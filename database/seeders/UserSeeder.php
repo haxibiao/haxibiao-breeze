@@ -22,8 +22,7 @@ class UserSeeder extends Seeder
 
         $admin_email = "master@" . env('APP_DOMAIN');
 
-        $default_pass = env('REDIS_PASSWORD', 'dadada');
-        echo "\n 默认安装的测试账户密码是:" . $default_pass . " \n";
+        $default_pass = env('DEFAULT_PASSWORD', 'dadada');
 
         //删除冗余的admin新账户？
         foreach (User::whereEmail($admin_email)->get() as $admin) {
@@ -49,7 +48,7 @@ class UserSeeder extends Seeder
         $admin->api_token = str_random(60);
         $admin->role_id   = User::ADMIN_STATUS; //管理员
         $admin->save();
-        echo "已初始化账户:" . $admin->email;
+        echo "\n已初始化账户:" . $admin->email;
 
         //锁定id=2 为 小编
         $editor_email = 'editor@' . env('APP_DOMAIN');
@@ -68,7 +67,7 @@ class UserSeeder extends Seeder
         $editor->api_token = str_random(60);
         $editor->role_id   = User::EDITOR_STATUS; //小编
         $editor->save();
-        echo "已初始化账户:" . $editor->email;
+        echo "\n已初始化账户:" . $editor->email;
 
         //锁定id=3 为 测试用户
         $user_email = 'user@' . env('APP_DOMAIN');
@@ -88,7 +87,7 @@ class UserSeeder extends Seeder
         //role_id 默认为普通用户
         $user->save();
 
-        echo "已初始化账户:" . $user->email;
+        echo "\n已初始化账户:" . $user->email;
 
     }
 }

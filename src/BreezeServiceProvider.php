@@ -2,6 +2,7 @@
 
 namespace Haxibiao\Breeze;
 
+use Haxibiao\Breeze\Console\ImageLogo;
 use Haxibiao\Breeze\Console\InstallCommand;
 use Haxibiao\Breeze\Console\PublishCommand;
 use Illuminate\Config\Repository as Config;
@@ -58,6 +59,7 @@ class BreezeServiceProvider extends ServiceProvider
         $this->commands([
             InstallCommand::class,
             PublishCommand::class,
+            ImageLogo::class,
 
             Console\Dimension\ArchiveAll::class,
             Console\Dimension\ArchiveRetention::class,
@@ -182,14 +184,10 @@ class BreezeServiceProvider extends ServiceProvider
 
     public function bindObservers()
     {
-
         \Haxibiao\Breeze\User::observe(\Haxibiao\Breeze\Observers\UserObserver::class);
-
         \Haxibiao\Breeze\BadWord::observe(\Haxibiao\Breeze\Observers\BadWordObserver::class);
         \Haxibiao\Task\Contribute::observe(\Haxibiao\Breeze\Observers\ContributeObserver::class);
-
         //\Haxibiao\Wallet\Gold::observe(\Haxibiao\Breeze\Observers\GoldObserver::class);
-
     }
 
     protected function bindPathsInContainer()

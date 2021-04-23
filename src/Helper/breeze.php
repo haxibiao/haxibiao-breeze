@@ -5,64 +5,65 @@ use App\User;
 use Haxibiao\Breeze\Breeze;
 use Haxibiao\Breeze\Exceptions\UserException;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
-if(!function_exists('register_routes')){
-	function register_routes($path)
-	{
-		$is_testing = false;
-		try {
-			$phpunit    = simplexml_load_file('phpunit.xml');
-			$is_testing = !app()->environment('prod');
-		} catch (Exception $ex) {
-		}
-		$files = [];
-		get_allfiles($path, $files);
-		foreach ($files as $apiFile) {
-			if ($is_testing) {
-				require $apiFile;
-			} else {
-				require_once $apiFile;
-			}
-		}
-	}
+if (!function_exists('register_routes')) {
+    function register_routes($path)
+    {
+        $is_testing = false;
+        try {
+            $phpunit    = simplexml_load_file('phpunit.xml');
+            $is_testing = !app()->environment('prod');
+        } catch (Exception $ex) {
+        }
+        $files = [];
+        get_allfiles($path, $files);
+        foreach ($files as $apiFile) {
+            if ($is_testing) {
+                require $apiFile;
+            } else {
+                require_once $apiFile;
+            }
+        }
+    }
 }
 
 /**
  * 加载 个breeze模块 下 views 依赖的 css js images
  */
-if(!function_exists('load_breeze_assets')){
-	function load_breeze_assets($public_path)
-	{
-		foreach (glob($public_path . '/css/*') as $filepath) {
-			$asset_path = str_replace($public_path, '', $filepath);
-			Breeze::asset($asset_path, $filepath);
-		}
+if (!function_exists('load_breeze_assets')) {
+    function load_breeze_assets($public_path)
+    {
+        foreach (glob($public_path . '/css/*') as $filepath) {
+            $asset_path = str_replace($public_path, '', $filepath);
+            Breeze::asset($asset_path, $filepath);
+        }
 
-		foreach (glob($public_path . '/js/*') as $filepath) {
-			$asset_path = str_replace($public_path, '', $filepath);
-			Breeze::asset($asset_path, $filepath);
-		}
+        foreach (glob($public_path . '/js/*') as $filepath) {
+            $asset_path = str_replace($public_path, '', $filepath);
+            Breeze::asset($asset_path, $filepath);
+        }
 
-		foreach (glob($public_path . '/images/*') as $filepath) {
-			$asset_path = str_replace($public_path, '', $filepath);
-			Breeze::asset($asset_path, $filepath);
-		}
+        foreach (glob($public_path . '/images/*') as $filepath) {
+            $asset_path = str_replace($public_path, '', $filepath);
+            Breeze::asset($asset_path, $filepath);
+        }
 
-		foreach (glob($public_path . '/images/movie/*') as $filepath) {
-			$asset_path = str_replace($public_path, '', $filepath);
-			Breeze::asset($asset_path, $filepath);
-		}
+        foreach (glob($public_path . '/images/movie/*') as $filepath) {
+            $asset_path = str_replace($public_path, '', $filepath);
+            Breeze::asset($asset_path, $filepath);
+        }
 
-		foreach (glob($public_path . '/images/app/*') as $filepath) {
-			$asset_path = str_replace($public_path, '', $filepath);
-			Breeze::asset($asset_path, $filepath);
-		}
+        foreach (glob($public_path . '/images/app/*') as $filepath) {
+            $asset_path = str_replace($public_path, '', $filepath);
+            Breeze::asset($asset_path, $filepath);
+        }
 
-		foreach (glob($public_path . '/images/logo/*') as $filepath) {
-			$asset_path = str_replace($public_path, '', $filepath);
-			Breeze::asset($asset_path, $filepath);
-		}
-	}
+        foreach (glob($public_path . '/images/logo/*') as $filepath) {
+            $asset_path = str_replace($public_path, '', $filepath);
+            Breeze::asset($asset_path, $filepath);
+        }
+    }
 }
 
 function breeze_path($path)
@@ -211,54 +212,154 @@ function checkAdmin()
 //     }
 // }
 
-if(!function_exists('get_files')) {
-	function get_files($path, $full_path = true, $allowExtension = '*')
-	{
-		$files = [];
-		if (is_file($path)) {
-			$files[] = $path;
-		}
+if (!function_exists('get_files')) {
+    function get_files($path, $full_path = true, $allowExtension = '*')
+    {
+        $files = [];
+        if (is_file($path)) {
+            $files[] = $path;
+        }
 
-		if (is_dir($path)) {
-			$handler = opendir($path);
-			while (($filename = readdir($handler)) !== false) {
-				//使用!==，防止目录下出现类似文件名“0”等情况
-				if ($filename != "." && $filename != "..") {
-					if ($allowExtension != '*' && get_file_ext($filename) != $allowExtension) {
-						continue;
-					}
-					$files[] = $full_path ? $path . '/' . $filename : $filename;
-				}
-			}
-			closedir($handler);
-		}
+        if (is_dir($path)) {
+            $handler = opendir($path);
+            while (($filename = readdir($handler)) !== false) {
+                //使用!==，防止目录下出现类似文件名“0”等情况
+                if ($filename != "." && $filename != "..") {
+                    if ($allowExtension != '*' && get_file_ext($filename) != $allowExtension) {
+                        continue;
+                    }
+                    $files[] = $full_path ? $path . '/' . $filename : $filename;
+                }
+            }
+            closedir($handler);
+        }
 
-		return $files;
-	}
+        return $files;
+    }
 }
 
-if(!function_exists('get_allfiles')) {
-	function get_allfiles($path, &$files)
-	{
-		if (is_dir($path)) {
-			$dp = dir($path);
-			while ($file = $dp->read()) {
-				if ($file !== "." && $file !== "..") {
-					get_allfiles($path . "/" . $file, $files);
-				}
-			}
-			$dp->close();
-		}
-		if (is_file($path)) {
-			$files[] = $path;
-		}
-	}
+if (!function_exists('get_allfiles')) {
+    function get_allfiles($path, &$files)
+    {
+        if (is_dir($path)) {
+            $dp = dir($path);
+            while ($file = $dp->read()) {
+                if ($file !== "." && $file !== "..") {
+                    get_allfiles($path . "/" . $file, $files);
+                }
+            }
+            $dp->close();
+        }
+        if (is_file($path)) {
+            $files[] = $path;
+        }
+    }
 }
 
-if(!function_exists('get_file_ext')){
-	function get_file_ext($file)
-	{
-		$ext = substr($file, strpos($file, '.') + 1); //获取文件后缀
-		return $ext;
-	}
+if (!function_exists('get_file_ext')) {
+    function get_file_ext($file)
+    {
+        $ext = substr($file, strpos($file, '.') + 1); //获取文件后缀
+        return $ext;
+    }
+}
+
+/**
+ * 设置.env里多个key/value(s)(支持新增key)
+ */
+function setEnvValues(array $keyValues, $envFilePath = null)
+{
+    $envFile = $envFilePath ?? app()->environmentFilePath();
+    $str     = file_get_contents($envFile);
+
+    if (count($keyValues) > 0) {
+        foreach ($keyValues as $envKey => $envValue) {
+            $str .= "\n"; // 确保.env最后一行有换行符
+            $keyPosition       = strpos($str, "{$envKey}="); //找到要替换的行字符起始位
+            $endOfLinePosition = strpos($str, "\n", $keyPosition); //那行的结束位
+            $oldLine           = substr($str, $keyPosition, $endOfLinePosition - $keyPosition); //提取原值
+
+            // 如果不存在，就添加一行
+            // $existKey = !$keyPosition || !$endOfLinePosition || !$oldLine;
+            $existKey = str_contains($str, $envKey);
+            if (!$existKey) {
+                $str .= "{$envKey}={$envValue}\n";
+            } else {
+                //否则替换
+                $str = str_replace($oldLine, "{$envKey}={$envValue}", $str);
+            }
+        }
+    }
+    // $str = substr($str, 0, -1);  //最后的换行清理？
+    if (!file_put_contents($envFile, $str)) {
+        return false;
+    }
+    return true;
+}
+
+/**
+ * 复制基础代码stubs文件用
+ *
+ * @param string $pwd 当前代码目录
+ * @param boolean $force 是否强制
+ * @return void
+ */
+function copyStubs($pwd, $force = false)
+{
+    //复制所有ops stubs
+    if (!is_dir(base_path('ops'))) {
+        mkdir(base_path('ops'));
+    }
+    foreach (glob($pwd . '/stubs/ops/*.stub') as $filepath) {
+        $filename = basename($filepath);
+        $dest     = base_path('ops/' . str_replace(".stub", ".sh", $filename));
+        if (!file_exists($dest) || $force) {
+            copy($filepath, $dest);
+        }
+    }
+
+    //复制所有App stubs
+    foreach (glob($pwd . '/stubs/*.stub') as $filepath) {
+        $filename = basename($filepath);
+        $dest     = app_path(str_replace(".stub", ".php", $filename));
+        if (!file_exists($dest) || $force) {
+            copy($filepath, $dest);
+        }
+    }
+
+    //复制所有Nova stubs
+    if (!is_dir(app_path('Nova'))) {
+        mkdir(app_path('Nova'));
+    }
+    foreach (glob($pwd . '/stubs/Nova/*.stub') as $filepath) {
+        $filename = basename($filepath);
+        $dest     = app_path('Nova/' . str_replace(".stub", ".php", $filename));
+        if (!file_exists($dest) || $force) {
+            copy($filepath, $dest);
+        }
+    }
+
+    //复制所有GraphQL stubs
+    if (!is_dir(app_path('GraphQL/Directives'))) {
+        mkdir(app_path('GraphQL/Directives'), 0777, true);
+    }
+    if (!is_dir(app_path('GraphQL/Scalars'))) {
+        mkdir(app_path('GraphQL/Scalars'), 0777, true);
+    }
+
+    foreach (glob($pwd . '/stubs/GraphQL/Directives/*.stub') as $filepath) {
+        $filename = basename($filepath);
+        $dest     = app_path('GraphQL/Directives/' . str_replace(".stub", ".php", $filename));
+        if (!file_exists($dest) || $force) {
+            copy($filepath, $dest);
+        }
+    }
+    foreach (glob($pwd . '/stubs/GraphQL/Scalars/*.stub') as $filepath) {
+        $filename = basename($filepath);
+        $dest     = app_path('GraphQL/Scalars/' . str_replace(".stub", ".php", $filename));
+        if (!file_exists($dest) || $force) {
+            copy($filepath, $dest);
+        }
+    }
+
 }
