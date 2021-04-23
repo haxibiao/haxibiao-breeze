@@ -14,10 +14,11 @@ class SendNewCommentNotification implements ShouldQueue
      *
      * @return void
      */
+    public $afterCommit = true;
 
     public function __construct()
     {
-        //
+
     }
 
     /**

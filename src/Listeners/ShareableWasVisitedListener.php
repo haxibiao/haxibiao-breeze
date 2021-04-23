@@ -6,6 +6,7 @@ use App\Gold;
 
 class ShareableWasVisitedListener
 {
+    public $afterCommit = true;
     /**
      * Create the event listener.
      *

@@ -2,7 +2,6 @@
 
 namespace Haxibiao\Breeze;
 
-use Haxibiao\Breeze\Console\ImageLogo;
 use Haxibiao\Breeze\Console\InstallCommand;
 use Haxibiao\Breeze\Console\PublishCommand;
 use Illuminate\Config\Repository as Config;
@@ -19,7 +18,21 @@ class BreezeServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        //new评论、关注等事件不绑定listeners了，减少workers
+        'Haxibiao\Breeze\Events\NewReport'  => [
+            'Haxibiao\Breeze\Listeners\SendNewReportNotification',
+        ],
+        'Haxibiao\Breeze\Events\NewLike'    => [
+            'Haxibiao\Breeze\Listeners\SendNewLikeNotification',
+        ],
+        'Haxibiao\Breeze\Events\NewFollow'  => [
+            'Haxibiao\Breeze\Listeners\SendNewFollowNotification',
+        ],
+        'Haxibiao\Breeze\Events\NewComment' => [
+            'Haxibiao\Breeze\Listeners\SendNewCommentNotification',
+        ],
+        'Haxibiao\Breeze\Events\NewMessage' => [
+            'Haxibiao\Breeze\Listeners\SendNewMessageNotification',
+        ],
     ];
 
     /**
@@ -45,7 +58,6 @@ class BreezeServiceProvider extends ServiceProvider
         $this->commands([
             InstallCommand::class,
             PublishCommand::class,
-            ImageLogo::class,
 
             Console\Dimension\ArchiveAll::class,
             Console\Dimension\ArchiveRetention::class,
@@ -170,10 +182,14 @@ class BreezeServiceProvider extends ServiceProvider
 
     public function bindObservers()
     {
+
         \Haxibiao\Breeze\User::observe(\Haxibiao\Breeze\Observers\UserObserver::class);
+
         \Haxibiao\Breeze\BadWord::observe(\Haxibiao\Breeze\Observers\BadWordObserver::class);
         \Haxibiao\Task\Contribute::observe(\Haxibiao\Breeze\Observers\ContributeObserver::class);
+
         //\Haxibiao\Wallet\Gold::observe(\Haxibiao\Breeze\Observers\GoldObserver::class);
+
     }
 
     protected function bindPathsInContainer()

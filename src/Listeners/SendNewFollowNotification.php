@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class SendNewFollowNotification implements ShouldQueue
 {
+    public $afterCommit = true;
     public function __construct()
     {
         //

@@ -2,7 +2,6 @@
 
 namespace Haxibiao\Breeze\Listeners;
 
-use App\Like;
 use Haxibiao\Breeze\Events\NewLike;
 use Haxibiao\Breeze\Notifications\LikedNotification;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -10,9 +9,11 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class SendNewLikeNotification implements ShouldQueue
 {
 
+    public $afterCommit = true;
+
     public function __construct()
     {
-        //
+
     }
 
     /**

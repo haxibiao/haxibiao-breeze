@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class SendNewMessageNotification implements ShouldQueue
 {
 
+    public $afterCommit = true;
     public function __construct()
     {
         //

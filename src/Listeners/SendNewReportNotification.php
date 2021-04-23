@@ -7,6 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class SendNewReportNotification implements ShouldQueue
 {
+    public $afterCommit = true;
     /**
      * Create the event listener.
      *
