@@ -2,9 +2,9 @@
 
 namespace Haxibiao\Breeze\Console;
 
-use Illuminate\Support\Str;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 class PublishCommand extends Command
 {
@@ -38,7 +38,7 @@ class PublishCommand extends Command
         $this->callSilent("vendor:publish", ["--provider" => "Nuwave\Lighthouse\LighthouseServiceProvider", '--force' => $force]);
         $this->callSilent("vendor:publish", ["--provider" => "MLL\GraphQLPlayground\GraphQLPlaygroundServiceProvider", '--force' => $force]);
 
-        if($this->confirm("是否清理breeze分散的gqls")) {
+        if ($this->confirm("是否清理breeze分散的gqls")) {
             File::deleteDirectory(base_path('graphql'));
         }
 
@@ -55,7 +55,6 @@ class PublishCommand extends Command
 //        $this->callSilent("vendor:publish", ['--tag' => 'matomo-resources', '--force' => $force]);
 
         $this->callSilent("vendor:publish", ['--tag' => 'media-config', '--force' => $force]);
-        $this->callSilent("vendor:publish", ['--tag' => 'media-applist', '--force' => $force]);
         $this->callSilent("vendor:publish", ['--tag' => 'media-graphql', '--force' => $force]);
 
         $this->callSilent("vendor:publish", ['--tag' => 'sns-config', '--force' => $force]);
