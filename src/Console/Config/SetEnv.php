@@ -62,12 +62,15 @@ class SetEnv extends Command
             setEnvValues(['DB_PORT' => $this->option("db_port")]);
         }
 
-        // 直播
-        setEnvValues(['LIVE_SECRET_KEY' => @file_get_contents("/etc/live_secret_dongdianyi")]);
+        // 直播 (已暂停开发)
+        // setEnvValues(['LIVE_SECRET_KEY' => @file_get_contents("/etc/live_secret")]);
+
         // 邮件
         setEnvValues(['MAIL_PASSWORD' => @file_get_contents("/etc/mailgun_mail_pass")]);
-        // 视频云
+        // VOD
         setEnvValues(['VOD_SECRET_KEY' => @file_get_contents("/etc/vod_secret_key")]);
+        // COS
+        setEnvValues(['COS_SECRET_KEY' => @file_get_contents("/etc/cos_secret_key")]);
 
         //支付的
         if ($this->option('pay')) {
