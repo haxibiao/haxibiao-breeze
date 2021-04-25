@@ -157,7 +157,7 @@ class InstallCommand extends Command
         @file_put_contents(base_path('.env.prod'), @file_get_contents(base_path('.env')));
 
         setEnvValues([
-            'APP_ENV'        => 'production',
+            'APP_ENV'        => 'prod', //这个小别名兼容以前的习惯，并且避免 migrate 无--force 会跳过的小问题
             'APP_DEBUG'      => 'false',
             'DB_PASSWORD'    => '',
             'COS_SECRET_KEY' => '',
