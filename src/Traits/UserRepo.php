@@ -73,11 +73,9 @@ trait UserRepo
     public function saveDownloadImage($file)
     {
         if ($file) {
-            $avatar  = 'avatar/avatar' . $this->id . '_' . time() . '.png';
-            $cosDisk = Storage::cloud();
-            $cosDisk->put($avatar, \file_get_contents($file->path()));
-
-            return $avatar;
+            $cloud_path = 'storage/app-' . env('APP_NMAE') . '/avatars/' . $this->id . '_' . time() . '.png';
+            Storage::put($cloud_path, file_get_contents($file->path()));
+            return $cloud_path;
         }
     }
 
@@ -482,54 +480,33 @@ trait UserRepo
     }
 
     /**
-     * 保存用户头像
-     * @return [type] [description]
+     * 每个用户个人主页的背景图片自定义
+     *
+     * @param UploadFile $file
+     * @return string
      */
-    public function save_avatar($file)
+    public function saveBackground($file)
     {
         //判断是否为空
         if (empty($file) || !$file->isValid()) {
             return null;
         }
-        // 获取文档相关信息
-        $extension = $file->getClientOriginalExtension();
-        $realPath  = $file->getRealPath(); //临时文档的绝对路径
-        $filename  = 'avatar/' . $this->id . '_' . time() . '.' . $extension;
 
+        $extension  = $file->getClientOriginalExtension();
+        $filename   = $this->id . '_' . time() . '.' . $extension;
+        $cloud_path = 'storage/app-' . env('APP_NAME') . '/background/' . $filename;
         try {
-            Storage::cloud()->put($filename, file_get_contents($realPath));
-            //上传到COS
-            $url          = cdnurl($filename);
-            $this->avatar = $url;
-            $this->save();
+            Storage::cloud()->put($cloud_path, file_get_contents($file->getRealPath()));
+            $background_url = cdnurl($cloud_path);
+
+            //save profile
+            $profile             = $this->profile;
+            $profile->background = $background_url;
+            $profile->save();
         } catch (\Exception $e) {
-            //FIXME:上传COS失败？？
-        }
-
-        return $this->avatar_url;
-    }
-
-    public function save_background($file)
-    {
-        //判断是否为空
-        if (empty($file) || !$file->isValid()) {
             return null;
         }
-
-        $extension = $file->getClientOriginalExtension();
-        $realPath  = $file->getRealPath(); //临时文档的绝对路径
-
-        $filename = 'background/' . $this->id . '_' . time() . '.' . $extension;
-        Storage::cloud()->put($filename, file_get_contents($realPath));
-        //上传到COS失败
-        $bgurl = cdnurl($filename);
-
-        //save profile
-        $profile             = $this->profile;
-        $profile->background = $bgurl;
-        $profile->save();
-
-        return $bgurl;
+        return $background_url;
     }
 
     public function fillForJs()

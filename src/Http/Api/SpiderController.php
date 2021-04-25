@@ -53,9 +53,9 @@ class SpiderController extends Controller
             $video->disk = 'local'; //先标记为成功保存到本地
             $video->save();
 
-            //将视频上传到cos
-            $cosDisk = \Storage::cloud();
-            $cosDisk->put($cosPath, \Storage::disk('public')->get($cosPath));
+            //将视频上传到cloud
+            $cosDisk = Storage::cloud();
+            $cosDisk->put($cosPath, Storage::disk('public')->get($cosPath));
             $video->disk = 'cos';
             $video->save();
 

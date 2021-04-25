@@ -26,23 +26,23 @@ class UserController extends Controller
     public function index()
     {
 
-		$currentPage = request()->get('page',1);
-		$perPage     = request()->get('count',24);
-		$total       = User::count();
+        $currentPage = request()->get('page', 1);
+        $perPage     = request()->get('count', 24);
+        $total       = User::count();
 
-		$users = User::with(['articles'=>function($query){
-			$query->orderBy('id','desc')->take(60);
-		}])->skip(($currentPage * $perPage) - $perPage)
-			->take($perPage)
-			->get();
+        $users = User::with(['articles' => function ($query) {
+            $query->orderBy('id', 'desc')->take(60);
+        }])->skip(($currentPage * $perPage) - $perPage)
+            ->take($perPage)
+            ->get();
 
-		$result = new \Illuminate\Pagination\LengthAwarePaginator(
-			$users,
-			$total,
-			$perPage,
-			$currentPage,
-			['path' => url('user')]
-		);
+        $result = new \Illuminate\Pagination\LengthAwarePaginator(
+            $users,
+            $total,
+            $perPage,
+            $currentPage,
+            ['path' => url('user')]
+        );
 
         return view('user.index')->withUsers($result);
     }
@@ -205,7 +205,7 @@ class UserController extends Controller
         $file = $request->file('avatar');
         //判断是否为空
         if (!empty($file)) {
-            $user->save_avatar($file);
+            $user->saveAvatar($file);
         }
         return redirect()->to('/user/' . $user->id);
     }
@@ -299,19 +299,19 @@ class UserController extends Controller
         $articles = $data['liked_articles'];
 
         //load more articles ...
-		if (request()->ajax() || request('debug')) {
-			$transFormedArticles = collect();
-			foreach ($articles as $like){
-				$article = $like->likable;
-				if(!$article){
-					continue;
-				}
-				$article->fillForJs();
-				$article->time_ago = $article->updatedAt();
-				$transFormedArticles->push($article);
-			}
-			return $transFormedArticles;
-		}
+        if (request()->ajax() || request('debug')) {
+            $transFormedArticles = collect();
+            foreach ($articles as $like) {
+                $article = $like->likable;
+                if (!$article) {
+                    continue;
+                }
+                $article->fillForJs();
+                $article->time_ago = $article->updatedAt();
+                $transFormedArticles->push($article);
+            }
+            return $transFormedArticles;
+        }
 
         $data['followed_categories'] = Follow::with('followable')
             ->where('user_id', $user->id)

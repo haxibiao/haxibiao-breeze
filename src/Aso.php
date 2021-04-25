@@ -22,19 +22,11 @@ class Aso extends Model
 
     public function saveDownloadImage($file, $name)
     {
-
         if ($file) {
             $aso      = Aso::where('name', $name)->first();
-            $aso_path = $aso->value;
-
-            if (\str_contains($aso_path, env('COS_DOMAIN'))) {
-                $aso_path = \str_after($aso_path, env('COS_DOMAIN'));
-            }
-
-            $cosDisk = Storage::cloud();
-            $cosDisk->put($aso_path, \file_get_contents($file->path()));
-
-            return $cosDisk->url($aso_path);
+            $aso_path = parse_url($aso->value, PHP_URL_PATH);
+            Storage::put($aso_path, file_get_contents($file->path()));
+            return Storage::url($aso_path);
         }
     }
 }

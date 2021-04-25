@@ -196,7 +196,8 @@ if (!function_exists('app_qrcode_url')) {
 }
 
 /**
- * @deprecated 返回的是base64 data到页面的，建议用app_qrcode_url返回图片地址
+ * 返回的是base64 data
+ * @deprecated 建议用app_qrcode_url返回图片地址
  */
 if (!function_exists('qrcode_url')) {
     function qrcode_url()
@@ -211,13 +212,12 @@ if (!function_exists('qrcode_url')) {
 
             if (class_exists("SimpleSoftwareIO\QrCode\Facades\QrCode")) {
                 $qrcode = QrCode::format('png')->size(250)->encoding('UTF-8');
-                if (!empty(env('COS_DOMAIN'))) {
-                    if (@file_get_contents($logo)) {
-                        $qrcode->merge($logo, .1, true);
-                    } else {
-                        if (file_exists(public_path($logo))) {
-                            $qrcode->merge(public_path($logo), .1, true);
-                        }
+
+                if (@file_get_contents($logo)) {
+                    $qrcode->merge($logo, .1, true);
+                } else {
+                    if (file_exists(public_path($logo))) {
+                        $qrcode->merge(public_path($logo), .1, true);
                     }
                 }
 
@@ -226,12 +226,10 @@ if (!function_exists('qrcode_url')) {
                         $qrcode = $qrcode->generate($apkUrl);
                         $data   = base64_encode($qrcode);
                         return $data;
-                    } catch (\Throwable$ex) {
-                        //FIXME: 暂时兼容php8实例页面不崩，qrcode想办法每个项目生成下载扫码URL图片来部署
+                    } catch (\Throwable $ex) {
                     }
                 }
             }
-
             return null;
         }
     }

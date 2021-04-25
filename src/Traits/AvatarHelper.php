@@ -32,12 +32,14 @@ trait AvatarHelper
             $imageStream = file_get_contents($avatar);
         }
 
-        $fileTemplate = 'avatar-%s.%s'; //以后所有cos的头像保存文件名模板
-        $storePrefix  = '/storage/app/avatars/'; //以后所有cos的头像保存位置就这样了
+        //FIXME: 裁剪下个人头像图片尺寸? 检查下是否有imagick
+
+        $fileTemplate = '%s.%s'; //以后所有cos的头像保存文件名模板
+        $storePrefix  = '/storage/app-' . env('APP_NAME') . '/avatars/'; //以后所有cos的头像保存位置就这样了
 
         $filename = $user->id;
         if (!is_prod_env()) {
-            $filename = $user->id . "_test"; //测试不覆盖线上cos文件
+            $filename = $user->id . "." . env('APP_ENV'); //测试不覆盖线上cos文件
         }
         $avatarPath  = sprintf($storePrefix . $fileTemplate, $filename, $extension);
         $storeStatus = Storage::cloud()->put($avatarPath, $imageStream);
