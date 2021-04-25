@@ -71,6 +71,8 @@ class SetEnv extends Command
         setEnvValues(['VOD_SECRET_KEY' => @file_get_contents("/etc/vod_secret_key")]);
         // COS
         setEnvValues(['COS_SECRET_KEY' => @file_get_contents("/etc/cos_secret_key")]);
+        // SPACE
+        setEnvValues(['SPACE_SECRET' => @file_get_contents("/etc/space_secret")]);
 
         //支付的
         if ($this->option('pay')) {
