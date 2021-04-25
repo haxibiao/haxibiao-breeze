@@ -272,9 +272,15 @@ function setEnvValues(array $keyValues, $envFilePath = null)
     $envFile = $envFilePath ?? app()->environmentFilePath();
     $str     = file_get_contents($envFile);
 
+    // 确保.env最后一行有换行符
+    if (!str_ends_with($str, "\n")) {
+        $str .= "\n";
+    }
+
     if (count($keyValues) > 0) {
+
         foreach ($keyValues as $envKey => $envValue) {
-            $str .= "\n"; // 确保.env最后一行有换行符
+
             $keyPosition       = strpos($str, "{$envKey}="); //找到要替换的行字符起始位
             $endOfLinePosition = strpos($str, "\n", $keyPosition); //那行的结束位
             $oldLine           = substr($str, $keyPosition, $endOfLinePosition - $keyPosition); //提取原值
@@ -283,14 +289,14 @@ function setEnvValues(array $keyValues, $envFilePath = null)
             // $existKey = !$keyPosition || !$endOfLinePosition || !$oldLine;
             $existKey = str_contains($str, $envKey);
             if (!$existKey) {
-                $str .= "{$envKey}={$envValue}\n";
+                $str .= "{$envKey}={$envValue}";
             } else {
                 //否则替换
                 $str = str_replace($oldLine, "{$envKey}={$envValue}", $str);
             }
         }
+        // $str = substr($str, 0, -1); //最后的换行清理？
     }
-    // $str = substr($str, 0, -1);  //最后的换行清理？
     if (!file_put_contents($envFile, $str)) {
         return false;
     }

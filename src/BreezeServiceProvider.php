@@ -2,6 +2,7 @@
 
 namespace Haxibiao\Breeze;
 
+use Haxibiao\Breeze\Console\ImageLogo;
 use Haxibiao\Breeze\Console\InstallCommand;
 use Haxibiao\Breeze\Console\PublishCommand;
 use Illuminate\Config\Repository as Config;
@@ -58,6 +59,7 @@ class BreezeServiceProvider extends ServiceProvider
         $this->commands([
             InstallCommand::class,
             PublishCommand::class,
+            ImageLogo::class,
 
             Console\Dimension\ArchiveAll::class,
             Console\Dimension\ArchiveRetention::class,

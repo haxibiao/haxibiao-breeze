@@ -41,8 +41,8 @@ class PublishCommand extends Command
         File::deleteDirectory(base_path('graphql'));
 
         // breeze子模块的资源配置
-        $this->callSilent('content:publish', ['--force' => $force]);
         $this->callSilent('media:publish', ['--force' => $force]);
+        $this->callSilent('content:publish', ['--force' => $force]);
         $this->callSilent('sns:publish', ['--force' => $force]);
         $this->callSilent('task:publish', ['--force' => $force]);
         $this->callSilent('wallet:publish', ['--force' => $force]);

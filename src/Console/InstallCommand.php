@@ -14,7 +14,7 @@ class InstallCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'breeze:install {--force}';
+    protected $signature = 'breeze:install {--force} {--debug}';
 
     /**
      * The Console command description.
@@ -42,8 +42,10 @@ class InstallCommand extends Command
         $this->info('配置环境');
         $this->configEnvValues();
 
-        $this->comment('安装Nova');
-        $this->callSilent('nova:install');
+        if (!is_dir(public_path('vendor/nova'))) {
+            $this->comment('安装Nova');
+            $this->callSilent('nova:install');
+        }
 
         $this->info('安装子模块');
         $this->installModules($force);
@@ -102,20 +104,57 @@ class InstallCommand extends Command
         if ($db_username = $this->ask(" - 数据库账户名?", 'root')) {
             setEnvValues(['DB_USERNAME' => $db_username]);
         }
-        if ($db_password = $this->ask(" - 数据库账户密码?")) {
+        if ($db_password = $this->secret(" - 数据库账户密码?")) {
             setEnvValues(['DB_PASSWORD' => $db_password]);
         }
         if ($default_password = $this->ask(" - 默认网站测试用户密码?", "dadada")) {
             setEnvValues(['DEFAULT_PASSWORD' => $default_password]);
         }
 
+        if ($this->confirm(" - 是否用云存储cos或space?")) {
+            $cloudSolution = $this->choice("云方案选择", ['cos', 'space'], 'cos');
+            if ($cloudSolution == "cos") {
+                //选择cos
+                setEnvValues(['FILESYSTEM_DRIVER' => 'cos']);
+
+                $cos_region = $this->choice("区域", ['ap-guangzhou', 'ap-shanghai'], 'ap-guangzhou');
+                setEnvValues(['COS_REGION' => $cos_region]);
+                $cos_region = $this->ask("存储桶", 'haxibiao');
+                setEnvValues(['COS_BUCKET' => $cos_region]);
+                $cos_app_id = $this->ask("COS_APP_ID", '1251052432');
+                setEnvValues(['COS_APP_ID' => $cos_app_id]);
+                $cos_secret_id = $this->ask("COS_SECRET_ID", 'AKIDPbXCbj5C1bz72i7F9oDMHxOaXEgsNX0E');
+                setEnvValues(['COS_SECRET_ID' => $cos_secret_id]);
+                $cos_secret_key = $this->secret("COS_SECRET_KEY");
+                setEnvValues(['COS_SECRET_KEY' => $cos_secret_key]);
+                $cos_domain = $this->ask("cos加速的cdn域名", 'cos.haxibiao.com');
+                setEnvValues(['COS_DOMAIN' => $cos_domain]);
+            }
+            if ($cloudSolution == "space") {
+                //选择cos
+                setEnvValues(['FILESYSTEM_DRIVER' => 'space']);
+
+                $space_region = $this->choice("区域", ['sfo2', 'nyc3'], 'sfo2');
+                setEnvValues(['SPACE_REGION' => $space_region]);
+                $space_region = $this->ask("存储桶", 'movieimage');
+                setEnvValues(['SPACE_BUCKET' => $space_region]);
+                $space_key = $this->ask("SPACE_KEY", 'CFE7N5U5YHERNBY232OH');
+                setEnvValues(['SPACE_KEY' => $space_key]);
+                $space_secret = $this->secret("SPACE_SECRET");
+                setEnvValues(['SPACE_SECRET' => $space_secret]);
+                $space_domain = $this->ask("space加速的cdn域名", 'space.haxibiao.com');
+                setEnvValues(['SPACE_DOMAIN' => $space_domain]);
+            }
+        }
+
         $this->comment(' - 备份安装成功的非敏感配置信息到文件.env.prod');
         @file_put_contents(base_path('.env.prod'), @file_get_contents(base_path('.env')));
-        // 数据库密码隐藏先
+
         setEnvValues([
-            'APP_ENV'     => 'production',
-            'APP_DEBUG'   => 'false',
-            'DB_PASSWORD' => '',
+            'APP_ENV'        => 'production',
+            'APP_DEBUG'      => 'false',
+            'DB_PASSWORD'    => '',
+            'COS_SECRET_KEY' => '',
         ], base_path('.env.prod'));
     }
 
@@ -140,11 +179,21 @@ class InstallCommand extends Command
 
     public function installModules($force)
     {
-        $this->callSilent("media:install", ['--force' => $force]);
-        $this->callSilent("content:install", ['--force' => $force]);
-        $this->callSilent("sns:install", ['--force' => $force]);
-        $this->callSilent("task:install", ['--force' => $force]);
-        $this->callSilent("wallet:install", ['--force' => $force]);
-        $this->callSilent("question:install", ['--force' => $force]);
+        if ($this->option('debug')) {
+            $this->call("media:install", ['--force' => $force]);
+            $this->call("content:install", ['--force' => $force]);
+            $this->call("sns:install", ['--force' => $force]);
+            $this->call("task:install", ['--force' => $force]);
+            $this->call("wallet:install", ['--force' => $force]);
+            $this->call("question:install", ['--force' => $force]);
+        } else {
+            $this->callSilent("media:install", ['--force' => $force]);
+            $this->callSilent("content:install", ['--force' => $force]);
+            $this->callSilent("sns:install", ['--force' => $force]);
+            $this->callSilent("task:install", ['--force' => $force]);
+            $this->callSilent("wallet:install", ['--force' => $force]);
+            $this->callSilent("question:install", ['--force' => $force]);
+
+        }
     }
 }
