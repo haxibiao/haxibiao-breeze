@@ -47,6 +47,12 @@ class InstallCommand extends Command
             $this->callSilent('nova:install');
         }
 
+        if (is_dir(base_path('graphql')) && !$force) {
+            if (!$this->confirm('已安装过breeze,是否强制覆盖安装?')) {
+                return;
+            }
+        }
+
         $this->info('安装子模块');
         $this->installModules($force);
 

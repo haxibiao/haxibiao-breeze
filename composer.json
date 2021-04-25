@@ -20,6 +20,7 @@
         "haxibiao/vod-sdk": "^2.4.3",
         "haxibiao/lighthouse": "^5.0",
         "mll-lab/laravel-graphql-playground": "^2.1",
+        "laravelcollective/html": "^6.2",
         "haxibiao/content": "*",
         "haxibiao/helpers": "*",
         "haxibiao/sns": "*",
