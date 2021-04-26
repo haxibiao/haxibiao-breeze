@@ -48,7 +48,7 @@ class PublishCommand extends Command
         $this->callSilent('wallet:publish', ['--force' => $force]);
         $this->callSilent('question:publish', ['--force' => $force]);
 
-        $this->callSilent("vendor:publish", ['--provider' => 'Haxibiao\Breeze\BreezeServiceProvider', '--force' => true]);
+        $this->callSilent("vendor:publish", ['--provider' => 'Haxibiao\Breeze\BreezeServiceProvider', '--force' => $force]);
 
     }
 

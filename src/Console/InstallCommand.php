@@ -32,16 +32,20 @@ class InstallCommand extends Command
     {
         $force = $this->option('force');
         if ($force) {
-            if (!$this->confirm("强制覆盖安装breeze?")) {
+            if (!$this->confirm("强制重装breeze?")) {
+                $this->info('安装已取消');
                 return;
             }
         } else {
             $this->comment("开始安装Breeze...");
         }
 
-        if (!file_exists(base_path('.env.prod')) || $force) {
-            $this->info('配置环境');
-            return $this->configEnvValues();
+        $this->info('配置环境');
+        if (!file_exists(base_path('.env.prod'))) {
+            $this->comment(' - 开始配置...');
+            $this->configEnvValues();
+        } else {
+            $this->comment(' - 已配置，跳过');
         }
 
         if (!is_dir(public_path('vendor/nova'))) {
