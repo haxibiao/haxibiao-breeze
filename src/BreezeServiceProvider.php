@@ -9,6 +9,7 @@ use Illuminate\Config\Repository as Config;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class BreezeServiceProvider extends ServiceProvider
@@ -90,13 +91,6 @@ class BreezeServiceProvider extends ServiceProvider
         $this->bindPathsInContainer();
 
         $this->bindObservers();
-
-        if (is_null(config('breeze.routes_autoload')) || config('breeze.routes_autoload') === true) {
-            //默认注册breeze路由，允许配置关闭
-            $this->loadRoutesFrom(
-                __DIR__ . '/../router.php'
-            );
-        }
     }
 
     /**
@@ -106,6 +100,12 @@ class BreezeServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
+        //默认强制线上的站点支持https(google已开始强制站点只收录https多年)
+        if (is_prod_env()) {
+            URL::forceScheme('https');
+        }
+
         if (!app()->configurationIsCached()) {
             $this->mergeConfigFrom(__DIR__ . '/../config/breeze.php', 'breeze');
             $this->mergeConfigFrom(__DIR__ . '/../config/seo.php', 'seo');
