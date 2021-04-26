@@ -153,10 +153,10 @@ if (!function_exists('small_logo')) {
     {
         $logo_path = '/logo/' . get_domain() . '.small.png';
         if (file_exists(public_path('/logo/' . get_domain() . '.small.png'))) {
-            return url($logo_path);
+            return url($logo_path,[],true);
         }
         //breeze默认logo
-        return url("/images/logo/default.small.png");
+        return url("/images/logo/default.small.png",[],true);
     }
 }
 
