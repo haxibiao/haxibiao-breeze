@@ -91,6 +91,11 @@ class BreezeServiceProvider extends ServiceProvider
         $this->bindPathsInContainer();
 
         $this->bindObservers();
+
+        $this->loadRoutesFrom(
+            __DIR__ . '/../router.php'
+        );
+
     }
 
     /**
