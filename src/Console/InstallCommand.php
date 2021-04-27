@@ -43,7 +43,7 @@ class InstallCommand extends Command
         $this->info('配置环境');
         if (!file_exists(base_path('.env.prod'))) {
             $this->comment(' - 开始配置...');
-            $this->configEnvValues();
+            return $this->configEnvValues();
         } else {
             $this->comment(' - 已配置，跳过');
         }
