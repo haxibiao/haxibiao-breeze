@@ -14,21 +14,12 @@ use Illuminate\Support\Facades\Route;
  */
 register_routes(dirname(__FILE__) . '/api');
 
-//FIXME: 部分重构到content包里的api 可以清理了
-
-Route::post('/image/upload', 'ImageController@upload');
-
 //获取VOD上传签名
 Route::get('/signature/vod-{site}', 'VodController@signature');
 
 // Route::post('/live/screenShots', 'Api\LiveController@screenShots');
 // Route::post('/live/cutOut', 'Api\LiveController@cutOutLive');
 // Route::post('/live/recording', 'Api\LiveController@recording');
-
-//图片
-Route::get('/image', 'ImageController@index');
-Route::middleware('auth:api')->post('/image', 'ImageController@store');
-Route::middleware('auth:api')->post('/image/save', 'ImageController@store'); //兼容1.0 or vue上传视频接口
 
 ////注释的原因：RestFul方法废弃了，现在统一用GQL解析抖音视频
 //Route::post('/article/resolverDouyin', 'Api\ArticleController@resolverDouyinVideo');
