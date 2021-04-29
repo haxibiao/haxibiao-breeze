@@ -151,6 +151,11 @@ trait UserAttrs
         if (Str::contains($avatar_path, 'images/avatar')) {
             return url($avatar_path);
         }
+        //一分钟内的更新头像刷新cdn
+        if ($this->updated_at > now()->subSeconds(60)) {
+            $avatar_path = $avatar_path . '?t=' . now()->timestamp;
+        }
+
         //更新头像到could的
         return cdnurl($avatar_path);
     }
