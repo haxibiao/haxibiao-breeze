@@ -25,7 +25,7 @@
           <img class="background-img" src="/images/app/appBackground.png" alt="app background">
           <img id = "tancen" class="phone-img" src="{{ aso_value('下载页','功能介绍1图') }}" alt="app phone">
           <div class="top-qrcode">
-            <img src=data:image/png;base64,{{ qrcode_url() }} alt="Download apps page top qrcode">
+            <img src="{{ app_qrcode_url() }}" alt="扫码下载{{ seo_site_name() }}APP">
             <div class="title">扫码下载{{ seo_site_name() }}</div>
           </div>
           <div class="download-phone">
@@ -80,7 +80,7 @@
       <div class="row">
       <div class="container bottom-part">
         <div class="download-web">
-          <img class="bottom-qrcode" src=data:image/png;base64,{{ qrcode_url() }} alt="Download apps page bottom qrcode">
+          <img class="bottom-qrcode" src="{{ app_qrcode_url() }}"" alt="扫码下载{{ seo_site_name() }}APP">
           <img class="background-img" src="/images/app/appBackground.png" alt="Misc background">
           <div>扫码下载{{ seo_site_name() }}</div>
         </div>
