@@ -1,7 +1,7 @@
 @extends('layouts.app')
-@section('title')
-  {{ seo_site_name() }}移动应用 App -
-@endsection
+@section('title'){{ seo_site_name() }}移动应用 App - @stop
+@section('keywords') {{ cms_seo_keywords() }} @stop
+@section('description') {{ cms_seo_description() }} @stop
 @push('section')
 
   <div id="mask" style="position:fixed; z-index:999999999999; top: 0; width: 100%; height: 100%; background: rgba(102, 102, 102, 0.5); display: none;">

@@ -33,7 +33,7 @@ class SeoSeeder extends Seeder
         $item->save();
         $item = Seo::firstOrCreate([
             'group' => 'TKD',
-            'name'  => 'keywrods',
+            'name'  => 'keywords',
         ]);
         $item->value = '精选美剧，告别剧荒，播放流畅，更新迅速，精彩短视频，抖音精彩电影剪辑合集';
         $item->save();
