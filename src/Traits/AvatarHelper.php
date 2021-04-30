@@ -5,6 +5,7 @@ namespace Haxibiao\Breeze\Traits;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
 
 trait AvatarHelper
 {
@@ -18,6 +19,7 @@ trait AvatarHelper
     {
         $user      = $this;
         $extension = 'jpeg';
+
         if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $avatar, $res)) {
             //base64图像
             $extension     = $res[2];
@@ -32,7 +34,8 @@ trait AvatarHelper
             $imageStream = file_get_contents($avatar);
         }
 
-        //FIXME: 裁剪下个人头像图片尺寸? 检查下是否有imagick
+        // 头像裁剪
+        $imageStream = self::reduceSize($imageStream, $extension);
 
         $fileTemplate = '%s.%s'; //以后所有cos的头像保存文件名模板
         $storePrefix  = '/storage/app-' . env('APP_NAME') . '/avatars/'; //以后所有cos的头像保存位置就这样了
@@ -41,7 +44,8 @@ trait AvatarHelper
         if (!is_prod_env()) {
             $filename = $user->id . "." . env('APP_ENV'); //测试不覆盖线上cos文件
         }
-        $avatarPath  = sprintf($storePrefix . $fileTemplate, $filename, $extension);
+        $avatarPath = sprintf($storePrefix . $fileTemplate, $filename, $extension);
+
         $storeStatus = Storage::cloud()->put($avatarPath, $imageStream);
         if ($storeStatus) {
             $user->update([
@@ -100,5 +104,31 @@ trait AvatarHelper
     public function getQQAvatarAttribute(): string
     {
         return 'https://q1.qlogo.cn/g?b=qq&nk=' . $this->qq . '&s=100&t=' . time();
+    }
+
+    /**
+     * 头像裁剪
+     */
+    private static function reduceSize($imageStream, $extension)
+    {
+        // 先实例化
+        $image = Image::make($imageStream);
+
+        $max_width  = $image->width() > 500 ? 100 : $image->width();
+        $max_height = $image->height() > 500 ? 100 : $image->width();
+
+        // 进行大小调整的操作
+        $image->resize($max_width, $max_height, function ($constraint) {
+
+            // 设定宽度是 $max_width，高度等比例双方缩放
+            $constraint->aspectRatio();
+
+            // 防止裁图时图片尺寸变大
+            $constraint->upsize();
+        });
+
+        $image->encode($extension, 100);
+
+        return $image->__toString();
     }
 }

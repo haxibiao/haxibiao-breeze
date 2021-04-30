@@ -21,8 +21,9 @@ trait CheckInResolvers
 
     public function resolveSignIns($root, array $args, $context, $info)
     {
-        $user = getUser();
-        $days = Arr::get($args, 'days', 7);
-        return CheckIn::getSignIns($user, $days);
+        if ($user = checkUser()) {
+            $days = Arr::get($args, 'days', 7);
+            return CheckIn::getSignIns($user, $days);
+        }
     }
 }

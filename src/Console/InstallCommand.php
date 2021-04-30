@@ -32,7 +32,8 @@ class InstallCommand extends Command
     {
         $force = $this->option('force');
         if ($force) {
-            if (!$this->confirm("强制覆盖安装breeze?")) {
+            if (!$this->confirm("强制重装breeze?")) {
+                $this->info('安装已取消');
                 return;
             }
         } else {
@@ -40,7 +41,12 @@ class InstallCommand extends Command
         }
 
         $this->info('配置环境');
-        $this->configEnvValues();
+        if (!file_exists(base_path('.env.prod'))) {
+            $this->comment(' - 开始配置...');
+            return $this->configEnvValues();
+        } else {
+            $this->comment(' - 已配置，跳过');
+        }
 
         if (!is_dir(public_path('vendor/nova'))) {
             $this->comment('安装Nova');
@@ -163,6 +169,11 @@ class InstallCommand extends Command
             'COS_SECRET_KEY' => '',
             'SPACE_SECRET'   => '',
         ], base_path('.env.prod'));
+
+        $this->info(' - 环境配置success');
+        $this->info(' - 重新配置环境，请删除.env.prod');
+        $this->info(' - 请重新执行 breeze:install 开始安装');
+
     }
 
     public function installDatabase()

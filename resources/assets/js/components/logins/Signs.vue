@@ -29,6 +29,7 @@
                         <!-- <li><a class="link" href="javascript:;">用手机号重置密码</a></li> -->
                         <li>
                             <a class="link" href="/password/reset">用邮箱重置密码</a>
+                            <a class="link" href="/hxb-email-login">邮箱验证码登陆</a>
                         </li>
                         <!-- <li><a class="link"   href="javascript:;">无法用海外手机号登录</a></li>
             <li><a class="link"   href="javascript:;">无法用 Google 帐号登录</a></li>-->

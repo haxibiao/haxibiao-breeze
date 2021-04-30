@@ -1,7 +1,7 @@
 <?php
 namespace Database\Seeders;
 
-use App\User;
+use Haxibiao\Breeze\User;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder

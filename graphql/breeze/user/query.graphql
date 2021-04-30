@@ -86,6 +86,10 @@ type User {
     用户的精力点
     """
     ticket: Int
+    """
+    用户身份
+    """
+    role: ROLE @rename(attribute: "role_id")
 }
 
 type blockInfo {
@@ -104,4 +108,21 @@ extend type Query {
     """
     hasReward(user_id: Int!, remark: RewardEnum!): Boolean @field(resolver: "App\\User@hasRewardResolver")
 }
-
+enum ROLE {
+    """
+    普通用户
+    """
+    USER @enum(value: 0)
+    """
+    运营人员
+    """
+    EDITOR @enum(value: 1)
+    """
+    管理员
+    """
+    ADMIN @enum(value: 2)
+    """
+    马甲号
+    """
+    VEST @enum(value: 3)
+}
