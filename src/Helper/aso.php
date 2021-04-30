@@ -170,28 +170,22 @@ if (!function_exists('app_qrcode_url')) {
         $qrcode_full_path = public_path($qrcode_path);
         //缓存的二维码图片
         if (file_exists($qrcode_full_path)) {
-            return seo_url($qrcode_path);
+            return url($qrcode_path);
         }
 
         //包含PC扫码场景，先打开app下载页
-        $appDownloadPageUrl = seo_url('/app');
-        if (array_key_exists(get_domain(), neihan_sites_domains())) {
-            $small_logo_path = seo_small_logo();
-        } else {
-            $small_logo_path = small_logo();
-        }
+        $small_logo_path = small_logo();
 
         //中心带上small logo
         $qrcode = QrCode::format('png')->size(250)->encoding('UTF-8');
         if (file_exists($small_logo_path)) {
             $qrcode->merge($small_logo_path, .1, true);
         }
-
         try {
-            @file_put_contents($qrcode_full_path, $qrcode->generate($appDownloadPageUrl));
-        } catch (Exception $ex) {}
-        return seo_url($qrcode_path);
-
+            @file_put_contents($qrcode_full_path, $qrcode->generate(url('/app')));
+        } catch (Exception $ex) {
+        }
+        return url($qrcode_path);
     }
 }
 
@@ -204,11 +198,7 @@ if (!function_exists('qrcode_url')) {
     {
         if (class_exists("App\\Aso", true)) {
             $apkUrl = aso_value('下载页', '安卓地址');
-            if (array_key_exists(get_domain(), neihan_sites_domains())) {
-                $logo = seo_small_logo();
-            } else {
-                $logo = small_logo();
-            }
+            $logo   = small_logo();
 
             if (class_exists("SimpleSoftwareIO\QrCode\Facades\QrCode")) {
                 $qrcode = QrCode::format('png')->size(250)->encoding('UTF-8');

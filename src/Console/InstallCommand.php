@@ -70,7 +70,7 @@ class InstallCommand extends Command
         // $this->call('breeze:publish', ['--force' => $force]);
 
         $this->comment('生成图标');
-        $this->callSilent('image:logo');
+        $this->call('image:logo');
 
         $this->comment("完成安装");
     }
@@ -161,6 +161,7 @@ class InstallCommand extends Command
             'APP_DEBUG'      => 'false',
             'DB_PASSWORD'    => '',
             'COS_SECRET_KEY' => '',
+            'SPACE_SECRET'   => '',
         ], base_path('.env.prod'));
     }
 
