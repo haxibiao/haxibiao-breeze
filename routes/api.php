@@ -14,9 +14,6 @@ use Illuminate\Support\Facades\Route;
  */
 register_routes(dirname(__FILE__) . '/api');
 
-//获取VOD上传签名
-Route::get('/signature/vod-{site}', 'VodController@signature');
-
 // Route::post('/live/screenShots', 'Api\LiveController@screenShots');
 // Route::post('/live/cutOut', 'Api\LiveController@cutOutLive');
 // Route::post('/live/recording', 'Api\LiveController@recording');
@@ -31,7 +28,3 @@ Route::middleware('auth:api')->post('/background', 'UserController@saveBackgroun
 Route::post('/douyin/import', 'SpiderController@importDouYin');
 
 Route::post('/withdraw', 'WithdrawController@withdraws');
-
-//Route::any('/movie/history', 'Api\MovieController@movieHistory');
-//Route::post('/movie/toggle-like', 'Api\MovieController@toggoleLike');
-//Route::post('/movie/toggle-fan', 'Api\MovieController@toggoleFan');
