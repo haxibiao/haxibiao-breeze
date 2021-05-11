@@ -103,6 +103,8 @@ function getUser($throw = true)
     //fetch current request context cached user
     if ($userJson = request('user')) {
         $userData = is_array($userJson) ? $userJson : json_decode($userJson, true);
+        $userData = array_except($userData, ['profile', 'data', 'user_profile', 'user_data']);
+
         //获取有效的context缓存用户信息
         $user_id = $userData['id'] ?? null;
         if ($user_id) {
@@ -139,8 +141,14 @@ function getUser($throw = true)
     }
 
     throw_if(is_null($user) && $throw, UserException::class, '客户端还没登录...');
-    //add to request context, cache current user
-    request()->request->add(['user' => json_encode($user)]);
+    //请求中，缓存用户对象，不缓存profile和 data
+    $cache_user               = clone $user;
+    $cache_user->profile      = null;
+    $cache_user->data         = null;
+    $cache_user->user_profile = null;
+    $cache_user->user_data    = null;
+
+    request()->request->add(['user' => json_encode($cache_user)]);
 
     return $user;
 }
