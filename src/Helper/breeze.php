@@ -146,13 +146,15 @@ function getUser($throw = true)
         return null;
     }
     //请求中，缓存用户对象，不缓存profile和 data
-    $cache_user               = clone $user;
-    $cache_user->profile      = null;
-    $cache_user->data         = null;
-    $cache_user->user_profile = null;
-    $cache_user->user_data    = null;
+    if($user){
+        $cache_user               = clone $user;
+        $cache_user->profile      = null;
+        $cache_user->data         = null;
+        $cache_user->user_profile = null;
+        $cache_user->user_data    = null;
 
-    request()->request->add(['user' => json_encode($cache_user)]);
+        request()->request->add(['user' => json_encode($cache_user)]);
+    }
 
     return $user;
 }
