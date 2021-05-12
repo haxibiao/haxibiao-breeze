@@ -54,6 +54,8 @@
     @if (Auth::check())
         <script type="text/javascript">
             window.appName = '{{ seo_site_name() }}';
+			window.app = '{{ env('APP_NAME') }}';
+			window.haxiyun_endpoint = '{{ env('HAXIYUN_ENDPOINT','http://media.haxibiao.com') }}'
             window.tokenize = function(api_url) {
                 var api_token = '{{ Auth::user()->api_token }}'
                 if (api_url.indexOf('?') === -1) {

@@ -202,7 +202,7 @@ export default {
                 videoFile: videoFile, //视频，类型为 File
                 getSignature: function(callback) {
                     $.ajax({
-                        url: '/sdk/qcvod.php', //获取客户端上传签名的 URL
+                        url: window.haxiyun_endpoint + '/api/video/vod/sign/' + window.app, //获取客户端上传签名的 URL
                         type: 'GET',
                         success: function(signature) {
                             //result 是派发签名服务器的回包
