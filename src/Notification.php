@@ -2,6 +2,8 @@
 
 namespace Haxibiao\Breeze;
 
+use Haxibiao\Breeze\Traits\NotificationAttrs;
+use Haxibiao\Breeze\Traits\NotificationResolver;
 use Haxibiao\Breeze\User;
 use Haxibiao\Sns\Comment;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -9,6 +11,8 @@ use Illuminate\Notifications\DatabaseNotification;
 
 class Notification extends DatabaseNotification
 {
+
+    use NotificationAttrs, NotificationResolver;
     //通知的主体信息
     public function getBodyAttribute()
     {
@@ -178,4 +182,10 @@ class Notification extends DatabaseNotification
     {
         return $this->getCommentAttribute();
     }
+
+    public function target()
+    {
+        return $this->morphTo();
+    }
+
 }

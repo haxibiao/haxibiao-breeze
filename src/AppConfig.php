@@ -4,7 +4,6 @@ namespace Haxibiao\Breeze;
 
 use Illuminate\Database\Eloquent\Model;
 
-
 class AppConfig extends Model
 {
     protected $fillable = [
@@ -35,9 +34,9 @@ class AppConfig extends Model
     // 全版本
     public const ALL_VERSION = 'all';
     //版本开关
-    public  function isOpen($app_version)
+    public function isOpen($app_version)
     {
-        $appConfig = $this;
+        $appConfig      = $this;
         $switch_version = $appConfig->app_version;
         if ($app_version && $switch_version != self::ALL_VERSION) {
 
@@ -46,7 +45,7 @@ class AppConfig extends Model
                 return $appConfig->status;
             } else {
                 //非规定版本则跟开关相反
-                return $appConfig->status=='on'?'off':'on';
+                return $appConfig->status == 'on' ? 'off' : 'on';
             }
 
         } else {
@@ -54,6 +53,16 @@ class AppConfig extends Model
             return $appConfig->status;
         }
 
+    }
+
+    public function scopeGroup($query, $group)
+    {
+        return $query->where('group', $group);
+    }
+
+    public function scopeSeo($query)
+    {
+        return $query->whereIn('group', ['SEO_KEYWORDS', 'SEO_CUSTOM_SCRIPT', 'SEO_CUSTOM_META']);
     }
 
 }

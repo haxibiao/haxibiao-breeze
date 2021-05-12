@@ -12,19 +12,27 @@ class OAuth extends Model
     use OAuthResolvers;
     use OAuthRepo;
 
-    protected $fillable = [
-        'user_id',
-        'oauth_id',
-        'oauth_type',
-        'data',
+    protected $guarded = [
     ];
 
     protected $casts = [
         'data' => 'array',
     ];
 
-    public function user(): BelongsTo
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
+
+    public function scopeOfType($query, $value)
+    {
+        return is_array($value) ? $query->whereIn('oauth_type', $value) : $query->where('oauth_type', $value);
+    }
+
+    public function scopeUnionId($query, $type, $value)
+    {
+        $field = OAuth::getUnionIdField($type);
+        return $query->where($field, $value);
+    }
+
 }

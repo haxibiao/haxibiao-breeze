@@ -2,7 +2,6 @@
 
 namespace Haxibiao\Breeze\Traits;
 
-
 use GraphQL\Type\Definition\ResolveInfo;
 use Haxibiao\Breeze\Exceptions\GQLException;
 use Haxibiao\Breeze\OAuth;
@@ -27,7 +26,7 @@ trait OAuthResolvers
         return $this->bind($user, $code, $type);
     }
 
-    public function bind( $user, $code, $type)
+    public function bind($user, $code, $type)
     {
         // throw_if(OAuth::getUserOauth($user, $type), GQLException::class, '您已绑定成功,请直接登录!');
         throw_if(!method_exists($this, $type), GQLException::class, '绑定失败,该授权方式不存在!');

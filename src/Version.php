@@ -4,7 +4,6 @@ namespace Haxibiao\Breeze;
 
 use Illuminate\Database\Eloquent\Model;
 
-
 class Version extends Model
 {
     protected $fillable = [
@@ -71,10 +70,5 @@ class Version extends Model
     {
         $statuses = self::getStatuses();
         return array_key_exists($this->status, $statuses) ? $statuses[$this->status] : null;
-    }
-
-    public static function getLatestVersion(): Version
-    {
-        return Version::latest('id')->first();
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-use App\AppConfig;
+use Haxibiao\Breeze\AppConfig;
 use Illuminate\Database\Seeder;
 
 class AppConfigSeeder extends Seeder

@@ -1,6 +1,6 @@
 <?php
 
-use App\AdConfig;
+use Haxibiao\Breeze\AdConfig;
 use Illuminate\Database\Seeder;
 
 class AdConfigSeeder extends Seeder
