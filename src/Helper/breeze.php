@@ -140,7 +140,11 @@ function getUser($throw = true)
         }
     }
 
-    throw_if(is_null($user) && $throw, UserException::class, '客户端还没登录...');
+    //throw is false
+    if((empty($user)||!$user) ){
+        throw_if( $throw, UserException::class, '客户端还没登录...');
+        return null;
+    }
     //请求中，缓存用户对象，不缓存profile和 data
     $cache_user               = clone $user;
     $cache_user->profile      = null;

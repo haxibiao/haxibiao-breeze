@@ -7,6 +7,7 @@ use Haxibiao\Breeze\Model;
 use Haxibiao\Breeze\User;
 use Haxibiao\Content\Post;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Schema;
 
 /**
  * 提供用户基础资料和公开统计数据，为task何dimension提供方便的数据获取
@@ -25,11 +26,12 @@ class UserProfile extends Model
     public static function boot()
     {
         parent::boot();
-
         //保存时触发
         self::saving(function ($post) {
-            if (empty($post->source)) {
-                $post->source = "unkown";
+            if (Schema::hasColumn("user_profiles", 'source')) {
+                if(empty($post->source)) {
+                    $post->source = "unkown";
+                }
             }
         });
     }
@@ -103,5 +105,4 @@ class UserProfile extends Model
     {
         $this->followers_count = $this->user->followers()->count();
     }
-
 }
