@@ -264,7 +264,7 @@ class UserController extends Controller
 
     public function favorites(Request $request)
     {
-        if (checkUser()) {
+        if (currentUser()) {
             $user    = $request->user();
             $movieID = Favorite::where('user_id', $user->id)
                 ->where('favorable_type', 'movies')

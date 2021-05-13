@@ -332,7 +332,7 @@ trait UserAttrs
     public function getFollowedIdAttribute()
     {
         return $this->remember('followable_id', 0, function () {
-            if ($user = checkUser()) {
+            if ($user = currentUser()) {
                 $follow = Follow::where([
                     'user_id'         => $user->id,
                     'followable_type' => 'users',
@@ -597,7 +597,7 @@ trait UserAttrs
 
     public function getFollowedStatusAttribute()
     {
-        $user = checkUser();
+        $user = currentUser();
 
         if (!is_null($user)) {
             return $user->isFollow('users', $this->id);

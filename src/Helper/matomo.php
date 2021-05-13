@@ -33,7 +33,7 @@ if (!function_exists('app_track_event')) {
         }
         //是否开启管理员账号行为不埋点
         if (config('matomo.matomo_user', false)) {
-            if (checkUser() && getUser()->role_id != \App\User::USER_STATUS) {
+            if (isAdmin()) {
                 return;
             }
         }

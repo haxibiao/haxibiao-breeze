@@ -353,7 +353,7 @@ trait UserResolvers
         // 去除 lighthouse 自动传递的参数
         unset($args['directive']);
 
-        if ($user = checkUser()) {
+        if ($user = currentUser()) {
             if (isset($args['phone'])) {
                 // 验证手机号
                 $flag = preg_match('/^[1](([3][0-9])|([4][5-9])|([5][0-3,5-9])|([6][5,6])|([7][0-8])|([8][0-9])|([9][1,8,9]))[0-9]{8}$/', $args['phone']);
@@ -414,7 +414,7 @@ trait UserResolvers
 
     public function destoryUserByToken($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        if ($user = checkUser()) {
+        if ($user = currentUser()) {
             $user->destoryUser();
             return true;
         }
@@ -424,7 +424,7 @@ trait UserResolvers
     //观看新手教程或采集视频教程任务状态变更
     public function newUserReword($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $user = checkUser();
+        $user = currentUser();
         $type = $args['type'];
         if ($type === 'newUser') {
             $task             = Task::where("name", "观看新手视频教程")->first();
@@ -444,7 +444,7 @@ trait UserResolvers
 
     public function bindDongdezhuan($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        if ($user = checkUser()) {
+        if ($user = currentUser()) {
             //不允许用户从APP手动指定绑懂得赚账户，必须默认本手机...
             $user->bindDDZ();
             return true;

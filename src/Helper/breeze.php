@@ -5,7 +5,6 @@ use App\User;
 use Haxibiao\Breeze\Breeze;
 use Haxibiao\Breeze\Exceptions\UserException;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 
 if (!function_exists('register_routes')) {
     function register_routes($path)
@@ -83,24 +82,12 @@ function checkUserDevice()
 }
 
 /**
- * 检查并返回当前登录用户
- *
- * @return User
+ * 读取当前请求缓存的登录用户
+ * @deprecated  新版本方法叫 currentUser()
+ * @return User|null
  */
 function checkUser()
 {
-    return getUser(false);
-}
-
-/**
- * 获取当前用户，兼容api guard 和 token guard, 和旧版自定义token header
- *
- * @param boolean $throw 是否丢未登录异常，默认丢
- * @return User
- */
-function getUser($throw = true)
-{
-    //fetch current request context cached user
     if ($userJson = request('user')) {
         $userData = is_array($userJson) ? $userJson : json_decode($userJson, true);
         $userData = array_except($userData, ['profile', 'data', 'user_profile', 'user_data']);
@@ -114,14 +101,30 @@ function getUser($throw = true)
             return $user;
         }
     }
+    return getUser(false);
+}
 
-    //兼容 api routes
+/**
+ * 读取当前请求缓存的登录用户(只读用，更新用getUser)
+ */
+function currentUser()
+{
+    return checkUser();
+}
+
+/**
+ * 获取当前用户，兼容api guard 和 token guard, 和旧版自定义token header
+ *
+ * @param boolean $throw 是否丢未登录异常，默认丢
+ * @return User
+ */
+function getUser($throw = true)
+{
+    // api 场景
     $user = auth('api')->user() ?? request()->user();
 
     if (blank($user)) {
-        //兼容 app的场景，gql模式
-
-        //获得token，兼容api guard 和 token guard, 和旧版自定义token header
+        //兼容多场景(app) 获得token
         $token = request()->bearerToken();
         if (blank($token)) {
             $token = request()->header('token') ?? request('api_token') ?? request('token');
@@ -133,40 +136,47 @@ function getUser($throw = true)
         }
 
         if (blank($user)) {
-            //兼容 web routes - 极少用
-            if ($user = Auth::user()) {
-                return $user;
-            }
+            // web 场景
+            $user = Auth::user();
         }
     }
 
-    //throw is false
-    if((empty($user)||!$user) ){
-        throw_if( $throw, UserException::class, '客户端还没登录...');
+    //getUser模式默认支持提示登录失败
+    $isValidUser = isset($user) && $user->id > 0;
+    if (!$isValidUser) {
+        throw_if($throw, UserException::class, '客户端还没登录...');
         return null;
-    }
-    //请求中，缓存用户对象，不缓存profile和 data
-    if($user){
+    } else {
+        //请求中，缓存用户对象，不缓存profile和 data
         $cache_user               = clone $user;
         $cache_user->profile      = null;
         $cache_user->data         = null;
         $cache_user->user_profile = null;
         $cache_user->user_data    = null;
-
         request()->request->add(['user' => json_encode($cache_user)]);
     }
 
     return $user;
 }
 
-//获取当前用户ID
+/**
+ * 获取当前登录用户的ID
+ * @return int|null
+ */
 function getUserId()
 {
-    //兼容哈希表ImageRepo允许外部上传图片，不丢异常
-    if ($user = getUser(false)) {
+    if ($user = currentUser()) {
         return $user->id;
     }
-    return 0;
+    return null;
+}
+
+function isAdmin()
+{
+    if ($user = currentUser()) {
+        return isset($user->role_id) && $user->role_id = User::ADMIN_STATUS;
+    }
+    return false;
 }
 
 function getUserById($id)
@@ -189,7 +199,7 @@ function user_id()
  */
 function is_follow($type, $id)
 {
-    $user = checkUser();
+    $user = currentUser();
     if ($user && !is_string($user)) {
         return $user->isFollow($type, $id);
     }
@@ -201,7 +211,7 @@ function is_follow($type, $id)
  */
 function checkEditor()
 {
-    if ($user = checkUser()) {
+    if ($user = currentUser()) {
         return $user->checkEditor();
     }
     return false;
@@ -212,7 +222,7 @@ function checkEditor()
  */
 function checkAdmin()
 {
-    if ($user = checkUser()) {
+    if ($user = currentUser()) {
         return $user->checkAdmin();
     }
     return false;
