@@ -44,8 +44,10 @@ trait UserAttrs
         $profile     = UserProfile::firstOrNew(['user_id' => $this->id]);
         $app_version = request()->header('version', null);
         //用户开始新增时激活的版本号
-        $profile->app_version = $app_version;
-        $profile->save();
+        if ($app_version) {
+            $profile->app_version = $app_version;
+            $profile->save();
+        }
         return $profile;
     }
 
