@@ -20,21 +20,7 @@ class BreezeServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'Haxibiao\Breeze\Events\NewReport'  => [
-            'Haxibiao\Breeze\Listeners\SendNewReportNotification',
-        ],
-        'Haxibiao\Breeze\Events\NewLike'    => [
-            'Haxibiao\Breeze\Listeners\SendNewLikeNotification',
-        ],
-        'Haxibiao\Breeze\Events\NewFollow'  => [
-            'Haxibiao\Breeze\Listeners\SendNewFollowNotification',
-        ],
-        'Haxibiao\Breeze\Events\NewComment' => [
-            'Haxibiao\Breeze\Listeners\SendNewCommentNotification',
-        ],
-        'Haxibiao\Breeze\Events\NewMessage' => [
-            'Haxibiao\Breeze\Listeners\SendNewMessageNotification',
-        ],
+
     ];
 
     /**

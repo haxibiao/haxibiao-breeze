@@ -2,9 +2,9 @@
 
 namespace Haxibiao\Breeze\Listeners;
 
-use App\Follow;
 use Haxibiao\Breeze\Events\NewFollow;
 use Haxibiao\Breeze\Notifications\UserFollowed;
+use Haxibiao\Sns\Follow;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 class SendNewFollowNotification implements ShouldQueue
@@ -24,6 +24,7 @@ class SendNewFollowNotification implements ShouldQueue
      */
     public function handle(NewFollow $event)
     {
+
         //TODO:: 汇总新关注通知
         $follow = $event->follow;
         $user   = $follow->user;
