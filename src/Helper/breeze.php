@@ -87,9 +87,10 @@ function checkUserDevice()
  * @return User|null
  */
 function checkUser()
-{
+{   
     if ($userJson = request('user')) {
         $userData = is_array($userJson) ? $userJson : json_decode($userJson, true);
+        $userData = is_array($userData) ? $userData : json_decode(request()->user(), true);
         $userData = array_except($userData, ['profile', 'data', 'user_profile', 'user_data']);
 
         //获取有效的context缓存用户信息
