@@ -26,13 +26,13 @@ class SendNewLikeNotification implements ShouldQueue
     public function handle(NewLike $event)
     {
 
-        $this->like = $event->like;
-        $likable    = $this->like->likable;
+        $like = $event->like;
+        $likable    = $like->likable;
 
         if (!is_null($likable)) {
             $likableUser = $likable->user;
             if (!is_null($likableUser)) {
-                $likable->user->notify(new LikedNotification($this->like));
+                $likable->user->notify(new LikedNotification($like));
             }
         }
     }
