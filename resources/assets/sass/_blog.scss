@@ -1,0 +1,220 @@
+body #app {
+    background: #f9f9f9;
+    min-height: 100vh;
+}
+
+.view-left {
+    float: left;
+    width: 72%;
+    background: #fff;
+    border-radius: 5px;
+    padding: 35px;
+
+    .blog-title {
+        line-height: 1.5;
+    }
+
+    .blog-author {
+        display: flex;
+        padding: 2rem 0;
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .avatar-view {
+            .avatar-img {
+                width: 40px;
+                height: 40px;
+                border-radius: 40px;
+            }
+        }
+
+        .author-info {
+            padding: 2.5px 0;
+            margin-left: 15px;
+            flex: 1;
+
+            .name {
+            }
+
+            .blog-info {
+                margin-top: 5px;
+                display: flex;
+                color: #0006;
+
+                * {
+                    margin-right: 10px;
+                }
+
+                .time {
+                }
+
+                .reading {
+                }
+
+                .heat-degree {
+                }
+            }
+        }
+
+        .follow-view {
+            display: flex;
+            align-items: center;
+            text-align: center;
+
+            button {
+                padding: 5px 25px;
+                margin: auto 0;
+                border: 1px solid rgba(85, 114, 128, 0.9);
+                color: rgba(85, 114, 128, 0.9);
+                background-color: #fff;
+                border-radius: 5px;
+            }
+
+            // 关注状态样式
+            .sure {
+                background: rgba(85, 114, 128, 0.5);
+                border: 1px solid rgba(85, 114, 128, 0.9);
+                color: #fff;
+            }
+
+            // 未关注状态样式
+            .negative {
+                background: #fff;
+                border: 1px solid rgba(85, 114, 128, 0.9);
+                color: rgba(85, 114, 128, 0.9);
+            }
+        }
+    }
+
+    .blog-head {
+        position: relative;
+        border-bottom: 1px solid #e7e7e7;
+        margin-bottom: 1rem;
+    }
+
+    .blog-head:after {
+        content: '';
+        background-color: #282828;
+        left: 0;
+        width: 60px;
+        height: 2px;
+        bottom: -2px;
+        position: absolute;
+        -webkit-transition: 0.5s;
+        -moz-transition: 0.5s;
+        -ms-transition: 0.5s;
+        -o-transition: 0.5s;
+        transition: 0.5s;
+    }
+
+    .blog-copyright {
+        width: 100%;
+        // text-align: end;
+        margin: 5rem 0 2rem 0;
+        padding-top: 1rem;
+        border-top: 1px solid #e7e7e7;
+
+        span {
+            color: #0006;
+            font-weight: lighter;
+        }
+    }
+
+    .blog-operation {
+        display: flex;
+
+        svg {
+            fill: #148570;
+            width: 2rem;
+            margin-right: 1rem;
+        }
+        span {
+            color: #148570;
+        }
+        button {
+            display: flex;
+            padding: 10px 15px;
+            background: #fff;
+            border: 1px solid #148570;
+            border-radius: 5px;
+        }
+
+        // 点赞状态样式
+        .sure {
+            background: #148570af;
+            border: 1px solid #148570;
+
+            svg {
+                fill: #fff;
+            }
+            span {
+                color: #fff;
+            }
+        }
+
+        // 未点赞状态样式
+        .negative {
+            background: #fff;
+            border: 1px solid #148570;
+
+            svg {
+                fill: #148570;
+            }
+            span {
+                color: #148570;
+            }
+        }
+
+        .other-view {
+            display: flex;
+        }
+    }
+}
+
+.view-right {
+    float: right;
+    width: 26.5%;
+
+    .ad-img {
+        width: 100%;
+        border-radius: 5px;
+    }
+}
+
+@media screen and(max-width:768px) {
+    .view-left {
+        width: 100%;
+        border-radius: 0;
+
+        .blog-info {
+            .time {
+                visibility: hidden;
+                display: none;
+            }
+        }
+    }
+
+    .view-right {
+        visibility: hidden;
+        display: none;
+    }
+}
+
+// ----------- 下面的是博客渲染样式 ----------
+
+$errorColor: #d23f31 !default;
+$blurColor: #4285f4 !default;
+
+$font-family-base: 'Helvetica Neue', 'Luxi Sans', 'DejaVu Sans', 'Hiragino Sans GB', 'Microsoft Yahei', sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', 'Segoe UI Symbol', 'Android Emoji', 'EmojiSymbols' !default;
+$font-family-code: mononoki, Consolas, 'Liberation Mono', Menlo, Courier, monospace, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Noto Color Emoji', 'Segoe UI Symbol', 'Android Emoji', 'EmojiSymbols' !default;
+
+$transition: all 0.15s ease-in-out !default;
+
+$max-width: 520px !default;
+
+@import '../components/blog_body';

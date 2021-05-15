@@ -1,18 +1,21 @@
 // theme
-@import "theme";
+@import 'theme';
 
 // Variables
-@import "variables";
+@import 'variables';
 
 // Bootstrap
-@import "bootstrap";
+@import 'bootstrap';
 
 // layout
-@import "mixins";
-@import "elements";
-@import "components";
-@import "layouts";
-@import "pages";
+@import 'mixins';
+@import 'elements';
+@import 'components';
+@import 'layouts';
+@import 'pages';
+
+// 博客页面样式
+@import 'blog';
 
 // 创作编辑器样式
-@import "write";
+@import 'write';
