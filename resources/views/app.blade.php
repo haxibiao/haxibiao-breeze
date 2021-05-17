@@ -80,7 +80,7 @@
       <div class="row">
       <div class="container bottom-part">
         <div class="download-web">
-          <img class="bottom-qrcode" src="{{ app_qrcode_url() }}"" alt="扫码下载{{ seo_site_name() }}APP">
+          <img class="bottom-qrcode" src="{{ app_qrcode_url() }}" alt="扫码下载{{ seo_site_name() }}APP">
           <img class="background-img" src="/images/app/appBackground.png" alt="Misc background">
           <div>扫码下载{{ seo_site_name() }}</div>
         </div>
