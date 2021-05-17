@@ -15,6 +15,7 @@ use Haxibiao\Helpers\Traits\CanCacheAttributes;
 use Haxibiao\Media\Traits\UseMedia;
 use Haxibiao\Sns\Traits\UseSns;
 use Haxibiao\Task\Traits\PlayWithTasks;
+use Haxibiao\Wallet\Traits\PlayWithWallet;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Model;
@@ -39,6 +40,7 @@ class BaseUser extends Model implements AuthenticatableContract, AuthorizableCon
     use UseContent;
     use UseSns;
     use PlayWithTasks;
+    use PlayWithWallet;
 
     public function getMorphClass()
     {
