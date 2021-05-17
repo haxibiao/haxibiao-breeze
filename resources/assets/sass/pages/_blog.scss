@@ -1,7 +1,12 @@
-body #app {
-    background: #f9f9f9;
-    min-height: 100vh;
-}
+// 博客正文样式
+@import '../components/blogBody';
+
+// body #app {
+//     background: #f9f9f9;
+//     min-height: 100vh;
+// }
+
+// 博客页面布局的样式
 
 .view-left {
     float: left;
@@ -202,19 +207,3 @@ body #app {
         display: none;
     }
 }
-
-// ----------- 下面的是博客渲染样式 ----------
-
-$errorColor: #d23f31 !default;
-$blurColor: #4285f4 !default;
-
-$font-family-base: 'Helvetica Neue', 'Luxi Sans', 'DejaVu Sans', 'Hiragino Sans GB', 'Microsoft Yahei', sans-serif,
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', 'Segoe UI Symbol', 'Android Emoji', 'EmojiSymbols' !default;
-$font-family-code: mononoki, Consolas, 'Liberation Mono', Menlo, Courier, monospace, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Noto Color Emoji', 'Segoe UI Symbol', 'Android Emoji', 'EmojiSymbols' !default;
-
-$transition: all 0.15s ease-in-out !default;
-
-$max-width: 520px !default;
-
-@import '../components/blog_body';

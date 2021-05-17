@@ -35,6 +35,7 @@ mix.scripts(
         'resources/assets/js/plugins/bootstrap-tagsinput.js',
         'resources/assets/js/plugins/jquery-form.js',
         'resources/assets/js/plugins/at.js',
+        'resources/assets/js/plugins/share.js', //亮仔的分享下载页面
         'resources/assets/js/plugins/jquery.caret.js',
         'resources/assets/js/plugins/vod-js-sdk.js',
     ],

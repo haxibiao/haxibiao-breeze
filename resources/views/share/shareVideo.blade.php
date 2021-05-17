@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,13 +7,20 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	{{-- icon --}}
+    <link rel="icon" type="image/png" href="{{ small_logo() }}" sizes="60*60">
+    <link rel="icon" type="image/png" href="{{ web_logo() }}" sizes="120*120">
+    <link rel="apple-touch-icon" href="{{ touch_logo() }}" sizes="160*160">
+    <link href="{{ small_logo() }}" rel="icon" type="image/x-ico">
+	
     <title>{{ seo_site_name() }}</title>
     <link rel="stylesheet" href="{{ breeze_mix('/css/breeze.css') }}" />
-    <link rel="stylesheet" href="{{ asset('/css/index.css') }}" />
+    <link rel="stylesheet" href="{{ asset('/css/share.css') }}" />
 </head>
 
 <body>
 
+<div class="share-body">
     <header style="z-index: 99999999;">
         <div class="head-left">
             <img class="logo" src="{{ small_logo() }}">
@@ -78,9 +84,11 @@
             <p class="bottom-desc" style="font-size: .14rem;">{{ $article->body }}</p>
         </div>
     </div>
+</div>
 </body>
-<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
-<script src="{{ asset('/js/main.js') }}"></script>
+
+<script src="{{ breeze_mix('/js/breeze.js') }}"></script>
+
 <script type="text/javascript">
     function getDownloadUrl() {
         let DownloadLink;
