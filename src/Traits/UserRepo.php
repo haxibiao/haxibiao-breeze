@@ -900,4 +900,31 @@ trait UserRepo
     public function rewardExpAndLevelUp()
     { //兼容接口
     }
+
+    //兼容wallet提现
+    public function withdrawWallet($type)
+    {
+        if ($type == Withdraw::INVITE_ACTIVITY_TYPE) {
+            return $this->invitationWallet;
+        } else if ($type == Withdraw::LUCKYDRAW_TYPE) {
+            return $this->luckyDrawWallet;
+        } else {
+            return $this->wallet;
+        }
+    }
+
+    public function isBad($strict = false)
+    {
+        $user      = $this;
+        $isBadUser = $user->is_disable;
+        if (!$isBadUser && $strict) {
+            $isBadUser = is_null($user->wallet);
+        }
+
+        if (!$isBadUser) {
+            $isBadUser = $user->isShuaZi;
+        }
+
+        return $isBadUser;
+    }
 }
