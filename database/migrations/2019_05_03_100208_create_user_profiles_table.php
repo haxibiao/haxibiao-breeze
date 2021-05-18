@@ -13,7 +13,7 @@ class CreateUserProfilesTable extends Migration
      */
     public function up()
     {
-        if(Schema::hasTable('profiles') && !Schema::hasTable('user_profiles')){
+        if (Schema::hasTable('profiles') && !Schema::hasTable('user_profiles')) {
             Schema::rename('profiles', 'user_profiles');
         }
 
@@ -30,7 +30,13 @@ class CreateUserProfilesTable extends Migration
             $table->string('source', 30)->index()->default('unknown')->comment('下载来源');
             $table->json('position')->nullable()->comment('用户位置信息');
             $table->string('introduction')->default('')->comment('介绍');
-            $table->timestamp('birthday')->nullable()->comment('生日');
+
+            //生日解藕生年、生月、生日三个字段
+            $table->string('birth_on_year')->nullable()->comment('生年');
+            $table->string('birth_on_month')->nullable()->comment('生月');
+            $table->string('birth_on_day')->nullable()->comment('生日');
+            $table->string('birthday')->nullable()->comment('完整生日');
+
             $table->string('sub_name', 30)->nullable()->comment('头衔');
             $table->string('qq')->nullable();
             $table->string('background')->nullable()->comment('用户背景图');
@@ -106,7 +112,6 @@ class CreateUserProfilesTable extends Migration
             $table->string('qrcode')->nullable();
             $table->string('app_version')->nullable()->comment('用户最后活跃时的App版本号');
             $table->unsignedInteger('keep_checkin_days')->default(0)->comment('连续签到日');
-
 
             $table->timestamps();
         });

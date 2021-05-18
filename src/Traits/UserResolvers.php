@@ -379,10 +379,18 @@ trait UserResolvers
                             $profile_infos[$index] = User::getGenderNumber($args[$index]);
                         }
                         if ($index == "birthday") {
-                            $birthday_str = $args[$index];
+                            $birthday_str                    = $args[$index];
+                            $strs                            = explode("-", str_before($birthday_str, " "));
+                            $profile_infos['birth_on_year']  = $strs[0];
+                            $profile_infos['birth_on_month'] = $strs[1];
+                            $profile_infos['birth_on_day']   = $strs[2];
+                            //大于70年的还是继续尊重birthday
+                            //小于等于70年1月1日的尊重拆解字段
+                            $profile_infos[$index] = $birthday_str;
                             //默认生日未修改的，记录null
                             //FIXME: 生日记录年，月，日字段比较合理，这样不兼容生日为1970年以前的用户了
-                            if (Str::contains($birthday_str, "1970-1-1") || Str::contains($birthday_str, "1970-01-01")) {
+                            if ($strs[0] < 1970 || Str::contains($birthday_str, "1970-1-1") || Str::contains($birthday_str, "1970-01-01")) {
+                                //70年以前的用户就不用birthday字段存生日了，该用拆解的字段
                                 $profile_infos[$index] = null;
                             }
                         }

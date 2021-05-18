@@ -29,7 +29,7 @@ class UserProfile extends Model
         //保存时触发
         self::saving(function ($post) {
             if (Schema::hasColumn("user_profiles", 'source')) {
-                if(empty($post->source)) {
+                if (empty($post->source)) {
                     $post->source = "unkown";
                 }
             }
@@ -92,6 +92,21 @@ class UserProfile extends Model
     {
         $callable = [$this, 'postsCount'];
         return $this->getCachedAttribute('postsCount', $callable);
+    }
+
+    public function getBirthDayAttribute()
+    {
+        $birthday = $this->attributes['birthday'];
+        if ($birthday) {
+            return $birthday;
+        }
+        $birth_day   = $this->attributes['birth_on_day'];
+        $birth_month = $this->attributes['birth_on_month'];
+        $birth_year  = $this->attributes['birth_on_year'];
+        if ($birth_day && $birth_month && $birth_year) {
+            return Carbon::parse($birth_year . "-" . $birth_month . "-" . $birth_day . " 00:00:00");
+        }
+        return null;
     }
 
     public function postsCount()
