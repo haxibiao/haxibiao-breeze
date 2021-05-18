@@ -3,7 +3,6 @@
 namespace Haxibiao\Breeze\Traits;
 
 use App\Gold;
-use Carbon\Carbon;
 use GraphQL\Type\Definition\ResolveInfo;
 use Haxibiao\Breeze\Exceptions\GQLException;
 use Haxibiao\Breeze\Ip;
@@ -380,8 +379,11 @@ trait UserResolvers
                             $profile_infos[$index] = User::getGenderNumber($args[$index]);
                         }
                         if ($index == "birthday") {
-                            if (Str::contains($args[$index], "1970-1-1")) {
-                                $profile_infos[$index] = Carbon::parse($args[$index])->addHour(23)->addMinute(59)->addSecond(59);
+                            $birthday_str = $args[$index];
+                            //默认生日未修改的，记录null
+                            //FIXME: 生日记录年，月，日字段比较合理，这样不兼容生日为1970年以前的用户了
+                            if (Str::contains($birthday_str, "1970-1-1") || Str::contains($birthday_str, "1970-01-01")) {
+                                $profile_infos[$index] = null;
                             }
                         }
                     }
