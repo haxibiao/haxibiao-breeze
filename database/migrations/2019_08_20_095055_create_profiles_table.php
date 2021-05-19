@@ -54,6 +54,7 @@ class CreateProfilesTable extends Migration
 
             //答题
             $table->unsignedInteger('questions_count')->index()->default(0)->comment('出题总数');
+            $table->unsignedInteger('answers_time_count')->index()->default(0)->comment('答题耗时总数');
             $table->unsignedInteger('answers_count')->index()->default(0)->comment('答题总数');
             $table->unsignedInteger('correct_count')->index()->default(0)->comment('答对总数');
             $table->timestamps();
