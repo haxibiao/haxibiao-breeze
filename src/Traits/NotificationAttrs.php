@@ -125,7 +125,7 @@ trait NotificationAttrs
         }
 
         if (is_null($target) && isset($this->data['like_id'])) {
-            return $this->target = Like::withTrashed()->find($this->data['like_id']);
+            return $this->target = Like::find($this->data['like_id']);
         }
     }
 
