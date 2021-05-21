@@ -76,8 +76,6 @@ class BreezeServiceProvider extends ServiceProvider
 
         $this->bindPathsInContainer();
 
-        $this->bindObservers();
-
         $this->loadRoutesFrom(
             __DIR__ . '/../router.php'
         );
@@ -91,6 +89,7 @@ class BreezeServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->bindObservers();
 
         //默认强制线上的站点支持https(google已开始强制站点只收录https多年)
         if (is_prod_env()) {
@@ -180,7 +179,6 @@ class BreezeServiceProvider extends ServiceProvider
 
         \Haxibiao\Breeze\BadWord::observe(\Haxibiao\Breeze\Observers\BadWordObserver::class);
         \Haxibiao\Task\Contribute::observe(\Haxibiao\Breeze\Observers\ContributeObserver::class);
-
         //\Haxibiao\Wallet\Gold::observe(\Haxibiao\Breeze\Observers\GoldObserver::class);
 
     }
