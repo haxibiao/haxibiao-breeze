@@ -2,9 +2,9 @@
 
 namespace Haxibiao\Breeze;
 
+use App\User;
 use Haxibiao\Breeze\Traits\NotificationAttrs;
 use Haxibiao\Breeze\Traits\NotificationResolver;
-use Haxibiao\Breeze\User;
 use Haxibiao\Sns\Comment;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Notifications\DatabaseNotification;
