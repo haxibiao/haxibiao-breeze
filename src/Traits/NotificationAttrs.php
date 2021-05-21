@@ -82,7 +82,7 @@ trait NotificationAttrs
         }
 
         if (is_null($target) && isset($this->data['follow_id'])) {
-            return $this->target = Follow::withTrashed()->find($this->data['follow_id']);
+            return $this->target = Follow::find($this->data['follow_id']);
         }
     }
 
