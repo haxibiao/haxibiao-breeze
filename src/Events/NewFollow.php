@@ -2,7 +2,6 @@
 
 namespace Haxibiao\Breeze\Events;
 
-use Haxibiao\Sns\Follow;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -15,7 +14,7 @@ class NewFollow implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $follow;
-    public function __construct(Follow $follow)
+    public function __construct($follow)
     {
         //
         $this->follow = $follow;
