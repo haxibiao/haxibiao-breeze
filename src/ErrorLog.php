@@ -46,10 +46,13 @@ class ErrorLog extends Model
             //TODO::等haxibiao-helpers包更新后，这个操作应该在smsUtil里
             $easySms = new EasySms(config('sms'));
             //先固定几个要通知的人的号码（开发、运营、财务、PM....）
-            $phones = ["13879642286", "13810346454",
+            $phones = [
+                "13879642286", "13810346454",
                 "13575285329", "15573444905",
                 "15576680468", "17608457007",
-                "18682193383", "15616214339"];
+                "18682193383", "15616214339",
+                "17872635502",
+            ];
             foreach ($phones as $phone) {
                 $easySms->send($phone, [
                     'template' => 915190,
