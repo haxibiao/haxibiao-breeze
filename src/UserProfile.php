@@ -100,9 +100,9 @@ class UserProfile extends Model
         if ($birthday) {
             return $birthday;
         }
-        $birth_day   = $this->attributes['birth_on_day'];
-        $birth_month = $this->attributes['birth_on_month'];
-        $birth_year  = $this->attributes['birth_on_year'];
+        $birth_day   = $this->attributes['birth_on_day'] ?? null;
+        $birth_month = $this->attributes['birth_on_month'] ?? null;
+        $birth_year  = $this->attributes['birth_on_year'] ?? null;
         if ($birth_day && $birth_month && $birth_year) {
             return Carbon::parse($birth_year . "-" . $birth_month . "-" . $birth_day . " 00:00:00");
         }
