@@ -27,8 +27,13 @@ class WithdrawObserver
      */
     public function updated(Withdraw $withdraw)
     {
-        $wallet = $withdraw->wallet;
-        $user   = $wallet->user;
+        $withdraw->syncData();
+        $user = $withdraw->user;
+        if (!is_null($user)) {
+            $user->profile->syncWithdrawCount();
+            $user->reviewTasksByClass(get_class($withdraw));
+        }
+
         $user->reviewTasksByClass(get_class($withdraw));
     }
 
