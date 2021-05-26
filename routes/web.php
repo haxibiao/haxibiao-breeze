@@ -65,9 +65,6 @@ Route::get('/profile', 'HomeController@profile')->name('profile');
 //weixin
 Route::get('/wechat', 'WechatController@serve');
 
-//支付
-Route::get('/pay', 'PayController@pay');
-
 //qrcode
 Route::get('/share/qrcode', 'SharingController@qrcode');
 
