@@ -4,6 +4,7 @@ namespace Haxibiao\Breeze\Traits;
 
 use GraphQL\Type\Definition\ResolveInfo;
 use Haxibiao\Breeze\Exceptions\GQLException;
+use Haxibiao\Breeze\Exceptions\UserException;
 use Haxibiao\Breeze\OAuth;
 use Haxibiao\Breeze\User;
 use Haxibiao\Helpers\utils\OAuthUtils;
