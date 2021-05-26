@@ -132,7 +132,7 @@ class OAuth extends Model
         return $oauth;
     }
 
-    public static function bindSite(User $user, $type, $siteDomain, $siteName)
+    public static function bindSite($user, $type, $siteDomain, $siteName)
     {
         $oauth = $user->oauths()->ofType($type)->first();
         if (is_null($oauth)) {
@@ -142,7 +142,7 @@ class OAuth extends Model
         return $oauth;
     }
 
-    private static function _bindSite(User $user, $siteDomain, $siteName, $type)
+    private static function _bindSite($user, $siteDomain, $siteName, $type)
     {
         //不要卡死用户提示,引导重新去登录,重新登录后会覆盖掉UUID
         $uuid = $user->uuid;
