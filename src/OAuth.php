@@ -9,11 +9,13 @@ use Haxibiao\Helpers\utils\SiteUtils;
 use Haxibiao\Wallet\Withdraw;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 
 class OAuth extends Model
 {
+    use SoftDeletes;
     use OAuthResolvers;
     use OAuthRepo;
 

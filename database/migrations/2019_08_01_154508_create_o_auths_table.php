@@ -21,6 +21,7 @@ class CreateOAuthsTable extends Migration
                 $table->string('oauth_id');
                 $table->json('data')->nullable()->comment('json');
                 $table->timestamps();
+                $table->softDeletes();
 
                 $table->index(['user_id', 'oauth_type', 'oauth_id']);
             });
