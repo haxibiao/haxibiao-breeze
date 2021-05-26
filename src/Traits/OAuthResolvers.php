@@ -6,6 +6,7 @@ use GraphQL\Type\Definition\ResolveInfo;
 use Haxibiao\Breeze\Exceptions\GQLException;
 use Haxibiao\Breeze\OAuth;
 use Haxibiao\Breeze\User;
+use Haxibiao\Helpers\utils\OAuthUtils;
 use Haxibiao\Helpers\utils\PayUtils;
 use Haxibiao\Helpers\utils\PhoneUtils;
 use Haxibiao\Helpers\utils\WechatUtils;
@@ -128,5 +129,42 @@ trait OAuthResolvers
         $user->save();
 
         return $oAuth;
+    }
+
+    public function resovlerOAuthBind($root, $args, $context, $info)
+    {
+        app_track_event("个人中心", "授权绑定", $args['oauth_type']);
+
+        return OAuthUtils::bind(getUser(), $args['code'], $args['oauth_type']);
+    }
+
+    public function resovlerWechatBindWithCode($root, $args, $context, $info)
+    {
+        return WechatUtils::bindWechatWithCode(getUser(), $args['code']);
+    }
+
+    public function resovlerWechatBindWithToken($root, $args, $context, $info)
+    {
+        return WechatUtils::bindWechatWithToken(getUser(), $args['access_token'], $args['open_id']);
+    }
+
+    public function resovlerQQBindWithToken($root, $args, $context, $info)
+    {
+        $user        = getUser();
+        $accessToken = $args['access_token'];
+        $openId      = $args['open_id'];
+
+        $userInfo = app('qpay')->userInfo($accessToken, $openId);
+        $ret      = Arr::get($userInfo, 'ret', -1);
+        throw_if($ret != 0, UserException::class, '绑定失败,腾讯QQ授权参数错误!');
+
+        $oauth = OAuth::firstOrNew(['oauth_type' => OAuth::QQ_AUTH, 'oauth_id' => $openId]);
+
+        if (isset($oauth->id)) {
+            throw_if($oauth->user_id == $user->id, UserException::class, '绑定失败,您的账号已绑定成功,请勿重复绑定!');
+            throw_if(true, UserException::class, '该QQ账户已被绑定,请尝试其他账户!');
+        }
+
+        return OAuth::store($user->id, OAuth::QQ_AUTH, $openId);
     }
 }
