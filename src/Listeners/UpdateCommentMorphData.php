@@ -2,11 +2,11 @@
 
 namespace Haxibiao\Breeze\Listeners;
 
-use App\Comment;
-use App\Events\NewComment;
-use App\Feedback;
-use App\Post;
-use App\Question;
+use Haxibiao\Breeze\Events\NewComment;
+use Haxibiao\Content\Post;
+use Haxibiao\Question\Question;
+use Haxibiao\Sns\Comment;
+use Haxibiao\Sns\Feedback;
 
 class UpdateCommentMorphData
 {
