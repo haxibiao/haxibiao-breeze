@@ -9,6 +9,7 @@ use App\Querylog;
 use App\UserProfile;
 use Haxibiao\Breeze\CheckIn;
 use Haxibiao\Breeze\OAuth;
+use Haxibiao\Breeze\Role;
 use Haxibiao\Breeze\UserData;
 use Haxibiao\Breeze\UserRetention;
 use Haxibiao\Content\Issue;
@@ -36,6 +37,11 @@ trait UserRelations
     public function profile(): HasOne
     {
         return $this->hasOne(UserProfile::class);
+    }
+
+    public function role()
+    {
+        return $this->hasOne(Role::class);
     }
 
     public function hasOneProfile()
