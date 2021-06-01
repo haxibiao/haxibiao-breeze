@@ -1,0 +1,10 @@
+<?php
+
+namespace App;
+
+use Haxibiao\Breeze\Role as BaseRole;
+
+class Role extends BaseRole
+{
+    //
+}
