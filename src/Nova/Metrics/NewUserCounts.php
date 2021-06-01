@@ -10,7 +10,7 @@ class NewUserCounts extends Trend
 {
     public $name = '新用户首日';
 
-    public $range = 7;
+    public $range = 30;
 
     public $ranges = [
         '平均智慧点'   => '平均智慧点',
@@ -50,7 +50,10 @@ class NewUserCounts extends Trend
      */
     public function ranges()
     {
-        return $this->ranges;
+        return [
+            30 => '最近30天内',
+            7  => '最近7天内',
+        ];
     }
 
     /**
