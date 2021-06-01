@@ -50,10 +50,7 @@ class NewUserCounts extends Trend
      */
     public function ranges()
     {
-        return [
-            30 => '最近30天内',
-            7  => '最近7天内',
-        ];
+        return $this->ranges;
     }
 
     /**
