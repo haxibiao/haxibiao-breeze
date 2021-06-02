@@ -38,9 +38,7 @@ class OAuth extends Model
 
     public function scopeUnionId($query, $type, $value)
     {
-        // $field = OAuth::getUnionIdField($type);
-        //union_id字段好像没有用
-        $field = "oauth_id";
+        $field = OAuth::getUnionIdField($type);
         return $query->where($field, $value);
     }
 
