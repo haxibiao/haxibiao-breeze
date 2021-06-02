@@ -407,6 +407,9 @@ trait UserResolvers
             if ($args['password'] ?? null) {
                 $user_infos['password'] = $args['password'];
             }
+            if ($args['avatar'] ?? null) {
+                $user->saveAvatar($args['avatar']);
+            }
             if (!empty($user_infos)) {
                 $user->update($user_infos);
             }
