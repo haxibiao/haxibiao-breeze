@@ -120,6 +120,11 @@ trait UserRelations
         return $this->hasMany(Querylog::class);
     }
 
+    public function questions()
+    {
+        return $this->hasMany(\App\Question::class);
+    }
+
     public function transactions()
     {
         return $this->hasMany(Transaction::class);
