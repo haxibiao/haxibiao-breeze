@@ -80,7 +80,7 @@ trait OAuthResolvers
 
     public function alipay(User $user, $code)
     {
-        throw_if(true, GQLException::class, '支付宝暂未开放,请稍后再试!');
+        // throw_if(true, GQLException::class, '支付宝暂未开放,请稍后再试!');
 
         $userInfo = PayUtils::userInfo($code);
         $openId   = Arr::get($userInfo, 'user_id');
