@@ -96,7 +96,7 @@ class UserProfile extends Model
 
     public function getBirthDayAttribute()
     {
-        $birthday = $this->attributes['birthday'];
+        $birthday = $this->attributes['birthday'] ?? null;
         if ($birthday) {
             return $birthday;
         }
