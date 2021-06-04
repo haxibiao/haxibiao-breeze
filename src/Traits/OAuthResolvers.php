@@ -25,7 +25,8 @@ trait OAuthResolvers
         $type = Arr::get($args, 'oauth_type');
         throw_if(empty($code) || empty($type), GQLException::class, '绑定失败,参数错误!');
 
-        return $this->bind($user, $code, $type);
+        //下面的绑定方法已经淘汰了
+        return OAuthUtils::bind($user, $code, $type);
     }
 
     public function bind($user, $code, $type)
