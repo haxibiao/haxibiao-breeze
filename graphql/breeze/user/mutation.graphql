@@ -51,6 +51,10 @@ type UserReward {
     已奖励精力
     """
     ticket: Int
+    """
+    贡献
+    """
+    contribute:Int
 }
 
 enum RewardEnum {
