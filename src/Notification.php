@@ -13,7 +13,8 @@ class Notification extends DatabaseNotification
 {
 
     use NotificationAttrs, NotificationResolver;
-    //通知的主体信息
+
+    //通知的行为描述
     public function getBodyAttribute()
     {
         //赞了你 评论的内容  @某某某 内容
@@ -63,9 +64,9 @@ class Notification extends DatabaseNotification
         }
     }
 
+    //通知类型
     public function getTypeNameAttribute()
     {
-        //回复了你的评论、在评论中提到了你...等等通知类型
         switch ($this->type) {
             case "Haxibiao\\Breeze\\Notifications\\ArticleApproved":
                 return "收录了动态";
@@ -112,6 +113,7 @@ class Notification extends DatabaseNotification
         return time_ago($this->created_at);
     }
 
+    //通知关联的用户
     public function getUserAttribute()
     {
         if (isset($this->data['user_id'])) {
@@ -121,63 +123,47 @@ class Notification extends DatabaseNotification
         return null;
     }
 
+    //通知关联的文章
     public function getArticleAttribute()
     {
         $modelType = data_get($this, 'data.type');
-        if (!in_array($modelType, ['posts', 'comments'])) {
-            return null;
-        }
-        if ($modelType == 'posts') {
-            $modelId = data_get($this, 'data.id');
-            if ($modelId) {
+        if ($modelType == 'articles') {
+            if ($modelId = data_get($this, 'data.id')) {
                 $modelString = Relation::getMorphedModel($modelType);
                 return $modelString::withTrashed()->find($modelId);
             }
             return null;
         }
-        $comment = $this->getCommentAttribute();
-        if (data_get($this, 'type') == 'Haxibiao\Breeze\Notifications\LikedNotification') {
-            $commentable = data_get($comment, 'commentable');
-            if ($commentable instanceof Comment) {
-                return data_get($comment, 'commentable.commentable');
-            }
-            return data_get($comment, 'commentable');
-        }
-        return data_get($comment, 'commentable.commentable');
     }
 
+    //通知关联的动态
     public function getPostAttribute()
     {
         $modelType = data_get($this, 'data.type');
-        if (in_array($modelType, ['posts', 'comments'])) {
-            return null;
-        }
+        //尊重通知数据里的posts id 即可
         if ($modelType == 'posts') {
-            $modelId = data_get($this, 'data.id');
-            if ($modelId) {
+            if ($modelId = data_get($this, 'data.id')) {
                 $modelString = Relation::getMorphedModel($modelType);
                 return $modelString::withTrashed()->find($modelId);
             }
-            return null;
-        }
-        $comment = $this->getCommentAttribute();
-        return data_get($comment, 'commentable.commentable');
-    }
-
-    public function getCommentAttribute()
-    {
-        $modelType = data_get($this, 'data.type');
-        if ($modelType != 'comments') {
-            return null;
-        }
-        $modelId = data_get($this, 'data.id');
-        if ($modelId) {
-            $modelString = Relation::getMorphedModel($modelType);
-            return $modelString::find($modelId);
         }
         return null;
     }
 
+    //通知关联的评论
+    public function getCommentAttribute()
+    {
+        $modelType = data_get($this, 'data.type');
+        if ($modelType == 'comments') {
+            if ($modelId = data_get($this, 'data.id')) {
+                $modelString = Relation::getMorphedModel($modelType);
+                return $modelString::withTrashed()->find($modelId);
+            }
+        }
+        return null;
+    }
+
+    //通知关联的回复
     public function getReplyAttribute()
     {
         return $this->getCommentAttribute();
