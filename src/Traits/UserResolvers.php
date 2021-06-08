@@ -57,9 +57,10 @@ trait UserResolvers
             ],
             'WATCH_REWARD_VIDEO'   => [
                 'value'       => [
-                    'gold'   => 10,
-                    'remark' => '观看激励视频奖励',
-                    'action' => 'WATCH_REWARD_VIDEO',
+                    'gold'       => 10,
+                    'contribute' => 3,
+                    'remark'     => '观看激励视频奖励',
+                    'action'     => 'WATCH_REWARD_VIDEO',
                 ],
                 'description' => '观看激励视频奖励',
             ],
