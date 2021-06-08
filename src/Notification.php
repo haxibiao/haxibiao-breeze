@@ -147,6 +147,13 @@ class Notification extends DatabaseNotification
                 return $modelString::withTrashed()->find($modelId);
             }
         }
+        //喜欢了动态
+        if ($modelType == 'likes' && data_get($this, 'data.likeable_type') == 'posts') {
+            if ($modelId = data_get($this, 'data.id')) {
+                $modelString = Relation::getMorphedModel('posts');
+                return $modelString::withTrashed()->find($modelId);
+            }
+        }
         return null;
     }
 
@@ -157,6 +164,13 @@ class Notification extends DatabaseNotification
         if ($modelType == 'comments') {
             if ($modelId = data_get($this, 'data.id')) {
                 $modelString = Relation::getMorphedModel($modelType);
+                return $modelString::withTrashed()->find($modelId);
+            }
+        }
+        //喜欢了评论
+        if ($modelType == 'likes' && data_get($this, 'data.likeable_type') == 'comments') {
+            if ($modelId = data_get($this, 'data.id')) {
+                $modelString = Relation::getMorphedModel('comments');
                 return $modelString::withTrashed()->find($modelId);
             }
         }
