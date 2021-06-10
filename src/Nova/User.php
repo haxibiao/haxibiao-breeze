@@ -38,8 +38,11 @@ class User extends Resource
 
             Gravatar::make()->maxWidth(50),
 
-            Text::make('Name')
+            Text::make('昵称', 'name')
                 ->sortable()
+                ->rules('required', 'max:255'),
+
+            Text::make('账号/手机', 'account')
                 ->rules('required', 'max:255'),
 
             Text::make('Email')
