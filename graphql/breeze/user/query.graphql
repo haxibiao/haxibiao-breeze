@@ -13,7 +13,6 @@ type User {
     unread_others: Int
     unread_chat: Int
     count_articles: Int @rename(attribute: "count_posts") @deprecated(reason: "改属性已经弃用，请使用count_posts")
-    count_likes: Int
     count_posts: Int
     count_production: Int
     count_likes: Int
