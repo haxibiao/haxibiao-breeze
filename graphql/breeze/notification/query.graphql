@@ -1,5 +1,5 @@
 type Notification {
-    id: ID!
+    id: Int!
     body: String
     type: String @rename(attribute: "TypeName")
     time_ago: String

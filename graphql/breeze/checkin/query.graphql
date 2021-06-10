@@ -1,5 +1,5 @@
 type CheckIn {
-  id: ID
+  id: Int
   user: User
   created_at: DateTime
   updated_at: DateTime
