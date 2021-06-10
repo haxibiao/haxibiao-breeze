@@ -12,7 +12,7 @@ use Laravel\Nova\Resource;
 
 class User extends Resource
 {
-    public static $model  = \App\User::class;
+    public static $model  = \Haxibiao\Breeze\User::class;
     public static $title  = 'name';
     public static $search = [
         'id', 'name', 'email',
