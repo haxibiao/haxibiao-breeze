@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use Haxibiao\Breeze\User;
+use App\User;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
