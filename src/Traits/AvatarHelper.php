@@ -37,14 +37,12 @@ trait AvatarHelper
         // 头像裁剪
         $imageStream = self::reduceSize($imageStream, $extension);
 
-        $fileTemplate = '%s.%s'; //以后所有cos的头像保存文件名模板
-        $storePrefix  = '/storage/app-' . env('APP_NAME') . '/avatars/'; //以后所有cos的头像保存位置就这样了
-
         $filename = $user->id;
         if (!is_prod_env()) {
             $filename = $user->id . "." . env('APP_ENV'); //测试不覆盖线上cos文件
         }
-        $avatarPath = sprintf($storePrefix . $fileTemplate, $filename, $extension);
+        $filename   = sprintf('%s.%s', $filename, $extension);
+        $avatarPath = sprintf('%s/%s', storage_folder('avatar'), $filename);
 
         $storeStatus = Storage::cloud()->put($avatarPath, $imageStream);
         if ($storeStatus) {

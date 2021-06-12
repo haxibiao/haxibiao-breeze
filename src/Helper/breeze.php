@@ -87,10 +87,10 @@ function checkUserDevice()
  * @return User|null
  */
 function checkUser()
-{   
+{
     if ($userJson = request('user')) {
         $userData = is_array($userJson) ? $userJson : json_decode($userJson, true);
-        if(!is_array($userData)){
+        if (!is_array($userData)) {
             return getUser(false);
         }
         $userData = array_except($userData, ['profile', 'data', 'user_profile', 'user_data']);
@@ -231,13 +231,16 @@ function checkAdmin()
     return false;
 }
 
-//FIXME:matomo app_track_event 事件会触发到这个无效的方法
-// if (!function_exists("app_track_event")) {
-//     function app_track_event()
-//     {
-//         //FIXME: 临时兼容matomo还没完成合并到breeze内的异常问题
-//     }
-// }
+/**
+ * 保存上传文件的文件夹(规范app文件存储位置)
+ *
+ * @param string $type 类型 avatars:头像 movies:影片封面 ...
+ * @return string
+ */
+function storage_folder($type = 'avatars')
+{
+    return sprintf('/storage/app-%s/%s', env('APP_NAME'), $type);
+}
 
 if (!function_exists('get_files')) {
     function get_files($path, $full_path = true, $allowExtension = '*')
