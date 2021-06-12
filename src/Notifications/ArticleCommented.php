@@ -27,6 +27,9 @@ class ArticleCommented extends Notification
 
     public function via($notifiable)
     {
+		if (!is_prod_env()) {
+			return ['database'];
+		}
         return ['database', 'mail'];
     }
 
