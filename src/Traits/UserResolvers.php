@@ -299,7 +299,7 @@ trait UserResolvers
                 break;
 
             default:
-                //其他，系统
+                //其他： 系统, 反馈，求片
                 $qb = $notifications->orderBy('created_at', 'desc')->where('type', $args['type']);
                 //mark as read
                 $unread_notifications = $unreadNotifications->where('type', $args['type'])->get();

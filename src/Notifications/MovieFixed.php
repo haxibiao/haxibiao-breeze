@@ -2,6 +2,7 @@
 
 namespace Haxibiao\Breeze\Notifications;
 
+use Haxibiao\Breeze\User;
 use Haxibiao\Media\Movie;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
@@ -14,7 +15,7 @@ class MovieFixed extends Notification
     public function __construct(Movie $movie)
     {
         $this->movie = $movie;
-        $this->user  = $movie->user;
+        $this->user  = User::find($movie->user_id);
     }
 
     public function via($notifiable)
