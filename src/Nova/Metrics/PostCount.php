@@ -56,6 +56,6 @@ class PostCount extends Value
      */
     public function uriKey()
     {
-        return 'article-count';
+        return 'posts-count';
     }
 }

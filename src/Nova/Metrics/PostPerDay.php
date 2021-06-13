@@ -80,6 +80,6 @@ class PostPerDay extends Trend
      */
     public function uriKey()
     {
-        return 'article-per-day';
+        return 'posts-per-day';
     }
 }

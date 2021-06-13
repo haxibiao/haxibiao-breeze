@@ -54,7 +54,6 @@ class NewUsersTrend extends Trend
     public function ranges()
     {
         return [
-            7  => '过去7天内',
             30 => '过去30天内',
             60 => '过去60天内',
             90 => '过去90天内',

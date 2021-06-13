@@ -56,7 +56,6 @@ class PostSpiderPerDay extends Trend
     public function ranges()
     {
         return [
-            7  => '过去7天内',
             30 => '过去30天内',
             60 => '过去60天内',
             90 => '过去90天内',
@@ -80,6 +79,6 @@ class PostSpiderPerDay extends Trend
      */
     public function uriKey()
     {
-        return 'article-spider-per-day';
+        return 'spiders-per-day';
     }
 }
