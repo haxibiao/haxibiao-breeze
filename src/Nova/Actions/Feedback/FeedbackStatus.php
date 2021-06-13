@@ -48,6 +48,9 @@ class FeedbackStatus extends Action
                     0 => '待处理',
                     1 => '以驳回',
                     2 => '已处理',
+                ])
+                ->withMeta([
+                    'value' => 2,
                 ]),
         ];
     }

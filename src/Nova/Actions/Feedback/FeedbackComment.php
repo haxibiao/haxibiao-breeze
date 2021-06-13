@@ -16,7 +16,7 @@ use Laravel\Nova\Nova;
 class FeedbackComment extends Action
 {
     use InteractsWithQueue, Queueable, SerializesModels;
-    public $name = '创建评论';
+    public $name = '回复反馈';
     public function uriKey()
     {
         return str_slug(Nova::humanize($this));
@@ -46,12 +46,16 @@ class FeedbackComment extends Action
     {
         return [
             Textarea::make('评论', 'body'),
-            Select::make('状态', 'status')->options(
-                [
-                    1 => '公开',
-                    0 => '私密',
-                ]
-            ),
+            Select::make('状态', 'status')
+                ->withMeta([
+                    'value' => 1,
+                ])
+                ->options(
+                    [
+                        1 => '公开',
+                        0 => '私密',
+                    ]
+                ),
         ];
     }
 }
