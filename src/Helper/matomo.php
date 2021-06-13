@@ -167,3 +167,11 @@ if (!function_exists('getUserCategoryTag')) {
         return '老用户';
     }
 }
+
+/**
+ * 返回通知Notification的type里的full class name的最后className, 比如:ArticleCommented
+ */
+function short_notify_type($type)
+{
+    return array_last(explode($type, "\\"));
+}

@@ -17,48 +17,49 @@ class Notification extends DatabaseNotification
     //通知的行为描述
     public function getBodyAttribute()
     {
+        $comment_id = data_get($this, 'data.comment_id');
         //赞了你 评论的内容  @某某某 内容
-        switch ($this->type) {
-            case "Haxibiao\\Breeze\\Notifications\\ArticleApproved":
+        switch (short_notify_type($this->type)) {
+            case "ArticleApproved":
                 return "收录了动态";
-            case "Haxibiao\\Breeze\\Notifications\\ArticleRejected":
+            case "ArticleRejected":
                 return "拒绝了动态";
-            case "Haxibiao\\Breeze\\Notifications\\ArticleCommented":
-                $comment = Comment::find($this->data['comment_id']);
+            case "ArticleCommented":
+                $comment = Comment::find($comment_id);
                 return str_limit($comment->body, 15, '...');
-            case "Haxibiao\\Breeze\\Notifications\\CommentedNotification":
-                $comment = Comment::find($this->data['comment_id']);
+            case "CommentedNotification":
+                $comment = Comment::find($comment_id);
                 return str_limit($comment->body, 15, '...');
-            case "Haxibiao\\Breeze\\Notifications\\ArticleFavorited":
+            case "ArticleFavorited":
                 return "收藏了动态";
-            case "Haxibiao\\Breeze\\Notifications\\ArticleLiked":
+            case "ArticleLiked":
                 return "喜欢了文章";
-            case "Haxibiao\\Breeze\\Notifications\\LikedNotification":
+            case "LikedNotification":
                 $type = data_get($this, 'date.type');
                 if ($type == 'comments') {
                     return "点赞了评论";
                 }
                 return "喜欢了动态";
-            case "Haxibiao\\Breeze\\Notifications\\CommentLiked":
+            case "CommentLiked":
                 return "赞了评论";
-            case "Haxibiao\\Breeze\\Notifications\\ArticleTiped":
+            case "ArticleTiped":
                 return "打赏了动态";
-            case "Haxibiao\\Breeze\\Notifications\\CategoryFollowed":
+            case "CategoryFollowed":
                 return "关注了专题";
-            case "Haxibiao\\Breeze\\Notifications\\CategoryRequested":
+            case "CategoryRequested":
                 return "投稿了专题";
-            case "Haxibiao\\Breeze\\Notifications\\CollectionFollowed":
+            case "CollectionFollowed":
                 return "关注了文集";
-            case "Haxibiao\\Breeze\\Notifications\\UserFollowed":
+            case "UserFollowed":
                 return "关注了";
-            case "Haxibiao\\Breeze\\Notifications\\ReplyComment":
-                $comment = Comment::find($this->data['comment_id']);
+            case "ReplyComment":
+                $comment = Comment::find($comment_id);
                 return str_limit($comment->body, 15, '...');
-            case "Haxibiao\\Breeze\\Notifications\\CommentAccepted":
-                $comment = Comment::find($this->data['comment_id']);
+            case "CommentAccepted":
+                $comment = Comment::find($comment_id);
                 return str_limit($comment->body, 15, '...');
-            case "Haxibiao\\Breeze\\Notifications\\ReceiveAward":
-                return $this->data["subject"] . $this->data["gold"] . '金币';
+            case "ReceiveAward":
+                return data_get($this, 'data.subject') . data_get($this, 'data.gold') . '金币';
             default:
                 return "其他";
         }
@@ -67,42 +68,42 @@ class Notification extends DatabaseNotification
     //通知类型
     public function getTypeNameAttribute()
     {
-        switch ($this->type) {
-            case "Haxibiao\\Breeze\\Notifications\\ArticleApproved":
+        switch (short_notify_type($this->type)) {
+            case "ArticleApproved":
                 return "收录了动态";
-            case "Haxibiao\\Breeze\\Notifications\\ArticleRejected":
+            case "ArticleRejected":
                 return "拒绝了动态";
-            case "Haxibiao\\Breeze\\Notifications\\ArticleCommented":
+            case "ArticleCommented":
                 return "评论了动态";
-            case "Haxibiao\\Breeze\\Notifications\\CommentedNotification":
+            case "CommentedNotification":
                 return "评论了";
-            case "Haxibiao\\Breeze\\Notifications\\ArticleFavorited":
+            case "ArticleFavorited":
                 return "收藏了动态";
-            case "Haxibiao\\Breeze\\Notifications\\ArticleLiked":
+            case "ArticleLiked":
                 return "喜欢了文章";
-            case "Haxibiao\\Breeze\\Notifications\\LikedNotification":
+            case "LikedNotification":
                 if (data_get($this, 'data.type') == 'comments') {
                     return "点赞了评论";
                 }
                 return "喜欢了动态";
-            case "Haxibiao\\Breeze\\Notifications\\CommentLiked":
+            case "CommentLiked":
                 return "赞了评论";
-            case "Haxibiao\\Breeze\\Notifications\\ArticleTiped":
+            case "ArticleTiped":
                 return "打赏了动态";
-            case "Haxibiao\\Breeze\\Notifications\\CategoryFollowed":
+            case "CategoryFollowed":
                 return "关注了专题";
-            case "Haxibiao\\Breeze\\Notifications\\CategoryRequested":
+            case "CategoryRequested":
                 return "投稿了专题";
-            case "Haxibiao\\Breeze\\Notifications\\CollectionFollowed":
+            case "CollectionFollowed":
                 return "关注了文集";
-            case "Haxibiao\\Breeze\\Notifications\\UserFollowed":
+            case "UserFollowed":
                 return "关注了";
-            case "Haxibiao\\Breeze\\Notifications\\ReplyComment":
+            case "ReplyComment":
                 return "回复了评论";
-            case "Haxibiao\\Breeze\\Notifications\\CommentAccepted":
+            case "CommentAccepted":
                 return "评论被采纳";
-            case "Haxibiao\\Breeze\\Notifications\\ReceiveAward":
-                return $this->data["subject"] . $this->data["gold"] . '金币';
+            case "ReceiveAward":
+                return data_get($this, 'data.subject') . data_get($this, 'data.gold') . '金币';
             default:
                 return "其他";
         }

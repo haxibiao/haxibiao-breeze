@@ -680,31 +680,31 @@ trait UserRepo
         ];
         //下列通知类型是进入了notification表的
         $unreadNotifications->each(function ($item) use (&$unreads) {
-            switch ($item->type) {
+            switch (short_notify_type($item->type)) {
                 //评论文章通知
-                case 'Haxibiao\Breeze\Notifications\ArticleCommented':
+                case 'ArticleCommented':
                     $unreads['comments']++;
                     break;
-                case 'Haxibiao\Breeze\Notifications\CommentedNotification':
+                case 'CommentedNotification':
                     $unreads['comments']++;
                     break;
-                case 'Haxibiao\Breeze\Notifications\ReplyComment':
+                case 'ReplyComment':
                     $unreads['comments']++;
                     break;
-                //喜欢文章通知
-                case 'Haxibiao\Breeze\Notifications\LikedNotification':
+                //喜欢点赞通知
+                case 'LikedNotification':
                     $unreads['likes']++;
                     break;
                 //关注用户通知
-                case 'Haxibiao\Breeze\Notifications\UserFollowed':
+                case 'UserFollowed':
                     $unreads['follows']++;
                     break;
                 //打赏文章通知
-                case 'Haxibiao\Breeze\Notifications\ArticleTiped':
+                case 'ArticleTiped':
                     $unreads['tips']++;
                     break;
                 //打赏文章通知
-                case 'Haxibiao\Breeze\Notifications\ChatNewMessage':
+                case 'ChatNewMessage':
                     $unreads['chats']++;
                     break;
                 //其他类型的通知

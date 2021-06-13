@@ -32,17 +32,9 @@ class LikedNotification extends Notification
      */
     public function via($notifiable)
     {
+        //点赞自己 无需通知
         $isSelf = $notifiable->id == $this->sender->id;
         if ($isSelf) {
-            return [];
-        }
-        $notification = $notifiable->notifications()
-        ->whereType('App\Notifications\LikedNotification')
-        ->where('data->likeable_type', $this->like->likable_type)
-        ->where('data->id', $this->like->likable_id)
-        ->where('data->user_id', $this->like->user_id)
-        ->first();
-        if ($notification) {
             return [];
         }
         return ['database'];
@@ -62,16 +54,16 @@ class LikedNotification extends Notification
             $lou          = $this->like->likable->lou;
             $comment_body = $this->like->likable->body;
             $commentable  = $this->like->likable->commentable;
-             //评论问答中的答案
+            //评论问答中的答案
             if ($this->like->likable->commentable_type == 'answers') {
                 $question = $commentable->question;
                 $url      = '/issue/' . $question->id;
                 $title    = $comment_body;
-            }else{
+            } else {
                 $url   = $commentable->url . '#' . $lou;
                 $title = $comment_body;
             }
-        }else{
+        } else {
             $body  = '喜欢了你的' . $this->like->likable->resoureTypeCN();
             $url   = $this->like->likable->url;
             $title = '《' . $this->like->likable->title . '》';

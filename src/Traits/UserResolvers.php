@@ -242,62 +242,64 @@ trait UserResolvers
         $user                = getUser();
         $notifications       = \App\Notification::where('notifiable_type', 'users')->where('notifiable_id', $user->id);
         $unreadNotifications = \App\Notification::where('notifiable_type', 'users')->where('notifiable_id', $user->id)->whereNull('read_at');
+        $namespace           = "Haxibiao\\Breeze\\Notifications\\";
         switch ($args['type']) {
-            case 'GROUP_COMMENT':
+            case 'GROUP_COMMENT': //评论
                 $qb = $notifications->orderBy('created_at', 'desc')
                     ->whereIn('type', [
-                        'Haxibiao\Breeze\Notifications\ReplyComment',
-                        'Haxibiao\Breeze\Notifications\ArticleCommented',
-                        'Haxibiao\Breeze\Notifications\CommentedNotification',
+                        $namespace . 'ReplyComment',
+                        $namespace . 'ArticleCommented',
+                        $namespace . 'CommentedNotification',
                     ]);
                 //mark as read
                 $unread_notifications = $unreadNotifications
                     ->whereIn('type', [
-                        'Haxibiao\Breeze\Notifications\ReplyComment',
-                        'Haxibiao\Breeze\Notifications\ArticleCommented',
-                        'Haxibiao\Breeze\Notifications\CommentedNotification',
+                        $namespace . 'ReplyComment',
+                        $namespace . 'ArticleCommented',
+                        $namespace . 'CommentedNotification',
                     ])->get();
                 $unread_notifications->markAsRead();
                 break;
-            case 'GROUP_OTHERS':
+            case 'GROUP_OTHERS': //其他 - 粉丝关注，审核
                 $qb = $notifications->orderBy('created_at', 'desc')
                     ->whereIn('type', [
-                        'Haxibiao\Breeze\Notifications\CollectionFollowed',
-                        'Haxibiao\Breeze\Notifications\CategoryFollowed',
-                        'Haxibiao\Breeze\Notifications\ArticleApproved',
-                        'Haxibiao\Breeze\Notifications\ArticleRejected',
-                        'Haxibiao\Breeze\Notifications\CommentAccepted',
+                        $namespace . 'CollectionFollowed',
+                        $namespace . 'CategoryFollowed',
+                        $namespace . 'ArticleApproved',
+                        $namespace . 'ArticleRejected',
+                        $namespace . 'CommentAccepted',
                     ]);
 
                 //mark as read
                 $unread_notifications = $unreadNotifications
                     ->whereIn('type', [
-                        'Haxibiao\Breeze\Notifications\CollectionFollowed',
-                        'Haxibiao\Breeze\Notifications\CategoryFollowed',
-                        'Haxibiao\Breeze\Notifications\ArticleApproved',
-                        'Haxibiao\Breeze\Notifications\ArticleRejected',
-                        'Haxibiao\Breeze\Notifications\CommentAccepted',
+                        $namespace . 'CollectionFollowed',
+                        $namespace . 'CategoryFollowed',
+                        $namespace . 'ArticleApproved',
+                        $namespace . 'ArticleRejected',
+                        $namespace . 'CommentAccepted',
                     ])->get();
                 $unread_notifications->markAsRead();
                 break;
-            case 'GROUP_LIKES':
+            case 'GROUP_LIKES': //点赞
                 $qb = $notifications->orderBy('created_at', 'desc')
                     ->whereIn('type', [
-                        'Haxibiao\Breeze\Notifications\ArticleLiked',
-                        'Haxibiao\Breeze\Notifications\CommentLiked',
-                        'Haxibiao\Breeze\Notifications\LikedNotification',
+                        $namespace . 'ArticleLiked',
+                        $namespace . 'CommentLiked',
+                        $namespace . 'LikedNotification',
                     ]);
                 //mark as read
                 $unread_notifications = $unreadNotifications
                     ->whereIn('type', [
-                        'Haxibiao\Breeze\Notifications\ArticleLiked',
-                        'Haxibiao\Breeze\Notifications\CommentLiked',
-                        'Haxibiao\Breeze\Notifications\LikedNotification',
+                        $namespace . 'ArticleLiked',
+                        $namespace . 'CommentLiked',
+                        $namespace . 'LikedNotification',
                     ])->get();
                 $unread_notifications->markAsRead();
                 break;
 
             default:
+                //其他，系统
                 $qb = $notifications->orderBy('created_at', 'desc')->where('type', $args['type']);
                 //mark as read
                 $unread_notifications = $unreadNotifications->where('type', $args['type'])->get();
