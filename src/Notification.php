@@ -5,67 +5,80 @@ namespace Haxibiao\Breeze;
 use App\User;
 use Haxibiao\Breeze\Traits\NotificationAttrs;
 use Haxibiao\Breeze\Traits\NotificationResolver;
-use Haxibiao\Sns\Comment;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Notifications\DatabaseNotification;
 
+/**
+ * breeze 的通知
+ * FIXME: 逐步用系统通知来替代原来混乱的每个类型一个属性的通知data结构
+ */
 class Notification extends DatabaseNotification
 {
 
-    use NotificationAttrs, NotificationResolver;
+    use NotificationAttrs;
+    use NotificationResolver;
 
-    //通知的行为描述
-    public function getBodyAttribute()
+    /**
+     * 系统通知属性 notify_id
+     */
+    public function getNotifyIdAttribute()
     {
-        $comment_id = data_get($this, 'data.comment_id');
-        //赞了你 评论的内容  @某某某 内容
-        switch (short_notify_type($this->type)) {
-            case "ArticleApproved":
-                return "收录了动态";
-            case "ArticleRejected":
-                return "拒绝了动态";
-            case "ArticleCommented":
-                $comment = Comment::find($comment_id);
-                return str_limit($comment->body, 15, '...');
-            case "CommentedNotification":
-                $comment = Comment::find($comment_id);
-                return str_limit($comment->body, 15, '...');
-            case "ArticleFavorited":
-                return "收藏了动态";
-            case "ArticleLiked":
-                return "喜欢了文章";
-            case "LikedNotification":
-                $type = data_get($this, 'date.type');
-                if ($type == 'comments') {
-                    return "点赞了评论";
-                }
-                return "喜欢了动态";
-            case "CommentLiked":
-                return "赞了评论";
-            case "ArticleTiped":
-                return "打赏了动态";
-            case "CategoryFollowed":
-                return "关注了专题";
-            case "CategoryRequested":
-                return "投稿了专题";
-            case "CollectionFollowed":
-                return "关注了文集";
-            case "UserFollowed":
-                return "关注了";
-            case "ReplyComment":
-                $comment = Comment::find($comment_id);
-                return str_limit($comment->body, 15, '...');
-            case "CommentAccepted":
-                $comment = Comment::find($comment_id);
-                return str_limit($comment->body, 15, '...');
-            case "ReceiveAward":
-                return data_get($this, 'data.subject') . data_get($this, 'data.gold') . '金币';
-            default:
-                return "其他";
-        }
+        return data_get($this, 'data.id');
     }
 
-    //通知类型
+    /**
+     * 系统通知属性 notify_type
+     */
+    public function getNotifyTypeAttribute()
+    {
+        return data_get($this, 'data.type');
+    }
+
+    /**
+     * 系统通知属性 notify_title
+     */
+    public function getNotifyTitleAttribute()
+    {
+        return data_get($this, 'data.title');
+    }
+
+    /**
+     * 系统通知属性 notify_cover
+     */
+    public function getNotifyCoverAttribute()
+    {
+        return data_get($this, 'data.cover');
+    }
+
+    /**
+     * 系统通知属性 notify_description
+     */
+    public function getNotifyDescriptionAttribute()
+    {
+        return data_get($this, 'data.description');
+    }
+
+    /**
+     * 系统通知属性 notify_url
+     */
+    public function getNotifyUrlAttribute()
+    {
+        return data_get($this, 'data.url');
+    }
+
+    /**
+     * 通知的行为描述?
+     * @deprecated 这个属性的代码几乎冗余,和getTypeNameAttribute()一样
+     */
+    public function getBodyAttribute()
+    {
+        //这个属性的代码几乎冗余..
+        return $this->getTypeNameAttribute();
+    }
+
+    /**
+     * 通知的行为类型
+     */
     public function getTypeNameAttribute()
     {
         switch (short_notify_type($this->type)) {
@@ -105,6 +118,9 @@ class Notification extends DatabaseNotification
             case "ReceiveAward":
                 return data_get($this, 'data.subject') . data_get($this, 'data.gold') . '金币';
             default:
+                if (data_get($this, 'data.type')) {
+                    return "长视频更新";
+                }
                 return "其他";
         }
     }
@@ -117,11 +133,13 @@ class Notification extends DatabaseNotification
     //通知关联的用户
     public function getUserAttribute()
     {
-        if (isset($this->data['user_id'])) {
-            $user = User::find($this->data['user_id']);
-            return $user;
-        }
-        return null;
+        //尊重data里缓存的用户信息，避免多余查询
+        $user = new User([
+            'id'     => data_get($this, 'data.user_id'),
+            'name'   => data_get($this, 'data.user_name'),
+            'avatar' => data_get($this, 'data.user_avatar'),
+        ]);
+        return $user;
     }
 
     //通知关联的文章

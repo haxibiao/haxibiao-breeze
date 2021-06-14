@@ -6,6 +6,7 @@ use Haxibiao\Breeze\Traits\AvatarHelper;
 use Haxibiao\Breeze\Traits\HasFactory;
 use Haxibiao\Breeze\Traits\ModelHelpers;
 use Haxibiao\Breeze\Traits\UserAttrs;
+use Haxibiao\Breeze\Traits\UserNotifiable;
 use Haxibiao\Breeze\Traits\UserRelations;
 use Haxibiao\Breeze\Traits\UserRepo;
 use Haxibiao\Breeze\Traits\UserResolvers;
@@ -29,6 +30,7 @@ class BaseUser extends Model implements AuthenticatableContract, AuthorizableCon
     use \Illuminate\Auth\Authenticatable, Authorizable;
     use Notifiable;
     use UserScopes;
+    use UserNotifiable;
     use UserAttrs;
     use UserRepo;
     use UserResolvers;

@@ -10,7 +10,6 @@ use Haxibiao\Breeze\User;
 use Haxibiao\Task\Task;
 use Haxibiao\Task\UserTask;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
@@ -239,75 +238,9 @@ trait UserResolvers
 
     public function resolveNotifications($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $user                = getUser();
-        $notifications       = \App\Notification::where('notifiable_type', 'users')->where('notifiable_id', $user->id);
-        $unreadNotifications = \App\Notification::where('notifiable_type', 'users')->where('notifiable_id', $user->id)->whereNull('read_at');
-        $namespace           = "Haxibiao\\Breeze\\Notifications\\";
-        switch ($args['type']) {
-            case 'GROUP_COMMENT': //评论
-                $qb = $notifications->orderBy('created_at', 'desc')
-                    ->whereIn('type', [
-                        $namespace . 'ReplyComment',
-                        $namespace . 'ArticleCommented',
-                        $namespace . 'CommentedNotification',
-                    ]);
-                //mark as read
-                $unread_notifications = $unreadNotifications
-                    ->whereIn('type', [
-                        $namespace . 'ReplyComment',
-                        $namespace . 'ArticleCommented',
-                        $namespace . 'CommentedNotification',
-                    ])->get();
-                $unread_notifications->markAsRead();
-                break;
-            case 'GROUP_OTHERS': //其他 - 粉丝关注，审核
-                $qb = $notifications->orderBy('created_at', 'desc')
-                    ->whereIn('type', [
-                        $namespace . 'CollectionFollowed',
-                        $namespace . 'CategoryFollowed',
-                        $namespace . 'ArticleApproved',
-                        $namespace . 'ArticleRejected',
-                        $namespace . 'CommentAccepted',
-                    ]);
-
-                //mark as read
-                $unread_notifications = $unreadNotifications
-                    ->whereIn('type', [
-                        $namespace . 'CollectionFollowed',
-                        $namespace . 'CategoryFollowed',
-                        $namespace . 'ArticleApproved',
-                        $namespace . 'ArticleRejected',
-                        $namespace . 'CommentAccepted',
-                    ])->get();
-                $unread_notifications->markAsRead();
-                break;
-            case 'GROUP_LIKES': //点赞
-                $qb = $notifications->orderBy('created_at', 'desc')
-                    ->whereIn('type', [
-                        $namespace . 'ArticleLiked',
-                        $namespace . 'CommentLiked',
-                        $namespace . 'LikedNotification',
-                    ]);
-                //mark as read
-                $unread_notifications = $unreadNotifications
-                    ->whereIn('type', [
-                        $namespace . 'ArticleLiked',
-                        $namespace . 'CommentLiked',
-                        $namespace . 'LikedNotification',
-                    ])->get();
-                $unread_notifications->markAsRead();
-                break;
-
-            default:
-                //其他： 系统, 反馈，求片
-                $qb = $notifications->orderBy('created_at', 'desc')->where('type', $args['type']);
-                //mark as read
-                $unread_notifications = $unreadNotifications->where('type', $args['type'])->get();
-                $unread_notifications->markAsRead();
-                break;
-        }
-        Cache::forget('unreads_' . $user->id);
-        return $qb;
+        $user  = getUser();
+        $group = $args['type'] ?? ''; //没分组的都算系统其它通知
+        return UserNotifiable::getAppNotificationUnreads($user, $group);
     }
 
     /**

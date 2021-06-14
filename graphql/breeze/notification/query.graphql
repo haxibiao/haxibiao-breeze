@@ -1,13 +1,43 @@
 type Notification {
     id: String!
     body: String
-    type: String @rename(attribute: "TypeName")
     time_ago: String
-    article: Article @deprecated(reason: "如果是查看动态请使用post属性")
-    post: Post
-    comment: Comment
-    reply: Comment @deprecated(reason: "已经废弃,请使用comment")
+    """
+    通知的行为类型(点赞了/关注了)
+    """
+    type: String @rename(attribute: "TypeName")
+    article: Article @deprecated(reason: "请切换为系统通知的通用属性")
+    post: Post @deprecated(reason: "请切换为系统通知的通用属性")
+    comment: Comment @deprecated(reason: "请切换为系统通知的通用属性")
+    reply: Comment @deprecated(reason: "请切换为系统通知的通用属性")
+    """
+    通知关联的用户(非通知对象)
+    """
     user: User
+    """
+    通知的对象id
+    """
+    notify_id: Int
+    """
+    通知的对象title
+    """
+    notify_title: String
+    """
+    通知的对象type(比如:movies)
+    """
+    notify_type: String
+    """
+    通知的对象cover
+    """
+    notify_cover: String
+    """
+    通知的对象description
+    """
+    notify_description: String
+    """
+    通知的对象url(做网页跳转用)
+    """
+    notify_url: String
     created_at: DateTime!
     updated_at: DateTime!
 }

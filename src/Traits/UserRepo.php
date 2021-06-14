@@ -22,7 +22,6 @@ use Haxibiao\Wallet\Withdraw;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -660,85 +659,6 @@ trait UserRepo
         $this->save();
 
         return $this->avatar;
-    }
-
-    public function unreads($type = null, $num = null)
-    {
-
-        //缓存未命中
-        $unreadNotifications = \App\Notification::where([
-            'read_at'       => null,
-            'notifiable_id' => $this->id,
-        ])->get();
-        $unreads = [
-            'comments' => null,
-            'likes'    => null,
-            'follows'  => null,
-            'tips'     => null,
-            'others'   => null,
-            'chats'    => null,
-        ];
-        //下列通知类型是进入了notification表的
-        $unreadNotifications->each(function ($item) use (&$unreads) {
-            switch (short_notify_type($item->type)) {
-                //评论文章通知
-                case 'ArticleCommented':
-                    $unreads['comments']++;
-                    break;
-                case 'CommentedNotification':
-                    $unreads['comments']++;
-                    break;
-                case 'ReplyComment':
-                    $unreads['comments']++;
-                    break;
-                //喜欢点赞通知
-                case 'LikedNotification':
-                    $unreads['likes']++;
-                    break;
-                //关注用户通知
-                case 'UserFollowed':
-                    $unreads['follows']++;
-                    break;
-                //打赏文章通知
-                case 'ArticleTiped':
-                    $unreads['tips']++;
-                    break;
-                //打赏文章通知
-                case 'ChatNewMessage':
-                    $unreads['chats']++;
-                    break;
-                //其他类型的通知
-                default:
-                    $unreads['others'];
-                    break;
-            }
-        });
-
-        //聊天消息数
-        $unreads['chats'] = $this->chats->sum(function ($item) {
-            return $item->pivot->unreads;
-        });
-        //投稿请求数
-        $unreads['requests'] = $this->adminCategories()->sum('new_requests');
-
-        //write cache
-        Cache::put('unreads_' . $this->id, $unreads, 60);
-
-        if ($num) {
-            $unreads[$type] = $num;
-            //write cache
-            Cache::put('unreads_' . $this->id, $unreads, 60);
-        }
-        if ($type) {
-            return $unreads[$type] ? $unreads[$type] : null;
-        }
-
-        return $unreads;
-    }
-
-    public function forgetUnreads()
-    {
-        Cache::forget('unreads_' . $this->id);
     }
 
     public function bannedAccount()
