@@ -31,35 +31,38 @@ trait UserNotifiable
         //下列通知类型是进入了notification表的
         $unreadNotifications->each(function ($item) use (&$unreads) {
             switch (short_notify_type($item->type)) {
-                //评论文章通知
+
+                //评论的通知（group）
                 case 'ArticleCommented':
-                    $unreads['comments']++;
-                    break;
                 case 'CommentedNotification':
-                    $unreads['comments']++;
-                    break;
                 case 'ReplyComment':
                     $unreads['comments']++;
                     break;
-                //喜欢点赞通知
+
+                //喜欢点赞通知(group: 文章，评论)
+                case 'ArticleLiked':
+                case 'CommentLiked':
                 case 'LikedNotification':
                     $unreads['likes']++;
                     break;
-                //关注用户通知
+
+                //关注用户通知 - 网页用
                 case 'UserFollowed':
                     $unreads['follows']++;
                     break;
-                //打赏文章通知
+
+                //打赏文章通知 - 网页用
                 case 'ArticleTiped':
                     $unreads['tips']++;
                     break;
-                //打赏文章通知
+                //打赏文章通知 - 网页用
                 case 'ChatNewMessage':
                     $unreads['chats']++;
                     break;
+
                 //其他类型的通知
                 default:
-                    $unreads['others'];
+                    $unreads['others']++;
                     break;
             }
         });
@@ -94,12 +97,12 @@ trait UserNotifiable
         Cache::forget('unreads_' . $this->id);
     }
 
-    public static function getAppNotificationUnreads(User $user, $group)
+    public static function getAppNotificationUnreads(User $user, $type)
     {
         $notifications       = \App\Notification::where('notifiable_type', 'users')->where('notifiable_id', $user->id);
         $unreadNotifications = \App\Notification::where('notifiable_type', 'users')->where('notifiable_id', $user->id)->whereNull('read_at');
         $namespace           = "Haxibiao\\Breeze\\Notifications\\";
-        switch ($group) {
+        switch ($type) {
             case 'GROUP_COMMENT':
                 //评论类通知
                 $types = [
@@ -149,8 +152,8 @@ trait UserNotifiable
                 break;
 
             default:
-                //默认？后面未分类的通知
-                $class = 'Haxibiao\Breeze\Notifications\BreezeNotification';
+                //type中只有3个是group，其余的都是单个类型的通知(目前gql里enum value就是full class)
+                $class = $type;
                 $qb    = $notifications->orderBy('created_at', 'desc')->where('type', $class);
                 //mark as read
                 $unread_notifications = $unreadNotifications->where('type', $class)->get();
