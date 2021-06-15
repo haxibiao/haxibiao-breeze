@@ -5,21 +5,17 @@ namespace Haxibiao\Breeze\Notifications;
 use Haxibiao\Breeze\User;
 use Haxibiao\Sns\Tip;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
 
-class ArticleTiped extends Notification
+class ArticleTiped extends BreezeNotification
 {
     use Queueable;
+
+    public static $notify_action = "文章被打赏";
+
     protected $article;
     protected $user;
     protected $tip;
 
-    /**
-     * Create a new notification instance.
-     *
-     * @return void
-     */
     public function __construct($article, User $user, Tip $tip)
     {
         $this->article = $article;
@@ -27,37 +23,6 @@ class ArticleTiped extends Notification
         $this->tip     = $tip;
     }
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function via($notifiable)
-    {
-        return ['database'];
-    }
-
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
-    public function toMail($notifiable)
-    {
-        return (new MailMessage)
-            ->line('The introduction to the notification.')
-            ->action('Notification Action', url('/'))
-            ->line('Thank you for using our application!');
-    }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
     public function toArray($notifiable)
     {
         $article_title = $this->article->title ?: $this->article->video->title;

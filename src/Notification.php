@@ -79,48 +79,9 @@ class Notification extends DatabaseNotification
      */
     public function getTypeNameAttribute()
     {
-        switch (short_notify_type($this->type)) {
-            case "ArticleApproved":
-                return "收录了动态";
-            case "ArticleRejected":
-                return "拒绝了动态";
-            case "ArticleCommented":
-                return "评论了动态";
-            case "CommentedNotification":
-                return "评论了";
-            case "ArticleFavorited":
-                return "收藏了动态";
-            case "ArticleLiked":
-                return "喜欢了文章";
-            case "LikedNotification":
-                if (data_get($this, 'data.type') == 'comments') {
-                    return "点赞了评论";
-                }
-                return "喜欢了动态";
-            case "CommentLiked":
-                return "赞了评论";
-            case "ArticleTiped":
-                return "打赏了动态";
-            case "CategoryFollowed":
-                return "关注了专题";
-            case "CategoryRequested":
-                return "投稿了专题";
-            case "CollectionFollowed":
-                return "关注了文集";
-            case "UserFollowed":
-                return "关注了";
-            case "ReplyComment":
-                return "回复了评论";
-            case "CommentAccepted":
-                return "评论被采纳";
-            case "ReceiveAward":
-                return data_get($this, 'data.subject') . data_get($this, 'data.gold') . '金币';
-            default:
-                if (data_get($this, 'data.type')) {
-                    return "长视频更新";
-                }
-                return "其他";
-        }
+        $notification_namespace = "Haxibiao\\Breeze\\Notifications\\";
+        $notification_class     = $notification_namespace . short_notify_type($this->type);
+        return $notification_class::$notify_action ?? '互动通知';
     }
 
     /**

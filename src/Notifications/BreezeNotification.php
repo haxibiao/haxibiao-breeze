@@ -14,14 +14,21 @@ class BreezeNotification extends Notification
     //通知相关对象
     protected $notify_id;
     protected $notify_type;
+    //通知的标题
     protected $notify_title;
+    //通知的配图
     protected $notify_cover;
+    //通知的配文
     protected $notify_description;
+    //通知的对象的URL
     protected $notify_url;
-    //相关的用户(不是被通知的用户:$notifiable)
-    protected $user;
 
-    public function __construct(User $user,
+    //触发通知的人
+    protected $sender;
+
+    public static $notify_action = "互动通知";
+
+    public function __construct(User $sender,
         $notify_id,
         $notify_type,
         $notify_title,
@@ -29,7 +36,7 @@ class BreezeNotification extends Notification
         $notify_description = null,
         $notify_url = null
     ) {
-        $this->user = $user;
+        $this->sender = $sender;
 
         $this->notify_id          = $notify_id;
         $this->notify_type        = $notify_type;
@@ -41,37 +48,45 @@ class BreezeNotification extends Notification
 
     public function via($notifiable)
     {
-        //暂时不发邮件
+        //不发给自己
+        if ($this->sender->id == $notifiable->id) {
+            return [];
+        }
         return ['database'];
     }
 
     public function toMail($notifiable)
     {
-        // $this->user->name . ', 您求片的' . $this->movie->name . '已完成修复.'
-        $mailSubject = $this->notfiy_title;
+        $mailSubject = "来自" . $this->sender->name . "的" . self::$notify_action . "：" . $this->notfiy_title;
         return (new MailMessage)
             ->from('notification@' . env('APP_DOMAIN'), config('app.name_cn'))
             ->subject($mailSubject)
             ->line($mailSubject)
-            //$this->movie->url
             ->action('查看详情', $this->notify_url)
-            // $this->user->name . ' 你悬赏的影片 ' . $this->movie->name . ' 已可以正常播放 '
             ->line($this->notify_description);
     }
 
-    public function toArray($notifiable)
+    protected function senderToArray()
     {
         return [
             'user_id'     => $this->user->id,
             'user_avatar' => $this->user->avatarUrl,
             'user_name'   => $this->user->name,
-
-            'type'        => 'movies',
-            'id'          => $this->notify_id,
-            'title'       => $this->notify_title,
-            'description' => $this->notify_description,
-            'cover'       => $this->notify_cover,
-            'url'         => $this->notify_url,
         ];
+    }
+
+    public function toArray($notifiable)
+    {
+        return array_merge(
+            //通知互动的用户
+            $this->senderToArray(), [
+                //通知互动的内容
+                'type'        => $this->notify_type,
+                'id'          => $this->notify_id,
+                'title'       => $this->notify_title,
+                'description' => $this->notify_description,
+                'cover'       => $this->notify_cover,
+                'url'         => $this->notify_url,
+            ]);
     }
 }

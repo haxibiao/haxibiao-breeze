@@ -4,48 +4,20 @@ namespace Haxibiao\Breeze\Notifications;
 
 use Haxibiao\Sns\Like;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 
-class LikedNotification extends Notification
+class LikedNotification extends BreezeNotification
 {
     use Queueable;
 
+    public static $notify_action = "新点赞";
     protected $like;
-    protected $sender;
 
-    /**
-     * Create a new notification instance.
-     *
-     * @return void
-     */
     public function __construct(Like $like)
     {
         $this->like   = $like;
         $this->sender = $like->user;
     }
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function via($notifiable)
-    {
-        //点赞自己 无需通知
-        $isSelf = $notifiable->id == $this->sender->id;
-        if ($isSelf) {
-            return [];
-        }
-        return ['database'];
-    }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
     public function toArray($notifiable)
     {
         if ($this->like->likable_type == 'comments') {
@@ -68,16 +40,25 @@ class LikedNotification extends Notification
             $url   = $this->like->likable->url;
             $title = '《' . $this->like->likable->title . '》';
         }
-        return [
-            'type'          => 'likes',
-            'id'            => $this->like->likable_id,
+
+        //兼容旧结构的
+        $data = [
             'likeable_type' => $this->like->likable_type,
-            'user_avatar'   => $this->sender->avatarUrl,
-            'user_name'     => $this->sender->name,
-            'user_id'       => $this->sender->id,
             'url'           => $url,
             'body'          => $body,
-            'title'         => $title,
         ];
+
+        //互动用户
+        $data = array_merge($data, $this->senderToArray());
+
+        //互动对象
+        $data = array_merge($data, [
+            'type'        => $this->like->likable_type,
+            'id'          => $this->like->likable_id,
+            'title'       => $title,
+            'description' => $body,
+        ]);
+
+        return $data;
     }
 }

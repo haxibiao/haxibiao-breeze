@@ -2,16 +2,19 @@
 
 namespace Haxibiao\Breeze\Notifications;
 
+use Haxibiao\Content\Post;
 use Haxibiao\Sns\Comment;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 
-class CommentedNotification extends Notification
+/**
+ * 新评论通知
+ */
+class CommentedNotification extends BreezeNotification
 {
     use Queueable;
 
+    public static $notify_action = "新评论";
     private $comment;
-    private $sender;
 
     public function __construct(Comment $comment)
     {
@@ -19,28 +22,32 @@ class CommentedNotification extends Notification
         $this->sender  = $comment->user;
     }
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function via($notifiable)
-    {
-        $isSelf = $notifiable->id == $this->sender->id;
-        if ($isSelf) {
-            return [];
-        }
-        return ['database'];
-    }
-
     public function toArray($notifiable)
     {
-        return [
+        //兼容旧通知数据格式
+        $data = [
             'comment_id' => $this->comment->id,
-            'user_id'    => $this->comment->user_id,
-            'id'         => $this->comment->commentable_id,
-            'type'       => $this->comment->commentable_type,
         ];
+
+        //互动用户
+        $data = array_merge($data, $this->senderToArray());
+
+        //互动对象
+        $commentable = $this->comment->commentable;
+        // - 评论了动态
+        if ($commentable instanceof Post) {
+            $this->notify_description = $commentable->description;
+            $this->notify_cover       = $commentable->cover;
+        }
+        // - FIXME: 评论了电影/文章
+        $data = array_merge($data, [
+            'id'          => $this->comment->commentable_id,
+            'type'        => $this->comment->commentable_type,
+            'title'       => $this->comment->body, //评论
+            'description' => $this->notify_description, //评论的内容
+            'cover'       => $this->notify_cover, //内容的配图
+        ]);
+
+        return $data;
     }
 }

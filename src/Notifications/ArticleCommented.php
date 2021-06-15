@@ -4,10 +4,11 @@ namespace Haxibiao\Breeze\Notifications;
 
 use Haxibiao\Sns\Comment;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
 
-class ArticleCommented extends Notification
+class ArticleCommented extends BreezeNotification
 {
+
+    public static $notify_action = "评论了文章";
 
     protected $article;
     protected $user;
@@ -27,9 +28,9 @@ class ArticleCommented extends Notification
 
     public function via($notifiable)
     {
-		if (!is_prod_env()) {
-			return ['database'];
-		}
+        if (!is_prod_env()) {
+            return ['database'];
+        }
         return ['database', 'mail'];
     }
 
@@ -50,10 +51,11 @@ class ArticleCommented extends Notification
             $this->body = $this->comment->body;
         }
         return [
-            'type'          => 'comment',
             'user_id'       => $this->user->id,
             'user_avatar'   => $this->user->avatarUrl,
             'user_name'     => $this->user->name,
+
+            'type'          => 'comment',
             'article_title' => $this->article->title,
             'article_id'    => $this->article->id,
             'comment_id'    => $this->comment->id,

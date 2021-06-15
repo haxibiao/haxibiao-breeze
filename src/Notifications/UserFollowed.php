@@ -4,71 +4,32 @@ namespace Haxibiao\Breeze\Notifications;
 
 use Haxibiao\Breeze\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
 
-class UserFollowed extends Notification
+/**
+ * 获得粉丝关注的通知
+ */
+class UserFollowed extends BreezeNotification
 {
     use Queueable;
 
-    protected $user;
+    public static $notify_action = "新关注";
+    protected $sender;
 
-    /**
-     * Create a new notification instance.
-     *
-     * @return void
-     */
-    public function __construct(User $user)
+    public function __construct(User $sender)
     {
-        $this->user = $user;
+        $this->sender = $sender;
     }
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function via($notifiable)
-    {
-        $notification = $notifiable->notifications()
-            ->whereType('Haxibiao\Breeze\Notifications\UserFollowed')
-            ->where('data->type', 'follow')
-            ->where('data->user_id', $this->user->id)
-            ->first();
-        if ($notification) {
-            return [];
-        }
-        return ['database'];
-    }
-
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
-    public function toMail($notifiable)
-    {
-        return (new MailMessage)
-            ->line('The introduction to the notification.')
-            ->action('Notification Action', url('/'))
-            ->line('Thank you for using our application!');
-    }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
     public function toArray($notifiable)
     {
-        return [
-            'type'        => 'follow',
-            'user_avatar' => $this->user->avatarUrl,
-            'user_name'   => $this->user->name,
-            'user_id'     => $this->user->id,
+        $data = [
+            //关注通知有sender基本够了
+            'type' => 'follow',
         ];
+
+        //互动用户
+        $data = array_merge($data, $this->senderToArray());
+
+        return $data;
     }
 }

@@ -5,62 +5,26 @@ namespace Haxibiao\Breeze\Notifications;
 use Haxibiao\Content\Article;
 use Haxibiao\Content\Category;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
 
 /**
  * 作用:投稿请求的通知类型
  * 注意这个通知类型已经被弃用了
  */
-class CategoryRequested extends Notification
+class CategoryRequested extends BreezeNotification
 {
     use Queueable;
+
+    public static $notify_action = "专题新投稿";
 
     protected $category;
     protected $article;
 
-    /**
-     * Create a new notification instance.
-     *
-     * @return void
-     */
     public function __construct(Category $category, Article $article)
     {
         $this->category = $category;
         $this->article  = $article;
     }
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function via($notifiable)
-    {
-        return ['database'];
-    }
-
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
-    public function toMail($notifiable)
-    {
-        return (new MailMessage)
-            ->line('The introduction to the notification.')
-            ->action('Notification Action', url('/'))
-            ->line('Thank you for using our application!');
-    }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
     public function toArray($notifiable)
     {
         return [

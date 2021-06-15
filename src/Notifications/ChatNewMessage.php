@@ -4,11 +4,12 @@ namespace Haxibiao\Breeze\Notifications;
 
 use Haxibiao\Sns\Message;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 
-class ChatNewMessage extends Notification
+class ChatNewMessage extends BreezeNotification
 {
     use Queueable;
+
+    public static $notify_action = "新私信";
 
     public $message;
     public $user;
@@ -19,11 +20,6 @@ class ChatNewMessage extends Notification
         $this->message = $message;
         $this->user    = $message->user;
         $this->chat    = $message->chat;
-    }
-
-    public function via($notifiable)
-    {
-        return ['database'];
     }
 
     public function toArray($notifiable)

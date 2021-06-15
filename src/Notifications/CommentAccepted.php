@@ -3,53 +3,53 @@
 namespace Haxibiao\Breeze\Notifications;
 
 use Haxibiao\Breeze\User;
+use Haxibiao\Content\Post;
 use Haxibiao\Sns\Comment;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Notification;
 
-class CommentAccepted extends Notification implements ShouldQueue
+/**
+ * 评论被采纳的通知
+ */
+class CommentAccepted extends BreezeNotification
 {
     use Queueable;
-
+    public static $notify_action = "评论被采纳";
     protected $comment;
     protected $sender;
 
-    /**
-     * Create a new notification instance.
-     *
-     * @return void
-     */
     public function __construct(Comment $comment, User $sender)
     {
         $this->comment = $comment;
         $this->sender  = $sender;
     }
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function via($notifiable)
-    {
-        return ['database'];
-    }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
     public function toArray($notifiable)
     {
-        return [
-            'type'       => 'comment',
+        $data = [
+            //旧版本morph关系
             'comment_id' => $this->comment->id,
             'article_id' => $this->comment->commentable_id,
-            'user_id'    => $this->sender->id,
         ];
+
+        //互动用户
+        $data = array_merge($data, $this->senderToArray());
+
+        //互动对象
+        $commentable = $this->comment->commentable;
+        // - 评论了动态
+        if ($commentable instanceof Post) {
+            $this->notify_description = $commentable->description;
+            $this->notify_cover       = $commentable->cover;
+        }
+        // - FIXME: 评论了电影/文章
+        $data = array_merge($data, [
+            'id'          => $this->comment->commentable_id,
+            'type'        => $this->comment->commentable_type,
+            'title'       => $this->comment->body, //评论
+            'description' => $this->notify_description, //评论的内容
+            'cover'       => $this->notify_cover, //内容的配图
+        ]);
+        return $data;
+
     }
 }
