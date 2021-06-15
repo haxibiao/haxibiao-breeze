@@ -49,4 +49,7 @@ class BaseUser extends Model implements AuthenticatableContract, AuthorizableCon
         return 'users';
     }
 
+    public function ips(){
+    	return $this->hasMany(\App\Ip::class);
+	}
 }
