@@ -37,7 +37,8 @@ class Notification extends DatabaseNotification
      */
     public function getDataMessageAttribute()
     {
-        return data_get($this, 'data.message');
+        $message = data_get($this, 'data.message');
+        return $message;
     }
 
     /**
@@ -53,7 +54,14 @@ class Notification extends DatabaseNotification
      */
     public function getDataDescriptionAttribute()
     {
-        return data_get($this, 'data.description');
+        $description = data_get($this, 'data.description');
+
+        //避免通知没配文的尴尬
+        if (blank($description) && $this->data_type == 'movies') {
+            $description = '剧集更新...';
+        }
+
+        return $description;
     }
 
     /**
@@ -81,7 +89,7 @@ class Notification extends DatabaseNotification
     {
         $notification_namespace = "Haxibiao\\Breeze\\Notifications\\";
         $notification_class     = $notification_namespace . short_notify_type($this->type);
-        return $notification_class::$notify_action ?? '互动通知';
+        return $notification_class::$notify_action ?? '通知';
     }
 
     /**

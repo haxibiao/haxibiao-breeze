@@ -19,9 +19,9 @@ type Notification {
     """
     data_id: Int
     """
-    通知数据的title
+    通知数据的message
     """
-    data_title: String
+    data_message: String
     """
     通知数据的type(比如:movies)
     """

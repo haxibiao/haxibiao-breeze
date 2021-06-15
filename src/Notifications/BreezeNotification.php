@@ -26,7 +26,7 @@ class BreezeNotification extends Notification
     //触发通知的人
     protected $sender;
 
-    public static $notify_action = "互动通知";
+    public static $notify_action = "通知";
 
     public function __construct(User $sender,
         $notify_id,
