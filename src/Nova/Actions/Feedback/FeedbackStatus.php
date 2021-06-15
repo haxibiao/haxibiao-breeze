@@ -7,6 +7,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Select;
@@ -24,16 +25,15 @@ class FeedbackStatus extends Action
 
     public function handle(ActionFields $fields, Collection $models)
     {
-
-        \DB::beginTransaction();
+        DB::beginTransaction();
         try {
             foreach ($models as $model) {
                 $model->status = $fields->status;
                 $model->save();
             }
         } catch (\Exception $e) {
-            \Log::error($e->getMessage());
-            \DB::rollBack();
+            Log::error($e->getMessage());
+            DB::rollBack();
             return Action::danger('数据批量变更失败，数据回滚');
         }
         DB::commit();

@@ -142,6 +142,7 @@ trait UserNotifiable
                     $namespace . 'ArticleRejected',
                     $namespace . 'CommentAccepted',
                     $namespace . 'BreezeNotification',
+                    $namespace . 'FeedbackCommentNotification',
                 ];
                 $qb = $notifications->orderBy('created_at', 'desc')
                     ->whereIn('type', $types);

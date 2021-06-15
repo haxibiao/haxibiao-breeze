@@ -24,8 +24,6 @@ class FeedbackComment extends Action
 
     public function handle(ActionFields $fields, Collection $models)
     {
-        //
-
         if (!isset($fields->body) or !isset($fields->status)) {
             return Action::danger('状态或者内容不能为空');
         }
