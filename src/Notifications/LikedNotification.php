@@ -53,6 +53,7 @@ class LikedNotification extends BreezeNotification
         $data = [
             'likeable_type' => $this->like->likable_type,
             'url'           => $url,
+            'title'         => $title,
             'body'          => $body,
         ];
 

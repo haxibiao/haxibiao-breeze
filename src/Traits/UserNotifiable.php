@@ -36,7 +36,7 @@ trait UserNotifiable
                 //评论的通知（group）
                 case 'ArticleCommented':
                 case 'CommentedNotification':
-                case 'ReplyComment':
+                case 'ReplyCommentNotification':
                     $unreads['comments']++;
                     break;
 
@@ -107,7 +107,7 @@ trait UserNotifiable
             case 'GROUP_COMMENT':
                 //评论类通知
                 $types = [
-                    $namespace . 'ReplyComment',
+                    $namespace . 'ReplyCommentNotification',
                     $namespace . 'ArticleCommented',
                     $namespace . 'CommentedNotification',
                 ];

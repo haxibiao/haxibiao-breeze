@@ -9,7 +9,7 @@ use Illuminate\Bus\Queueable;
 /**
  * 评论被回复通知
  */
-class ReplyComment extends BreezeNotification
+class ReplyCommentNotification extends BreezeNotification
 {
     use Queueable;
 

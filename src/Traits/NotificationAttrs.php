@@ -127,17 +127,24 @@ trait NotificationAttrs
     //通知关联的动态
     public function getPostAttribute()
     {
-        //动态上发生的通知
+
+        //被多维操作关联上的动态 - 兼容以前的 固定访问 Notification下的Post 属性习惯的
+        if ("posts" === data_get($this, 'data.type')) {
+            if ($notify_id = data_get($this, 'data.id')) {
+                return Post::find($notify_id);
+            }
+        }
+
+        //动态上发生的通知 - 印象视频代码
         if ($post_id = data_get($this, 'data.post_id')) {
             return Post::find($post_id);
         }
 
-        //被多维操作关联上的动态 - 兼容以前的 固定访问 Notification下的Post 属性习惯的
-        if ("posts" === data_get($this, 'data.nofity_type')) {
-            if ($notify_id = data_get($this, 'data.notify_id')) {
-                return Post::find($notify_id);
-            }
+        //兼容旧的 - 点赞，评论，存过data.id
+        if ($post_id = data_get($this, 'data.id')) {
+            return Post::find($post_id);
         }
+
     }
 
     //通知关联的回复

@@ -53,7 +53,7 @@ class SendNewCommentNotification implements ShouldQueue
                 $this->notifyCommentAuthor($comment);
             }
 
-            //回复
+            //回复楼中用户
             if (!empty($comment->reply_id)) {
                 $this->notifyReplyAuthor($comment);
             }
@@ -63,42 +63,30 @@ class SendNewCommentNotification implements ShouldQueue
     protected function notifyCommentable($comment)
     {
         $commentable = $comment->commentable;
-        $canNotify   = $commentable->user != $comment->user;
-
-        //TODO: 即时发送每个通知，需要改为汇总到 Listener里去决策
-        if ($canNotify) {
-            if ($commentable instanceof Feedback) {
-                //发送反馈评论通知
-                $commentable->user->notify(new FeedbackCommentNotification($commentable, $comment));
-            } else if ($commentable instanceof Question) {
-                //审题评论也给通知
-                $commentable->user->notify(new QuestionCommented($commentable, $comment));
-            } else if ($commentable instanceof Article) {
-                // 发送通知，如果是作者本人就不发
-                $commentable->user->notify(new ArticleCommented($comment));
-            } else if ($commentable instanceof Comment) {
-                $commentable->user->notify(new CommentedNotification($comment));
-            } else if ($commentable instanceof Post) {
-                $commentable->user->notify(new CommentedNotification($comment));
-            }
+        if ($commentable instanceof Feedback) {
+            //反馈评论通知
+            $commentable->user->notify(new FeedbackCommentNotification($commentable, $comment));
+        } else if ($commentable instanceof Question) {
+            //审题评论通知
+            $commentable->user->notify(new QuestionCommented($commentable, $comment));
+        } else if ($commentable instanceof Article) {
+            //文章评论通知
+            $commentable->user->notify(new ArticleCommented($comment));
+        } else if ($commentable instanceof Post) {
+            //新评论通知
+            $commentable->user->notify(new CommentedNotification($comment));
         }
     }
 
     protected function notifyCommentAuthor($comment)
     {
         $parentComment = $comment->parent_comment;
-        //通知父评论作者
-        if ($parentComment->user != $comment->user) {
-            $parentComment->user->notify(new ReplyCommentNotification($comment));
-        }
+        $parentComment->user->notify(new ReplyCommentNotification($comment));
     }
 
     protected function notifyReplyAuthor($comment)
     {
-        $reply     = $comment->reply;
-        $canNotify = !is_null($reply) && $reply->user_id != $comment->user_id;
-        if ($canNotify) {
-            $reply->user->notify(new ReplyCommentNotification($comment));
-        }
+        $reply = $comment->reply;
+        $reply->user->notify(new ReplyCommentNotification($comment));
     }
 }
