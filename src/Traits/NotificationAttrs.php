@@ -11,7 +11,9 @@ use App\Medal;
 use App\Question;
 use App\Report;
 use App\Withdraw;
+use Haxibiao\Breeze\User;
 use Haxibiao\Content\Article;
+use Haxibiao\Content\Post;
 use Illuminate\Support\Arr;
 
 trait NotificationAttrs
@@ -23,122 +25,69 @@ trait NotificationAttrs
 
     public function getWithdrawAttribute()
     {
-        $target = $this->target;
-
-        if ($target instanceof Withdraw) {
-            return $target;
-        }
-
-        if (is_null($target) && isset($this->data['withdraw_id'])) {
-            return $this->target = Withdraw::find($this->data['withdraw_id']);
+        if ($withdraw_id = data_get($this, 'data.withdraw_id')) {
+            return Withdraw::find($withdraw_id);
         }
     }
 
+    //通知关联的评论
     public function getCommentAttribute()
     {
-        $target = $this->target;
-
-        if ($target instanceof Comment) {
-            return $target;
-        }
-
-        if (is_null($target) && isset($this->data['comment_id'])) {
-            return $this->target = Comment::find($this->data['comment_id']);
+        if ($comment_id = data_get($this, 'data.comment_id')) {
+            return Comment::find($comment_id);
         }
     }
 
     public function getFeedbackAttribute()
     {
-        $target = $this->target;
-
-        if ($target instanceof Feedback) {
-            return $target;
-        }
-
-        if (is_null($target) && isset($this->data['feedback_id'])) {
-            return $this->target = Feedback::find($this->data['feedback_id']);
+        if ($feedback_id = data_get($this, 'data.feedback_id')) {
+            return Feedback::find($feedback_id);
         }
     }
 
     public function getCurationAttribute()
     {
-        $target = $this->target;
-
-        if ($target instanceof Curation) {
-            return $target;
-        }
-
-        if (is_null($target) && isset($this->data['curation_id'])) {
-            return $this->target = Curation::find($this->data['curation_id']);
+        if ($curation_id = data_get($this, 'data.curation_id')) {
+            return Curation::find($curation_id);
         }
     }
 
     public function getFollowAttribute()
     {
-        $target = $this->target;
-
-        if ($target instanceof Follow) {
-            return $target;
-        }
-
-        if (is_null($target) && isset($this->data['follow_id'])) {
-            return $this->target = Follow::find($this->data['follow_id']);
+        if ($follow_id = data_get($this, 'data.follow_id')) {
+            return Follow::find($follow_id);
         }
     }
 
     public function getQuestionAttribute()
     {
-        $target = $this->target;
-        if ($target instanceof Question) {
-            return $target;
-        }
-
-        if (is_null($target) && isset($this->data['question_id'])) {
-            return $this->target = Question::find($this->data['question_id']);
+        if ($question_id = data_get($this, 'data.question_id')) {
+            return Question::find($question_id);
         }
     }
 
     public function getReportAttribute()
     {
-        $target = $this->target;
-        if ($target instanceof Report) {
-            return $target;
+        if ($report_id = data_get($this, 'data.report_id')) {
+            return Report::find($report_id);
         }
-        $report_id = null;
-        if (isset($this->data['report_id'])) {
-            $report_id = $this->data['report_id'];
-        } else if (isset($this->data['id'])) {
-            $report_id = $this->data['id'];
-        }
-
-        if (is_null($target) && !is_null($report_id)) {
-            return $this->target = Report::find($report_id);
+        //旧代码里还尊重过data.id
+        if ($report_id = data_get($this, 'data.id')) {
+            return Report::find($report_id);
         }
     }
 
     public function getLikeObjAttribute()
     {
-        $target = $this->target;
-
-        if ($target instanceof Like) {
-            return $target;
-        }
-
-        if (is_null($target) && isset($this->data['like_id'])) {
-            return $this->target = Like::find($this->data['like_id']);
+        if ($like_id = data_get($this, 'data.like_id')) {
+            return Like::find($like_id);
         }
     }
 
     public function getMedalAttribute()
     {
-        $target = $this->target;
-
-        if ($target instanceof Medal) {
-            return $target;
-        }
-
-        if (is_null($target) && isset($this->data['medal_id'])) {
-            return $this->target = Medal::find($this->data['medal_id']);
+        if ($medal_id = data_get($this, 'data.medal_id')) {
+            return Medal::find($medal_id);
         }
     }
 
@@ -147,34 +96,55 @@ trait NotificationAttrs
         return time_ago($this->created_at);
     }
 
-    public function getUserAttribute()
+    /**
+     * 被通知的对象（基本就是被通知的用户）
+     */
+    public function getNotifiableAttribute()
     {
         return $this->notifiable;
     }
 
+    //通知关联的用户
+    public function getUserAttribute()
+    {
+        //尊重data里缓存的用户信息，避免多余查询
+        $user = new User([
+            'id'     => data_get($this, 'data.user_id'),
+            'name'   => data_get($this, 'data.user_name', User::DEFAULT_NAME),
+            'avatar' => data_get($this, 'data.user_avatar', url(User::AVATAR_DEFAULT)),
+        ]);
+        return $user;
+    }
+
+    //通知关联的文章
     public function getArticleAttribute()
     {
-        $target = $this->target;
-
-        if ($target instanceof Article) {
-            return $target;
-        }
-
-        if (is_null($target) && isset($this->data['article_id'])) {
-            return $this->target = Article::find($this->data['article_id']);
+        if ($article_id = data_get($this, 'data.article_id')) {
+            return Article::find($article_id);
         }
     }
 
-    public function getReplyAttribute()
+    //通知关联的动态
+    public function getPostAttribute()
     {
-        $target = $this->target;
-
-        if ($target instanceof Comment) {
-            return $target;
+        //动态上发生的通知
+        if ($post_id = data_get($this, 'data.post_id')) {
+            return Post::find($post_id);
         }
 
-        if (is_null($target) && isset($this->data['reply_id'])) {
-            return $this->target = Comment::find($this->data['reply_id']);
+        //被多维操作关联上的动态 - 兼容以前的 固定访问 Notification下的Post 属性习惯的
+        if ("posts" === data_get($this, 'data.nofity_type')) {
+            if ($notify_id = data_get($this, 'data.notify_id')) {
+                return Post::find($notify_id);
+            }
+        }
+    }
+
+    //通知关联的回复
+    public function getReplyAttribute()
+    {
+        if ($reply_id = data_get($this, 'data.reply_id')) {
+            return Comment::find($reply_id);
         }
     }
 

@@ -2,10 +2,8 @@
 
 namespace Haxibiao\Breeze;
 
-use App\User;
 use Haxibiao\Breeze\Traits\NotificationAttrs;
 use Haxibiao\Breeze\Traits\NotificationResolver;
-use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Notifications\DatabaseNotification;
 
 /**
@@ -125,83 +123,9 @@ class Notification extends DatabaseNotification
         }
     }
 
-    public function getTimeAgoAttribute()
-    {
-        return time_ago($this->created_at);
-    }
-
-    //通知关联的用户
-    public function getUserAttribute()
-    {
-        //尊重data里缓存的用户信息，避免多余查询
-        $user = new User([
-            'id'     => data_get($this, 'data.user_id'),
-            'name'   => data_get($this, 'data.user_name'),
-            'avatar' => data_get($this, 'data.user_avatar'),
-        ]);
-        return $user;
-    }
-
-    //通知关联的文章
-    public function getArticleAttribute()
-    {
-        $modelType = data_get($this, 'data.type');
-        if ($modelType == 'articles') {
-            if ($modelId = data_get($this, 'data.id')) {
-                $modelString = Relation::getMorphedModel($modelType);
-                return $modelString::withTrashed()->find($modelId);
-            }
-            return null;
-        }
-    }
-
-    //通知关联的动态
-    public function getPostAttribute()
-    {
-        $modelType = data_get($this, 'data.type');
-        //尊重通知数据里的posts id 即可
-        if ($modelType == 'posts') {
-            if ($modelId = data_get($this, 'data.id')) {
-                $modelString = Relation::getMorphedModel($modelType);
-                return $modelString::withTrashed()->find($modelId);
-            }
-        }
-        //喜欢了动态
-        if ($modelType == 'likes' && data_get($this, 'data.likeable_type') == 'posts') {
-            if ($modelId = data_get($this, 'data.id')) {
-                $modelString = Relation::getMorphedModel('posts');
-                return $modelString::withTrashed()->find($modelId);
-            }
-        }
-        return null;
-    }
-
-    //通知关联的评论
-    public function getCommentAttribute()
-    {
-        $modelType = data_get($this, 'data.type');
-        if ($modelType == 'comments') {
-            if ($modelId = data_get($this, 'data.id')) {
-                $modelString = Relation::getMorphedModel($modelType);
-                return $modelString::withTrashed()->find($modelId);
-            }
-        }
-        //喜欢了评论
-        if ($modelType == 'likes' && data_get($this, 'data.likeable_type') == 'comments') {
-            if ($modelId = data_get($this, 'data.id')) {
-                $modelString = Relation::getMorphedModel('comments');
-                return $modelString::withTrashed()->find($modelId);
-            }
-        }
-        return null;
-    }
-
-    //通知关联的回复
-    public function getReplyAttribute()
-    {
-        return $this->getCommentAttribute();
-    }
-
+    /**
+     * 这个就是被通知的 notfiable 用户自己
+     */
     public function target()
     {
         return $this->morphTo();

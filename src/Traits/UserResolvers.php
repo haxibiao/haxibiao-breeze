@@ -236,13 +236,6 @@ trait UserResolvers
         return self::where('name', 'like', '%' . $args['keyword'] . '%');
     }
 
-    public function resolveNotifications($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
-    {
-        $user  = getUser();
-        $group = $args['type'] ?? ''; //没分组的都算系统其它通知
-        return UserNotifiable::getAppNotificationUnreads($user, $group);
-    }
-
     /**
      * 静默登录，uuid 必须传递，手机号可选
      */

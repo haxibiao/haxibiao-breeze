@@ -43,8 +43,8 @@ type Notification {
 }
 
 extend type Query @guard {
-    notifications(type: NotificationType!): [Notification!]
-        @paginate(defaultCount: 10, builder: "App\\User@resolveNotifications")
+    notifications(type: NotificationType!, user_id: Int): [Notification!]
+        @paginate(defaultCount: 10, builder: "App\\Notification@resolveNotifications")
 }
 
 enum NotificationType {
