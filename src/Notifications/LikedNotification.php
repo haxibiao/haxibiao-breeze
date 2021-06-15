@@ -2,6 +2,7 @@
 
 namespace Haxibiao\Breeze\Notifications;
 
+use Haxibiao\Content\Post;
 use Haxibiao\Sns\Like;
 use Illuminate\Bus\Queueable;
 
@@ -39,6 +40,13 @@ class LikedNotification extends BreezeNotification
             $body  = '喜欢了你的' . $this->like->likable->resoureTypeCN();
             $url   = $this->like->likable->url;
             $title = '《' . $this->like->likable->title . '》';
+
+            //完善新通知结构配图
+            if ($this->like->likable instanceof Post) {
+                $post                     = $this->like->likable;
+                $this->notify_description = $post->description;
+                $this->notify_cover       = $post->cover;
+            }
         }
 
         //兼容旧结构的
@@ -55,8 +63,8 @@ class LikedNotification extends BreezeNotification
         $data = array_merge($data, [
             'type'        => $this->like->likable_type,
             'id'          => $this->like->likable_id,
-            'title'       => $title,
-            'description' => $body,
+            'description' => $this->notify_description, //对象的内容
+            'cover'       => $this->notify_cover,
         ]);
 
         return $data;
