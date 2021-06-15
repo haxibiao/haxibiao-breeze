@@ -5,6 +5,7 @@ use App\User;
 use Haxibiao\Breeze\Breeze;
 use Haxibiao\Breeze\Exceptions\UserException;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 if (!function_exists('register_routes')) {
     function register_routes($path)
@@ -398,4 +399,12 @@ function copyStubs($pwd, $force = false)
         }
     }
 
+}
+
+/**
+ * 返回通知Notification的type里的full class name的最后className, 比如:ArticleCommented
+ */
+function short_notify_type($type)
+{
+    return Str::afterLast($type, "\\");
 }

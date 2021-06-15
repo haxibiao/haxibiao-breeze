@@ -30,7 +30,8 @@ trait UserNotifiable
         ];
         //下列通知类型是进入了notification表的
         $unreadNotifications->each(function ($item) use (&$unreads) {
-            switch (short_notify_type($item->type)) {
+            $notify_type = short_notify_type($item->type);
+            switch ($notify_type) {
 
                 //评论的通知（group）
                 case 'ArticleCommented':
