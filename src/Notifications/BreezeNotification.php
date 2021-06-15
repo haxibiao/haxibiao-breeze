@@ -69,9 +69,9 @@ class BreezeNotification extends Notification
     protected function senderToArray()
     {
         return [
-            'user_id'     => $this->user->id,
-            'user_avatar' => $this->user->avatarUrl,
-            'user_name'   => $this->user->name,
+            'user_id'     => $this->sender->id,
+            'user_avatar' => $this->sender->avatarUrl,
+            'user_name'   => $this->sender->name,
         ];
     }
 
