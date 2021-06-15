@@ -35,7 +35,7 @@ class FeedbackCommentNotification extends BreezeNotification
                 //新版通知互动对象的context
                 'id'          => $this->feedback->id,
                 'type'        => 'feedback',
-                'title'       => $this->comment->body,
+                'message'     => $this->comment->body,
                 'description' => $this->feedback->content,
                 //反馈评论，图片就不勉强先
             ]);

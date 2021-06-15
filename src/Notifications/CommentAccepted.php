@@ -45,7 +45,7 @@ class CommentAccepted extends BreezeNotification
         $data = array_merge($data, [
             'id'          => $this->comment->commentable_id,
             'type'        => $this->comment->commentable_type,
-            'title'       => $this->comment->body, //评论
+            'message'     => $this->comment->body, //评论
             'description' => $this->notify_description, //评论的内容
             'cover'       => $this->notify_cover, //内容的配图
         ]);

@@ -14,8 +14,8 @@ class BreezeNotification extends Notification
     //通知相关对象
     protected $notify_id;
     protected $notify_type;
-    //通知的标题
-    protected $notify_title;
+    //通知的消息
+    protected $notify_message;
     //通知的配图
     protected $notify_cover;
     //通知的配文
@@ -31,7 +31,7 @@ class BreezeNotification extends Notification
     public function __construct(User $sender,
         $notify_id,
         $notify_type,
-        $notify_title,
+        $notify_message,
         $notify_cover = null,
         $notify_description = null,
         $notify_url = null
@@ -40,7 +40,7 @@ class BreezeNotification extends Notification
 
         $this->notify_id          = $notify_id;
         $this->notify_type        = $notify_type;
-        $this->notify_title       = $notify_title;
+        $this->notify_message     = $notify_message;
         $this->notify_cover       = $notify_cover;
         $this->notify_description = $notify_description;
         $this->notify_url         = $notify_url;
@@ -83,7 +83,7 @@ class BreezeNotification extends Notification
                 //通知互动的内容
                 'type'        => $this->notify_type,
                 'id'          => $this->notify_id,
-                'title'       => $this->notify_title,
+                'message'     => $this->notify_message,
                 'description' => $this->notify_description,
                 'cover'       => $this->notify_cover,
                 'url'         => $this->notify_url,

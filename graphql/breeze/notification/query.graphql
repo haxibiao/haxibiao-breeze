@@ -6,38 +6,38 @@ type Notification {
     通知的行为类型(点赞了/关注了)
     """
     type: String @rename(attribute: "TypeName")
-    article: Article @deprecated(reason: "请切换为系统通知的通用属性")
-    post: Post @deprecated(reason: "请切换为系统通知的通用属性")
-    comment: Comment @deprecated(reason: "请切换为系统通知的通用属性")
-    reply: Comment @deprecated(reason: "请切换为系统通知的通用属性")
+    article: Article @deprecated(reason: "旧方式了，依赖n+1查询，建议切换为通知数据的属性")
+    post: Post @deprecated(reason: "旧方式了，依赖n+1查询，建议切换为通知数据的属性")
+    comment: Comment @deprecated(reason: "旧方式了，依赖n+1查询，建议切换为通知数据的属性")
+    reply: Comment @deprecated(reason: "旧方式了，依赖n+1查询，建议切换为通知数据的属性")
     """
-    通知关联的用户(非通知对象)
+    互动的用户(非通知本人)
     """
     user: User
     """
-    通知的对象id
+    通知数据的id
     """
-    notify_id: Int
+    data_id: Int
     """
-    通知的对象title
+    通知数据的title
     """
-    notify_title: String
+    data_title: String
     """
-    通知的对象type(比如:movies)
+    通知数据的type(比如:movies)
     """
-    notify_type: String
+    data_type: String
     """
-    通知的对象cover
+    通知数据的cover
     """
-    notify_cover: String
+    data_cover: String
     """
-    通知的对象description
+    通知数据的description
     """
-    notify_description: String
+    data_description: String
     """
-    通知的对象url(做网页跳转用)
+    通知数据的url(做网页跳转用)
     """
-    notify_url: String
+    data_url: String
     created_at: DateTime!
     updated_at: DateTime!
 }

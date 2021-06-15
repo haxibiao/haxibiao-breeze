@@ -8,7 +8,7 @@ use Illuminate\Notifications\DatabaseNotification;
 
 /**
  * breeze 的通知
- * FIXME: 逐步用系统通知来替代原来混乱的每个类型一个属性的通知data结构
+ * FIXME: 逐步用通知数据代原来混乱的每个类型一个属性的通知data结构
  */
 class Notification extends DatabaseNotification
 {
@@ -17,49 +17,49 @@ class Notification extends DatabaseNotification
     use NotificationResolver;
 
     /**
-     * 系统通知属性 notify_id
+     * 通知数据 data_id
      */
-    public function getNotifyIdAttribute()
+    public function getDataIdAttribute()
     {
         return data_get($this, 'data.id');
     }
 
     /**
-     * 系统通知属性 notify_type
+     * 通知数据 data_type
      */
-    public function getNotifyTypeAttribute()
+    public function getDataTypeAttribute()
     {
         return data_get($this, 'data.type');
     }
 
     /**
-     * 系统通知属性 notify_title
+     * 通知数据 data_message (有评论，消息的通知)
      */
-    public function getNotifyTitleAttribute()
+    public function getDataMessageAttribute()
     {
-        return data_get($this, 'data.title');
+        return data_get($this, 'data.message');
     }
 
     /**
-     * 系统通知属性 notify_cover
+     * 通知数据 data_cover
      */
-    public function getNotifyCoverAttribute()
+    public function getDataCoverAttribute()
     {
         return data_get($this, 'data.cover');
     }
 
     /**
-     * 系统通知属性 notify_description
+     * 通知数据 data_description
      */
-    public function getNotifyDescriptionAttribute()
+    public function getDataDescriptionAttribute()
     {
         return data_get($this, 'data.description');
     }
 
     /**
-     * 系统通知属性 notify_url
+     * 通知数据 data_url
      */
-    public function getNotifyUrlAttribute()
+    public function getDataUrlAttribute()
     {
         return data_get($this, 'data.url');
     }
