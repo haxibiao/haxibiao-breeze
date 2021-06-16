@@ -17,7 +17,9 @@
                 @endif
             </p>
             <p class="well">
-                您的账户目前还没有权限访问本页，找管理员进行权限赋予，或者点击下方链接，已经进行邮箱验证来赋予权限.
+				@if($exception)
+                    {{ $exception->getMessage() }}
+                @endif
             </p>
             <p>
                 <a class="btn btn-primary btn-lg" href="/">
