@@ -10,6 +10,7 @@ use Haxibiao\Breeze\Exceptions\UserException;
 use Haxibiao\Breeze\OAuth;
 use Haxibiao\Breeze\User;
 use Haxibiao\Breeze\UserProfile;
+use Haxibiao\Breeze\UserRetention;
 use Haxibiao\Breeze\Verify;
 use Haxibiao\Helpers\utils\PhoneUtils;
 use Haxibiao\Helpers\utils\WechatUtils;
@@ -846,5 +847,35 @@ trait UserRepo
         }
 
         return $isBadUser;
+    }
+
+    /**
+     * 隔日恢复精力
+     */
+    public function restoreTicket()
+    {
+        if ($this->ticket_restore_at) {
+            $canRestore = $this->ticket_restore_at <= today();
+            if ($canRestore) {
+                $this->ticket            = $this->level->ticket_max;
+                $this->ticket_restore_at = now();
+
+                // - 记录留存情况
+                UserRetention::recordUserRetention($this);
+
+                // - 恢复禁言
+                if ($this->status == User::MUTE_STATUS) {
+                    $this->status = User::ENABLE_STATUS;
+                }
+
+                // - 清空日贡献
+                $this->today_contributes = 0;
+                $this->save();
+
+                // - 异步同步用户的一些当日计数... TODO:目前是一个jobs 在答赚上 没有抽出来
+                // dispatch(new SyncUserProfiles($this->id));
+            }
+            return $canRestore;
+        }
     }
 }
