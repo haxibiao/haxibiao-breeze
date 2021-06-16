@@ -109,7 +109,7 @@ trait NotificationAttrs
     {
         //尊重data里缓存的用户信息，避免多余查询
         $user = new User([
-            'id'     => data_get($this, 'data.user_id'),
+            'id'     => data_get($this, 'data.user_id', 1),
             'name'   => data_get($this, 'data.user_name', User::DEFAULT_NAME),
             'avatar' => data_get($this, 'data.user_avatar', url(User::AVATAR_DEFAULT)),
         ]);
