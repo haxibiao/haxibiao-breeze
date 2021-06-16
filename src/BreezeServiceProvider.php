@@ -90,6 +90,7 @@ class BreezeServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->bindObservers();
+        $this->bindListeners();
 
         //默认强制线上的站点支持https(google已开始强制站点只收录https多年)
         if (is_prod_env()) {
@@ -174,13 +175,37 @@ class BreezeServiceProvider extends ServiceProvider
 
     public function bindObservers()
     {
-
         \Haxibiao\Breeze\User::observe(\Haxibiao\Breeze\Observers\UserObserver::class);
-
         \Haxibiao\Breeze\BadWord::observe(\Haxibiao\Breeze\Observers\BadWordObserver::class);
         \Haxibiao\Task\Contribute::observe(\Haxibiao\Breeze\Observers\ContributeObserver::class);
-        //\Haxibiao\Wallet\Gold::observe(\Haxibiao\Breeze\Observers\GoldObserver::class);
+    }
 
+    public function bindListeners()
+    {
+        \Illuminate\Support\Facades\Event::listen(
+            'Haxibiao\Breeze\Events\NewLike',
+            'Haxibiao\Breeze\Listeners\SendNewLikeNotification'
+        );
+        \Illuminate\Support\Facades\Event::listen(
+            'Haxibiao\Breeze\Events\NewFollow',
+            'Haxibiao\Breeze\Listeners\SendNewFollowNotification'
+        );
+        \Illuminate\Support\Facades\Event::listen(
+            'Haxibiao\Breeze\Events\NewReport',
+            'Haxibiao\Breeze\Listeners\SendNewReportNotification'
+        );
+        \Illuminate\Support\Facades\Event::listen(
+            'Haxibiao\Breeze\Events\NewComment',
+            'Haxibiao\Breeze\Listeners\SendNewCommentNotification'
+        );
+        \Illuminate\Support\Facades\Event::listen(
+            'Haxibiao\Breeze\Events\NewComment',
+            'Haxibiao\Breeze\Listeners\UpdateCommentMorphData'
+        );
+        \Illuminate\Support\Facades\Event::listen(
+            'Haxibiao\Breeze\Events\NewMessage',
+            'Haxibiao\Breeze\Listeners\SendNewMessageNotification'
+        );
     }
 
     protected function bindPathsInContainer()

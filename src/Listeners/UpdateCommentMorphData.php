@@ -8,6 +8,9 @@ use Haxibiao\Question\Question;
 use Haxibiao\Sns\Comment;
 use Haxibiao\Sns\Feedback;
 
+/**
+ * 更新评论的对象的状态 数据
+ */
 class UpdateCommentMorphData
 {
     // public $queue = 'listeners';
