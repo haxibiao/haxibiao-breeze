@@ -13,7 +13,7 @@ use Illuminate\Bus\Queueable;
 class CommentAccepted extends BreezeNotification
 {
     use Queueable;
-    public static $notify_action = "评论被采纳";
+    public static $data_action = "采纳了评论";
     protected $comment;
     protected $sender;
 
@@ -38,16 +38,16 @@ class CommentAccepted extends BreezeNotification
         $commentable = $this->comment->commentable;
         // - 评论了动态
         if ($commentable instanceof Post) {
-            $this->notify_description = $commentable->description;
-            $this->notify_cover       = $commentable->cover;
+            $this->data_description = $commentable->description;
+            $this->data_cover       = $commentable->cover;
         }
         // - FIXME: 评论了电影/文章
         $data = array_merge($data, [
             'id'          => $this->comment->commentable_id,
             'type'        => $this->comment->commentable_type,
             'message'     => $this->comment->body, //评论
-            'description' => $this->notify_description, //评论的内容
-            'cover'       => $this->notify_cover, //内容的配图
+            'description' => $this->data_description, //评论的内容
+            'cover'       => $this->data_cover, //内容的配图
         ]);
         return $data;
 

@@ -13,7 +13,7 @@ class ReplyCommentNotification extends BreezeNotification
 {
     use Queueable;
 
-    public static $notify_action = "评论被回复";
+    public static $data_action = "回复了评论";
     protected $reply;
     protected $sender;
 
@@ -46,12 +46,12 @@ class ReplyCommentNotification extends BreezeNotification
         $commentable = $this->comment->commentable;
         // - 评论了动态
         if ($commentable instanceof Post) {
-            $this->notify_description = $commentable->description;
-            $this->notify_cover       = $commentable->cover;
+            $this->data_description = $commentable->description;
+            $this->data_cover       = $commentable->cover;
         }
         // - 评论了楼中楼
         if ($commentable instanceof Comment) {
-            $this->notify_description = $commentable->body;
+            $this->data_description = $commentable->body;
         }
 
         // - FIXME: 评论了电影/文章
@@ -59,8 +59,8 @@ class ReplyCommentNotification extends BreezeNotification
             'id'          => $this->comment->commentable_id,
             'type'        => $this->comment->commentable_type,
             'message'     => $this->comment->body, //评论
-            'description' => $this->notify_description, //评论的内容
-            'cover'       => $this->notify_cover, //内容的配图
+            'description' => $this->data_description, //评论的内容
+            'cover'       => $this->data_cover, //内容的配图
         ]);
     }
 }

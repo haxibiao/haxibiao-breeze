@@ -9,7 +9,7 @@ use Illuminate\Bus\Queueable;
 class QuestionAnswered extends BreezeNotification
 {
     use Queueable;
-    public static $notify_action = "提问被回答";
+    public static $notify_event = "回答了提问";
     protected $user;
     protected $issue;
 

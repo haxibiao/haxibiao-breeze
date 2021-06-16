@@ -10,7 +10,7 @@ class CategoryFollowed extends BreezeNotification
 {
     use Queueable;
 
-    public static $notify_action = "专题被关注";
+    public static $notify_event = "关注了专题";
 
     protected $category;
     protected $user;

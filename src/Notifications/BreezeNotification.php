@@ -11,39 +11,39 @@ use Illuminate\Notifications\Notification;
  */
 class BreezeNotification extends Notification
 {
+    //通知的事件名
+    protected $custom_event;
     //通知相关对象
-    protected $notify_id;
-    protected $notify_type;
+    protected $data_id;
+    protected $data_type;
     //通知的消息
-    protected $notify_message;
+    protected $data_message;
     //通知的配图
-    protected $notify_cover;
+    protected $data_cover;
     //通知的配文
-    protected $notify_description;
-    //通知的对象的URL
-    protected $notify_url;
+    protected $data_description;
 
     //触发通知的人
     protected $sender;
 
-    public static $notify_action = "通知";
+    public static $notify_event = "通知";
 
     public function __construct(User $sender,
-        $notify_id,
-        $notify_type,
-        $notify_message,
-        $notify_cover = null,
-        $notify_description = null,
-        $notify_url = null
+        $data_id,
+        $data_type,
+        $data_message,
+        $data_cover = null,
+        $data_description = null,
+        $custom_event = null
     ) {
         $this->sender = $sender;
 
-        $this->notify_id          = $notify_id;
-        $this->notify_type        = $notify_type;
-        $this->notify_message     = $notify_message;
-        $this->notify_cover       = $notify_cover;
-        $this->notify_description = $notify_description;
-        $this->notify_url         = $notify_url;
+        $this->data_id          = $data_id;
+        $this->data_type        = $data_type;
+        $this->data_message     = $data_message;
+        $this->data_cover       = $data_cover;
+        $this->data_description = $data_description;
+        $this->custom_event     = $custom_event;
     }
 
     public function via($notifiable)
@@ -57,13 +57,15 @@ class BreezeNotification extends Notification
 
     public function toMail($notifiable)
     {
-        $mailSubject = "来自" . $this->sender->name . "的" . self::$notify_action . "：" . $this->notfiy_title;
+        //发邮件有需要，填充url到data
+        $this->data_url = url($this->data_type . "/" . $this->data_id);
+        $mailSubject    = "来自" . $this->sender->name . "的通知：" . self::$notify_event;
         return (new MailMessage)
             ->from('notification@' . env('APP_DOMAIN'), config('app.name_cn'))
             ->subject($mailSubject)
-            ->line($mailSubject)
-            ->action('查看详情', $this->notify_url)
-            ->line($this->notify_description);
+            ->line($mailSubject . " " . $this->data_title . " <br/>"+$this->data_description)
+            ->action('查看详情', $this->data_url)
+            ->line($this->data_description);
     }
 
     protected function senderToArray()
@@ -81,12 +83,12 @@ class BreezeNotification extends Notification
             //通知互动的用户
             $this->senderToArray(), [
                 //通知互动的内容
-                'type'        => $this->notify_type,
-                'id'          => $this->notify_id,
-                'message'     => $this->notify_message,
-                'description' => $this->notify_description,
-                'cover'       => $this->notify_cover,
-                'url'         => $this->notify_url,
+                'type'        => $this->data_type,
+                'id'          => $this->data_id,
+                'message'     => $this->data_message,
+                'cover'       => $this->data_cover,
+                'description' => $this->data_description,
+                'event'       => $this->custom_event,
             ]);
     }
 }

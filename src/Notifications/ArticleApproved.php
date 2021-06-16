@@ -10,7 +10,7 @@ class ArticleApproved extends BreezeNotification
 {
     use Queueable;
 
-    public static $notify_action = "收录了文章";
+    public static $notify_event = "收录了文章";
 
     protected $article;
     protected $category;

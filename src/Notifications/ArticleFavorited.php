@@ -10,7 +10,7 @@ class ArticleFavorited extends BreezeNotification
 {
     use Queueable;
 
-    public static $notify_action = "文章被收藏";
+    public static $notify_event = "收藏了文章";
 
     protected $article;
     protected $user;

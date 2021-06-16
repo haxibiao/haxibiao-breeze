@@ -10,7 +10,7 @@ class LikedNotification extends BreezeNotification
 {
     use Queueable;
 
-    public static $notify_action = "新点赞";
+    public static $data_action = "新点赞";
     protected $like;
 
     public function __construct(Like $like)
@@ -43,9 +43,9 @@ class LikedNotification extends BreezeNotification
 
             //完善新通知结构配图
             if ($this->like->likable instanceof Post) {
-                $post                     = $this->like->likable;
-                $this->notify_description = $post->description;
-                $this->notify_cover       = $post->cover;
+                $post                   = $this->like->likable;
+                $this->data_description = $post->description;
+                $this->data_cover       = $post->cover;
             }
         }
 
@@ -64,8 +64,8 @@ class LikedNotification extends BreezeNotification
         $data = array_merge($data, [
             'type'        => $this->like->likable_type,
             'id'          => $this->like->likable_id,
-            'description' => $this->notify_description, //对象的内容
-            'cover'       => $this->notify_cover,
+            'description' => $this->data_description, //对象的内容
+            'cover'       => $this->data_cover,
         ]);
 
         return $data;

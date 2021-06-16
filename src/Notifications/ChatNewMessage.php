@@ -9,7 +9,7 @@ class ChatNewMessage extends BreezeNotification
 {
     use Queueable;
 
-    public static $notify_action = "新私信";
+    public static $notify_event = "新私信";
 
     public $message;
     public $user;

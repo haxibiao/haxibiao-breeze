@@ -14,7 +14,7 @@ class ArticleLiked extends BreezeNotification implements ShouldQueue
 {
     use Queueable;
 
-    public static $notify_action = "文章被点赞";
+    public static $notify_event = "点赞了文章";
 
     protected $article;
     protected $user;

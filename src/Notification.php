@@ -87,9 +87,14 @@ class Notification extends DatabaseNotification
      */
     public function getTypeNameAttribute()
     {
+        //优先尊重数据里自定义的事件名
+        if ($data_event = data_get($this, 'data.event')) {
+            return $data_event;
+        }
+
         $notification_namespace = "Haxibiao\\Breeze\\Notifications\\";
         $notification_class     = $notification_namespace . short_notify_type($this->type);
-        return $notification_class::$notify_action ?? '通知';
+        return $notification_class::$notify_event ?? '通知';
     }
 
     /**

@@ -10,9 +10,9 @@ class FeedbackCommentNotification extends BreezeNotification
 {
     use Queueable;
 
-    public static $notify_action = "反馈被评论";
-    protected $comment           = null;
-    protected $feedback          = null;
+    public static $notify_event = "评论了反馈";
+    protected $comment          = null;
+    protected $feedback         = null;
 
     public function __construct(Feedback $feedback, Comment $comment)
     {

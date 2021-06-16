@@ -10,7 +10,7 @@ class QuestionInvited extends BreezeNotification
 {
     use Queueable;
 
-    public static $notify_action = "邀请回答";
+    public static $notify_event = "邀请了回答";
     protected $user;
     protected $issue;
 

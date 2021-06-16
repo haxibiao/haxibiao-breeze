@@ -130,8 +130,8 @@ trait NotificationAttrs
 
         //被多维操作关联上的动态 - 兼容以前的 固定访问 Notification下的Post 属性习惯的
         if ("posts" === data_get($this, 'data.type')) {
-            if ($notify_id = data_get($this, 'data.id')) {
-                return Post::find($notify_id);
+            if ($data_id = data_get($this, 'data.id')) {
+                return Post::find($data_id);
             }
         }
 

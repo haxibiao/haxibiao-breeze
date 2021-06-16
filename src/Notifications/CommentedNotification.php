@@ -13,7 +13,7 @@ class CommentedNotification extends BreezeNotification
 {
     use Queueable;
 
-    public static $notify_action = "新评论";
+    public static $data_action = "新评论";
     private $comment;
 
     public function __construct(Comment $comment)
@@ -36,17 +36,17 @@ class CommentedNotification extends BreezeNotification
         $commentable = $this->comment->commentable;
         // - 评论了动态
         if ($commentable instanceof Post) {
-            $post                     = $commentable;
-            $this->notify_description = $post->description;
-            $this->notify_cover       = $post->cover;
+            $post                   = $commentable;
+            $this->data_description = $post->description;
+            $this->data_cover       = $post->cover;
         }
         // - FIXME: 评论了电影/文章
         $data = array_merge($data, [
             'id'          => $this->comment->commentable_id,
             'type'        => $this->comment->commentable_type,
             'message'     => $this->comment->body, //评论
-            'description' => $this->notify_description, //对象的内容
-            'cover'       => $this->notify_cover, //内容的配图
+            'description' => $this->data_description, //对象的内容
+            'cover'       => $this->data_cover, //内容的配图
         ]);
 
         return $data;

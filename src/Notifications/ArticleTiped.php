@@ -10,7 +10,7 @@ class ArticleTiped extends BreezeNotification
 {
     use Queueable;
 
-    public static $notify_action = "文章被打赏";
+    public static $notify_event = "打赏了文章";
 
     protected $article;
     protected $user;

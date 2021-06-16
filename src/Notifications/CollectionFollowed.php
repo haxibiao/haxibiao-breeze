@@ -8,7 +8,7 @@ use Illuminate\Bus\Queueable;
 class CollectionFollowed extends BreezeNotification
 {
     use Queueable;
-    public static $notify_action = "合集被关注";
+    public static $notify_event = "关注了合集";
     protected $collection;
 
     public function __construct(Collection $collection)

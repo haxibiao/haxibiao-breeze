@@ -14,7 +14,7 @@ class CategoryRequested extends BreezeNotification
 {
     use Queueable;
 
-    public static $notify_action = "专题新投稿";
+    public static $notify_event = "投稿了专题";
 
     protected $category;
     protected $article;

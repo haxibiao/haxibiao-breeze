@@ -7,7 +7,7 @@ use Illuminate\Bus\Queueable;
 class ReceiveAward extends BreezeNotification
 {
     use Queueable;
-    public static $notify_action = "获得奖励";
+    public static $notify_event = "获得奖励";
     protected $subject;
     protected $gold;
     protected $sender;

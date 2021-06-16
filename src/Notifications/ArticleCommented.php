@@ -8,7 +8,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 class ArticleCommented extends BreezeNotification
 {
 
-    public static $notify_action = "评论了文章";
+    public static $notify_event = "评论了文章";
 
     protected $article;
     protected $user;

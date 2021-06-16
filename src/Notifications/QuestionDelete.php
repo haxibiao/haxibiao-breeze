@@ -8,7 +8,7 @@ use Illuminate\Bus\Queueable;
 class QuestionDelete extends BreezeNotification
 {
     use Queueable;
-    public static $notify_action = "悬赏问题已删除";
+    public static $notify_event = "删除了问题";
 
     protected $issue;
 
