@@ -13,7 +13,7 @@ class ReplyCommentNotification extends BreezeNotification
 {
     use Queueable;
 
-    public static $data_action = "回复了评论";
+    public static $notify_event = "回复了评论";
     protected $reply;
     protected $sender;
 

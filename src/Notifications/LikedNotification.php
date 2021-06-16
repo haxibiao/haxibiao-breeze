@@ -10,7 +10,7 @@ class LikedNotification extends BreezeNotification
 {
     use Queueable;
 
-    public static $data_action = "新点赞";
+    public static $notify_event = "点了个赞";
     protected $like;
 
     public function __construct(Like $like)

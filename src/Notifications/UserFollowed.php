@@ -12,7 +12,7 @@ class UserFollowed extends BreezeNotification
 {
     use Queueable;
 
-    public static $data_action = "新关注";
+    public static $notify_event = "新关注";
     protected $sender;
 
     public function __construct(User $sender)

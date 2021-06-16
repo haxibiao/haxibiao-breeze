@@ -13,7 +13,7 @@ use Illuminate\Bus\Queueable;
 class CommentAccepted extends BreezeNotification
 {
     use Queueable;
-    public static $data_action = "采纳了评论";
+    public static $notify_event = "采纳了评论";
     protected $comment;
     protected $sender;
 

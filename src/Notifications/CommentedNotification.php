@@ -13,7 +13,7 @@ class CommentedNotification extends BreezeNotification
 {
     use Queueable;
 
-    public static $data_action = "新评论";
+    public static $notify_event = "发表了评论";
     private $comment;
 
     public function __construct(Comment $comment)
