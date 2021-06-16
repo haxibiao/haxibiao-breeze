@@ -88,7 +88,8 @@ class Notification extends DatabaseNotification
     public function getTypeNameAttribute()
     {
         //优先尊重数据里自定义的事件名
-        if ($data_event = data_get($this, 'data.event')) {
+        $data_event = data_get($this, 'data.event');
+        if (!blank($data_event)) {
             return $data_event;
         }
 

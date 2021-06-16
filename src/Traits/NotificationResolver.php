@@ -11,7 +11,8 @@ trait NotificationResolver
      */
     public function resolveNotifications($root, array $args, $context, $resolveInfo)
     {
-        if ($user_id = data_get($args, 'user_id')) {
+        $user_id = data_get($args, 'user_id');
+        if (!blank($user_id)) {
             //支持查看置顶用户的消息数据
             $user = User::find($user_id);
         } else {
