@@ -20,11 +20,12 @@ class ReplyCommentNotification extends BreezeNotification
     public function __construct(Comment $comment)
     {
         $this->reply = $comment;
-        //楼中楼回复的评论
-        $this->comment = $this->reply->commentable;
+        //楼中楼回复的父评论
+        $this->comment = $this->reply->comment;
         $this->sender  = $comment->user;
     }
 
+    //FIXME: 需要不送给自己，注释掉这里
     public function via($notifiable)
     {
         return ['database'];
