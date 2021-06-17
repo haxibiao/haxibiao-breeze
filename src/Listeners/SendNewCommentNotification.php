@@ -39,8 +39,9 @@ class SendNewCommentNotification implements ShouldQueue
     public function handle(NewComment $event)
     {
         //TODO: 可以对很多新的评论的时候，合并一堆的评论来聚合法一个通知，比如一个发布，一段时间汇总总评论数
-        $comment = $this->comment = $event->comment;
-        if (!is_null($this->comment)) {
+
+        $comment = $event->comment;
+        if (!is_null($comment)) {
             $commentable = $comment->commentable;
 
             //作品
@@ -80,8 +81,10 @@ class SendNewCommentNotification implements ShouldQueue
 
     protected function notifyCommentAuthor($comment)
     {
-        $parentComment = $comment->parent_comment;
-        $parentComment->user->notify(new ReplyCommentNotification($comment));
+        $parentComment = $comment->comment;
+        if ($parentCommentAuthor = $parentComment->user) {
+            $parentCommentAuthor->notify(new ReplyCommentNotification($comment));
+        }
     }
 
     protected function notifyReplyAuthor($comment)
