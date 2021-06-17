@@ -2,13 +2,14 @@
 
 namespace Haxibiao\Breeze\Nova;
 
+use Laravel\Nova\Resource;
+use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Gravatar;
-use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Password;
-use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Resource;
+use Haxibiao\Breeze\Nova\Actions\User\AddMasterAccount;
 
 class User extends Resource
 {
@@ -104,6 +105,9 @@ class User extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            new AddMasterAccount,
+
+        ];
     }
 }

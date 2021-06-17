@@ -89,6 +89,14 @@ type User {
     用户身份
     """
     role: ROLE @rename(attribute: "role_id")
+    """
+    隶属的主账户
+    """
+    masterAccount: User
+    """
+    绑定的子账户
+    """
+    vestAccounts: [User]
 }
 
 type blockInfo {

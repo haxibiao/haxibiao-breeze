@@ -10,6 +10,7 @@ use App\UserProfile;
 use Haxibiao\Breeze\CheckIn;
 use Haxibiao\Breeze\OAuth;
 use Haxibiao\Breeze\Role;
+use Haxibiao\Breeze\User;
 use Haxibiao\Breeze\UserData;
 use Haxibiao\Breeze\UserRetention;
 use Haxibiao\Content\Issue;
@@ -26,6 +27,7 @@ use Haxibiao\Wallet\Gold;
 use Haxibiao\Wallet\Transaction;
 use Haxibiao\Wallet\Wallet;
 use Haxibiao\Wallet\Withdraw;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -194,5 +196,15 @@ trait UserRelations
     public function curations(): HasMany
     {
         return $this->hasMany(Curation::class)->with('question');
+    }
+    // 绑定的子账号们（马甲账号
+    public function vestAccounts(): HasMany
+    {
+        return $this->hasMany(User::class, 'master_id');
+    }
+    // 主账号
+    public function masterAccount(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'master_id');
     }
 }
