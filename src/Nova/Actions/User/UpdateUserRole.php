@@ -15,10 +15,10 @@ use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Nova;
 
-class AddMasterAccount extends Action
+class UpdateUserRole extends Action
 {
 
-    public $name = '绑定马甲到运营账户';
+    public $name = '用户角色变更';
     use InteractsWithQueue, Queueable, SerializesModels, Actionable;
 
     public function uriKey()
@@ -35,24 +35,14 @@ class AddMasterAccount extends Action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
-        $masterId = $fields->master_id;
-
-        if (!isset($masterId)) {
-            return Action::danger('请选择一个运营账号为主账号');
+        if (!isset($fields->type) and !isset($fields->role_id)) {
+            return Action::danger('不能为空');
         }
 
         DB::beginTransaction();
-        $count = 0;
-        $total = $models->count();
-        info($masterId);
         try {
             foreach ($models as $model) {
-                //只要不是运营以上用户，都能绑定到运营账户下被模拟
-                // if ($model->role_id == User::VEST_STATUS)
-                {
-                    $model->master_id = $masterId;
-                    $count++;
-                }
+                $model->role_id = $fields->role_id;
                 $model->save();
             }
         } catch (\Exception $e) {
@@ -61,7 +51,6 @@ class AddMasterAccount extends Action
             return Action::danger('数据批量变更失败，数据回滚');
         }
         DB::commit();
-        return Action::message('一共选择了' . $total . '条数据' . $count . '条数据成功更新');
 
     }
 
@@ -73,13 +62,9 @@ class AddMasterAccount extends Action
     public function fields()
     {
         return [
-            Select::make('要关联的运营主账号', 'master_id')->options(
-                function () {
-                    return User::whereIn('role_id', [User::ADMIN_STATUS, User::EDITOR_STATUS])
-                        ->pluck('name', 'id')->toArray();
-                }
+            Select::make('角色', 'role_id')->options(
+                User::getRolesMap()
             ),
         ];
-
     }
 }

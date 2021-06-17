@@ -1,6 +1,6 @@
 <?php
 
-namespace Haxibiao\Breeze\Nova\Actions;
+namespace Haxibiao\Breeze\Nova\Actions\User;
 
 use App\User;
 use Illuminate\Bus\Queueable;
@@ -16,7 +16,7 @@ use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Nova;
 
-class UpdateUser extends Action
+class UpdateUserStatus extends Action
 {
 
     public $name = '用户状态变更';
@@ -40,7 +40,7 @@ class UpdateUser extends Action
             return Action::danger('状态或者类型不能为空');
         }
 
-        \DB::beginTransaction();
+        DB::beginTransaction();
         try {
             foreach ($models as $model) {
                 if (isset($fields->status)) {
@@ -52,8 +52,8 @@ class UpdateUser extends Action
                 $model->save();
             }
         } catch (\Exception $e) {
-            \Log::error($e->getMessage());
-            \DB::rollBack();
+            Log::error($e->getMessage());
+            DB::rollBack();
             return Action::danger('数据批量变更失败，数据回滚');
         }
         DB::commit();
@@ -69,12 +69,7 @@ class UpdateUser extends Action
     {
         return [
             Select::make('状态', 'status')->options(
-                [
-                    User::STATUS_OFFLINE => '封禁',
-                    User::STATUS_ONLINE  => '正常',
-                    User::STATUS_DESTORY => '注销',
-                    User::STATUS_FREEZE  => '状态异常系统封禁',
-                ]
+                User::getStatusMap()
             ),
         ];
 
