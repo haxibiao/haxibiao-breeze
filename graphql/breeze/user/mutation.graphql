@@ -108,7 +108,7 @@ extend type Mutation {
     通用用户奖励接口
     """
     userReward(reward: RewardEnum): UserReward
-        @middleware(checks: ["graphql:10,1,userReward"])
+        # @middleware(checks: ["graphql:10,1,userReward"])
         @field(resolver: "App\\User@resolveUserReward")
         @deprecated(reason: "3.0.2之后直接用reward($reason:RewardEnum!)")
 

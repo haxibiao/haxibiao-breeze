@@ -388,4 +388,10 @@ trait UserResolvers
             'id' => uniqid(),
         ];
     }
+
+    public static function resolveUsersByRank($root, array $args, $context, $info)
+    {
+        app_track_event("首页", "用户排行榜");
+        return PlayWithQuestion::getUsersByRank($args['rank']);
+    }
 }

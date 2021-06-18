@@ -5,12 +5,12 @@ namespace Haxibiao\Breeze;
 use Haxibiao\Breeze\Traits\AvatarHelper;
 use Haxibiao\Breeze\Traits\HasFactory;
 use Haxibiao\Breeze\Traits\ModelHelpers;
+use Haxibiao\Breeze\Traits\PlayWithQuestion;
 use Haxibiao\Breeze\Traits\UserAttrs;
 use Haxibiao\Breeze\Traits\UserNotifiable;
 use Haxibiao\Breeze\Traits\UserRelations;
 use Haxibiao\Breeze\Traits\UserRepo;
 use Haxibiao\Breeze\Traits\UserResolvers;
-use Haxibiao\Breeze\Traits\UserScopes;
 use Haxibiao\Content\Traits\UseContent;
 use Haxibiao\Helpers\Traits\CanCacheAttributes;
 use Haxibiao\Media\Traits\UseMedia;
@@ -26,11 +26,13 @@ use Illuminate\Notifications\Notifiable;
 
 class BaseUser extends Model implements AuthenticatableContract, AuthorizableContract
 {
+    //laravel 特性
     use HasFactory;
     use CanCacheAttributes;
     use \Illuminate\Auth\Authenticatable, Authorizable;
     use Notifiable;
-    use UserScopes;
+
+    //breeze 特性
     use UserNotifiable;
     use UserAttrs;
     use UserRepo;
@@ -42,6 +44,8 @@ class BaseUser extends Model implements AuthenticatableContract, AuthorizableCon
     use UseMedia;
     use UseContent;
     use UseSns;
+
+    use PlayWithQuestion;
     use PlayWithTasks;
     use PlayWithWallet;
     use WithGolds;

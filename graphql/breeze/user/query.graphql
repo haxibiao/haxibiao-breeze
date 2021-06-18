@@ -121,7 +121,7 @@ type User {
     last_category_id: Int
     profile: userProfile
     questions(filter: QuestionFilterEnum, order: QuestionOrderEnum): [Question]
-        @paginate(defaultCount: 10, builder: "App\\User@resolverUserQuestions")
+        @paginate(defaultCount: 10, builder: "App\\User@resolveUserQuestions")
     answerHistories: [Answer] @hasMany(defaultCount: 10, type: "paginator", relation: "answers")
     contributes: [Contribute] @hasMany(defaultCount: 10, type: "paginator", relation: "contributes")
     #todayCategories: [Category]
@@ -267,7 +267,6 @@ type User {
     unread_medals_count: Int
     unread_messages_count: Int
     verified_at: String
-    
 }
 
 type blockInfo {
