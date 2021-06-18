@@ -749,12 +749,6 @@ trait UserRepo
             ->exists();
     }
 
-    public function destoryUser()
-    {
-        $this->status = User::STATUS_DESTORY;
-        $this->save();
-    }
-
     //nova后台提现金额排行前十的用户
     public static function getTopWithDraw($number = 5)
     {

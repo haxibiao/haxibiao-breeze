@@ -23,7 +23,11 @@ extend type Mutation {
     """
     smsSignIn(sms_code: String!, phone: String!): User @field(resolver: "App\\User@resolveSMSSignIn")
 
-    destoryUser: Boolean @field(resolver: "App\\User@destoryUserByToken")
+    """
+    注销账户
+    """
+    removeAccount: Boolean @field(resolver: "App\\User@resolveRemoveAccount")
+
     #  newUserReword(type:RewardType!): Int @field(resolver: "App\\User@newUserReword")
     bindDongdezhuan(account: String!, password: String!): Boolean @field(resolver: "App\\User@bindDongdezhuan")
 

@@ -324,13 +324,16 @@ trait UserResolvers
         }
     }
 
-    public function destoryUserByToken($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    /**
+     * APP用户主动注销账户
+     */
+    public function resolveRemoveAccount($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        if ($user = currentUser()) {
-            $user->destoryUser();
+        if ($user = getUser()) {
+            $user->status = User::STATUS_DESTORY;
+            $user->save();
             return true;
         }
-        throw_if(!isset($user->id) || is_null($user), GQLException::class, '请登录后再尝试哦~');
     }
 
     //观看新手教程或采集视频教程任务状态变更
