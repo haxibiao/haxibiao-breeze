@@ -1,10 +1,4 @@
 <?php
-/**
- * @Author  guowei<gongguowei01@gmail.com>
- * @Data    2020/5/8
- * @Version
- */
-
 namespace Haxibiao\Breeze\Traits;
 
 use Haxibiao\Breeze\Exceptions\UserException;
@@ -14,7 +8,10 @@ use Illuminate\Support\Arr;
 trait SignInResolvers
 {
 
-    public function resolveSignIn($root, array $args, $context, $info): SignIn
+    /**
+     * 答题版本签到
+     */
+    public function resolveDatiCheckIn($root, array $args, $context, $info): SignIn
     {
         $user   = getUser();
         $signIn = $user->signIns()->where('created_at', '>=', today())->first();

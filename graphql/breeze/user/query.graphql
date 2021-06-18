@@ -108,7 +108,10 @@ type User {
 
     follow_users_count: Int
     followers_count: Int
-    followed_user_status: Boolean @field(resolver: "App\\User@getFollowedUserStatus")
+    """
+    互相关注状态
+    """
+    followed_user_status: Boolean
     visited_count: Int
     exchange_rate: Int
     unread_notices_count: Int

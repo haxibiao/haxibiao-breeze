@@ -1,23 +1,22 @@
 extend type Mutation {
     """
-    登录
+    手动登录
     """
     signIn(account: String!, email: String, password: String!, code: String, uuid: String): User
         @field(resolver: "App\\User@resolveSignIn")
-
     """
     静默登录
     """
-    autoSignIn(uuid: String!, phone: String): User @field(resolver: "App\\User@resolveAutoSignIn")
-    """
-    静默登录
-    """
-    autoSignIn(account: String, uuid: String): User @field(resolver: "App\\User@resolveAutoSignIn")
+    autoSignIn(uuid: String!, account: String, phone: String): User @field(resolver: "App\\User@resolveAutoSignIn")
 
     """
     自动注册
     """
-    autoSignUp(account: String, uuid: String): User @field(resolver: "App\\User@resolveAutoSignUp")
+    autoSignUp(account: String, uuid: String): User @field(resolver: "App\\User@resolveAutoSignIn")
+    """
+    手动注册
+    """
+    signUp(account: String!, password: String!, uuid: String): User @field(resolver: "App\\User@resolveSignUp")
 
     """
     第三方账号登录
@@ -31,10 +30,6 @@ extend type Mutation {
     destoryUser: Boolean @field(resolver: "App\\User@destoryUserByToken")
     #  newUserReword(type:RewardType!): Int @field(resolver: "App\\User@newUserReword")
     bindDongdezhuan(account: String!, password: String!): Boolean @field(resolver: "App\\User@bindDongdezhuan")
-    """
-    注册
-    """
-    signUp(account: String!, password: String!, uuid: String): User @field(resolver: "App\\User@resolveSignUp")
 
     """
     token登录
@@ -61,7 +56,7 @@ extend type Mutation {
     """
     修改头像
     """
-    updateUserAvatar(avatar: String): User @field(resolver: "App\\User@updateUserAvatarResolver")
+    updateUserAvatar(avatar: String): User @field(resolver: "App\\User@resolveUpdateUserAvatar")
 
     """
     设置性别/介绍/生日
@@ -111,8 +106,10 @@ extend type Mutation {
         # @middleware(checks: ["graphql:10,1,userReward"])
         @field(resolver: "App\\User@resolveUserReward")
         @deprecated(reason: "3.0.2之后直接用reward($reason:RewardEnum!)")
-
-    deRegistserUser: User @field(resolver: "App\\User@resolvedeRegistserUser")
+    """
+    注销账号(用户主动删号)
+    """
+    deRegistserUser: User @field(resolver: "App\\User@resolveRemoveUser")
     checkPointReward(correctAnswerCount: Int): UserReward @field(resolver: "App\\User@resolveCheckPointReward")
     """
     奖励接口，提供reason，返回具体奖励结果

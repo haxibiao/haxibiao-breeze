@@ -194,9 +194,12 @@ trait UserResolvers
         return $user;
     }
 
+    /**
+     * 手动注册
+     */
     public static function resolveSignUp($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        app_track_event('用户', '静默登录');
+        app_track_event('用户', '手动注册');
         $phone = data_get($args, 'phone');
         //兼容答赚
         if (blank($phone)) {
@@ -209,6 +212,30 @@ trait UserResolvers
         $name  = data_get($args, 'name');
 
         $user = AuthHelper::signUp($phone, $password, $uuid, $email, $name);
+        return $user;
+    }
+
+    /**
+     * 手动登录
+     */
+    public static function resolveSignIn($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    {
+        app_track_event('用户', '手动注册');
+        $account = data_get($args, 'phone');
+        //兼容答赚
+        if (blank($account)) {
+            $account = data_get($args, 'account');
+        }
+        //兼容邮箱
+        if (blank($account)) {
+            $account = $args['email'];
+        }
+
+        $password = data_get($args, 'password');
+        $uuid     = data_get($args, 'uuid', get_device_id());
+
+        $user = AuthHelper::signIn($account, $password, $uuid);
+
         return $user;
     }
 
