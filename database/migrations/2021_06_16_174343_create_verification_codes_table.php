@@ -17,8 +17,8 @@ class CreateVerificationCodesTable extends Migration
             return;
         }
         Schema::create('verification_codes', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedInteger('id')->index();
+            $table->bigIncrements('id');
+            $table->unsignedInteger('user_id')->index();
             $table->string('channel')->nullable();
             $table->string('account');
             $table->string('code');
