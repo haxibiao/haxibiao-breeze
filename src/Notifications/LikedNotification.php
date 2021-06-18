@@ -22,24 +22,29 @@ class LikedNotification extends BreezeNotification
     public function toArray($notifiable)
     {
         if ($this->like->likable_type == 'comments') {
-            $body = '赞了你的评论';
-            //评论文章，视频，答案，动态
-            $lou          = $this->like->likable->lou;
-            $comment_body = $this->like->likable->body;
-            $commentable  = $this->like->likable->commentable;
-            //评论问答中的答案
-            if ($this->like->likable->commentable_type == 'answers') {
+            $this->custom_event = '赞了你的评论';
+
+            //提取评论的内容对象
+            $this->data_message = $this->like->likable->body;
+            $this->data_type    = $this->like->likable->commentable_type;
+            $this->data_id      = $this->like->likable->commentable_id;
+
+            //为网页跳转提取URL
+            $lou         = $this->like->likable->lou;
+            $commentable = $this->like->likable->commentable;
+            if ($this->data_type === 'answers') {
                 $question = $commentable->question;
                 $url      = '/issue/' . $question->id;
-                $title    = $comment_body;
             } else {
-                $url   = $commentable->url . '#' . $lou;
-                $title = $comment_body;
+                $url = $commentable->url . '#' . $lou;
             }
+
         } else {
-            $body  = '喜欢了你的' . $this->like->likable->resoureTypeCN();
-            $url   = $this->like->likable->url;
-            $title = '《' . $this->like->likable->title . '》';
+            $this->custom_event = '喜欢了你的' . $this->like->likable->resoureTypeCN();
+            $this->data_message = '《' . $this->like->likable->title . '》';
+            $this->data_id      = $this->like->likable_id;
+            $this->data_type    = $this->like->likable_type;
+            $url                = $this->like->likable->url;
 
             //完善新通知结构配图
             if ($this->like->likable instanceof Post) {
@@ -49,12 +54,12 @@ class LikedNotification extends BreezeNotification
             }
         }
 
-        //兼容旧结构的
+        //兼容旧web结构的
         $data = [
-            'likeable_type' => $this->like->likable_type,
+            'likeable_type' => $this->data_type,
             'url'           => $url,
-            'title'         => $title,
-            'body'          => $body,
+            'title'         => $this->data_message,
+            'body'          => $this->custom_event,
         ];
 
         //互动用户
@@ -62,10 +67,12 @@ class LikedNotification extends BreezeNotification
 
         //互动对象
         $data = array_merge($data, [
-            'type'        => $this->like->likable_type,
-            'id'          => $this->like->likable_id,
+            'type'        => $this->data_type,
+            'id'          => $this->data_id,
+            'message'     => $this->data_message,
             'description' => $this->data_description, //对象的内容
             'cover'       => $this->data_cover,
+            'event'       => $this->custom_event,
         ]);
 
         return $data;

@@ -89,6 +89,14 @@ type User {
     用户身份
     """
     role: ROLE @rename(attribute: "role_id")
+    """
+    隶属的主账户
+    """
+    masterAccount: User
+    """
+    绑定的子账户
+    """
+    vestAccounts: [User]
 
     #  === 下面都是答题补充的用户profile的属性
 
@@ -259,6 +267,7 @@ type User {
     unread_medals_count: Int
     unread_messages_count: Int
     verified_at: String
+    
 }
 
 type blockInfo {

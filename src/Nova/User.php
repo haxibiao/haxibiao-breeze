@@ -2,6 +2,9 @@
 
 namespace Haxibiao\Breeze\Nova;
 
+use Haxibiao\Breeze\Nova\Actions\User\AddMasterAccount;
+use Haxibiao\Breeze\Nova\Actions\User\UpdateUserRole;
+use Haxibiao\Breeze\Nova\Actions\User\UpdateUserStatus;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Gravatar;
@@ -15,7 +18,7 @@ class User extends Resource
     public static $model  = \Haxibiao\Breeze\User::class;
     public static $title  = 'name';
     public static $search = [
-        'id', 'name', 'email',
+        'id', 'name', 'email', 'account',
     ];
 
     public static $group = "用户中心";
@@ -44,6 +47,10 @@ class User extends Resource
 
             Text::make('账号/手机', 'account')
                 ->rules('required', 'max:255'),
+
+            Text::make('身份', function () {return $this->role_name;}),
+
+            Text::make('状态', function () {return $this->status_name;}),
 
             Text::make('Email')
                 ->sortable()
@@ -104,6 +111,10 @@ class User extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            new AddMasterAccount,
+            new UpdateUserStatus,
+            new UpdateUserRole,
+        ];
     }
 }
