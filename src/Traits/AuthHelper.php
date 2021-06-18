@@ -8,7 +8,6 @@ use Haxibiao\Breeze\BlackList;
 use Haxibiao\Breeze\Exceptions\GQLException;
 use Haxibiao\Breeze\Exceptions\UserException;
 use Haxibiao\Breeze\Ip;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 trait AuthHelper
@@ -58,9 +57,6 @@ trait AuthHelper
 
         //更新统计用户APP版本
         $user->updateProfileAppVersion($user);
-
-        Auth::login($user);
-        $user->retention; //完善留存档案
         return $user;
     }
 
@@ -86,8 +82,6 @@ trait AuthHelper
 
         //账号已注销
         throw_if($user->isDegregister(), UserException::class, '操作失败,账户已注销!', config('auth.close_account', '9999'));
-
-        Auth::login($user);
         return $user;
     }
 
@@ -117,7 +111,6 @@ trait AuthHelper
         }
 
         //登录
-        Auth::login($user);
         return $user;
     }
 
@@ -153,9 +146,6 @@ trait AuthHelper
             'name'      => $name,
         ]);
 
-        Auth::login($user);
-        $user->retention; //完善留存档案
-
         // 记录IP
         Ip::createIpRecord('users', $user->id, $user->id);
         return $user;
@@ -186,10 +176,6 @@ trait AuthHelper
             'name'      => config('auth.default_name', '匿名用户'),
             'api_token' => Str::random(60),
         ]);
-
-        Auth::login($user);
-        $user->retention; //完善留存档案
-
         return $user;
     }
 

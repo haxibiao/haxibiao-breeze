@@ -1,10 +1,10 @@
 <?php
 namespace Haxibiao\Breeze;
 
-use Haxibiao\Breeze\User;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Database\Eloquent\Model;
 use Haxibiao\Breeze\Traits\ModelHelpers;
+use Haxibiao\Breeze\User;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 class UserRetention extends Model
 {
@@ -37,12 +37,6 @@ class UserRetention extends Model
      */
     public static function recordUserRetention($user)
     {
-        // FIXED: $user->id find user ???
-        // $user = User::find($user->id);
-        // if (!$user) {
-        //     return;
-        // }
-
         $retention = UserRetention::firstOrNew(['user_id' => $user->id]);
         //baseUser 有唯一留存档案属性(lazy load)
         try {
