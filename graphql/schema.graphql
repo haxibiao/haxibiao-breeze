@@ -2,10 +2,16 @@
 #import inputs.graphql
 
 type Query {
-    me: User @auth(guard: "api")
+    """
+    刷新已登录自己的资料
+    """
+    me(refetch: Int): User @field(resolver: "App\\User@resolveMe")
 }
 
 type Mutation {
+    """
+    手动注册
+    """
     signUp(account: String!, password: String!, uuid: String, email: String, name: String): User!
         @field(resolver: "App\\User@resolveSignUp")
 }

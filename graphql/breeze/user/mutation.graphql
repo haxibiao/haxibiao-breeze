@@ -13,10 +13,6 @@ extend type Mutation {
     自动注册
     """
     autoSignUp(account: String, uuid: String): User @field(resolver: "App\\User@resolveAutoSignIn")
-    """
-    手动注册
-    """
-    signUp(account: String!, password: String!, uuid: String): User @field(resolver: "App\\User@resolveSignUp")
 
     """
     第三方账号登录
@@ -106,6 +102,7 @@ extend type Mutation {
         # @middleware(checks: ["graphql:10,1,userReward"])
         @field(resolver: "App\\User@resolveUserReward")
         @deprecated(reason: "3.0.2之后直接用reward($reason:RewardEnum!)")
+
     """
     注销账号(用户主动删号)
     """

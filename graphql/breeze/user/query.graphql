@@ -98,8 +98,6 @@ type User {
     """
     vestAccounts: [User]
 
-    #  === 下面都是答题补充的用户profile的属性
-
     birthday: String
     correct_count: Int
     week_contributes: Int
@@ -303,10 +301,7 @@ extend type Query {
     查看用户主页、获取用户资料，线上3.0还在使用，下版本使用 me 去刷新自己的信息
     """
     user(id: Int @eq, account: String @eq, refetch: Int): User @field(resolver: "App\\User@resolveUser")
-    """
-    刷新已登录自己的资料
-    """
-    me(refetch: Int): User @field(resolver: "App\\User@resolveMe")
+
     """
     用户排行榜（默认前50个）
     """
