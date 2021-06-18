@@ -16,6 +16,12 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 trait UserResolvers
 {
+    public function resolveMe($root, array $args, $context, $info)
+    {
+        $user = getUser();
+        return $user;
+    }
+
     public static function hasRewardResolver($root, array $args, $context, $info)
     {
         $user_id = data_get($args, 'user_id');
