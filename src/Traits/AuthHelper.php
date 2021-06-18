@@ -46,8 +46,11 @@ trait AuthHelper
             }
         }
 
-        //用户名排重
-        $user->update(['name' => $user->name . $user->id]);
+        //匿名用户名排重
+        if ($user->name === User::DEFAULT_NAME) {
+            $user->update(['name' => $user->name . $user->id]);
+        }
+
         //记录IP
         Ip::createIpRecord('users', $user->id, $user->id);
 
