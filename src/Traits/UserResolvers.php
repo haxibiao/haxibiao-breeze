@@ -5,7 +5,6 @@ namespace Haxibiao\Breeze\Traits;
 use App\Gold;
 use GraphQL\Type\Definition\ResolveInfo;
 use Haxibiao\Breeze\Exceptions\GQLException;
-use Haxibiao\Breeze\Ip;
 use Haxibiao\Breeze\User;
 use Haxibiao\Content\Category;
 use Haxibiao\Question\Helpers\Redis\RedisSharedCounter;
@@ -161,48 +160,6 @@ trait UserResolvers
         }
     }
 
-    public static function signUp($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
-    {
-
-        if (isset($args['account'])) {
-
-            $account = $args['account'];
-
-            $exists = User::where('phone', $account)->orWhere('account', $account)->exists();
-            //手机号格式验证
-            $flag = preg_match('/^[1](([3][0-9])|([4][5-9])|([5][0-3,5-9])|([6][5,6])|([7][0-8])|([8][0-9])|([9][1,8,9]))[0-9]{8}$/', $account);
-            if (!$flag) {
-                throw new GQLException('注册失败，手机号格式不正确，请检查是否输入正确');
-            }
-
-            if (preg_match("/([\x81-\xfe][\x40-\xfe])/", $args['password'])) {
-                throw new GQLException('密码中不能包含中文');
-            }
-
-            if ($exists) {
-                throw new GQLException('该账号已经存在');
-            }
-            $name = $args['name'] ?? User::DEFAULT_NAME;
-            return self::createUser($name, $account, $args['password']);
-        }
-
-        $email  = $args['email'];
-        $exists = User::Where('email', $email)->exists();
-
-        if ($exists) {
-            throw new GQLException('该邮箱已经存在');
-        }
-
-        $user        = self::createUser(User::DEFAULT_NAME, $email, $args['password']);
-        $user->phone = null;
-        $user->email = $email;
-        $user->save();
-        app_track_event('用户', '用户注册');
-
-        Ip::createIpRecord('users', $user->id, $user->id);
-        return $user;
-    }
-
     public function resolveRecommendAuthors($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         //TODO: 实现真正的个性推荐算法
@@ -218,33 +175,34 @@ trait UserResolvers
     /**
      * 静默登录，uuid 必须传递，手机号可选
      */
-    public static function autoSignIn($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    public static function resolveAutoSignIn($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-
-        $qb = User::where('uuid', $args['uuid']);
-
-        // 不是首次登录
-        if ($qb->exists()) {
-            $user = $qb->first();
-            if ($user->status === User::STATUS_OFFLINE) {
-                throw new GQLException('登录失败！账户已被封禁');
-            } else if ($user->status === User::STATUS_DESTORY) {
-                throw new GQLException('登录失败！账户已被注销');
-            }
-        } else {
-            $user = User::create([
-                'uuid'      => $args['uuid'],
-                'account'   => $args['phone'] ?? $args['uuid'],
-                'name'      => User::DEFAULT_NAME,
-                'api_token' => Str::random(60),
-                'avatar'    => User::AVATAR_DEFAULT,
-            ]);
-            $user->update(['name' => $user->name . $user->id]);
-            Ip::createIpRecord('users', $user->id, $user->id);
-        }
-        $user->updateProfileAppVersion($user);
-
         app_track_event('用户', '静默登录');
+        $phone = data_get($args, 'phone');
+        //兼容答赚
+        if (blank($phone)) {
+            $phone = data_get($args, 'account');
+        }
+        $uuid = data_get($args, 'uuid');
+        $user = AuthHelper::autoSignIn($phone, $uuid);
+        return $user;
+    }
+
+    public static function resolveSignUp($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    {
+        app_track_event('用户', '静默登录');
+        $phone = data_get($args, 'phone');
+        //兼容答赚
+        if (blank($phone)) {
+            $phone = data_get($args, 'account');
+        }
+        $password = data_get($args, 'password');
+
+        $uuid  = data_get($args, 'uuid');
+        $email = data_get($args, 'email');
+        $name  = data_get($args, 'name');
+
+        $user = AuthHelper::signUp($phone, $password, $uuid, $email, $name);
         return $user;
     }
 

@@ -2,13 +2,28 @@ extend type Mutation {
     """
     登录
     """
-    signIn(account: String!,email: String, password: String!, code: String,uuid: String): User @field(resolver: "App\\User@resolveSignIn")
-    autoSignIn(uuid: String!, phone: String): User @field(resolver: "App\\User@autoSignIn")
+    signIn(account: String!, email: String, password: String!, code: String, uuid: String): User
+        @field(resolver: "App\\User@resolveSignIn")
+
+    """
+    静默登录
+    """
+    autoSignIn(uuid: String!, phone: String): User @field(resolver: "App\\User@resolveAutoSignIn")
+    """
+    静默登录
+    """
+    autoSignIn(account: String, uuid: String): User @field(resolver: "App\\User@resolveAutoSignIn")
+
+    """
+    自动注册
+    """
+    autoSignUp(account: String, uuid: String): User @field(resolver: "App\\User@resolveAutoSignUp")
+
     """
     第三方账号登录
     """
     authSignIn(code: String!, type: OAuthType!): User @field(resolver: "App\\User@resolveAuthSignIn")
-     """
+    """
     手机验证码登录
     """
     smsSignIn(sms_code: String!, phone: String!): User @field(resolver: "App\\User@resolveSMSSignIn")
@@ -52,16 +67,6 @@ extend type Mutation {
     设置性别/介绍/生日
     """
     setUserInfo(data: UserInfo): User @field(resolver: "App\\User@resolveSetUserInfo")
-
-    """
-    静默登录
-    """
-    autoSignIn(account: String, uuid: String): User @field(resolver: "App\\User@resolveAutoSignIn")
-
-    """
-    自动注册
-    """
-    autoSignUp(account: String, uuid: String): User @field(resolver: "App\\User@resolveAutoSignUp")
 
     """
     uuid注册用户绑定账号密码

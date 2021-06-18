@@ -437,6 +437,9 @@ trait UserRepo
         return 0;
     }
 
+    /**
+     * 创建用户 - web game 等场景调用了
+     */
     public static function createUser($name, $account, $password)
     {
         $user = new \App\User();

@@ -2,17 +2,12 @@
 #import inputs.graphql
 
 type Query {
-  me: User @auth(guard: "api")
+    me: User @auth(guard: "api")
 }
 
 type Mutation {
-  signUp(
-    account: String
-    email: String!
-    password: String!
-    name: String
-    uuid:String
-  ): User! @field(resolver: "App\\User@signUp")
+    signUp(account: String!, password: String!, uuid: String, email: String, name: String): User!
+        @field(resolver: "App\\User@resolveSignUp")
 }
 
 #import */*/*.graphql
