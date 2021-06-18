@@ -1,37 +1,64 @@
 type Notice {
-  id: Int
-  user: User
-  title: String
-  content: String!
-  type: String!
-  unread: Boolean
-  expires_at: DateTime
-  created_at: DateTime
-  updated_at: DateTime
+    id: Int!
+    """
+    发布者
+    """
+    user: User
+    
+    """
+    标题
+    """
+    title: String
+    """
+    内容
+    """
+    content: String!
+   type: String!
+   unread: Boolean
+
+    """
+    到期时间
+    """
+    expires_at: DateTime
+    created_at: DateTime
+    updated_at: DateTime
+
+    """
+    路由
+    """
+    route: String
+    """
+    是否阅读
+    """
+    is_read: Boolean
 }
 
 extend type Query {
-  notices: [Notice!]
-    @paginate(defaultCount: 10, builder: "App\\Notice@resolveNotices")
-  notice(id: Int! @eq): Notice @find
+    """
+    官方公告
+    """
+    notices: [Notice!] @paginate(builder: "App\\Notice@resolveNotices", defaultCount: 10)
 
-  """
-  个人频道的消息
-  """
-  personalNotices(user_id: Int!): [Notice!]
-    @paginate(defaultCount: 10, builder: "App\\Notice@resolvePersonalNotices")
+    """
+    官方公告详情
+    """
+    notice(id: Int!): Notice @field(resolver: "App\\Notice@resolveNotice")
+    """
+    个人频道的消息
+    """
+    personalNotices(user_id: Int!): [Notice!] @paginate(defaultCount: 10, builder: "App\\Notice@resolvePersonalNotices")
 }
 enum NoticeType {
-  """
-  活动通知
-  """
-  ACTIVITY @enum(value: activity)
-  """
-  扣款通知
-  """
-  DEDUCTION @enum(value: deduction)
-  """
-  系统通知
-  """
-  PUBLIC_NOTICE @enum(value: public_notice)
+    """
+    活动通知
+    """
+    ACTIVITY @enum(value: activity)
+    """
+    扣款通知
+    """
+    DEDUCTION @enum(value: deduction)
+    """
+    系统通知
+    """
+    PUBLIC_NOTICE @enum(value: public_notice)
 }

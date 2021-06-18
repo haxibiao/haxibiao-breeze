@@ -1,0 +1,14 @@
+extend type Mutation {
+    share(shared_id: ID, shared_type: SharedType): Share @field(resolver: "App\\User@resolveShare")
+}
+
+type Share {
+    id: ID
+}
+
+enum SharedType {
+    Question
+    Category
+    Post
+    InCome
+}

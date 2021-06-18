@@ -1,0 +1,7 @@
+type VerificationCode {
+    id: Int
+    user: User @belongsTo
+    channel: String
+    code: String
+    surplus_second: Int
+}

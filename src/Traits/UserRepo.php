@@ -137,7 +137,7 @@ trait UserRepo
             ->sum('withdraws.amount');
     }
 
-    public static function userReward(User $user, array $reward)
+    public static function userReward(\App\User $user, array $reward)
     {
         $action = Arr::get($reward, 'action');
         $result = [

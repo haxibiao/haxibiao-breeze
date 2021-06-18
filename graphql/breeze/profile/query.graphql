@@ -1,0 +1,16 @@
+type userProfile {
+    id: ID!
+    age: Int
+    os: String
+    questions_count: Int
+    user: User @belongsTo
+    qq: String
+    birthday: String
+    introduction: String
+    posts_count: Int
+    followers_count: Int
+    sub_name: String
+    total_contributes: Int
+    answers_count: Int
+    answers_count_today: Int
+}

@@ -1,0 +1,53 @@
+type SignIn {
+    id: ID
+    user: User
+    created_at: DateTime
+    updated_at: DateTime
+
+    """
+    智慧点奖励
+    """
+    gold_reward: Int
+
+    """
+    精力点奖励
+    """
+    contribute_reward: Int
+
+    """
+    奖励倍数
+    """
+    reward_rate: Int
+
+    """
+    今日是否签到
+    """
+    today_signed: Boolean
+
+    """
+    连续签到天数
+    """
+    keep_signin_days: Int
+
+    year: String
+    date: String
+    signed: Boolean
+
+    """
+    今日签到状态
+    """
+    today_signed: Boolean
+}
+
+type SignInsObjectType {
+    signs: [SignIn!]
+    today_signed: Boolean
+    keep_signin_days: Int
+}
+
+extend type Query {
+    """
+    签到记录
+    """
+    signIns(days: Int = 7): SignInsObjectType @field(resolver: "App\\SignIn@resolveSignIns")
+}

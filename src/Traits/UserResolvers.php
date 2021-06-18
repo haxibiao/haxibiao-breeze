@@ -7,6 +7,8 @@ use GraphQL\Type\Definition\ResolveInfo;
 use Haxibiao\Breeze\Exceptions\GQLException;
 use Haxibiao\Breeze\Ip;
 use Haxibiao\Breeze\User;
+use Haxibiao\Content\Category;
+use Haxibiao\Question\Helpers\Redis\RedisSharedCounter;
 use Haxibiao\Task\Task;
 use Haxibiao\Task\UserTask;
 use Illuminate\Support\Arr;
@@ -159,30 +161,7 @@ trait UserResolvers
         }
     }
 
-    public function signIn($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
-    {
-        $account = $args['account'] ?? $args['email'];
-        $qb      = User::where('phone', $account)->orWhere('email', $account)->orWhere('account', $account);
-        if ($qb->exists()) {
-            $user = $qb->first();
-            if (!password_verify($args['password'], $user->password)) {
-                throw new GQLException('登录失败！账号或者密码不正确');
-            }
-
-            if ($user->status === User::STATUS_OFFLINE) {
-                throw new GQLException('登录失败！账户已被封禁');
-            } else if ($user->status === User::STATUS_DESTORY) {
-                throw new GQLException('登录失败！账户已被注销');
-            }
-
-            $user->touch(); //更新用户的更新时间来统计日活用户
-            return $user;
-        } else {
-            throw new GQLException('登录失败！邮箱或者密码不正确');
-        }
-    }
-
-    public function signUp($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    public static function signUp($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
 
         if (isset($args['account'])) {
@@ -239,7 +218,7 @@ trait UserResolvers
     /**
      * 静默登录，uuid 必须传递，手机号可选
      */
-    public function autoSignIn($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    public static function autoSignIn($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
 
         $qb = User::where('uuid', $args['uuid']);
@@ -422,5 +401,27 @@ trait UserResolvers
         $user_id = data_get($args, 'user_id');
         return self::hasReward($user_id, '新人注册奖励');
 
+    }
+
+    public static function resolveShare($root, array $args, $context, $info)
+    {
+        $user = getUser();
+        if ($args['shared_type'] == 'InCome') {
+            Task::refreshTask($user, '晒收入');
+        } else if ($args['shared_type'] == 'Category') {
+            $category = Category::find($args['shared_id']);
+            if ($category) {
+                $category->increment('count_shared');
+            }
+        } else {
+            RedisSharedCounter::updateCounter($user->id);
+            //触发分享任务
+            $user->reviewTasksByClass('Share');
+        }
+
+        //随便返回个ID 占个坑
+        return [
+            'id' => uniqid(),
+        ];
     }
 }

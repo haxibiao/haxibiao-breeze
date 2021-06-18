@@ -17,6 +17,7 @@ use Haxibiao\Media\Traits\UseMedia;
 use Haxibiao\Sns\Traits\UseSns;
 use Haxibiao\Task\Traits\PlayWithTasks;
 use Haxibiao\Wallet\Traits\PlayWithWallet;
+use Haxibiao\Wallet\Traits\WithGolds;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Model;
@@ -43,13 +44,15 @@ class BaseUser extends Model implements AuthenticatableContract, AuthorizableCon
     use UseSns;
     use PlayWithTasks;
     use PlayWithWallet;
+    use WithGolds;
 
     public function getMorphClass()
     {
         return 'users';
     }
 
-    public function ips(){
-    	return $this->hasMany(\App\Ip::class);
-	}
+    public function ips()
+    {
+        return $this->hasMany(\App\Ip::class);
+    }
 }

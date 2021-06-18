@@ -1,11 +1,14 @@
 extend type Mutation {
-    signIn(account: String, email: String, password: String!, uuid: String): User! @field(resolver: "App\\User@signIn")
+    """
+    登录
+    """
+    signIn(account: String!,email: String, password: String!, code: String,uuid: String): User @field(resolver: "App\\User@resolveSignIn")
     autoSignIn(uuid: String!, phone: String): User @field(resolver: "App\\User@autoSignIn")
     """
     第三方账号登录
     """
     authSignIn(code: String!, type: OAuthType!): User @field(resolver: "App\\User@resolveAuthSignIn")
-    """
+     """
     手机验证码登录
     """
     smsSignIn(sms_code: String!, phone: String!): User @field(resolver: "App\\User@resolveSMSSignIn")
@@ -13,6 +16,99 @@ extend type Mutation {
     destoryUser: Boolean @field(resolver: "App\\User@destoryUserByToken")
     #  newUserReword(type:RewardType!): Int @field(resolver: "App\\User@newUserReword")
     bindDongdezhuan(account: String!, password: String!): Boolean @field(resolver: "App\\User@bindDongdezhuan")
+    """
+    注册
+    """
+    signUp(account: String!, password: String!, uuid: String): User @field(resolver: "App\\User@resolveSignUp")
+
+    """
+    token登录
+    """
+    signInWithToken(token: String): User @field(resolver: "App\\User@resolveSignInWithToken")
+
+    """
+    重置密码
+    """
+    resetPassword(account: String!, password: String, code: String): User
+        @field(resolver: "App\\User@resolveResetPassword")
+
+    """
+    修改密码
+    """
+    updateUserPassword(old_password: String!, new_password: String!): User
+        @field(resolver: "App\\User@resolveUpdatePassword")
+
+    """
+    更改昵称
+    """
+    updateUserName(name: String): User @field(resolver: "App\\User@resolveUpdateUserName")
+
+    """
+    修改头像
+    """
+    updateUserAvatar(avatar: String): User @field(resolver: "App\\User@updateUserAvatarResolver")
+
+    """
+    设置性别/介绍/生日
+    """
+    setUserInfo(data: UserInfo): User @field(resolver: "App\\User@resolveSetUserInfo")
+
+    """
+    静默登录
+    """
+    autoSignIn(account: String, uuid: String): User @field(resolver: "App\\User@resolveAutoSignIn")
+
+    """
+    自动注册
+    """
+    autoSignUp(account: String, uuid: String): User @field(resolver: "App\\User@resolveAutoSignUp")
+
+    """
+    uuid注册用户绑定账号密码
+    """
+    uuidBind(account: String, password: String): User @field(resolver: "App\\User@resolveUuidBind")
+
+    """
+    设置提现信息
+    """
+    setUserPaymentInfo(pay_account: String!, real_name: String!, code: String): User
+        @field(resolver: "App\\User@resolveSetUserPaymentInfo")
+    """
+    fix Avatar
+    """
+    setUserPaymentInfo(pay_account: String!, real_name: String!, code: String): User
+        @field(resolver: "App\\User@resolveSetUserPaymentInfo")
+    """
+    绑定微信
+    """
+    bindWechatMutation(code: String!, union_id: String): OAuth @field(resolver: "App\\User@resolveBindWechatMutation")
+
+    """
+    绑定微信 FIXME:天天出题专用
+    """
+    ttctBindWechatMutation(code: String!, union_id: String): OAuth
+        @field(resolver: "App\\User@resolveTTCTBindWechatMutation")
+    """
+    发验证码
+    """
+    sendVerificationCode(account: String!, action: VerificationAction!): VerificationCode
+        @field(resolver: "App\\User@resolveSendVerificationCode")
+
+    """
+    修改账号（account）
+    """
+    updateUserAccount(account: String!): User @field(resolver: "App\\User@resolveUpdateUserAccount")
+
+    """
+    通用用户奖励接口
+    """
+    userReward(reward: RewardEnum): UserReward
+        @middleware(checks: ["graphql:10,1,userReward"])
+        @field(resolver: "App\\User@resolveUserReward")
+        @deprecated(reason: "3.0.2之后直接用reward($reason:RewardEnum!)")
+
+    deRegistserUser: User @field(resolver: "App\\User@resolvedeRegistserUser")
+    checkPointReward(correctAnswerCount: Int): UserReward @field(resolver: "App\\User@resolveCheckPointReward")
     """
     奖励接口，提供reason，返回具体奖励结果
     """
@@ -52,9 +148,9 @@ type UserReward {
     """
     ticket: Int
     """
-    贡献
+    已奖励贡献值
     """
-    contribute:Int
+    contribute: Int
 }
 
 enum RewardEnum {
@@ -70,6 +166,70 @@ enum RewardEnum {
     签到视频观看奖励
     """
     SIGNIN_VIDEO_REWARD
+    """
+    答题成功激励奖励
+    """
+    SUCCESS_ANSWER_VIDEO_REWARD
+    """
+    答题失败激励奖励
+    """
+    FAIL_ANSWER_VIDEO_REWARD
+    """
+    全屏视频奖励
+    """
+    FULL_SCREEN_VIDEO_REWARD
+    """
+    学习刷视频观看奖励
+    """
+    VIDEO_PLAY_REWARD
+    """
+    视频流广告奖励
+    """
+    DRAW_FEED_ADVIDEO_REWARD
+    """
+    观看激励视频奖励
+    """
+    WATCH_REWARD_VIDEO
+    """
+    观看审题激励视频奖励
+    """
+    AUDIT_REWAERD_VIDEO_WATCH
+    """
+    点击审题激励视频奖励
+    """
+    AUDIT_REWAERD_VIDEO_CLICK
+    """
+    PK胜者激励奖励
+    """
+    GAME_WINNER_REWARD
+    """
+    PK失败安慰奖励
+    """
+    GAME_LOSER_REWARD
+    """
+    信息流点击奖励
+    """
+    CLICK_DRAW_FEED
+    """
+    拆红包奖励
+    """
+    OPEN_RED_PACKET
+    """
+    领精力
+    """
+    REWARD_TICKET
+    """
+    开宝箱
+    """
+    OPEN_TREASURE
+    """
+    领金币
+    """
+    REWARD_GOLD
+    """
+    手气红包
+    """
+    LUCK_RED_PACKET
     """
     双倍签到奖励
     """
@@ -94,4 +254,21 @@ enum RewardEnum {
     点击激励视频奖励
     """
     CLICK_REWARD_VIDEO
+}
+
+enum VerificationAction {
+    RESET_PASSWORD
+    USER_REGISTER
+    USER_INFO_CHANGE
+    USER_LOGIN
+    WECHAT_BIND
+    EXCHANGE_REMIND
+}
+
+input UserInfo {
+    name: String
+    gender: String
+    introduction: String
+    age: Int
+    birthday: String
 }

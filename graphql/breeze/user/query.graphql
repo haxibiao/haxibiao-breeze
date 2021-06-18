@@ -1,8 +1,8 @@
 type User {
-    id: Int!
+    id: Int
     name: String!
     email: String
-    avatar: String!
+    avatar: String
     token: String
     introduction: String
     unread_comments: Int
@@ -12,7 +12,7 @@ type User {
     unread_tips: Int
     unread_others: Int
     unread_chat: Int
-    count_articles: Int @rename(attribute: "count_posts") @deprecated(reason: "改属性已经弃用，请使用count_posts")
+    count_articles: Int
     count_posts: Int
     count_production: Int
     count_likes: Int
@@ -40,7 +40,7 @@ type User {
     uuid: String
     phone: String
     age: Int
-    gender: String @rename(attribute: "gender_msg")
+    gender: String
     gender_msg: String
     background: String
     birthday_msg: String
@@ -89,6 +89,176 @@ type User {
     用户身份
     """
     role: ROLE @rename(attribute: "role_id")
+
+    #  === 下面都是答题补充的用户profile的属性
+
+    birthday: String
+    correct_count: Int
+    week_contributes: Int
+    today_new_questions_count: Int
+    today_left_questions_count: Int
+
+    follow_users_count: Int
+    followers_count: Int
+    followed_user_status: Boolean @field(resolver: "App\\User@getFollowedUserStatus")
+    visited_count: Int
+    exchange_rate: Int
+    unread_notices_count: Int
+    question_pass_rate: String
+    curation_pass_rate: String
+    question_count: Int
+    # adinfo: AdInfoType
+    curation_count: Int
+    curations: [Curation] @hasMany(defaultCount: 10, type: "paginator", relation: "curations")
+    last_category_id: Int
+    profile: userProfile
+    questions(filter: QuestionFilterEnum, order: QuestionOrderEnum): [Question]
+        @paginate(defaultCount: 10, builder: "App\\User@resolverUserQuestions")
+    answerHistories: [Answer] @hasMany(defaultCount: 10, type: "paginator", relation: "answers")
+    contributes: [Contribute] @hasMany(defaultCount: 10, type: "paginator", relation: "contributes")
+    #todayCategories: [Category]
+    invitations_success_count: Int
+    invitations_rewarded: Int
+
+    has_reward_new_user: Boolean
+    invitation_reward_lines: String
+    is_bind_wechat: Boolean
+    is_black_user: Boolean
+    auto_uuid_user: Boolean
+    auto_phone_user: Boolean
+    """
+    提现到平台选项(可策略化)
+    """
+    withdrawToOptions: [String]
+    """
+    提现界面信息
+    """
+    withdrawInfo: [WithdrawInfo]
+    """
+    邀请提现界面信息
+    """
+    inviteWithdrawInfo: [WithdrawInfo]
+    """
+    重构的提现界面信息
+    """
+    withdrawOptions: [WithdrawOption]
+    """
+    最近成功提现时间
+    """
+    withdraw_at: String
+    """
+    高额提现剩余额度
+    """
+    withdraw_lines: Int
+    today_withdraw_amount: Int
+    """
+    今日提现剩余额度(暂停用)
+    """
+    today_withdraw_left: Int @deprecated(reason: "目前日提现一次")
+    """
+    可提现额度
+    """
+    available_withdraw_count: Int
+    """
+    排名榜单:-1代表为入选
+    """
+    rank: Int
+    # goldTree: GoldTreeInfoObjectType
+    received: Boolean
+    bonusExpirationTime: Int
+    totalBonusEarnings: Float
+    stockNumber: Int
+    """
+    我的股份
+    """
+    stockRate: Float
+    perStockPrice: Int
+    yesterdayEarnings: Int
+    totalEarnings: Int
+    todayUnclaimedBonusEarnings: Float
+    is_first_stock: Boolean
+    """
+    是否被拉黑
+    """
+    isUserBlacked: Boolean
+    userBlackUsers: [User]
+    """
+    用户角色(可多个)
+    """
+    roles: [String]
+    share_spider_status: Int
+    dongdezhuanUser: User
+    dameiUser: User
+    """
+    新用户剩余任务答题数
+    """
+    new_user_left_answer_count: Int
+    """
+    邀请码
+    """
+    invite_code: String
+    """
+    邀请口令
+    """
+    invite_slogan: String
+    """
+    闯关模式,用户当前关卡
+    """
+    question_checkpoint: Int
+    """
+    总答题时长
+    """
+    answers_time_count: Int
+    """
+    总答题正确率
+    """
+    answer_correct_partition: String
+    """
+    日答题时长
+    """
+    answer_time_of_day: Int
+    """
+    日答题数
+    """
+    answer_count_of_day: Int
+    """
+    总答题数
+    """
+    answer_count: Int
+    """
+    日答题正确率
+    """
+    answer_correct_partition_of_day: String
+    real_name: String
+    gender: Int
+
+    avatar_url: String
+    golds: [Gold] @hasMany(defaultCount: 10, type: "paginator", relation: "golds")
+    level: Level @belongsTo
+
+    video_duration: Int
+    explanation_video_duration: Int
+    exp: Int
+    next_level_exp: Int
+    pay_account: String
+    pay_info_change_count: Int
+    transaction_sum_amount: Float
+    audit_update_contribute: Int
+    audit_update_ticket: Int
+    audit_update_exp: Int
+    audits: [Audit] @hasMany(defaultCount: 10, type: "paginator", relation: "audits")
+    status: Int
+    is_old_user: Int
+    is_admin: Int
+    last_login_at: String
+    unread_notifications_count: Int
+    unread_withdraw_notifications_count: Int
+    unread_comment_notifications_count: Int
+    unread_user_follow_notifications_count: Int
+    unread_like_notifications_count: Int
+    unread_medals_count: Int
+    unread_messages_count: Int
+    verified_at: String
 }
 
 type blockInfo {
@@ -97,16 +267,104 @@ type blockInfo {
     avatar: String!
 }
 
+enum QuestionFilterEnum {
+    publish @enum(value: 1)
+    privacy @enum(value: 0)
+}
+
+enum QuestionOrderEnum {
+    ANSWERS_COUNT @enum(value: "answers_count")
+    CREATED_AT @enum(value: "created_at")
+    UPDATED_AT @enum(value: "created_at")
+    GOLD @enum(value: "gold")
+}
+
 extend type Query {
     users: [User!]! @paginate(defaultCount: 10, type: "paginator", model: "App\\User")
-    user(id: Int! @eq): User @find
     recommendAuthors: [User!] @paginate(defaultCount: 10, builder: "App\\User@resolveRecommendAuthors")
     searchUsers(keyword: String!): [User!] @paginate(defaultCount: 10, builder: "App\\User@resolveSearchUsers")
     """
     是否有奖励
     """
     hasReward(user_id: Int!, remark: RewardEnum!): Boolean @field(resolver: "App\\User@hasRewardResolver")
+
+    """
+    查看用户主页、获取用户资料，线上3.0还在使用，下版本使用 me 去刷新自己的信息
+    """
+    user(id: Int @eq, account: String @eq, refetch: Int): User @field(resolver: "App\\User@resolveUser")
+    """
+    刷新已登录自己的资料
+    """
+    me(refetch: Int): User @field(resolver: "App\\User@resolveMe")
+    """
+    用户排行榜（默认前50个）
+    """
+    usersByRank(rank: UserRankEnum): [User!]! @paginate(defaultCount: 50, builder: "App\\User@resolveUsersByRank")
+
+    """
+    判断账号是否注册
+    """
+    accountHasExisted(account: String!): Boolean @field(resolver: "App\\User@resolveCheckAccountExists")
 }
+enum UserRankEnum {
+    """
+    提现收入排行
+    """
+    TOTAL_WITHDRAW
+
+    """
+    答题连续答对数排行
+    """
+    DOUBLE_HIT_ANSWER
+}
+
+enum QuestionOrderEnum {
+    """
+    回答次数
+    """
+    ANSWERS_COUNT @enum(value: "answers_count")
+    """
+    创建时间
+    """
+    CREATED_AT @enum(value: "created_at")
+    """
+    更新时间
+    """
+    UPDATED_AT @enum(value: "updated_at")
+    """
+    智慧点
+    """
+    GOLD @enum(value: "gold")
+}
+
+enum QuestionFilterEnum {
+    publish @enum(value: "1")
+    privacy @enum(value: "0")
+}
+
+type Level {
+    """
+    等级ID
+    """
+    id: Int
+    """
+    头衔
+    """
+    name: String
+    """
+    经验
+    """
+    exp: Int
+    """
+    精力点最大值
+    """
+    ticket_max: Int
+    """
+    等级
+    """
+    level: Int
+}
+
 enum ROLE {
     """
     普通用户

@@ -1,0 +1,6 @@
+extend type Mutation {
+    """
+    签到
+    """
+    createSignIn: SignIn @field(resolver: "App\\SignIn@resolveSignIn")
+}
