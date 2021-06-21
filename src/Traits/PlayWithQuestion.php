@@ -3,11 +3,11 @@
 namespace Haxibiao\Breeze\Traits;
 
 use App\Profile;
+use App\User;
 use Haxibiao\Breeze\Exceptions\ErrorCode;
 use Haxibiao\Breeze\Exceptions\UserException;
 use Haxibiao\Breeze\OAuth;
 use Haxibiao\Breeze\SignIn;
-use Haxibiao\Breeze\User;
 use Haxibiao\Breeze\UserProfile;
 use Haxibiao\Breeze\VerificationCode;
 use Haxibiao\Helpers\utils\BadWordUtils;

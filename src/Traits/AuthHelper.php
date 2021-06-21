@@ -28,6 +28,7 @@ trait AuthHelper
                 $user = User::create([
                     'uuid'      => $uuid,
                     'account'   => $account,
+                    'password'  => '',
                     'name'      => config('auth.default_name', User::DEFAULT_NAME),
                     'api_token' => Str::random(60),
                 ]);
@@ -39,17 +40,14 @@ trait AuthHelper
                 $user = User::create([
                     'uuid'      => $uuid,
                     'account'   => $uuid,
+                    'password'  => '',
                     'name'      => config('auth.default_name', User::DEFAULT_NAME),
                     'api_token' => Str::random(60),
                 ]);
             }
         }
-
-        //匿名用户名排重
-        if ($user->name === User::DEFAULT_NAME) {
-            $user->update(['name' => $user->name . $user->id]);
-        }
-
+        //用户名排重
+        $user->update(['name' => $user->name . $user->id]);
         //记录IP
         Ip::createIpRecord('users', $user->id, $user->id);
 
