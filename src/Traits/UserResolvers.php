@@ -7,7 +7,9 @@ use App\User;
 use GraphQL\Type\Definition\ResolveInfo;
 use Haxibiao\Breeze\Exceptions\GQLException;
 use Haxibiao\Content\Category;
+use Haxibiao\Content\PostRecommend;
 use Haxibiao\Question\Helpers\Redis\RedisSharedCounter;
+use Haxibiao\Sns\Visit;
 use Haxibiao\Task\Task;
 use Haxibiao\Task\UserTask;
 use Illuminate\Support\Arr;
@@ -423,5 +425,21 @@ trait UserResolvers
     {
         app_track_event("首页", "用户排行榜");
         return PlayWithQuestion::getUsersByRank($args['rank']);
+    }
+    public function resolveCleanMyVisits($root, array $args, $context, $info)
+    {
+        //编辑或管理人员才能清空自己的个人访问记录
+        if (checkEditor()) {
+            $user = currentUser();
+            app_track_event("用户操作", "清空个人访问记录", $user->id);
+            //清空浏览记录
+            Visit::where('user_id', $user->id)->delete();
+            //清空视频刷记录
+            PostRecommend::where('user_id', $user->id)->delete();
+            return true;
+        }
+
+        return false;
+
     }
 }
