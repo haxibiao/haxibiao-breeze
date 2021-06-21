@@ -3,9 +3,9 @@
 namespace Haxibiao\Breeze\Traits;
 
 use App\Gold;
+use App\User;
 use GraphQL\Type\Definition\ResolveInfo;
 use Haxibiao\Breeze\Exceptions\GQLException;
-use Haxibiao\Breeze\User;
 use Haxibiao\Content\Category;
 use Haxibiao\Question\Helpers\Redis\RedisSharedCounter;
 use Haxibiao\Task\Task;
@@ -34,8 +34,8 @@ trait UserResolvers
         $user   = getUser();
         $reason = $args['reason'];
 
-        $rewardValues = data_get(self::getUserRewardEnum(), $reason . '.value');
-        $rewardReason = data_get(self::getUserRewardEnum(), $reason . '.description');
+        $rewardValues = data_get(User::getUserRewardEnum(), $reason . '.value');
+        $rewardReason = data_get(User::getUserRewardEnum(), $reason . '.description');
 
         app_track_event("奖励", $rewardReason);
         return User::userReward($user, $rewardValues);

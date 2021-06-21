@@ -7,7 +7,7 @@ extend type Mutation {
     """
     静默登录
     """
-    autoSignIn(uuid: String!, account: String, phone: String): User @field(resolver: "App\\User@resolveAutoSignIn")
+    autoSignIn(uuid: String, account: String, phone: String): User @field(resolver: "App\\User@resolveAutoSignIn")
 
     """
     自动注册
@@ -112,10 +112,7 @@ extend type Mutation {
     """
     deRegistserUser: User @field(resolver: "App\\User@resolveRemoveUser")
     checkPointReward(correctAnswerCount: Int): UserReward @field(resolver: "App\\User@resolveCheckPointReward")
-    """
-    奖励接口，提供reason，返回具体奖励结果
-    """
-    reward(reason: RewardEnum): UserReward @guard @field(resolver: "App\\User@resolveReward")
+    updateUserInfo(id: Int @eq, input: updateUserInfo! @spread): User! @field(resolver: "App\\User@updateUserInfo")
 }
 
 enum RewardType {
@@ -123,8 +120,11 @@ enum RewardType {
     VIDEO @enum(value: "newUser")
 }
 
-extend type Mutation {
-    updateUserInfo(id: Int @eq, input: updateUserInfo! @spread): User! @field(resolver: "App\\User@updateUserInfo")
+extend type Mutation @guard {
+    """
+    奖励接口，提供reason，返回具体奖励结果
+    """
+    reward(reason: RewardEnum): UserReward @field(resolver: "App\\User@resolveReward")
 }
 
 input updateUserInfo {
