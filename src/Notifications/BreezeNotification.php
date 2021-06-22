@@ -63,7 +63,7 @@ class BreezeNotification extends Notification
         return (new MailMessage)
             ->from('notification@' . env('APP_DOMAIN'), config('app.name_cn'))
             ->subject($mailSubject)
-            ->line($mailSubject . " " . $this->data_title . " <br/>"+$this->data_description)
+            ->line($mailSubject . " " . $this->data_title . " <br/>" . $this->data_description)
             ->action('查看详情', $this->data_url)
             ->line($this->data_description);
     }

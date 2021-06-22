@@ -2,7 +2,6 @@
 
 namespace Haxibiao\Breeze\Notifications;
 
-use Haxibiao\Breeze\User;
 use Illuminate\Bus\Queueable;
 
 /**
@@ -15,7 +14,7 @@ class UserFollowed extends BreezeNotification
     public static $notify_event = "新关注";
     protected $sender;
 
-    public function __construct(User $sender)
+    public function __construct($sender)
     {
         $this->sender = $sender;
     }
