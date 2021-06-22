@@ -68,10 +68,13 @@ trait AuthHelper
      * @param $password 密码
      * @param $uuid 获取到的UUID，保留最新的
      */
-    public static function signIn(string $account, string $password, string $uuid): User
+    public static function signIn(string $account, string $password, string $uuid = null): User
     {
         throw_if(!is_phone_number($account) && !is_email($account), GQLException::class, '账号格式不正确!');
-        $user = User::where('account', $account)->first();
+        $user = User::where('phone', $account)
+            ->orWhere('email', $account)
+            ->orWhere('account', $account)
+            ->first();
 
         throw_if(empty($user), GQLException::class, '账号不存在,请先注册!');
         if (!password_verify($password, $user->password)) {
