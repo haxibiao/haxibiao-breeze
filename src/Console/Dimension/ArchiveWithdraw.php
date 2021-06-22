@@ -124,9 +124,9 @@ class ArchiveWithdraw extends Command
             foreach ($items as $item) {
                 $user                 = $item->user;
                 $profile              = $user->profile;
-                $profile->likes_count = $profile->likes_count ?? $user->likes()->count();
+                $profile->count_likes = $profile->count_likes ?? $user->likes()->count();
                 $profile->saveDataOnly();
-                $count = $profile->likes_count;
+                $count = $profile->count_likes;
                 $g     = '无点赞';
                 if ($count >= 1 && $count <= 5) {
                     $g = '1-5次点赞';
