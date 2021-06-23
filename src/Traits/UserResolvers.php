@@ -36,10 +36,14 @@ trait UserResolvers
         $user   = getUser();
         $reason = $args['reason'];
 
+        //FIXME::getUserRewardEnum这个方法答赚本地重写覆盖了了，不一样，有时间再兼容处理
         $rewardValues = data_get(User::getUserRewardEnum(), $reason . '.value');
         $rewardReason = data_get(User::getUserRewardEnum(), $reason . '.description');
 
         app_track_event("奖励", $rewardReason);
+        if (config('app.name') == "datizhuanqian") {
+            return User::questionUserReward($user, $rewardValues);
+        }
         return User::userReward($user, $rewardValues);
 
     }
