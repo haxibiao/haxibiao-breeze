@@ -102,7 +102,7 @@ trait PlayWithQuestion
     /**
      * 访问他人主页
      */
-    public static function visitById($id): User
+    public static function visitById($id)
     {
         $user = User::find($id);
         if (str_contains(request()->get('query'), "UserInfoQuery")) {
