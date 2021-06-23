@@ -8,6 +8,7 @@ use Haxibiao\Breeze\BlackList;
 use Haxibiao\Breeze\Exceptions\GQLException;
 use Haxibiao\Breeze\Exceptions\UserException;
 use Haxibiao\Breeze\Ip;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
 trait AuthHelper
@@ -71,10 +72,13 @@ trait AuthHelper
     public static function signIn(string $account, string $password, string $uuid = null): User
     {
         throw_if(!is_phone_number($account) && !is_email($account), GQLException::class, '账号格式不正确!');
-        $user = User::where('phone', $account)
-            ->orWhere('email', $account)
-            ->orWhere('account', $account)
-            ->first();
+        $qb = User::where('phone', $account)
+            ->orWhere('account', $account);
+        if (Schema::hasColumn('users', 'email')) {
+            $qb->orWhere('email', $account);
+        }
+
+        $user = $qb->first();
 
         throw_if(empty($user), GQLException::class, '账号不存在,请先注册!');
         if (!password_verify($password, $user->password)) {
