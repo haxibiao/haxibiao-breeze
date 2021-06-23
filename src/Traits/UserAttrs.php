@@ -472,7 +472,18 @@ trait UserAttrs
 
     public function getGenderAttribute()
     {
-        return data_get($this, 'profile.gender');
+        //兼容答赚
+        $gender = $this->getRawOriginal('gender');
+
+        //兼容工厂
+        if (is_null($gender)) {
+            $gender = data_get($this, 'profile.gender');
+        }
+        //默认
+        if (is_null($gender)) {
+            $gender = 0;
+        }
+        return $gender;
     }
 
     public function getGenderMsgAttribute()
