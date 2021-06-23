@@ -421,7 +421,7 @@ trait UserResolvers
 
         //随便返回个ID 占个坑
         return [
-            'id' => uniqid(),
+            'id' => 1,
         ];
     }
 
