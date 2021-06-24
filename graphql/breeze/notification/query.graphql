@@ -12,22 +12,6 @@ type Notification {
     reply: Comment @deprecated(reason: "旧方式了，依赖n+1查询，建议切换为通知数据的属性")
 
     """
-    一堆连着的兼容答赚属性
-    """
-    data: String @rename(attribute: "data_string")
-    report: Report @deprecated(reason: "旧方式了，依赖n+1查询，建议切换为通知数据的属性")
-    withdraw: Withdraw @deprecated(reason: "旧方式了，依赖n+1查询，建议切换为通知数据的属性")
-    feedback: Feedback @deprecated(reason: "旧方式了，依赖n+1查询，建议切换为通知数据的属性")
-    curation: Curation @deprecated(reason: "旧方式了，依赖n+1查询，建议切换为通知数据的属性")
-    question: Question @deprecated(reason: "旧方式了，依赖n+1查询，建议切换为通知数据的属性")
-    follow: Follow @deprecated(reason: "旧方式了，依赖n+1查询，建议切换为通知数据的属性")
-    like: Like @rename(attribute: "like_obj") @deprecated(reason: "旧方式了，依赖n+1查询，建议切换为通知数据的属性")
-    medal: Medal @deprecated(reason: "旧方式了，依赖n+1查询，建议切换为通知数据的属性")
-    user_reward: UserRewardField @deprecated(reason: "旧方式了，依赖n+1查询，建议切换为通知数据的属性")
-    read_at: String
-    target_type: String
-
-    """
     互动的用户(非通知本人)
     """
     user: User
@@ -44,6 +28,10 @@ type Notification {
     """
     data_type: String
     """
+    通知标题
+    """
+    data_title: String
+    """
     通知数据的cover
     """
     data_cover: String
@@ -57,6 +45,22 @@ type Notification {
     data_url: String
     created_at: DateTime!
     updated_at: DateTime!
+
+    """
+    下面一堆连着的兼容答赚属性
+    """
+    data: String @rename(attribute: "data_string")
+    report: Report @deprecated(reason: "旧方式了，依赖n+1查询，建议切换为通知数据的属性")
+    withdraw: Withdraw @deprecated(reason: "旧方式了，依赖n+1查询，建议切换为通知数据的属性")
+    feedback: Feedback @deprecated(reason: "旧方式了，依赖n+1查询，建议切换为通知数据的属性")
+    curation: Curation @deprecated(reason: "旧方式了，依赖n+1查询，建议切换为通知数据的属性")
+    question: Question @deprecated(reason: "旧方式了，依赖n+1查询，建议切换为通知数据的属性")
+    follow: Follow @deprecated(reason: "旧方式了，依赖n+1查询，建议切换为通知数据的属性")
+    like: Like @rename(attribute: "like_obj") @deprecated(reason: "旧方式了，依赖n+1查询，建议切换为通知数据的属性")
+    medal: Medal @deprecated(reason: "旧方式了，依赖n+1查询，建议切换为通知数据的属性")
+    user_reward: UserRewardField @deprecated(reason: "旧方式了，依赖n+1查询，建议切换为通知数据的属性")
+    read_at: String
+    target_type: String
 }
 
 extend type Query @guard {

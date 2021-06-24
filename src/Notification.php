@@ -50,6 +50,14 @@ class Notification extends DatabaseNotification
     }
 
     /**
+     * 通知数据 data_title
+     */
+    public function getDataTitleAttribute()
+    {
+        return data_get($this, 'data.title');
+    }
+
+    /**
      * 通知数据 data_description
      */
     public function getDataDescriptionAttribute()
