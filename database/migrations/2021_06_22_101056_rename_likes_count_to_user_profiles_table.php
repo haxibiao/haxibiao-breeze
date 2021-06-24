@@ -14,8 +14,7 @@ class RenameLikesCountToUserProfilesTable extends Migration
     public function up()
     {
         Schema::table('user_profiles', function (Blueprint $table) {
-            //
-            if (Schema::hasColumn('user_profiles', 'likes_count')) {
+            if (Schema::hasColumn('user_profiles', 'likes_count') && !Schema::hasColumn('user_profiles', 'count_likes')) {
                 $table->renameColumn('likes_count', 'count_likes');
             }
         });
