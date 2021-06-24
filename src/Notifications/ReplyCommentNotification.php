@@ -35,9 +35,15 @@ class ReplyCommentNotification extends BreezeNotification
     {
         //通知中的消息文本
         $this->data_message = $this->reply->body;
-        $comment            = $this->comment;
+        if (empty($this->data_message)) {
+            $this->data_message = $this->reply->content;
+        }
+        $comment = $this->comment;
         //通知中的配文
         $this->data_description = $comment->body;
+        if (empty($this->data_description)) {
+            $this->data_description = $comment->content;
+        }
 
         //兼容web在用的data
         $data = [
