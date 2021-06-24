@@ -74,6 +74,11 @@ trait UserRelations
         return $this->hasManyThrough(Withdraw::class, Wallet::class);
     }
 
+    public function level(): BelongsTo
+    {
+        return $this->belongsTo(\App\Level::class);
+    }
+
     public function checkIns(): HasMany
     {
         return $this->hasMany(CheckIn::class);
