@@ -3,10 +3,8 @@ namespace Haxibiao\Breeze\Notifications;
 
 use Haxibiao\Task\Medal;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
 
-class NewMedalsNotification extends Notification
+class NewMedalsNotification extends BreezeNotification
 {
     use Queueable;
 
@@ -23,31 +21,6 @@ class NewMedalsNotification extends Notification
     }
 
     /**
-     * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function via($notifiable)
-    {
-        return ['database'];
-    }
-
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
-    public function toMail($notifiable)
-    {
-        return (new MailMessage)
-            ->line('The introduction to the notification.')
-            ->action('Notification Action', url('/'))
-            ->line('Thank you for using our application!');
-    }
-
-    /**
      * Get the array representation of the notification.
      *
      * @param  mixed  $notifiable
@@ -55,8 +28,20 @@ class NewMedalsNotification extends Notification
      */
     public function toArray($notifiable)
     {
-        return [
-            'medal_id' => $this->medal->id,
-        ];
+        $data = $this->senderToArray();
+
+        $medal = $this->medal;
+        //文本描述
+        $message = "恭喜达成新的勋章成就:【$medal->name_cn】!";
+
+        $data = array_merge($data, [
+            'type'    => $medal->getMorphClass(),
+            'id'      => $medal->id,
+            'title'   => "勋章成就", //标题
+            'message' => $message, //通知主体内容
+            'cover'   => $medal->done_icon_url,
+        ]);
+
+        return $data;
     }
 }
