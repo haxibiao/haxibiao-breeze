@@ -143,6 +143,14 @@ trait UserNotifiable
                     $namespace . 'CommentAccepted',
                     $namespace . 'BreezeNotification',
                     $namespace . 'FeedbackCommentNotification',
+                    $namespace . 'RewardNotification',
+                    $namespace . 'LuckyUserNotification',
+                    $namespace . 'NewMedalsNotification',
+                    'Haxibiao\\Wallet\\Notifications\\WithdrawNotification',
+                    'Haxibiao\\Question\\Notifications\\AuditQuestionResultNotification',
+                    'Haxibiao\\Question\\Notifications\\CurationRewardNotification',
+                    'Haxibiao\\Question\\Notifications\\ReportSucceedNotification',
+                    'Haxibiao\\Question\\Notifications\\LevelUpNotification',
                 ];
                 $qb = $notifications->orderBy('created_at', 'desc')
                     ->whereIn('type', $types);
