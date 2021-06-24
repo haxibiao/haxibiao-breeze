@@ -8,7 +8,6 @@ use Haxibiao\Breeze\Notifications\CommentedNotification;
 use Haxibiao\Breeze\Notifications\FeedbackCommentNotification;
 use Haxibiao\Breeze\Notifications\ReplyCommentNotification;
 use Haxibiao\Content\Article;
-use Haxibiao\Content\Post;
 use Haxibiao\Question\Notifications\QuestionCommented;
 use Haxibiao\Question\Question;
 use Haxibiao\Sns\Comment;
@@ -64,16 +63,16 @@ class SendNewCommentNotification implements ShouldQueue
     protected function notifyCommentable($comment)
     {
         $commentable = $comment->commentable;
-        if ($commentable instanceof Feedback) {
+        if ($commentable instanceof \App\Feedback) {
             //反馈评论通知
             $commentable->user->notify(new FeedbackCommentNotification($commentable, $comment));
-        } else if ($commentable instanceof Question) {
+        } else if ($commentable instanceof \App\Question) {
             //审题评论通知
             $commentable->user->notify(new QuestionCommented($commentable, $comment));
-        } else if ($commentable instanceof Article) {
+        } else if ($commentable instanceof \App\Article) {
             //文章评论通知
             $commentable->user->notify(new ArticleCommented($comment));
-        } else if ($commentable instanceof Post) {
+        } else if ($commentable instanceof \App\Post) {
             //新评论通知
             $commentable->user->notify(new CommentedNotification($comment));
         }
