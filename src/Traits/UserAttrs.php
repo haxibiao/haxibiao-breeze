@@ -559,6 +559,11 @@ trait UserAttrs
         return $this->getDDZUser();
     }
 
+    public function getDDZUser()
+    {
+        return null;
+    }
+
     public function getForceAlertAttribute()
     {
         return $this->isWithdrawBefore();
