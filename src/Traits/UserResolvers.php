@@ -6,6 +6,7 @@ use App\Gold;
 use App\User;
 use GraphQL\Type\Definition\ResolveInfo;
 use Haxibiao\Breeze\Exceptions\GQLException;
+use Haxibiao\Breeze\Verify;
 use Haxibiao\Content\Category;
 use Haxibiao\Content\PostRecommend;
 use Haxibiao\Question\Helpers\Redis\RedisSharedCounter;
@@ -270,6 +271,10 @@ trait UserResolvers
                     ->orWhere('account', $args['phone'])->exists();
                 if ($flag) {
                     throw new GQLException('该手机号已被绑定，请检查是否输入正确');
+                }
+                //验证手机号
+                if (isset($args['code'])) {
+                    Verify::checkSMSCode($args['code'], $args['phone'], Verify::USER_INFO_CHANGE);
                 }
             }
 
