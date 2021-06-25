@@ -73,11 +73,7 @@ extend type Mutation {
     """
     setUserPaymentInfo(pay_account: String!, real_name: String!, code: String): User
         @field(resolver: "App\\User@resolveSetUserPaymentInfo")
-    """
-    fix Avatar
-    """
-    setUserPaymentInfo(pay_account: String!, real_name: String!, code: String): User
-        @field(resolver: "App\\User@resolveSetUserPaymentInfo")
+
     """
     绑定微信
     """
@@ -117,7 +113,6 @@ extend type Mutation {
     清空个人访问记录
     """
     cleanMyVisits: Boolean @field(resolver: "App\\User@resolveCleanMyVisits")
-
 }
 
 enum RewardType {
@@ -254,10 +249,6 @@ enum RewardEnum {
     连续签到奖励
     """
     KEEP_SIGNIN_REWARD
-    """
-    观看激励视频奖励
-    """
-    WATCH_REWARD_VIDEO
     """
     点击激励视频奖励
     """
