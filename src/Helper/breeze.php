@@ -89,11 +89,20 @@ function checkUserDevice()
  */
 function checkUser()
 {
+    return currentUser();
+}
+
+/**
+ * 读取当前请求缓存的登录用户(只读用，更新用getUser)
+ */
+function currentUser()
+{
     if ($userJson = request('user')) {
-        $userData = is_array($userJson) ? $userJson : json_decode($userJson, true);
-        if (!is_array($userData)) {
-            return getUser(false);
-        }
+        $user     = null;
+        $userData = is_array($userJson) ? $userJson : json_decode($userJson, true) ?? [];
+        // if (!is_array($userData)) {
+        //     return getUser(false);
+        // }
         $userData = array_except($userData, ['profile', 'data', 'user_profile', 'user_data']);
 
         //获取有效的context缓存用户信息
@@ -102,18 +111,11 @@ function checkUser()
             $user = new User();
             $user->forceFill($userData);
             $user->id = $user_id;
-            return $user;
         }
+        return $user;
+
     }
     return getUser(false);
-}
-
-/**
- * 读取当前请求缓存的登录用户(只读用，更新用getUser)
- */
-function currentUser()
-{
-    return checkUser();
 }
 
 /**
@@ -144,20 +146,22 @@ function getUser($throw = true)
             $user = Auth::user();
         }
     }
-
-    //getUser模式默认支持提示登录失败
     $isValidUser = isset($user) && $user->id > 0;
-    if (!$isValidUser) {
-        throw_if($throw, UserException::class, '客户端还没登录...');
-        return null;
-    } else {
-        //请求中，缓存用户对象，不缓存profile和 data
-        $cache_user               = clone $user;
+
+    //请求中，缓存用户对象，不缓存profile和 data
+    $cache_user = $isValidUser ? clone $user : null;
+    if ($cache_user) {
         $cache_user->profile      = null;
         $cache_user->data         = null;
         $cache_user->user_profile = null;
         $cache_user->user_data    = null;
-        request()->request->add(['user' => json_encode($cache_user)]);
+    }
+    request()->request->add(['user' => json_encode($cache_user)]);
+
+    //getUser模式默认支持提示登录失败
+    if (!$isValidUser) {
+        throw_if($throw, UserException::class, '客户端还没登录...');
+        return null;
     }
 
     return $user;

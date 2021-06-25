@@ -9,7 +9,6 @@ use Illuminate\Support\Str;
 
 trait ModelHelpers
 {
-    private $cachedAttributes = [];
 
     //只保存数据，不更新时间
     public function saveDataOnly()
@@ -92,106 +91,6 @@ trait ModelHelpers
     {
         $method = is_array($value) ? 'whereIn' : 'where';
         return $query->$method($column, $value);
-    }
-
-    // @FIX:如果此处与其他trait同名函数报错,建议在main class 通过 insteadof 来显示声明,优先级
-    // public function __get($key)
-    // {
-    //     if (isset($this->cacheable) && array_key_exists($key, $this->cacheable)) {
-    //         return $this->getCachedAttribute($key, [$this, $this->cacheable[$key]]);
-    //     }
-
-    //     return parent::__get($key);
-    // }
-
-    // 重构内涵电影的GeneralCache trait -----------------------------------start
-    public function __get($key)
-    {
-        return $this->getAttribute($key);
-    }
-
-    /**
-     * 所有attribute全走 general 通过general来调用对应的缓存方法
-     */
-    protected function mutateAttribute($key, $value)
-    {
-        $attributeKey = 'general';
-        return $this->{'get' . Str::studly($attributeKey) . 'Attribute'}($key);
-    }
-
-    public function hasGetMutator($key)
-    {
-        $cacheKey  = $this->getGeneralKey($key);
-        $simpleKey = $this->getSimpleKey($key);
-        if (method_exists(static::class, $cacheKey) || method_exists(static::class, $simpleKey)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public function getGeneralAttribute($key)
-    {
-
-        //cache attribute
-        $cacheKey = $this->getGeneralKey($key);
-        if (method_exists(static::class, $cacheKey)) {
-            $callable = [$this, $cacheKey];
-            return $this->getCachedAttribute($cacheKey, $callable);
-        }
-
-        //simple attribute
-        $simpleKey = $this->getSimpleKey($key);
-        if (method_exists(static::class, $simpleKey)) {
-            return $this->SimpleAttribute($key);
-        }
-
-        //return $this->getRelationValue($key);
-    }
-
-    protected function getGeneralKey($key)
-    {
-        return 'get' . Str::studly($key) . 'Cache';
-    }
-
-    protected function getSimpleKey($key)
-    {
-        return 'get' . Str::studly($key) . 'Attribute';
-    }
-
-    protected function SimpleAttribute($key)
-    {
-        // $this->{'get' . Str::studly($key) . 'Attribute'}
-        return $this->{$this->getSimpleKey($key)}();
-    }
-    // 重构内涵电影的GeneralCache trait -----------------------------------end
-
-    public function getCachedAttribute(string $key, callable $callable, $refresh = false)
-    {
-        if (!array_key_exists($key, $this->cachedAttributes) || $refresh) {
-            $this->setCachedAttribute($key, call_user_func($callable));
-        }
-
-        return $this->cachedAttributes[$key];
-    }
-
-    public function setCachedAttribute(string $key, $value)
-    {
-        return $this->cachedAttributes[$key] = $value;
-    }
-
-    public function refresh()
-    {
-        $this->cachedAttributes = [];
-
-        return parent::refresh();
-    }
-
-    public function refreshAttributeCache($key)
-    {
-        if (array_key_exists($key, $this->cacheable)) {
-            return $this->getCachedAttribute($key, [$this, $this->cacheable[$key]], true);
-        }
     }
 
     //time的aliases 以前很多很多旧项目代码用过
