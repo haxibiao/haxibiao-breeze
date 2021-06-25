@@ -3,8 +3,9 @@
 namespace Haxibiao\Breeze\Notifications;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Notification;
 
-class LuckyUserNotification extends BreezeNotification
+class LuckyUserNotification extends Notification
 {
     use Queueable;
 
@@ -24,6 +25,11 @@ class LuckyUserNotification extends BreezeNotification
         $this->isWin  = $isWin;
     }
 
+    public function via($notifiable)
+    {
+        return ['database'];
+    }
+
     /**
      * Get the array representation of the notification.
      *
@@ -37,12 +43,10 @@ class LuckyUserNotification extends BreezeNotification
             $message = '恭喜您在上期参加的【高额抽奖】活动中中奖啦！今日内可在【我的钱包】-【活动提现】-【中奖红包】申请提现' . $this->amount . '元';
         }
 
-        $data = $this->senderToArray();
-
-        $data = array_merge($data, [
+        $data = [
             'title'   => "抽奖结果", //标题
             'message' => $message, //通知主体内容
-        ]);
-
+        ];
+        return $data;
     }
 }

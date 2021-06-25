@@ -3,8 +3,9 @@
 namespace Haxibiao\Breeze\Notifications;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Notification;
 
-class RewardNotification extends BreezeNotification
+class RewardNotification extends Notification
 {
     use Queueable;
 
@@ -20,6 +21,11 @@ class RewardNotification extends BreezeNotification
         $this->rewards = $rewards;
     }
 
+    public function via($notifiable)
+    {
+        return ['database'];
+    }
+
     /**
      * Get the array representation of the notification.
      *
@@ -29,17 +35,16 @@ class RewardNotification extends BreezeNotification
     public function toArray($notifiable)
     {
         $rewards = $this->rewards;
-
         //文本描述
         $message = "恭喜您获得系统奖励!";
-        if (!is_null($rewards['ticket'])) {
-            $message = $message . "奖励精力点：{$$rewards['ticket']}";
+        if ($rewards['ticket'] ?? null) {
+            $message = $message . "奖励精力点：{$rewards['ticket']}";
         }
-        if (!is_null($rewards['gold'])) {
-            $message = $message . "奖励智慧点点：{$$rewards['gold']}";
+        if ($rewards['gold'] ?? null) {
+            $message = $message . "奖励智慧点点：{$rewards['gold']}";
         }
-        if (!is_null($rewards['contribute'])) {
-            $message = $message . "奖励贡献点：{$$rewards['contribute']}";
+        if ($rewards['contribute'] ?? null) {
+            $message = $message . "奖励贡献点：{$rewards['contribute']}";
         }
 
         $data = [

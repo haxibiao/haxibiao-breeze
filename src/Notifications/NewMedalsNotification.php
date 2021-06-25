@@ -3,8 +3,9 @@ namespace Haxibiao\Breeze\Notifications;
 
 use Haxibiao\Task\Medal;
 use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Notification;
 
-class NewMedalsNotification extends BreezeNotification
+class NewMedalsNotification extends Notification
 {
     use Queueable;
 
@@ -18,6 +19,11 @@ class NewMedalsNotification extends BreezeNotification
     public function __construct(Medal $medal)
     {
         $this->medal = $medal;
+    }
+
+    public function via($notifiable)
+    {
+        return ['database'];
     }
 
     /**
