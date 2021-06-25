@@ -108,7 +108,8 @@ extend type Mutation {
     """
     deRegistserUser: User @field(resolver: "App\\User@resolveRemoveUser")
     checkPointReward(correctAnswerCount: Int): UserReward @field(resolver: "App\\User@resolveCheckPointReward")
-    updateUserInfo(id: Int @eq, input: updateUserInfo! @spread): User! @field(resolver: "App\\User@updateUserInfo")
+    updateUserInfo(id: Int @eq, input: updateUserInfo! @spread, code: String): User!
+        @field(resolver: "App\\User@updateUserInfo")
     """
     清空个人访问记录
     """
