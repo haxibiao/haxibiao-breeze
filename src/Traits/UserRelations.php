@@ -212,4 +212,11 @@ trait UserRelations
     {
         return $this->belongsTo(User::class, 'master_id');
     }
+
+    //我的求片
+    public function findMovies()
+    {
+        return $this->belongsToMany("App\Movie", 'movie_user')->withTimestamps()
+            ->withPivot(['report_status']);
+    }
 }
