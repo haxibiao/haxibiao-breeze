@@ -28,19 +28,17 @@ class NewMedalsNotification extends BreezeNotification
      */
     public function toArray($notifiable)
     {
-        $data = $this->senderToArray();
-
         $medal = $this->medal;
         //文本描述
         $message = "恭喜达成新的勋章成就:【$medal->name_cn】!";
 
-        $data = array_merge($data, [
+        $data = [
             'type'    => $medal->getMorphClass(),
             'id'      => $medal->id,
             'title'   => "勋章成就", //标题
             'message' => $message, //通知主体内容
             'cover'   => $medal->done_icon_url,
-        ]);
+        ];
 
         return $data;
     }

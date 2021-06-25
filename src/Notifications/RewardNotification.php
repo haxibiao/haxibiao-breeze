@@ -28,8 +28,6 @@ class RewardNotification extends BreezeNotification
      */
     public function toArray($notifiable)
     {
-        $data = $this->senderToArray();
-
         $rewards = $this->rewards;
 
         //文本描述
@@ -44,10 +42,10 @@ class RewardNotification extends BreezeNotification
             $message = $message . "奖励贡献点：{$$rewards['contribute']}";
         }
 
-        $data = array_merge($data, [
+        $data = [
             'title'   => "系统奖励", //标题
             'message' => $message, //通知主体内容
-        ]);
+        ];
 
         return $data;
 
