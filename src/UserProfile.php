@@ -88,12 +88,6 @@ class UserProfile extends Model
         $this->attributes['verified_at'] = $value;
     }
 
-    public function getPostsCountAttribute()
-    {
-        $callable = [$this, 'postsCount'];
-        return $this->getCachedAttribute('postsCount', $callable);
-    }
-
     public function getBirthDayAttribute()
     {
         $birthday = $this->attributes['birthday'] ?? null;
