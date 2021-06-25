@@ -146,11 +146,11 @@ trait UserNotifiable
                     $namespace . 'RewardNotification',
                     $namespace . 'LuckyUserNotification',
                     $namespace . 'NewMedalsNotification',
-                    'Haxibiao\\Wallet\\Notifications\\WithdrawNotification',
-                    'Haxibiao\\Question\\Notifications\\AuditQuestionResultNotification',
-                    'Haxibiao\\Question\\Notifications\\CurationRewardNotification',
-                    'Haxibiao\\Question\\Notifications\\ReportSucceedNotification',
-                    'Haxibiao\\Question\\Notifications\\LevelUpNotification',
+                    $namespace . 'WithdrawNotification',
+                    $namespace . 'AuditQuestionResultNotification',
+                    $namespace . 'CurationRewardNotification',
+                    $namespace . 'ReportSucceedNotification',
+                    $namespace . 'LevelUpNotification',
                 ];
                 $qb = $notifications->orderBy('created_at', 'desc')
                     ->whereIn('type', $types);
@@ -160,7 +160,6 @@ trait UserNotifiable
                     ->whereIn('type', $types)->get();
                 $unread_notifications->markAsRead();
                 break;
-
             default:
                 //type中只有3个是group，其余的都是单个类型的通知(目前gql里enum value就是full class)
                 $class = $type;
