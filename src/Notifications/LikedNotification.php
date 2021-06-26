@@ -40,11 +40,11 @@ class LikedNotification extends BreezeNotification
             }
 
         } else {
-            $this->custom_event = '喜欢了你的' . $this->like->likable->resoureTypeCN();
-            $this->data_message = '《' . $this->like->likable->title . '》';
-            $this->data_id      = $this->like->likable_id;
-            $this->data_type    = $this->like->likable_type;
-            $url                = $this->like->likable->url;
+            $this->custom_event     = '喜欢了你的' . $this->like->likable->resoureTypeCN();
+            $this->data_description = $this->like->likable->title;
+            $this->data_id          = $this->like->likable_id;
+            $this->data_type        = $this->like->likable_type;
+            $url                    = $this->like->likable->url;
 
             //完善新通知结构配图
             if ($this->like->likable instanceof Post) {

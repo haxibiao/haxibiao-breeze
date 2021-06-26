@@ -38,6 +38,7 @@ class Notification extends DatabaseNotification
     public function getDataMessageAttribute()
     {
         $message = data_get($this, 'data.message');
+        $message = str_replace('《》', '', $message);
         return $message;
     }
 
