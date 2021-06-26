@@ -202,10 +202,12 @@ class BreezeServiceProvider extends ServiceProvider
             'Haxibiao\Breeze\Events\NewComment',
             'Haxibiao\Breeze\Listeners\UpdateCommentMorphData'
         );
-        \Illuminate\Support\Facades\Event::listen(
-            'Haxibiao\Breeze\Events\NewMessage',
-            'Haxibiao\Breeze\Listeners\SendNewMessageNotification'
-        );
+
+        // 新私信消息broadcast即可，暂时无需发通知或邮件SMS等
+        // \Illuminate\Support\Facades\Event::listen(
+        //     'Haxibiao\Breeze\Events\NewMessage',
+        //     'Haxibiao\Breeze\Listeners\SendNewMessageNotification'
+        // );
     }
 
     protected function bindPathsInContainer()
