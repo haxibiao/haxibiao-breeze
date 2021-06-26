@@ -28,10 +28,11 @@ class ArticleCommented extends BreezeNotification
 
     public function via($notifiable)
     {
-        if (!is_prod_env()) {
-            return ['database'];
+        //配置好邮件的项目开启邮件通知
+        if (config('breeze.enable_mail_notification')) {
+            return ['database', 'mail'];
         }
-        return ['database', 'mail'];
+        return ['database'];
     }
 
     public function toMail($notifiable)
