@@ -539,7 +539,7 @@ trait UserAttrs
         return $this->profile->count_contributes;
     }
 
-    public function getTodayContributeAttribute()
+    public function getTodayContributesAttribute()
     {
         $amount = Contribute::where('user_id', $this->id)->where('amount', '>', 0)->whereDate('created_at', today())->sum('amount');
         if ($amount <= 0) {
