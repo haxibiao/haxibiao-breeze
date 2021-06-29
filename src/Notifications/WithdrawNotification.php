@@ -39,13 +39,9 @@ class WithdrawNotification extends Notification
         $message = "";
         //提现成功
         if ($withdraw->status == Withdraw::SUCCESS_STATUS) {
-            $message = "您于{$withdraw->created_at}发起的
-                            {$withdraw->to_account}提现
-                            【{$withdraw->amount}】元 申请处理成功！";
+            $message = "您于{$withdraw->created_at}发起的{$withdraw->to_account}提现【{$withdraw->amount}】元 申请处理成功！";
         } else if ($withdraw->status == Withdraw::FAILED_STATUS) {
-            $message = "您于{$withdraw->created_at}发起的
-                            {$withdraw->to_account}提现
-                            【{$withdraw->amount}】元 申请处理失败。回执信息：{$withdraw->remark}。";
+            $message = "您于{$withdraw->created_at}发起的{$withdraw->to_account}提现【{$withdraw->amount}】元 申请处理失败。回执信息：{$withdraw->remark}。";
         }
         //互动对象
         $data = [

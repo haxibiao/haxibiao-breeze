@@ -36,9 +36,7 @@ class ReportSucceedNotification extends BreezeNotification
     {
         $report = $this->report;
         //文本描述
-        $message = "您对题目“{$report->question->description}”的举报
-                  【{$report->reason}】经核实已生效，
-                    恭喜您获得奖励：2智慧点";
+        $message = "您对题目“{$report->question->description}”的举报【{$report->reason}】经核实已生效，恭喜您获得奖励：2智慧点";
 
         $data = [
             'type'    => $report->getMorphClass(),
