@@ -51,6 +51,8 @@ class LikedNotification extends BreezeNotification
                 $post                   = $this->like->likable;
                 $this->data_description = $post->description;
                 $this->data_cover       = $post->cover;
+            } else if ($this->like->likable instanceof \App\Question) {
+                $this->data_description = $this->like->likable->description;
             }
         }
 

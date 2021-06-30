@@ -43,7 +43,7 @@ class AuditQuestionResultNotification extends Notification
                     恭喜您获得奖励：{$this->gold}智慧点";
 
         $data = [
-            'type'    => $question->getMorphClass(),
+            'type'    => "questions",
             'id'      => $question->id,
             'title'   => "出题任务", //标题
             'message' => $message, //通知主体内容
