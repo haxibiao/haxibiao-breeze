@@ -136,7 +136,7 @@ trait UserAttrs
     {
         $avatar = $this->getRawOriginal('avatar');
         if (blank($avatar)) {
-            $avatar = User::getDefaultAvatar();
+            $avatar = $this->getDefaultAvatar();
             //FIXME: ivan: 目前 guarded=[] 这里引起不少save出错，确保UT先
             //保存到本地数据库，不然头像一直在换
             // $this->update(['avatar' => $avatar]);

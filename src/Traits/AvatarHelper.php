@@ -60,7 +60,7 @@ trait AvatarHelper
     {
         $avatar = $this->getRawOriginal('avatar');
         if (is_null($avatar)) {
-            return url(self::getDefaultAvatar());
+            return url($this->getDefaultAvatar());
         }
 
         //不支持url,都存path,本地不存storage
@@ -88,9 +88,9 @@ trait AvatarHelper
     /**
      * 获取默认头像URL路径
      */
-    public static function getDefaultAvatar()
+    public function getDefaultAvatar()
     {
-        $avatar_path = sprintf('/images/avatar-%d.jpg', mt_rand(1, 15));
+        $avatar_path = sprintf('/images/avatar-%d.jpg', ($this->id % 14) + 1);
         return url($avatar_path);
         //以前的要求每个项目去cos上传默认头像文件，太费劲了
         // return "https://cos.haxibiao.com/" . $avatar_path;
