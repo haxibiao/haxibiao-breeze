@@ -71,7 +71,7 @@ class LikedNotification extends BreezeNotification
         $data = array_merge($data, [
             'type'        => $this->data_type,
             'id'          => $this->data_id,
-            'message'     => $this->data_message,
+            'message'     => $this->data_message ?? null,
             'description' => $this->data_description, //对象的内容
             'cover'       => $this->data_cover,
             'event'       => $this->custom_event,
