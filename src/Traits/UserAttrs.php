@@ -417,10 +417,10 @@ trait UserAttrs
         return $this->articles()->count();
     }
 
-    public function getCountFollowersAttribute()
-    {
-        return $this->count_follows;
-    }
+    // public function getCountFollowersAttribute()
+    // {
+    //     return $this->count_follows;
+    // }
 
     public function getCountFollowingsAttribute()
     {
