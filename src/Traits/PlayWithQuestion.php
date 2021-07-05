@@ -305,6 +305,9 @@ trait PlayWithQuestion
 
         throw_if(is_email($payAccount), UserException::class, '设置失败,禁止使用邮箱绑定支付宝!');
         throw_if(empty($real_name), UserException::class, '请填写真实姓名!');
+        //中文判断
+        $isCNRealName = !preg_match_all("/([\x{4e00}-\x{9fa5}]+)/u", $real_name);
+        throw_if($isCNRealName, UserException::class, '姓名输入不合法,请重新输入!');
 
         $wallet = $user->wallet;
 
@@ -341,12 +344,9 @@ trait PlayWithQuestion
         //填充提现信息
         $wallet->fill([
             'pay_account' => $payAccount,
+            'real_name'   => $real_name,
             // 'code'        => $code,
         ]);
-
-        //中文判断
-        $isCNRealName = !preg_match_all("/([\x{4e00}-\x{9fa5}]+)/u", $real_name);
-        throw_if($isCNRealName, UserException::class, '姓名输入不合法,请重新输入!');
 
         //增长提现信息修改次数
         if (!empty($wallet->pay_infos)) {
