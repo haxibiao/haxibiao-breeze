@@ -80,9 +80,9 @@ trait AuthHelper
 
         $user = $qb->first();
 
-        throw_if(empty($user), GQLException::class, '账号不存在,请先注册!');
+        throw_if(empty($user), UserException::class, '账号不存在,请先注册!');
         if (!password_verify($password, $user->password)) {
-            throw new GQLException('登录失败,账号或者密码错误');
+            throw new UserException('登录失败,账号或者密码错误');
         }
 
         if (!empty($uuid) && !strcmp($user->uuid, $uuid)) {
