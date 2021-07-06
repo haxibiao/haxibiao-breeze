@@ -157,7 +157,9 @@ function getUser($throw = true)
         $cache_user->user_data    = null;
     }
 
-    request()->request->add(['current_user' => json_encode($cache_user)]);
+    if(!$cache_user){
+        request()->request->add(['current_user' => json_encode($cache_user)]);
+    }
 
     //getUser模式默认支持提示登录失败
     if (!$isValidUser) {
