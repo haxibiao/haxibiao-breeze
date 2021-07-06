@@ -24,9 +24,9 @@ class NewMessage implements ShouldBroadcast
 
     public function broadcastOn()
     {
-		if(in_array(config('app.name'),['haxibiao','yinxiangshipin'])){
-			return new PresenceChannel(config('app.name').'.chat.' . $this->message->chat_id);
-		}
+        if (in_array(config('app.name'), ['haxibiao', 'yinxiangshipin'])) {
+            return new PresenceChannel(config('app.name') . '.chat.' . $this->message->chat_id);
+        }
         return new PresenceChannel('chat.' . $this->message->chat_id);
     }
 
@@ -42,6 +42,7 @@ class NewMessage implements ShouldBroadcast
             'user_name'          => $user->name,
             'message_content'    => $content,
             'message_created_at' => time_ago($this->message->created_at),
+            'created_at'         => $this->message->created_at,
             'message_icon'       => 'icon',
             'message_id'         => $this->message->id,
             'chat_id'            => $this->message->chat_id,
