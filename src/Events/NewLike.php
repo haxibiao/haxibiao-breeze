@@ -28,7 +28,7 @@ class NewLike implements ShouldBroadcast
     {
         $this->likable = $this->like->likable;
         if (!is_null($this->likable->user_id)) {
-        	if(config('app.name') == 'yinxiangshipin'){
+			if(in_array(config('app.name'),['haxibiao','yinxiangshipin'])){
 				return new PrivateChannel(config('app.name').'.User.' . $this->likable->user_id);
 			}
 			return new PrivateChannel('App.User.' . $this->likable->user_id);

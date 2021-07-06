@@ -4,6 +4,7 @@ namespace Haxibiao\Breeze\Events;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -29,6 +30,9 @@ class NewReport
      */
     public function broadcastOn()
     {
+		if(in_array(config('app.name'),['haxibiao','yinxiangshipin'])){
+			return new PrivateChannel(config('app.name').'.channel-name');
+		}
         return new PrivateChannel('channel-name');
     }
 }
