@@ -13,6 +13,10 @@ class CreateSignInsTable extends Migration
      */
     public function up()
     {
+        if (Schema::hasTable('sign_ins')) {
+            return;
+        }
+
         Schema::create('sign_ins', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id')->comment('用户ID');
