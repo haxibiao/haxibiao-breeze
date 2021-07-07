@@ -4,7 +4,6 @@ namespace Haxibiao\Breeze\Nova;
 
 use App\Nova\Resource;
 use Illuminate\Http\Request;
-use Inspheric\Fields\Url;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
@@ -52,7 +51,7 @@ class Version extends Resource
                 ]),
             Select::make('类型', 'type')->options($this::getTypes())->displayUsingLabels(),
             Boolean::make('是否强制更新', 'is_force'),
-            Url::make('下载地址', 'url')->label('下载')->clickableOnIndex(),
+            Text::make('下载地址', 'url'),
             DateTime::make('发布时间', 'created_at')->exceptOnForms(),
             DateTime::make('更新时间', 'updated_at')->hideWhenCreating(),
         ];
