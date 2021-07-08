@@ -14,11 +14,11 @@ function get_users_trend($range = 7)
 {
     //没有数据的日期默认值为0
     for ($j = $range - 1; $j >= 0; $j--) {
-        $intervalDate        = date('Y-m-d', strtotime(now() . '-' . $j . 'day'));
+        $intervalDate        = date('m-d', strtotime(now() . '-' . $j . 'day'));
         $data[$intervalDate] = 0;
     }
 
-    $users = User::selectRaw(" distinct(date_format(created_at,'%Y-%m-%d')) as daily,count(*) as count ")
+    $users = User::selectRaw(" distinct(date_format(created_at,'%m-%d')) as daily,count(*) as count ")
         ->whereDate('created_at', '>=', now()->subDay($range - 1))
         ->groupBy('daily')->get();
 
