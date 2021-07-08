@@ -14,7 +14,7 @@ class AppController extends Controller
 
     public function hookApkUpload()
     {
-        $appname = request('appname', config('app.name'));
+        $app     = request('app', config('app.name'));
         $version = request('version', "1.0.0");
         $build   = request('build', "1");
 
@@ -22,14 +22,19 @@ class AppController extends Controller
             'group' => '下载页',
             'name'  => '安卓地址',
         ]);
-        $item->value = "https://cos.haxibiao.com/apk/${appname}_${version}_${build}.apk";
+        $item->value = "https://cos.haxibiao.com/apk/${app}_${version}_${build}.apk";
         $item->save();
+
+        // 刷新预热 apk cdn
+        $pushCdnUrl = "http://haxiyun.cn/api/cdn/pushUrlsCache?urls[]=https://cos.haxibiao.com/apk/${app}_${version}_${build}.apk";
+        @file_get_contents($pushCdnUrl);
+
         return $item;
     }
 
     public function hookIpaUpload()
     {
-        $appname = request('appname', config('app.name'));
+        $app     = request('app', config('app.name'));
         $version = request('version', "1.0.0");
         $build   = request('build', "1");
 
@@ -37,8 +42,13 @@ class AppController extends Controller
             'group' => '下载页',
             'name'  => '苹果地址',
         ]);
-        $item->value = "itms-services:///?action=download-manifest&url=https://cos.haxibiao.com/ipa/${appname}_${version}_${build}.ipa/manifest.plist";
+        $item->value = "itms-services:///?action=download-manifest&url=https://cos.haxibiao.com/ipa/${app}_${version}_${build}.ipa/manifest.plist";
         $item->save();
+
+        // 刷新预热 ipa cdn
+        $pushCdnUrl = "http://haxiyun.cn/api/cdn/pushUrlsCache?urls[]=https://cos.haxibiao.com/ipa/${app}_${version}_${build}.ipa";
+        @file_get_contents($pushCdnUrl);
+
         return $item;
     }
 
