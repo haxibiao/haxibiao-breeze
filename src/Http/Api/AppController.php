@@ -6,10 +6,41 @@ use App\AdConfig;
 use App\AppConfig;
 use App\Http\Controllers\Controller;
 use App\Version;
+use Haxibiao\Breeze\Aso;
 use Illuminate\Http\Request;
 
 class AppController extends Controller
 {
+
+    public function hookApkUpload()
+    {
+        $appname = request('appname', config('app.name'));
+        $version = request('version', "1.0.0");
+        $build   = request('build', "1");
+
+        $item = Aso::firstOrCreate([
+            'group' => '下载页',
+            'name'  => '安卓地址',
+        ]);
+        $item->value = "https://cos.haxibiao.com/apk/${appname}_${version}_${build}.apk";
+        $item->save();
+        return $item;
+    }
+
+    public function hookIpaUpload()
+    {
+        $appname = request('appname', config('app.name'));
+        $version = request('version', "1.0.0");
+        $build   = request('build', "1");
+
+        $item = Aso::firstOrCreate([
+            'group' => '下载页',
+            'name'  => '苹果地址',
+        ]);
+        $item->value = "itms-services:///?action=download-manifest&url=https://cos.haxibiao.com/ipa/${appname}_${version}_${build}.ipa/manifest.plist";
+        $item->save();
+        return $item;
+    }
 
     //返回 app-config (含ad config)
     public function appConfig(Request $request)
@@ -41,7 +72,6 @@ class AppController extends Controller
 
     public function configs(Request $request)
     {
-
         return json_decode(\App\Config::query()->select(['name', 'value'])->get());
     }
 
