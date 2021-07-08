@@ -1,0 +1,6 @@
+extend type Query {
+    """
+    新增用户趋势
+    """
+    UsersTrend(range: Int = 7): JsonType @field(resolver: "Haxibiao\\Breeze\\Dimension@resolveUsersTrend")
+}

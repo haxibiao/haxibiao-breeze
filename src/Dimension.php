@@ -10,15 +10,23 @@ use Illuminate\Support\Facades\DB;
 
 class Dimension extends Model
 {
-    protected $fillable = [
-        'group',
-        'name',
-        'value',
-        'count',
-        'created_at',
-        'hour',
-        'date',
-    ];
+    protected $gurded = [];
+
+    //resolvers - 待重构
+
+    public function resolveUsersTrend($root, $args, $context, $info)
+    {
+        $range = data_get($args, 'range', 7);
+        $data  = get_users_trend($range);
+
+        return [
+            'summary' => [
+                'max'       => max($data),
+                'yesterday' => array_values($data)[$range - 2],
+            ],
+            'data'    => $data,
+        ];
+    }
 
     //repo
 

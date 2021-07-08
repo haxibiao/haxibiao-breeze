@@ -22,23 +22,8 @@ class UsersPerDay extends Trend
         $range = $request->range;
         $data  = [];
 
-        //没有数据的日期默认值为0
-        for ($j = $range - 1; $j >= 0; $j--) {
-            $intervalDate        = date('Y-m-d', strtotime(now() . '-' . $j . 'day'));
-            $data[$intervalDate] = 0;
-        }
+        $data = get_users_trend($range);
 
-        $users = User::selectRaw(" distinct(date_format(created_at,'%Y-%m-%d')) as daily,count(*) as count ")
-            ->whereDate('created_at', '>=', now()->subDay($range - 1))
-            ->groupBy('daily')->get();
-
-        $users->each(function ($user) use (&$data) {
-            $data[$user->daily] = $user->count;
-        });
-
-        if (count($data) < $range) {
-            $data[now()->toDateString()] = 0;
-        }
         $max       = max($data);
         $yesterday = array_values($data)[$range - 2];
 
