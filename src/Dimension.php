@@ -28,6 +28,34 @@ class Dimension extends Model
         ];
     }
 
+    public function resolvePostsTrend($root, $args, $context, $info)
+    {
+        $range = data_get($args, 'range', 7);
+        $data  = get_posts_trend($range);
+
+        return [
+            'summary' => [
+                'max'       => max($data),
+                'yesterday' => array_values($data)[$range - 2],
+            ],
+            'data'    => $data,
+        ];
+    }
+
+    public function resolveCommentsTrend($root, $args, $context, $info)
+    {
+        $range = data_get($args, 'range', 7);
+        $data  = get_comments_trend($range);
+
+        return [
+            'summary' => [
+                'max'       => max($data),
+                'yesterday' => array_values($data)[$range - 2],
+            ],
+            'data'    => $data,
+        ];
+    }
+
     //repo
 
     //维度统计（广告）

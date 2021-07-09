@@ -3,4 +3,12 @@ extend type Query {
     新增用户趋势
     """
     UsersTrend(range: Int = 7): JsonType @field(resolver: "Haxibiao\\Breeze\\Dimension@resolveUsersTrend")
+    """
+    新动态趋势
+    """
+    PostsTrend(range: Int = 7): JsonType @field(resolver: "Haxibiao\\Breeze\\Dimension@resolvePostsTrend")
+    """
+    新评论趋势
+    """
+    CommentsTrend(range: Int = 7): JsonType @field(resolver: "Haxibiao\\Breeze\\Dimension@resolveCommentsTrend")
 }
