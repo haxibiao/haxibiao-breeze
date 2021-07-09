@@ -114,6 +114,20 @@ extend type Mutation {
     清空个人访问记录
     """
     cleanMyVisits: Boolean @field(resolver: "App\\User@resolveCleanMyVisits")
+
+    """
+    关联马甲用户(添加子马甲用户到运营账户下)
+    """
+    associateMasterAccount(
+        """
+        马甲用户
+        """
+        vest_ids:[Int]
+        """
+        主用户
+        """
+        master_id:Int
+        ):Boolean @guard @field(resolver:"App\\User@resolveAssociateMasterAccount")
 }
 
 enum RewardType {

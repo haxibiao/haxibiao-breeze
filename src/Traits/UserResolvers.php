@@ -451,4 +451,31 @@ trait UserResolvers
         return false;
 
     }
+
+    public function resolverVestUserLists($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    {
+        return User::where('role_id',data_get($args,'role_id'));
+    }
+
+    public function resolveAssociateMasterAccount($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    {
+        $vestIds = data_get($args,'vest_ids');
+        $masterId  = data_get($args,'master_id');
+
+        $masterUser = User::find($masterId);
+        throw_if($masterUser->role_id != User::EDITOR_STATUS, GQLException::class, '这个账户不是运营账户哦！！！');
+
+        foreach($vestIds as $vestId){
+            $vestUser = User::find($vestId);
+
+            //判断该用户是否已经绑定，绑定就跳过(1个马甲用户只能绑定一个运营账户)
+            if($vestUser->master_id){
+                continue;
+            }
+
+            $vestUser->master_id = $masterId;
+            $vestUser->save();
+        }
+        return true;
+    }
 }

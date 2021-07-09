@@ -97,6 +97,10 @@ type User {
     绑定的子账户
     """
     vestAccounts: [User]
+    """
+    是否关联运营账户
+    """
+    isAssociateMasterAccount:Boolean
 
     birthday: String
     correct_count: Int
@@ -311,6 +315,11 @@ extend type Query {
     判断账号是否注册
     """
     accountHasExisted(account: String!): Boolean @field(resolver: "App\\User@resolveCheckAccountExists")
+
+    """
+    查询马甲用户列表
+    """
+    vestUserLists(role_id:ROLE):[User!] @paginate(defaultCount:10, builder:"App\\User@resolverVestUserLists")
 }
 enum UserRankEnum {
     """

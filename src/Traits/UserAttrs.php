@@ -19,6 +19,16 @@ use Illuminate\Support\Str;
 
 trait UserAttrs
 {
+    public function getIsAssociateMasterAccountAttribute()
+    {
+        if(currentUser(false)){
+            if($this->master_id && $this->role_id == User::VEST_STATUS){
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
 
     public function getEnableTipsAttribute()
     {
