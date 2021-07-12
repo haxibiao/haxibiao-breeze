@@ -132,7 +132,7 @@
             </div>
         </div>
         <div id="app-version-pop">
-            <div class="app-version-pop-mask"></div>
+            <div class="app-version-pop-mask" onclick="hide_more_version()"></div>
             <div class="app-version-pop-container">
                 <h4 class="app-version-pop-header">版本记录</h4>
                 <div class="app-version-pop-body">
@@ -145,7 +145,7 @@
                                 <p>应用大小：{{ $version['size'] }}</p>
                                 <p>版本说明：{{ $version['description'] }}</p>
                             </div>
-                            <div class="btn_download">下载</div>
+                            <a class="btn_download" href="{{ $version['url'] }}">下载</a>
                         </div>
                     @endforeach
 
@@ -172,6 +172,13 @@
             console.log(`show_more_version`)
             document.getElementById("app-version-pop").style.display = "block";
         }
+
+        function hide_more_version() {
+            console.log(`show_more_version`)
+            document.getElementById("app-version-pop").style.display = "none";
+        }
+
+
 
         function checkIsTenCent() {
             var ua = navigator.userAgent.toLowerCase();
