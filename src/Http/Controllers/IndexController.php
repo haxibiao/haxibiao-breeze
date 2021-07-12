@@ -2,8 +2,9 @@
 
 namespace Haxibiao\Breeze\Http\Controllers;
 
-use Carbon\Carbon;
+use App\Version;
 use Haxibiao\Content\Article;
+use Illuminate\Support\Carbon;
 
 class IndexController extends Controller
 {
@@ -40,7 +41,31 @@ class IndexController extends Controller
 
     public function app()
     {
-        return view('app');
+        $builder = Version::where('os', 'Android')->orderByDesc('id');
+       
+      
+        if (is_prod_env()) {
+            $builder = $builder->where('type', 1);
+        }
+
+        $version = $builder->get();
+
+        $array = $version->toArray();
+        $verions=array_map(static function ($item) {
+            $createdAt =Carbon::parse($item['created_at']);
+            return array(
+                'name'     => $item['name'],
+                'url'         => $item['url'],
+                'is_force'    => $item['is_force'],
+                'description' => $item['description'],
+                'size'        => formatSizeUnits($item['size']),
+                'package'     => $item['package'],
+                'created_at'  => (string)$createdAt->toDateString(),
+            );
+        }, $array);
+       
+
+        return view('app')->with('data', $verions);
     }
 
     public function aboutUs()
