@@ -21,8 +21,8 @@ trait UserAttrs
 {
     public function getIsAssociateMasterAccountAttribute()
     {
-        if(currentUser(false)){
-            if($this->master_id && $this->role_id == User::VEST_STATUS){
+        if (currentUser(false)) {
+            if ($this->master_id && $this->role_id == User::VEST_STATUS) {
                 return true;
             }
             return false;
@@ -489,7 +489,9 @@ trait UserAttrs
 
         //兼容工厂
         if (is_null($gender)) {
-            $gender = data_get($this, 'profile.gender');
+            if ($this->id) {
+                $gender = data_get($this, 'profile.gender', null);
+            }
         }
         //默认
         if (is_null($gender)) {
