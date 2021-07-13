@@ -18,7 +18,7 @@ extend type Query {
     """
     用户留存趋势
     """
-    UserRetentionTrend(range: Int = 7):JsonType @field(resolver: "Haxibiao\\Breeze\\Dimension@resolveMockTrend")
+    UserRetentionTrend(range: Int = 7):JsonType @field(resolver: "Haxibiao\\Breeze\\Dimension@resolveUserRetentionTrend")
     """
     用户 APP版本分布
     """
@@ -36,11 +36,11 @@ extend type Query {
     """
     AdCodeRevenue(range: Int = 7):JsonType @field(resolver: "Haxibiao\\Breeze\\Dimension@resolveMockTrend")
     """
-    私信(消息)趋势
+    私信(消息)趋势,
     """
     MessagesTrend(range: Int = 7):JsonType @field(resolver: "Haxibiao\\Breeze\\Dimension@resolveMockTrend")
     """
-    动态趋势
+    商业维度
     """
-    PostsTrend(range: Int = 7):JsonType @field(resolver: "Haxibiao\\Breeze\\Dimension@resolveMockTrend")
+    businessDimension:JsonType @field(resolver: "Haxibiao\\Breeze\\Dimension@resolveBusinessDimension")
 }

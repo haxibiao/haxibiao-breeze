@@ -2,7 +2,10 @@
 
 namespace Haxibiao\Breeze\Traits;
 
+use App\Message;
 use App\SignIn;
+use App\UserProfile;
+use App\UserRetention;
 
 trait DimensionTrendResolver
 {
@@ -55,56 +58,37 @@ trait DimensionTrendResolver
     {
         $range = data_get($args, 'range', 7);
 
-        return $this->buildTrend($this->groupByDay(new SignIn, $range), '活跃用户趋势');
-
+        return $this->buildTrendResponse($this->groupByDayTrend(new SignIn, $range), '活跃用户趋势');
     }
 
-    public function resolveMockTrend($root, $args, $context, $info)
+    public function resolveAppVersionPartition($root, $args, $context, $info)
+    {
+        return $this->buildPartitionResponse($this->groupByPartition(new UserProfile, 'version')->toArray(), '下载版本分布');
+    }
+
+    public function resolveSourcePartition($root, $args, $context, $info)
+    {
+        return $this->buildPartitionResponse($this->groupByPartition(new UserProfile, 'source')->toArray(), '下载渠道分布');
+    }
+
+    public function resolveMessagesTrend($root, $args, $context, $info)
     {
         $range = data_get($args, 'range', 7);
-        $data  = $this->initData($range);
 
-        return $this->buildTrend($data, 'mock trend:' . $info->fieldName);
+        return $this->buildTrendResponse($this->groupByDayTrend(new Message, $range), '新私信趋势');
     }
 
-    public function resolveMockPartition($root, $args, $context, $info)
+    public function resolveUserRetentionTrend($root, $args, $context, $info)
     {
-        $range = data_get($args, 'range', 7);
-        for ($j = $range - 1; $j >= 0; $j--) {
-            $intervalDate = date('Y-m-d', strtotime(now() . '-' . $j . 'day'));
-            $data[]       = [
-                'name'  => $intervalDate,
-                'value' => mt_rand(1, 30),
-            ];
-        }
-        $result = [
-            'name' => 'mock partition:' . $info->fieldName,
-            'data' => $data,
-        ];
+        $range  = data_get($args, 'range', 7);
+        $dayNum = data_get($args, 'day_num', 2);
+        $data   = $this->initTrendData($range);
 
-        return $result;
-    }
-
-    public function initData($range)
-    {
-        for ($j = $range - 1; $j >= 0; $j--) {
-            $intervalDate        = date('Y-m-d', strtotime(now() . '-' . $j . 'day'));
-            $data[$intervalDate] = 0;
+        foreach (array_keys($data) as $date) {
+            $data[$date] = UserRetention::getCachedValue(2, $date);
         }
 
-        return $data;
-    }
-
-    public function buildTrend(array $data, $name = '')
-    {
-        return [
-            'name'    => $name,
-            'summary' => [
-                'max'       => max($data),
-                'yesterday' => $data[today()->subDay()->toDateString()] ?? 0,
-            ],
-            'data'    => $data,
-        ];
+        return $this->buildTrendResponse($data, $dayNum . '日留存率');
     }
 
     public function resolveBusinessDimension()
@@ -131,5 +115,51 @@ trait DimensionTrendResolver
         ];
 
         return $data;
+    }
+
+    public function resolveMockTrend($root, $args, $context, $info)
+    {
+        $range = data_get($args, 'range', 7);
+        $data  = $this->initTrendData($range);
+
+        return $this->buildTrendResponse($data, 'mock trend:' . $info->fieldName);
+    }
+
+    public function resolveMockPartition($root, $args, $context, $info)
+    {
+        $range = data_get($args, 'range', 7);
+        for ($j = $range - 1; $j >= 0; $j--) {
+            $intervalDate = date('Y-m-d', strtotime(now() . '-' . $j . 'day'));
+            $data[]       = [
+                'name'  => $intervalDate,
+                'value' => mt_rand(1, 30),
+            ];
+        }
+        $result = [
+            'name' => 'mock partition:' . $info->fieldName,
+            'data' => $data,
+        ];
+
+        return $result;
+    }
+
+    public function buildTrendResponse(array $data, $name = '')
+    {
+        return [
+            'name'    => $name,
+            'summary' => [
+                'max'       => max($data),
+                'yesterday' => $data[today()->subDay()->toDateString()] ?? 0,
+            ],
+            'data'    => $data,
+        ];
+    }
+
+    public function buildPartitionResponse(array $data, $name = '')
+    {
+        return [
+            'name' => $name,
+            'data' => $data,
+        ];
     }
 }
