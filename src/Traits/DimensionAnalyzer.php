@@ -4,10 +4,10 @@ namespace Haxibiao\Breeze\Traits;
 
 trait DimensionAnalyzer
 {
-    public function groupByPartition($model, $byColumn)
+    public function groupByPartition($model, $byColumn, $asColumn = 'name')
     {
-        return $model::selectRaw("$byColumn,count(1) as count ")
-            ->groupBy($byColumn)
+        return $model::selectRaw("$byColumn as $asColumn,count(1) as count ")
+            ->groupBy($asColumn)
             ->get();
     }
 
