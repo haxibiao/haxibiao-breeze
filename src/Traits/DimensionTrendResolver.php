@@ -2,6 +2,7 @@
 
 namespace Haxibiao\Breeze\Traits;
 
+use App\Comment;
 use App\Message;
 use App\SignIn;
 use App\UserProfile;
@@ -12,46 +13,22 @@ trait DimensionTrendResolver
     public function resolveUsersTrend($root, $args, $context, $info)
     {
         $range = data_get($args, 'range', 7);
-        $data  = get_users_trend($range);
 
-        return [
-            'name'    => '用户增长趋势',
-            'summary' => [
-                'max'       => max($data),
-                'yesterday' => array_values($data)[$range - 2],
-            ],
-            'data'    => $data,
-        ];
+        return $this->buildTrendResponse($this->groupByDayTrend(new Comment, $range), '用户增长趋势');
     }
 
     public function resolvePostsTrend($root, $args, $context, $info)
     {
         $range = data_get($args, 'range', 7);
-        $data  = get_posts_trend($range);
 
-        return [
-            'name'    => '动态增长趋势',
-            'summary' => [
-                'max'       => max($data),
-                'yesterday' => array_values($data)[$range - 2],
-            ],
-            'data'    => $data,
-        ];
+        return $this->buildTrendResponse($this->groupByDayTrend(new Post, $range), '动态增长趋势');
     }
 
     public function resolveCommentsTrend($root, $args, $context, $info)
     {
         $range = data_get($args, 'range', 7);
-        $data  = get_comments_trend($range);
 
-        return [
-            'name'    => '评论增长趋势',
-            'summary' => [
-                'max'       => max($data),
-                'yesterday' => array_values($data)[$range - 2],
-            ],
-            'data'    => $data,
-        ];
+        return $this->buildTrendResponse($this->groupByDayTrend(new Comment, $range), '评论增长趋势');
     }
 
     public function resolveActiveUsersTrend($root, $args, $context, $info)
