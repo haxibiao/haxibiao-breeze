@@ -20,6 +20,7 @@ class Dimension extends Model
         $data  = get_users_trend($range);
 
         return [
+            'name'    => '用户增长趋势',
             'summary' => [
                 'max'       => max($data),
                 'yesterday' => array_values($data)[$range - 2],
@@ -34,6 +35,7 @@ class Dimension extends Model
         $data  = get_posts_trend($range);
 
         return [
+            'name'    => '动态增长趋势',
             'summary' => [
                 'max'       => max($data),
                 'yesterday' => array_values($data)[$range - 2],
@@ -48,9 +50,79 @@ class Dimension extends Model
         $data  = get_comments_trend($range);
 
         return [
+            'name'    => '评论增长趋势',
             'summary' => [
                 'max'       => max($data),
                 'yesterday' => array_values($data)[$range - 2],
+            ],
+            'data'    => $data,
+        ];
+    }
+
+    public function resolveActiveUsersTrend($root, $args, $context, $info)
+    {
+        $range = data_get($args, 'range', 7);
+        $data  = $this->initData($range);
+        $items = SignIn::selectRaw("distinct(date_format(created_at,'%Y-%m-%d')) as daily,count(1) as count ")
+            ->where('created_at', '>=', now()->subDay($range - 1))
+            ->groupBy('daily')
+            ->get();
+
+        $items->each(function ($item) use (&$data) {
+            $data[$item->daily] = $item->count;
+        });
+
+        if (count($data) < $range) {
+            $data[now()->toDateString()] = 0;
+        }
+
+        return $this->buildTrend($data, '活跃用户趋势');
+
+    }
+
+    public function resolveMockTrend($root, $args, $context, $info)
+    {
+        $range = data_get($args, 'range', 7);
+        $data  = $this->initData($range);
+
+        return $this->buildTrend($data, 'mock trend:' . $info->fieldName);
+    }
+
+    public function resolveMockPartition($root, $args, $context, $info)
+    {
+        $range = data_get($args, 'range', 7);
+        for ($j = $range - 1; $j >= 0; $j--) {
+            $intervalDate = date('Y-m-d', strtotime(now() . '-' . $j . 'day'));
+            $data[]       = [
+                'name'  => $intervalDate,
+                'value' => mt_rand(1,30),
+            ];
+        }
+        $result = [
+            'name' => 'mock partition:' . $info->fieldName,
+            'data' => $data,
+        ];
+
+        return $result;
+    }
+
+    public function initData($range)
+    {
+        for ($j = $range - 1; $j >= 0; $j--) {
+            $intervalDate        = date('Y-m-d', strtotime(now() . '-' . $j . 'day'));
+            $data[$intervalDate] = 0;
+        }
+
+        return $data;
+    }
+
+    public function buildTrend(array $data, $name = '')
+    {
+        return [
+            'name'    => $name,
+            'summary' => [
+                'max'       => max($data),
+                'yesterday' => $data[today()->subDay()->toDateString()] ?? 0,
             ],
             'data'    => $data,
         ];
