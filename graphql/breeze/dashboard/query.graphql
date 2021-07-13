@@ -18,19 +18,19 @@ extend type Query {
     """
     用户留存趋势
     """
-    UserRetentionTrend(range: Int = 7):JsonType @field(resolver: "Haxibiao\\Breeze\\Dimension@resolveUserRetentionTrend")
+    UserRetentionTrend(range: Int = 7,day_num:Int = 2):JsonType @field(resolver: "Haxibiao\\Breeze\\Dimension@resolveUserRetentionTrend")
     """
     用户 APP版本分布
     """
-    AppVersionPartition(range: Int = 7):JsonType @field(resolver: "Haxibiao\\Breeze\\Dimension@resolveMockPartition")
+    AppVersionPartition(date:Date):JsonType @field(resolver: "Haxibiao\\Breeze\\Dimension@resolveAppVersionPartition")
     """
     用户来源分布
     """
-    SourcePartition(range: Int = 7):JsonType @field(resolver: "Haxibiao\\Breeze\\Dimension@resolveMockPartition")
+    SourcePartition(date:Date):JsonType @field(resolver: "Haxibiao\\Breeze\\Dimension@resolveSourcePartition")
     """
     穿山甲平台CPM数据趋势
     """
-    CpmTrend(range: Int = 7):JsonType @field(resolver: "Haxibiao\\Breeze\\Dimension@resolveMockTrend")
+    CpmTrend(range: Int = 7):JsonType @field(resolver: "Haxibiao\\Breeze\\Dimension@resolveCpmTrend")
     """
     穿山甲平台广告位收益趋势
     """
@@ -38,7 +38,7 @@ extend type Query {
     """
     私信(消息)趋势,
     """
-    MessagesTrend(range: Int = 7):JsonType @field(resolver: "Haxibiao\\Breeze\\Dimension@resolveMockTrend")
+    MessagesTrend(range: Int = 7):JsonType @field(resolver: "Haxibiao\\Breeze\\Dimension@resolveMessagesTrend")
     """
     商业维度
     """
