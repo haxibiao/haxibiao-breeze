@@ -4,6 +4,7 @@ namespace Haxibiao\Breeze\Traits;
 
 use App\Comment;
 use App\Message;
+use App\Post;
 use App\SignIn;
 use App\UserProfile;
 use App\UserRetention;
