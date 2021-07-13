@@ -30,7 +30,7 @@ extend type Query {
     """
     穿山甲平台CPM数据趋势
     """
-    CpmTrend(range: Int = 7):JsonType @field(resolver: "Haxibiao\\Breeze\\Dimension@resolveCpmTrend")
+    CpmTrend(range: Int = 7):JsonType @field(resolver: "Haxibiao\\Breeze\\Dimension@resolveMockTrend")
     """
     穿山甲平台广告位收益趋势
     """
