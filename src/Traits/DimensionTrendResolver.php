@@ -41,7 +41,13 @@ trait DimensionTrendResolver
 
     public function resolveAppVersionPartition($root, $args, $context, $info)
     {
-        return $this->buildPartitionResponse($this->groupByPartition(new UserProfile, 'app_version')->toArray(), '下载版本分布');
+        $data = $this->groupByPartition(new UserProfile, 'app_version')->toArray();
+        foreach ($data as &$item) {
+            if (is_null($item['name'])) {
+                $item['name'] = '未知';
+            }
+        }
+        return $this->buildPartitionResponse($data, '下载版本分布');
     }
 
     public function resolveSourcePartition($root, $args, $context, $info)
