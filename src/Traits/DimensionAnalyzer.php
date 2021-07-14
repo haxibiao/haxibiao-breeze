@@ -2,8 +2,73 @@
 
 namespace Haxibiao\Breeze\Traits;
 
+use App\SignIn;
+use App\User;
+use App\UserRetention;
+use Illuminate\Support\Arr;
+
 trait DimensionAnalyzer
 {
+    public function getDimensions(array $dimensionKeys)
+    {
+        $allDimensions = [
+            'NEW_USERS_YESTERDAY'      => [
+                'name'  => '昨日新增用户',
+                'value' => function () {
+                    return User::yesterDay()->count();
+                },
+                'tips'  => function () {
+                    return '累计用户:' . User::count();
+                },
+                'style' => 1,
+            ],
+            'ADCODE_REVENUE_YESTERDAY' => [
+                'name'  => '昨日收益(元)',
+                'value' => mt_rand(1, 99),
+                'tips'  => '累计收益:99999',
+                'style' => 2,
+            ],
+            'USER_RETENTION_YESTERDAY' => [
+                'name'  => '用户次日留存率',
+                'value' => function () {
+                    return UserRetention::getCachedValue(2, today()->subDay()->format('Y-m-d'));
+                },
+                'tips'  => function () {
+                    return '七日留存率:' . UserRetention::getCachedValue(7, today()->subDay()->format('Y-m-d'));
+                },
+                'style' => 3,
+            ],
+            'TOTAL_USERS'              => [
+                'name'  => '累积用户数',
+                'value' => function () {
+                    return User::count();
+                },
+                'tips'  => '',
+                'style' => 3,
+            ],
+            'NEW_USERS_TODAY'          => [
+                'name'  => '今日新增用户',
+                'value' => function () {
+                    return User::today()->count();
+                },
+                'tips'  => '',
+                'style' => 3,
+            ],
+            'ACTIVE_USERS_TODAY'       => [
+                'name'  => '今日活跃数',
+                'value' => function () {
+                    return SignIn::where('created_at', '>=', today())->count();
+                },
+                'tips'  => '',
+                'style' => 3,
+            ],
+        ];
+
+        $data = Arr::only($allDimensions, $dimensionKeys);
+
+        return $data;
+    }
+
     public function groupByPartition($model, $byColumn, $asColumn = 'name')
     {
         return $model::selectRaw("$byColumn as $asColumn,count(1) as count ")

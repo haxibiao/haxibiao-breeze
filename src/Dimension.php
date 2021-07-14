@@ -2,17 +2,17 @@
 
 namespace Haxibiao\Breeze;
 
-use App\User;
 use App\Model;
-use Illuminate\Support\Carbon;
-use Haxibiao\Breeze\UserRetention;
-use Illuminate\Support\Facades\DB;
+use App\User;
 use Haxibiao\Breeze\Traits\DimensionAnalyzer;
-use Haxibiao\Breeze\Traits\DimensionTrendResolver;
+use Haxibiao\Breeze\Traits\DimensionResolver;
+use Haxibiao\Breeze\UserRetention;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class Dimension extends Model
 {
-    use DimensionTrendResolver;
+    use DimensionResolver;
     use DimensionAnalyzer;
 
     protected $gurded = [];

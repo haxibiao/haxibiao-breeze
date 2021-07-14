@@ -42,5 +42,13 @@ extend type Query {
     """
     商业维度
     """
-    businessDimension:JsonType @field(resolver: "Haxibiao\\Breeze\\Dimension@resolveBusinessDimension")
+    BusinessDimension:JsonType @field(resolver: "Haxibiao\\Breeze\\Dimension@resolveBusinessDimension")
+    DimensionManager(dimension:[String]):[Dimension] @field(resolver: "Haxibiao\\Breeze\\Dimension@resolveDimensionManager")
+}
+
+type Dimension{
+    name:String
+    value:String
+    tips:String
+    style:Int
 }
