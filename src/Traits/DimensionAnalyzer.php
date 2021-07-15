@@ -2,6 +2,7 @@
 
 namespace Haxibiao\Breeze\Traits;
 
+use App\PangleReport;
 use App\SignIn;
 use App\User;
 use App\UserRetention;
@@ -62,6 +63,52 @@ trait DimensionAnalyzer
                 'tips'  => '',
                 'style' => 3,
             ],
+            'TOTAL_AD_REVENUE'         => [
+                'name'  => '累积广告收益',
+                'value' => function () {
+                    $value  = 0;
+                    $appIds = config('ad.pangle.appIds');
+                    if (count($appIds)) {
+                        $value = PangleReport::whereIn('app_id', $appIds)->sum('revenue');
+                    }
+
+                    return $value;
+                },
+                'tips'  => '',
+                'style' => 3,
+            ],
+            'YESTERDAY_AD_REVENUE'     => [
+                'name'  => '昨日广告收益',
+                'value' => function () {
+                    $value  = 0;
+                    $appIds = config('ad.pangle.appIds');
+                    if (count($appIds)) {
+                        $value = PangleReport::whereDate('reported_date', today()->subDay())
+                            ->whereIn('app_id', $appIds)
+                            ->sum('revenue');
+                    }
+
+                    return $value;
+                },
+                'tips'  => '',
+                'style' => 3,
+            ],
+            'YESTERDAY_AD_IPMCNT'      => [
+                'name'  => '昨日广告展示次数',
+                'value' => function () {
+                    $value  = 0;
+                    $appIds = config('ad.pangle.appIds');
+                    if (count($appIds)) {
+                        $value = PangleReport::whereDate('reported_date', today()->subDay())
+                            ->whereIn('app_id', $appIds)
+                            ->sum('ipm_cnt');
+                    }
+
+                    return $value;
+                },
+                'tips'  => '',
+                'style' => 3,
+            ],
         ];
 
         $data = Arr::only($allDimensions, $dimensionKeys);
@@ -80,8 +127,8 @@ trait DimensionAnalyzer
     {
         $data = $this->initTrendData($range);
 
-        $model::selectRaw("distinct(date_format($dateColumn,'%m-%d')) as daily,count(1) as count ")
-            ->where($dateColumn, '>=', now()->subDay($range - 1))
+        $model->selectRaw("distinct(date_format($dateColumn,'%m-%d')) as daily,count(1) as count ")
+            ->where($dateColumn, '>=', today()->subDay($range - 1))
             ->groupBy('daily')
             ->get()
             ->each(function ($item) use (&$data) {
@@ -89,7 +136,7 @@ trait DimensionAnalyzer
             });
 
         if (count($data) < $range) {
-            $data[now()->toDateString()] = 0;
+            $data[date('m-d')] = 0;
         }
 
         return $data;

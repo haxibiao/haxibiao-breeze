@@ -4,6 +4,7 @@ namespace Haxibiao\Breeze\Traits;
 
 use App\Comment;
 use App\Message;
+use App\PangleReport;
 use App\Post;
 use App\SignIn;
 use App\UserProfile;
@@ -60,6 +61,76 @@ trait DimensionResolver
         $range = data_get($args, 'range', 7);
 
         return $this->buildTrendResponse($this->groupByDayTrend(new Message, $range), '新私信趋势');
+    }
+
+    public function resolveCpmTrend($root, $args, $context, $info)
+    {
+        $range  = data_get($args, 'range', 7);
+        $data   = $this->initTrendData($range);
+        $appIds = config('ad.pangle.appIds', );
+
+        PangleReport::selectRaw("distinct(date_format(reported_date,'%m-%d')) as daily,sum(revenue) * 1000 / sum(ipm_cnt) as cpm ")
+            ->where('reported_date', '>=', today()->subDay($range - 1))
+            ->groupBy('daily')
+            ->get()
+            ->each(function ($item) use (&$data) {
+                $data[$item->daily] = number_format($item->cpm, 2);
+            });
+
+        if (count($data) < $range) {
+            $data[date('m-d')] = 0;
+        }
+
+        return $this->buildTrendResponse($data, 'CPM趋势');
+
+    }
+
+    public function resolveAdRevenue($root, $args, $context, $info)
+    {
+        $range  = data_get($args, 'range', 7);
+        $data   = $this->initTrendData($range);
+        $appIds = config('ad.pangle.appIds', );
+
+        PangleReport::selectRaw("distinct(date_format(reported_date,'%m-%d')) as daily,sum(revenue) as daily_revenue ")
+            ->where('reported_date', '>=', today()->subDay($range - 1))
+            ->groupBy('daily')
+            ->get()
+            ->each(function ($item) use (&$data) {
+                $data[$item->daily] = number_format($item->daily_revenue, 2);
+            });
+
+        if (count($data) < $range) {
+            $data[date('m-d')] = 0;
+        }
+
+        return $this->buildTrendResponse($data, '广告收益趋势');
+    }
+
+    public function resolveAdCodeRevenue($root, $args, $context, $info)
+    {
+        $range           = data_get($args, 'range', 7);
+        $defaultItemData = $this->initTrendData($range);
+        $appIds          = config('ad.pangle.appIds', );
+        $groupData       = [];
+        PangleReport::selectRaw("distinct(date_format(reported_date,'%m-%d')) as daily,code_type,sum(revenue) as daily_revenue ")
+            ->where('reported_date', '>=', today()->subDay($range - 1))
+            ->groupBy(['daily', 'code_type'])
+            ->get()
+            ->each(function ($item) use (&$groupData) {
+                $groupData[$item->code_type_name][$item->daily] = number_format($item->daily_revenue, 2);
+            });
+        $data = array_values($groupData);
+        foreach ($data as &$item) {
+            $item = array_replace($defaultItemData, $item);
+        }
+
+        $result = [
+            'label'  => array_keys($defaultItemData),
+            'data'   => array_values($data),
+            'legend' => array_keys($groupData),
+        ];
+
+        return $result;
     }
 
     public function resolveUserRetentionTrend($root, $args, $context, $info)
@@ -119,7 +190,7 @@ trait DimensionResolver
             'name'    => $name,
             'summary' => [
                 'max'       => max($data),
-                'yesterday' => $data[today()->subDay()->toDateString()] ?? 0,
+                'yesterday' => $data[today()->subDay()->format('m-d')] ?? 0,
             ],
             'data'    => $data,
         ];
