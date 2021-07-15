@@ -261,6 +261,7 @@ type User {
     audit_update_exp: Int
     audits: [Audit] @hasMany(defaultCount: 10, type: "paginator", relation: "audits")
     status: Int
+    is_auditer: Boolean
     is_old_user: Int
     is_admin: Int
     last_login_at: String
