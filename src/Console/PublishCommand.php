@@ -41,6 +41,7 @@ class PublishCommand extends Command
             }
 
             $this->call('vendor:publish', ['--tag' => 'media-graphql', '--force' => $force]);
+            $this->call('vendor:publish', ['--tag' => 'store-graphql', '--force' => $force]);
             $this->call('vendor:publish', ['--tag' => 'content-graphql', '--force' => $force]);
             $this->call('vendor:publish', ['--tag' => 'sns-graphql', '--force' => $force]);
             $this->call('vendor:publish', ['--tag' => 'task-graphql', '--force' => $force]);
