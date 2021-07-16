@@ -893,7 +893,7 @@ trait UserRepo
                 }catch(\Exception $e){
                     return null;
                 }
-                $user_id = $index + $suffix * 53;dd($user_id);
+                $user_id = $index + $suffix * 53;
                 if($user_id == $admin->id){
                     return $user_id;
                 }
