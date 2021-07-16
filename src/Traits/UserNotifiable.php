@@ -108,7 +108,9 @@ trait UserNotifiable
                 //评论类通知
                 $types = [
                     $namespace . 'ReplyCommentNotification',
+                    $namespace . 'FeedbackCommentNotification',
                     $namespace . 'ArticleCommented',
+                    $namespace . 'QuestionCommented',
                     $namespace . 'CommentedNotification',
                 ];
                 $qb = $notifications->orderBy('created_at', 'desc')
