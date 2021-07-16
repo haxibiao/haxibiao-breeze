@@ -153,7 +153,7 @@ trait DimensionResolver
 
     public function resolveDimensionManager($root, $args, $context, $info)
     {
-        $dimensionKeys = data_get($args, 'dimensions', []);
+        $dimensionKeys = data_get($args, 'dimension', []);
 
         return $this->getDimensions($dimensionKeys);
     }
