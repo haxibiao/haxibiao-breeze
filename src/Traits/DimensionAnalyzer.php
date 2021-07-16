@@ -2,6 +2,7 @@
 
 namespace Haxibiao\Breeze\Traits;
 
+use App\MediaTrack;
 use App\PangleReport;
 use App\SignIn;
 use App\User;
@@ -13,7 +14,7 @@ trait DimensionAnalyzer
     public function getDimensions(array $dimensionKeys)
     {
         $allDimensions = [
-            'NEW_USERS_YESTERDAY'      => [
+            'NEW_USERS_YESTERDAY'       => [
                 'name'  => '昨日新增用户',
                 'value' => function () {
                     return User::yesterDay()->count();
@@ -23,13 +24,13 @@ trait DimensionAnalyzer
                 },
                 'style' => 1,
             ],
-            'ADCODE_REVENUE_YESTERDAY' => [
+            'ADCODE_REVENUE_YESTERDAY'  => [
                 'name'  => '昨日收益(元)',
                 'value' => mt_rand(1, 99),
                 'tips'  => '累计收益:99999',
                 'style' => 2,
             ],
-            'USER_RETENTION_YESTERDAY' => [
+            'USER_RETENTION_YESTERDAY'  => [
                 'name'  => '用户次日留存率',
                 'value' => function () {
                     return UserRetention::getCachedValue(2, today()->subDay()->format('Y-m-d'));
@@ -39,7 +40,7 @@ trait DimensionAnalyzer
                 },
                 'style' => 3,
             ],
-            'TOTAL_USERS'              => [
+            'TOTAL_USERS'               => [
                 'name'  => '累积用户数',
                 'value' => function () {
                     return User::count();
@@ -47,7 +48,7 @@ trait DimensionAnalyzer
                 'tips'  => '',
                 'style' => 3,
             ],
-            'NEW_USERS_TODAY'          => [
+            'NEW_USERS_TODAY'           => [
                 'name'  => '今日新增用户',
                 'value' => function () {
                     return User::today()->count();
@@ -55,7 +56,7 @@ trait DimensionAnalyzer
                 'tips'  => '',
                 'style' => 3,
             ],
-            'ACTIVE_USERS_TODAY'       => [
+            'ACTIVE_USERS_TODAY'        => [
                 'name'  => '今日活跃数',
                 'value' => function () {
                     return SignIn::where('created_at', '>=', today())->count();
@@ -63,7 +64,7 @@ trait DimensionAnalyzer
                 'tips'  => '',
                 'style' => 3,
             ],
-            'TOTAL_AD_REVENUE'         => [
+            'TOTAL_AD_REVENUE'          => [
                 'name'  => '累积广告收益',
                 'value' => function () {
                     $value  = 0;
@@ -77,7 +78,7 @@ trait DimensionAnalyzer
                 'tips'  => '',
                 'style' => 3,
             ],
-            'YESTERDAY_AD_REVENUE'     => [
+            'YESTERDAY_AD_REVENUE'      => [
                 'name'  => '昨日广告收益',
                 'value' => function () {
                     $value  = 0;
@@ -93,7 +94,7 @@ trait DimensionAnalyzer
                 'tips'  => '',
                 'style' => 3,
             ],
-            'YESTERDAY_AD_IPMCNT'      => [
+            'YESTERDAY_AD_IPMCNT'       => [
                 'name'  => '昨日广告展示次数',
                 'value' => function () {
                     $value  = 0;
@@ -105,6 +106,22 @@ trait DimensionAnalyzer
                     }
 
                     return $value;
+                },
+                'tips'  => '',
+                'style' => 3,
+            ],
+            'USER_WATCH_MOIVE_DURATION' => [
+                'name'  => '用户观影时长',
+                'value' => function () {
+                    return MediaTrack::where('media_type', 'movies')->sum('track_seconds');
+                },
+                'tips'  => '',
+                'style' => 3,
+            ],
+            'MOIVE_PLAY_COUNT'          => [
+                'name'  => '视频播放次数',
+                'value' => function () {
+                    return MediaTrack::where('media_type', 'movies')->count();
                 },
                 'tips'  => '',
                 'style' => 3,
