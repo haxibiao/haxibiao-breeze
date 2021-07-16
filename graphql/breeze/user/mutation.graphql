@@ -140,6 +140,10 @@ extend type Mutation {
     """
     deleteStaffAccount(staff_id:[Int!]):Boolean
         @field(resolver:"App\\User@resolveDeleteStaffAccount")
+    """
+    普通用户邀请码填写
+    """
+    inputInviteCode(code:String!): Boolean @field(resolver: "App\\User@resolveInputInviteCode")
 }
 
 enum RewardType {

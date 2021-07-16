@@ -530,4 +530,30 @@ trait UserResolvers
     {
         return User::where('role_id',User::STAFF_ROLE)->where('parent_id','==','0');
     }
+
+	public function resolveCustomerInviteCode($rootValue, array $args, $context, $resolveInfo){
+        $user = User::find(data_get($args, 'user_id'));
+        if($user && $user->role_id == User::ADMIN_STATUS){
+            return $user->makeCustomerInviteCode();
+        }
+		throw new GQLException('管理员账号才有邀请码!');
+	}
+
+    public function resolveInputInviteCode($rootValue, array $args, $context, $resolveInfo){
+        $code    = data_get($args, 'code');
+        if($user = currentUser()){
+            if($user->role_id != User::USER_STATUS){
+                throw new GQLException('普通用户才能被邀请!');
+            }
+            $adminUserId = $user->deCustomerInviteCode($code);
+            $adminUser = User::find($adminUserId);
+            if($adminUser && $adminUser->role_id == User::ADMIN_STATUS){
+                $user->role_id = User::CLINET_ROLE;
+                $user->save();
+                return true;
+            }
+            throw new GQLException('邀请码错误!');
+        }
+        return false;
+    }
 }

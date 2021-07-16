@@ -339,6 +339,10 @@ extend type Query {
     员工用户列表
     """
     staffAccountLists:[User!] @paginate(defaultCount:10, builder:"App\\User@resolveStaffAccountLists")
+    """
+    管理员的客户邀请码
+    """
+    userInviteCode(user_id: Int! @eq): String @field(resolver: "App\\User@resolveCustomerInviteCode")
 }
 enum UserRankEnum {
     """

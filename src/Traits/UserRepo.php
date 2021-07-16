@@ -875,4 +875,30 @@ trait UserRepo
             return $canRestore;
         }
     }
+
+    public function makeCustomerInviteCode(){
+        $index  = $this->id % 53;
+        $suffix = (int) ($this->id / 53);
+        return substr($this->api_token, $index, 8).dechex($suffix);
+    }
+
+    public function deCustomerInviteCode($code){
+        $prefix_code  = substr($code, 0, 8);
+        $adminUsers   = User::where('role_id', User::ADMIN_STATUS)->get();
+        foreach ($adminUsers as $admin) {
+            $index = strpos($admin->api_token, $prefix_code);
+            if($index !== false){
+                try{
+                    $suffix  = hexdec(substr($code, 8));
+                }catch(\Exception $e){
+                    return null;
+                }
+                $user_id = $index + $suffix * 53;dd($user_id);
+                if($user_id == $admin->id){
+                    return $user_id;
+                }
+            }
+        }
+        return null;
+    }
 }
