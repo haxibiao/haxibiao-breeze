@@ -101,6 +101,10 @@ type User {
     是否关联运营账户
     """
     isAssociateMasterAccount:Boolean
+    """
+    是否成为员工(否:0 待确认中:1 是:2)
+    """
+    is_staff:Int
 
     birthday: String
     correct_count: Int
@@ -398,4 +402,12 @@ enum ROLE {
     马甲号
     """
     VEST @enum(value: 3)
+    """
+    员工
+    """
+    STAFF @enum(value: 10)
+    """
+    客户
+    """
+    CLINET @enum(value: 11)
 }
