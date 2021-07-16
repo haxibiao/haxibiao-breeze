@@ -105,6 +105,15 @@ type User {
     是否成为员工(否:0 待确认中:1 是:2)
     """
     is_staff:Int
+    """
+    客户账号id
+    """
+    parent_id:Int
+    """
+    绑定的员工账号
+    """
+    staffAccounts:[User]
+
 
     birthday: String
     correct_count: Int
@@ -325,6 +334,11 @@ extend type Query {
     查询马甲用户列表
     """
     vestUserLists(role_id:ROLE):[User!] @paginate(defaultCount:10, builder:"App\\User@resolverVestUserLists")
+
+    """
+    员工用户列表
+    """
+    staffAccountLists:[User!] @paginate(defaultCount:10, builder:"App\\User@resolveStaffAccountLists")
 }
 enum UserRankEnum {
     """

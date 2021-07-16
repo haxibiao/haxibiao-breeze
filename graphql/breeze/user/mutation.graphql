@@ -128,6 +128,18 @@ extend type Mutation {
         """
         master_id:Int
         ):Boolean @guard @field(resolver:"App\\User@resolveAssociateMasterAccount")
+
+    """
+    添加员工账户
+    """
+    addStaffAccount(staff_id:[Int!]):[User]
+        @field(resolver:"App\\User@resolveAddStaffAccount")
+
+    """
+    删除员工账户
+    """
+    deleteStaffAccount(staff_id:[Int!]):Boolean
+        @field(resolver:"App\\User@resolveDeleteStaffAccount")
 }
 
 enum RewardType {

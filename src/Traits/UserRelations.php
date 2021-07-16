@@ -213,6 +213,12 @@ trait UserRelations
         return $this->belongsTo(User::class, 'master_id');
     }
 
+    //绑定的员工账号
+    public function staffAccounts():HasMany
+    {
+        return $this->hasMany(User::class,'parent_id');
+    }
+
     //我的求片
     public function findMovies()
     {

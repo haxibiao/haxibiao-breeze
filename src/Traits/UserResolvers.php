@@ -478,4 +478,56 @@ trait UserResolvers
         }
         return true;
     }
+
+    /**
+     * 添加员工账户
+     */
+    public function resolveAddStaffAccount($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    {
+        app_track_event('用户','关联员工用户');
+        $staffIds = data_get($args,'staff_id');
+        $users = [];
+        foreach($staffIds as $staffId){
+            $staffUser = User::find($staffId);
+
+            //判断该员工是否已经绑定了客户，绑定了则跳过
+            if($staffUser->parent_id != 0){
+                continue;
+            }
+
+            $staffUser->parent_id = getUserId();
+            $staffUser->is_staff  = User::STAFF_ING;
+            $staffUser->save();
+            $users[] = $staffUser;
+        }
+        return $users;
+    }
+
+    /**
+     * 删除员工账户
+     */
+    public function resolveDeleteStaffAccount($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    {
+        $staffIds = data_get($args,'staff_id');
+        foreach($staffIds as $staffId){
+            $staffUser = User::find($staffId);
+
+            //判断该员工账户是否解绑某客户
+            if($staffUser->parent_id == 0){
+                continue;
+            }
+            $staffUser->parent_id = 0;
+            $staffUser->is_staff  = User::NO_STAFF;
+            $staffUser->save();
+        }
+        return true;
+    }
+
+    /**
+     * 员工用户列表
+     */
+    public function resolveStaffAccountLists($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    {
+        return User::where('role_id',User::STAFF_ROLE)->where('parent_id','==','0');
+    }
 }
