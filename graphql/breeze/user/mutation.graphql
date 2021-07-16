@@ -133,13 +133,19 @@ extend type Mutation {
     添加员工账户
     """
     addStaffAccount(staff_id:[Int!]):[User]
-        @field(resolver:"App\\User@resolveAddStaffAccount")
+        @guard @field(resolver:"App\\User@resolveAddStaffAccount")
 
     """
     删除员工账户
     """
     deleteStaffAccount(staff_id:[Int!]):Boolean
-        @field(resolver:"App\\User@resolveDeleteStaffAccount")
+        @guard @field(resolver:"App\\User@resolveDeleteStaffAccount")
+
+    """
+    确定成为某客户的员工
+    """
+    becomeStaffAccount(parent_id:Int): Boolean @field(resolver:"App\\User@resolveBecomeStaffAccount")
+
     """
     普通用户邀请码填写
     """

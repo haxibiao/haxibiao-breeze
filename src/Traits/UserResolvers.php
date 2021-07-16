@@ -536,6 +536,23 @@ trait UserResolvers
         return User::where('role_id',User::STAFF_ROLE)->where('parent_id','==','0');
     }
 
+    /**
+     * 确定成为某客户的员工
+     */
+    public function resolveBecomeStaffAccount($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    {
+        $parentId = data_get($args,'parent_id');
+        $user = getUser();
+        if(!$parentId){
+            return false;
+        }
+        throw_if(User::where('id',$parentId)->pluck('role_id')->first() != User::CLINET_ROLE , GQLException::class , '该用户不是客户');
+        throw_if($user->parent_id != 0, GQLException::class, '该用户已经绑定过了');
+        $user->parent_id = $parentId;
+        $user->save();
+        return true;
+    }
+
 	public function resolveCustomerInviteCode($rootValue, array $args, $context, $resolveInfo){
         $user = User::find(data_get($args, 'user_id'));
         if($user && $user->role_id == User::ADMIN_STATUS){
