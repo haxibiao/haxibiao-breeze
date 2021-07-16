@@ -4,17 +4,19 @@ namespace Haxibiao\Breeze\Traits;
 
 use App\Gold;
 use App\User;
-use GraphQL\Type\Definition\ResolveInfo;
-use Haxibiao\Breeze\Exceptions\GQLException;
-use Haxibiao\Breeze\Verify;
-use Haxibiao\Content\Category;
-use Haxibiao\Content\PostRecommend;
-use Haxibiao\Question\Helpers\Redis\RedisSharedCounter;
 use Haxibiao\Sns\Visit;
 use Haxibiao\Task\Task;
+use Haxibiao\Breeze\Verify;
 use Haxibiao\Task\UserTask;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Haxibiao\Content\Category;
+use Haxibiao\Content\PostRecommend;
+use Haxibiao\Breeze\Events\NewAddStaff;
+use GraphQL\Type\Definition\ResolveInfo;
+use Haxibiao\Breeze\Exceptions\GQLException;
+use Haxibiao\Breeze\Notifications\AddStaffNotification;
+use Haxibiao\Question\Helpers\Redis\RedisSharedCounter;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 trait UserResolvers
@@ -489,6 +491,9 @@ trait UserResolvers
         $users = [];
         foreach($staffIds as $staffId){
             $staffUser = User::find($staffId);
+
+            $staffUser->notify(new AddStaffNotification($staffUser,$user_id=getUserId()));
+            event(new NewAddStaff($staffUser,$user_id = getUserId()));
 
             //判断该员工是否已经绑定了客户，绑定了则跳过
             if($staffUser->parent_id != 0){
