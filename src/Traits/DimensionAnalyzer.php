@@ -153,7 +153,7 @@ trait DimensionAnalyzer
             });
 
         if (count($data) < $range) {
-            $data[date('m-d')] = 0;
+            $data[date('m-d')] = '0';
         }
 
         return $data;
@@ -163,7 +163,7 @@ trait DimensionAnalyzer
     {
         for ($j = $range - 1; $j >= 0; $j--) {
             $intervalDate        = date('m-d', strtotime(now() . '-' . $j . 'day'));
-            $data[$intervalDate] = 0;
+            $data[$intervalDate] = '0';
         }
 
         return $data;

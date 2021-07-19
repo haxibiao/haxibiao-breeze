@@ -78,7 +78,7 @@ trait DimensionResolver
             });
 
         if (count($data) < $range) {
-            $data[date('m-d')] = 0;
+            $data[date('m-d')] = '0';
         }
 
         return $this->buildTrendResponse($data, 'CPM趋势');
@@ -100,7 +100,7 @@ trait DimensionResolver
             });
 
         if (count($data) < $range) {
-            $data[date('m-d')] = 0;
+            $data[date('m-d')] = '0';
         }
 
         return $this->buildTrendResponse($data, '广告收益趋势');
@@ -190,7 +190,7 @@ trait DimensionResolver
             'name'    => $name,
             'summary' => [
                 'max'       => max($data),
-                'yesterday' => $data[today()->subDay()->format('m-d')] ?? 0,
+                'yesterday' => $data[today()->subDay()->format('m-d')] ?? '0',
             ],
             'data'    => $data,
         ];
