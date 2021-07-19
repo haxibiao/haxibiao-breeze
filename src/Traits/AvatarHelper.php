@@ -41,6 +41,9 @@ trait AvatarHelper
         if (!is_prod_env()) {
             $filename = $user->id . "." . env('APP_ENV'); //测试不覆盖线上cos文件
         }
+        //example:319-timestamp.jpeg
+        $filename = $filename . '-' . now()->timestamp;
+
         $filename   = sprintf('%s.%s', $filename, $extension);
         $avatarPath = sprintf('%s/%s', storage_folder('avatar'), $filename);
 
