@@ -100,7 +100,7 @@ type User {
     """
     是否关联运营账户
     """
-    isAssociateMasterAccount:Boolean
+    isAssociateMasterAccount: Boolean
 
     birthday: String
     correct_count: Int
@@ -292,10 +292,25 @@ enum QuestionOrderEnum {
     GOLD @enum(value: "gold")
 }
 
+enum ResultsOrder {
+    """
+    搜索结果的更新时间
+    """
+    time
+    """
+    搜索结果的热度/人气
+    """
+    hits
+}
+
 extend type Query {
     users: [User!]! @paginate(defaultCount: 10, type: "paginator", model: "App\\User")
     recommendAuthors: [User!] @paginate(defaultCount: 10, builder: "App\\User@resolveRecommendAuthors")
-    searchUsers(keyword: String!): [User!] @paginate(defaultCount: 10, builder: "App\\User@resolveSearchUsers")
+    """
+    搜索用户
+    """
+    searchUsers(keyword: String!, order: ResultsOrder): [User!]
+        @paginate(defaultCount: 10, builder: "App\\User@resolveSearchUsers")
     """
     是否有奖励
     """
@@ -319,7 +334,7 @@ extend type Query {
     """
     查询马甲用户列表
     """
-    vestUserLists(role_id:ROLE):[User!] @paginate(defaultCount:10, builder:"App\\User@resolverVestUserLists")
+    vestUserLists(role_id: ROLE): [User!] @paginate(defaultCount: 10, builder: "App\\User@resolverVestUserLists")
 }
 enum UserRankEnum {
     """
