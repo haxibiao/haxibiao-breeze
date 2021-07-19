@@ -309,7 +309,7 @@ extend type Query {
     """
     搜索用户
     """
-    searchUsers(keyword: String!, order: ResultsOrder): [User!]
+    searchUsers(keywords: String!, order: ResultsOrder): [User!]
         @paginate(defaultCount: 10, builder: "App\\User@resolveSearchUsers")
     """
     是否有奖励

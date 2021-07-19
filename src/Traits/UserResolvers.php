@@ -181,8 +181,9 @@ trait UserResolvers
 
     public function resolveSearchUsers($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        //TODO: 替换更好的scout search
-        return self::where('name', 'like', '%' . $args['keyword'] . '%');
+        //FXIME: 替换更好的云 + scout ES search
+        $keywords = data_get($args, 'keywords', data_get($args, 'keyword'));
+        return self::where('name', 'like', '%' . $keywords . '%');
     }
 
     /**
@@ -454,22 +455,22 @@ trait UserResolvers
 
     public function resolverVestUserLists($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        return User::where('role_id',data_get($args,'role_id'));
+        return User::where('role_id', data_get($args, 'role_id'));
     }
 
     public function resolveAssociateMasterAccount($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $vestIds = data_get($args,'vest_ids');
-        $masterId  = data_get($args,'master_id');
+        $vestIds  = data_get($args, 'vest_ids');
+        $masterId = data_get($args, 'master_id');
 
         $masterUser = User::find($masterId);
         throw_if($masterUser->role_id != User::EDITOR_STATUS, GQLException::class, '这个账户不是运营账户哦！！！');
 
-        foreach($vestIds as $vestId){
+        foreach ($vestIds as $vestId) {
             $vestUser = User::find($vestId);
 
             //判断该用户是否已经绑定，绑定就跳过(1个马甲用户只能绑定一个运营账户)
-            if($vestUser->master_id){
+            if ($vestUser->master_id) {
                 continue;
             }
 
