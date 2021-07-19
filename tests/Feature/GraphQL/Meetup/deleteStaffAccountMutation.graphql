@@ -1,0 +1,5 @@
+# 删除员工
+# 前提条件：parent_id != 0 && role_id = 10
+mutation deleteStaffAccountMutation($staff_id: [Int!]) {
+	deleteStaffAccount(staff_id: $staff_id)
+}

@@ -1,0 +1,25 @@
+# 员工用户列表
+query staffAccountListsQuery {
+	staffAccountLists {
+		paginatorInfo {
+			hasMorePages
+			currentPage
+			count
+		}data {
+			id
+			age
+			name
+			avatar
+			gender
+			birthday_msg
+			introduction
+			background
+			count_likes
+			count_articles
+			count_followers
+			count_followings
+			count_favorites
+			followed_status
+		}
+	}
+}

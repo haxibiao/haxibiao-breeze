@@ -1,0 +1,4 @@
+# 确定成为某客户的员工
+mutation becomeStaffAccountMutation($parent_id: Int) {
+	becomeStaffAccount(parent_id: $parent_id)
+}
