@@ -553,6 +553,14 @@ trait UserResolvers
         return true;
     }
 
+    /**
+     * 搜索用户uid
+     */
+    public function resolveSearchUserId($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    {
+        return User::find(data_get($args,'id'));
+    }
+
 	public function resolveCustomerInviteCode($rootValue, array $args, $context, $resolveInfo){
         $user = User::find(data_get($args, 'user_id'));
         if($user && $user->role_id == User::ADMIN_STATUS){

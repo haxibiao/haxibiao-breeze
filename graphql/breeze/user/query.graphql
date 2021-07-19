@@ -339,6 +339,12 @@ extend type Query {
     员工用户列表
     """
     staffAccountLists:[User!] @paginate(defaultCount:10, builder:"App\\User@resolveStaffAccountLists")
+
+    """
+    搜索用户(依据id搜索)
+    """
+    searchUserId(id:Int!):User @field(resolver:"App\\User@resolveSearchUserId")
+
     """
     管理员的客户邀请码
     """
