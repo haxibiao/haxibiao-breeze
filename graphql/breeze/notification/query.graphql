@@ -6,10 +6,22 @@ type Notification {
     通知的行为类型(点赞了/关注了)
     """
     type: String @rename(attribute: "TypeName")
-    article: Article @deprecated(reason: "旧方式了，依赖n+1查询，建议切换为通知数据的属性")
-    post: Post @deprecated(reason: "旧方式了，依赖n+1查询，建议切换为通知数据的属性")
-    comment: Comment @deprecated(reason: "旧方式了，依赖n+1查询，建议切换为通知数据的属性")
-    reply: Comment @deprecated(reason: "旧方式了，依赖n+1查询，建议切换为通知数据的属性")
+    """
+    废弃(旧方式了，依赖n+1查询，建议切换为通知数据的属性)
+    """
+    article: Article
+    """
+    废弃(旧方式了，依赖n+1查询，建议切换为通知数据的属性)
+    """
+    post: Post 
+    """
+    废弃(旧方式了，依赖n+1查询，建议切换为通知数据的属性)
+    """
+    comment: Comment 
+    """
+    废弃(旧方式了，依赖n+1查询，建议切换为通知数据的属性)
+    """
+    reply: Comment 
 
     """
     互动的用户(非通知本人)
@@ -50,15 +62,42 @@ type Notification {
     下面一堆连着的兼容答赚属性
     """
     data: String @rename(attribute: "data_string")
-    report: Report @deprecated(reason: "旧方式了，依赖n+1查询，建议切换为通知数据的属性")
-    withdraw: Withdraw @deprecated(reason: "旧方式了，依赖n+1查询，建议切换为通知数据的属性")
-    feedback: Feedback @deprecated(reason: "旧方式了，依赖n+1查询，建议切换为通知数据的属性")
-    curation: Curation @deprecated(reason: "旧方式了，依赖n+1查询，建议切换为通知数据的属性")
-    question: Question @deprecated(reason: "旧方式了，依赖n+1查询，建议切换为通知数据的属性")
-    follow: Follow @deprecated(reason: "旧方式了，依赖n+1查询，建议切换为通知数据的属性")
-    like: Like @rename(attribute: "like_obj") @deprecated(reason: "旧方式了，依赖n+1查询，建议切换为通知数据的属性")
-    medal: Medal @deprecated(reason: "旧方式了，依赖n+1查询，建议切换为通知数据的属性")
-    user_reward: UserRewardField @deprecated(reason: "旧方式了，依赖n+1查询，建议切换为通知数据的属性")
+    """
+    废弃(旧方式了，依赖n+1查询，建议切换为通知数据的属性)
+    """
+    report: Report 
+    """
+    废弃(旧方式了，依赖n+1查询，建议切换为通知数据的属性)
+    """
+    withdraw: Withdraw 
+    """
+    废弃(旧方式了，依赖n+1查询，建议切换为通知数据的属性)
+    """
+    feedback: Feedback 
+    """
+    废弃(旧方式了，依赖n+1查询，建议切换为通知数据的属性)
+    """
+    curation: Curation 
+    """
+    废弃(旧方式了，依赖n+1查询，建议切换为通知数据的属性)
+    """
+    question: Question 
+    """
+    废弃(旧方式了，依赖n+1查询，建议切换为通知数据的属性)
+    """
+    follow: Follow 
+    """
+    废弃(旧方式了，依赖n+1查询，建议切换为通知数据的属性)
+    """
+    like: Like @rename(attribute: "like_obj") 
+    """
+    废弃(旧方式了，依赖n+1查询，建议切换为通知数据的属性)
+    """
+    medal: Medal 
+    """
+    废弃(旧方式了，依赖n+1查询，建议切换为通知数据的属性)
+    """
+    user_reward: UserRewardField 
     read_at: String
     target_type: String
 }
