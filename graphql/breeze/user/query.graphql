@@ -427,5 +427,5 @@ enum ROLE {
     """
     客户
     """
-    CLINET @enum(value: 11)
+    CUSTOMER @enum(value: 11)
 }

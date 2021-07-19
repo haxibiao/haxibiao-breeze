@@ -41,7 +41,7 @@ class User extends BaseUser
 
     //防止数字被占，选择大点的数字
     const STAFF_ROLE  = 10; //员工
-    const CLINET_ROLE = 11; //客户
+    const CUSTOMER_ROLE = 11; //客户
 
     const STAFF     = 2; //确认成为员工
     const STAFF_ING = 1; //待定员工
@@ -55,7 +55,7 @@ class User extends BaseUser
             User::ADMIN_STATUS  => '管理',
             User::VEST_STATUS   => '马甲',
             User::STAFF_ROLE    => '员工',
-            User::CLINET_ROLE   => '客户',
+            User::CUSTOMER_ROLE   => '客户',
         ];
     }
 

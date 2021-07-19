@@ -546,7 +546,7 @@ trait UserResolvers
         if(!$parentId){
             return false;
         }
-        throw_if(User::where('id',$parentId)->pluck('role_id')->first() != User::CLINET_ROLE , GQLException::class , '该用户不是客户');
+        throw_if(User::where('id',$parentId)->pluck('role_id')->first() != User::CUSTOMER_ROLE , GQLException::class , '该用户不是客户');
         throw_if($user->parent_id != 0, GQLException::class, '该用户已经绑定过了');
         $user->parent_id = $parentId;
         $user->save();
@@ -570,7 +570,7 @@ trait UserResolvers
             $adminUserId = $user->deCustomerInviteCode($code);
             $adminUser = User::find($adminUserId);
             if($adminUser && $adminUser->role_id == User::ADMIN_STATUS){
-                $user->role_id = User::CLINET_ROLE;
+                $user->role_id = User::CUSTOMER_ROLE;
                 $user->save();
                 return true;
             }
