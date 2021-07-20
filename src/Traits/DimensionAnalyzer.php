@@ -31,7 +31,7 @@ trait DimensionAnalyzer
                 'style' => 2,
             ],
             'USER_RETENTION_YESTERDAY'                                => [
-                'name'  => '用户次日留存率',
+                'name'  => '次日留存',
                 'value' => function () {
                     return UserRetention::getCachedValue(2, today()->subDay()->format('Y-m-d'));
                 },
