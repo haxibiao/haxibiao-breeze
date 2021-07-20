@@ -126,6 +126,12 @@ trait DimensionAnalyzer
                 'tips'  => '',
                 'style' => 3,
             ],
+            'BOUNCE_RATE'               => [
+                'name'  => '跳出率',
+                'value' => '10%',
+                'tips'  => '',
+                'style' => 3,
+            ],
         ];
 
         $data = Arr::only($allDimensions, $dimensionKeys);
