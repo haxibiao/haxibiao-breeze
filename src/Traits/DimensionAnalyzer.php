@@ -152,10 +152,10 @@ trait DimensionAnalyzer
         return $data;
     }
 
-    public function groupByPartition($model, $byColumn, $asColumn = 'name')
+    public function groupByPartition($model, $byColumn)
     {
-        return $model::selectRaw("$byColumn as $asColumn,count(1) as count ")
-            ->groupBy($asColumn)
+        return $model->selectRaw("$byColumn,count(1) as count ")
+            ->groupBy($byColumn)
             ->get();
     }
 

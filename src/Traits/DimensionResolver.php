@@ -3,7 +3,9 @@
 namespace Haxibiao\Breeze\Traits;
 
 use App\Comment;
+use App\MediaTrack;
 use App\Message;
+use App\Movie;
 use App\PangleReport;
 use App\Post;
 use App\SignIn;
@@ -44,8 +46,8 @@ trait DimensionResolver
     {
         $data = $this->groupByPartition(new UserProfile, 'app_version')->toArray();
         foreach ($data as &$item) {
-            if (is_null($item['name'])) {
-                $item['name'] = '未知';
+            if (is_null($item['app_version'])) {
+                $item['app_version'] = '未知';
             }
         }
         return $this->buildPartitionResponse($data, '下载版本分布');
@@ -164,6 +166,22 @@ trait DimensionResolver
         $data  = $this->initTrendData($range);
 
         return $this->buildTrendResponse($data, 'mock trend:' . $info->fieldName);
+    }
+
+    public function resolveMoviePlayTrend($root, $args, $context, $info)
+    {
+        $range = data_get($args, 'range', 7);
+
+        return $this->buildTrendResponse($this->groupByDayTrend(new MediaTrack, $range), '长视频播放量趋势');
+    }
+
+    public function resolveMovieRegionPartition()
+    {
+        return $this->buildPartitionResponse($this->groupByPartition(Movie::whereIn('id', function ($query) {
+            return $query->select('media_id')
+                ->from('media_tracks')
+                ->where('media_type', 'movies');
+        }), 'region')->toArray(), '长视频地区偏好');
     }
 
     public function resolveMockPartition($root, $args, $context, $info)
