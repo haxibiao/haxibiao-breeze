@@ -113,7 +113,7 @@ trait DimensionAnalyzer
                 'tips'  => '',
                 'style' => 3,
             ],
-            'USER_WATCH_MOIVE_DURATION'                               => [
+            'USER_WATCH_MOVIE_DURATION'                               => [
                 'name'  => '用户观影时长',
                 'value' => function () {
                     return MediaTrack::where('media_type', 'movies')->sum('track_seconds');
@@ -121,7 +121,7 @@ trait DimensionAnalyzer
                 'tips'  => '',
                 'style' => 3,
             ],
-            'MOIVE_PLAY_COUNT'                                        => [
+            'MOVIE_PLAY_COUNT'                                        => [
                 'name'  => '视频播放次数',
                 'value' => function () {
                     return MediaTrack::where('media_type', 'movies')->count();
