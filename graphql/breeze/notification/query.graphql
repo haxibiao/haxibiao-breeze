@@ -127,6 +127,7 @@ enum NotificationType {
     RECEIVE_AWARD @enum(value: "Haxibiao\\Breeze\\Notifications\\ReceiveAward")
     SYSTEM_NOTICE @enum(value: "Haxibiao\\Breeze\\Notifications\\SystemNotice")
     STAFF_NOTICE @enum(value: "Haxibiao\\Breeze\\Notifications\\AddStaffNotification")
+    ASSOCIATE_NOTICE @enum(value: "Haxibiao\\Breeze\\Notifications\\AddAssociateNotification")
 }
 
 #下面都是为了兼容答赚，过两天重构好

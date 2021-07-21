@@ -14,7 +14,9 @@ use Haxibiao\Content\Category;
 use Haxibiao\Content\PostRecommend;
 use Haxibiao\Breeze\Events\NewAddStaff;
 use GraphQL\Type\Definition\ResolveInfo;
+use Haxibiao\Breeze\Events\NewAddAssociate;
 use Haxibiao\Breeze\Exceptions\GQLException;
+use Haxibiao\Breeze\Notifications\AddAssociateNotification;
 use Haxibiao\Breeze\Notifications\AddStaffNotification;
 use Haxibiao\Question\Helpers\Redis\RedisSharedCounter;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
@@ -585,5 +587,39 @@ trait UserResolvers
             throw new GQLException('邀请码错误!');
         }
         return false;
+    }
+
+    /**
+     * 关联用户关系
+     */
+    public function resolveAssociatedUser($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    {
+        $userId = data_get($args,'user_id');
+        //发起用户
+        $sender = getUser();
+        app_track_event('用户','关联用户关系','发起用户为:'.$sender->id.' && 接收用户为:'.$userId);
+
+        //接收用户
+        $user = User::find($userId);
+        $roleId = $user->role_id;
+
+        //依据接收者不同身份，设置发起者的身份
+        if($roleId == User::ADMIN_STATUS){
+            //判断用户中是否存在老板用户，若是已经存在老板用户，就抛出异常
+            throw_if(User::where('role_id',User::BOSS_ROLE)->first(),GQLException::class,'只能存在一个老板身份。。');
+            $role     = User::BOSS_ROLE;
+        }else if($roleId == User::BOSS_ROLE){
+            //发消息通知给老板，设置该用户是用户还是员工
+            $user->notify(new AddAssociateNotification($user,$senderId=getUserId()));
+            event(new NewAddAssociate($user,$senderId=getUserId()));
+            $role = User::USER_STATUS;
+        }else{
+            $role = User::CUSTOMER_ROLE;
+        }
+
+        $sender->parent_id = $userId;
+        $sender->role_id    = $role;
+        $sender->save();
+        return $sender;
     }
 }

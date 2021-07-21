@@ -97,7 +97,7 @@ extend type Mutation {
 
     """
     通用用户奖励接口
-    废弃(3.0.2之后直接用reward($reason:RewardEnum!)
+    3.0.2之后直接用reward($reason:RewardEnum!)
     """
     userReward(reward: RewardEnum): UserReward
         @field(resolver: "App\\User@resolveUserReward")
@@ -143,12 +143,17 @@ extend type Mutation {
     """
     确定成为某客户的员工
     """
-    becomeStaffAccount(parent_id:Int): Boolean @field(resolver:"App\\User@resolveBecomeStaffAccount")
+    becomeStaffAccount(parent_id:Int): Boolean @guard @field(resolver:"App\\User@resolveBecomeStaffAccount")
 
     """
     普通用户邀请码填写
     """
     inputInviteCode(code:String!): Boolean @field(resolver: "App\\User@resolveInputInviteCode")
+
+    """
+    关联用户关系
+    """
+    associatedUser(user_id:Int!):User @field(resolver:"App\\User@resolveAssociatedUser")
 }
 
 enum RewardType {

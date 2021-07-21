@@ -1,0 +1,11 @@
+mutation associatedUserMutation($user_id: Int!) {
+	associatedUser(user_id: $user_id) {
+		id
+		name
+		gender
+		avatar
+		phone
+		is_staff
+		parent_id
+	}
+}
