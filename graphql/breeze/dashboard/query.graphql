@@ -40,9 +40,21 @@ extend type Query {
     """
     AdCodeRevenue(range: Int = 7):JsonType @field(resolver: "Haxibiao\\Breeze\\Dimension@resolveAdCodeRevenue")
     """
-    私信(消息)趋势,
+    私信(消息)趋势
     """
     MessagesTrend(range: Int = 7):JsonType @field(resolver: "Haxibiao\\Breeze\\Dimension@resolveMessagesTrend")
+    """
+    电影播放趋势
+    """
+    MoviePlayTrend(range: Int = 7):JsonType @field(resolver: "Haxibiao\\Breeze\\Dimension@resolveMoviePlayTrend")
+    """
+    长视频地区偏好
+    """
+    MovieRegionPartition(range: Int = 7):JsonType @field(resolver: "Haxibiao\\Breeze\\Dimension@resolveMovieRegionPartition")
+    """
+    长视频剧情偏好
+    """
+    MoviePlotPartition(range: Int = 7):JsonType @field(resolver: "Haxibiao\\Breeze\\Dimension@resolveMovieRegionPartition")
     """
     维度管理
     """
