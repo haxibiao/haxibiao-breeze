@@ -642,16 +642,48 @@ trait UserResolvers
     {
         $userId = data_get($args,'user_id');
         $role   = data_get($args,'role');
-        $confirm = data_get($args,'confirm');
-        app_track_event('用户','设置用户角色','用户为:'.$userId);
+        app_track_event('用户','设置用户角色','用户为:'.$userId.' && 角色为:'.$role);
+
         if($userId){
-            $user   = User::find($userId);
-            if(!$role){
-                $user->is_staff = $confirm;
+            $loginUser = getUser();
+            $user      = User::find($userId);
+
+            //管理员角色
+            if($loginUser->role_id == User::ADMIN_STATUS){
+                throw_if(User::where('role_id',User::BOSS_ROLE)->first(),GQLException::class,'只能存在一个老板身份。。');
+                $user->role_id = User::BOSS_ROLE;
+                $user->is_staff = User::PASS;
+                $user->save();
+            }else{
+                //老板角色 => 只能设置"客户","员工"
+                throw_if($loginUser->role_id != User::BOSS_ROLE , GQLException::class,'用户权限不足。。');
+                $user->role_id = $role;
+                $user->is_staff = User::PASS;
+                $user->save();
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 确定关联用户
+     */
+    public function resolveConfirmUser($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    {
+        $user_id = data_get($args,'user_id');
+        $confirm = data_get($args,'confirm');
+        app_track_event('用户','确定是否关联','用户为:'.$user_id.'&& 关联状态为:'.$confirm);
+        if($user_id){
+            $user    = User::find($user_id);
+            //拒绝关联 => parent_id = 0 && role_id = 普通用户
+            if($confirm == User::FAIL){
+                $user->parent_id = 0;
+                $user->role_id   = User::USER_STATUS;
+                $user->is_staff  = $confirm;
                 $user->save();
             }else{
                 $user->is_staff = $confirm;
-                $user->role_id  = $role;
                 $user->save();
             }
             return true;

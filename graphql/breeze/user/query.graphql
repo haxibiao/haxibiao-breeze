@@ -443,4 +443,8 @@ enum ROLE {
     客户
     """
     CUSTOMER @enum(value: 11)
+    """
+    老板
+    """
+    BOSS @enum(value: 12)
 }

@@ -141,11 +141,6 @@ extend type Mutation {
         @guard @field(resolver:"App\\User@resolveDeleteStaffAccount")
 
     """
-    确定成为某客户的员工
-    """
-    becomeStaffAccount(parent_id:Int): Boolean @guard @field(resolver:"App\\User@resolveBecomeStaffAccount")
-
-    """
     普通用户邀请码填写
     """
     inputInviteCode(code:String!): Boolean @field(resolver: "App\\User@resolveInputInviteCode")
@@ -156,10 +151,18 @@ extend type Mutation {
     associatedUser(user_id:Int!,message:String):User @field(resolver:"App\\User@resolveAssociatedUser")
 
     """
-    设置用户身份(老板消息通知必传role，其他消息通知可不传role，其他参数是必传)
+    设置用户身份(老板->员工/客户，管理员->老板)
     """
-    setUserRole(user_id:Int!,role:ROLE,confirm:ConfirmType!):Boolean @field(resolver:"App\\User@resolveSetUserRole")
+    setUserRole(user_id:Int!,role:ROLE):Boolean @field(resolver:"App\\User@resolveSetUserRole")
+
+    """
+    确定关联某用户
+    """
+    confirmUser(user_id:Int!,confirm:ConfirmType!):Boolean @field(resolver:"App\\User@resolveConfirmUser")
+
+    becomeStaffAccount(parent_id:Int): Boolean @guard @field(resolver:"App\\User@resolveBecomeStaffAccount")
 }
+
 
 """
 身份确认状态

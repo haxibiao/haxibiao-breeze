@@ -56,7 +56,7 @@ class User extends BaseUser
             User::ADMIN_STATUS  => '管理',
             User::VEST_STATUS   => '马甲',
             User::STAFF_ROLE    => '员工',
-            User::CUSTOMER_ROLE   => '客户',
+            User::CUSTOMER_ROLE => '客户',
             User::BOSS_ROLE     => '老板',
         ];
     }
@@ -64,9 +64,9 @@ class User extends BaseUser
     public static function getStaffMap()
     {
         return [
-            User::STAFF      => '确定员工',
-            User::STAFF_ING  => '待定员工',
-            User::NO_STAFF   => '非员工',
+            User::PASS      => '已通过',
+            User::PENDING   => '待确认',
+            User::FAIL      => '不通过',
         ];
     }
 
