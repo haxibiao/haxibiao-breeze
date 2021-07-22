@@ -12,16 +12,18 @@ class AddAssociateNotification extends BreezeNotification
     use Queueable;
     public $user;
     public $senderId;
+    public $message;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(User $user,Int $senderId)
+    public function __construct(User $user,Int $senderId,String $message)
     {
         $this->user   = $user;
         $this->senderId = $senderId;
+        $this->message  = $message;
     }
 
     /**
@@ -59,16 +61,18 @@ class AddAssociateNotification extends BreezeNotification
     {
         $user = $this->user;
         $senderId = $this->senderId;
+        $message  = $this->message;
         $sender = User::find($senderId);
-        $message = "申请成为员工(客户)消息通知:【$user->name】";
+        $notice = "申请成为员工(客户)消息通知:【$user->name】";
         $data = [
-            'title'     => '用户申请成为您的员工(客户)消息提醒',
-            'recipient' => "接收者:$user->id",
-            'sender'    => "发起用户:$senderId",
-            'sender_name' => "发起者昵称:$sender->name",
-            'sender_avatar' => "发起者头像:$sender->avatar",
-            'message'  => $message,
-            'type' => $user->getMorphClass(),
+            'description'       => '用户申请成为您的员工(客户)消息提醒',
+            'message'     => $message,      //用户留言
+            'recipient'   => "接收者:$user->id",
+            'id'          => $senderId,     //发起者
+            'title'       => $sender->name, //发起者昵称
+            'cover'       => $sender->avatar, //发起者头像:
+            'notice'      => $notice,
+            'type'        => $user->getMorphClass(),
         ];
         return $data;
     }

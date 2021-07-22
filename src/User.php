@@ -40,13 +40,13 @@ class User extends BaseUser
     const VEST_STATUS = 3;
 
     //防止数字被占，选择大点的数字
-    const STAFF_ROLE  = 10; //员工
+    const STAFF_ROLE    = 10; //员工
     const CUSTOMER_ROLE = 11; //客户
     const BOSS_ROLE     = 12; //老板
 
-    const STAFF     = 2; //确认成为员工
-    const STAFF_ING = 1; //待定员工
-    const NO_STAFF  = 0; //非员工
+    const PASS     = 2; //已通过
+    const PENDING  = 1; //待确认
+    const FAIL     = 0; //不通过
 
     public static function getRolesMap()
     {

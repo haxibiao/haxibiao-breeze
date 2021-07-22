@@ -151,9 +151,32 @@ extend type Mutation {
     inputInviteCode(code:String!): Boolean @field(resolver: "App\\User@resolveInputInviteCode")
 
     """
-    关联用户关系
+    关联用户关系(加好友)
     """
-    associatedUser(user_id:Int!):User @field(resolver:"App\\User@resolveAssociatedUser")
+    associatedUser(user_id:Int!,message:String):User @field(resolver:"App\\User@resolveAssociatedUser")
+
+    """
+    设置用户身份(老板消息通知必传role，其他消息通知可不传role，其他参数是必传)
+    """
+    setUserRole(user_id:Int!,role:ROLE,confirm:ConfirmType!):Boolean @field(resolver:"App\\User@resolveSetUserRole")
+}
+
+"""
+身份确认状态
+"""
+enum ConfirmType{
+    """
+    通过
+    """
+    PASS @enum(value:2)
+    """
+    待确认
+    """
+    PENDING @enum(value:1)
+    """
+    不通过
+    """
+    FAIL @enum(value:0)
 }
 
 enum RewardType {

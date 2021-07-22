@@ -503,7 +503,7 @@ trait UserResolvers
             }
 
             $staffUser->parent_id = getUserId();
-            $staffUser->is_staff  = User::STAFF_ING;
+            $staffUser->is_staff  = User::PENDING;
             $staffUser->save();
             $users[] = $staffUser;
         }
@@ -524,7 +524,7 @@ trait UserResolvers
                 continue;
             }
             $staffUser->parent_id = 0;
-            $staffUser->is_staff  = User::NO_STAFF;
+            $staffUser->is_staff  = User::FAIL;
             $staffUser->save();
         }
         return true;
@@ -595,9 +595,15 @@ trait UserResolvers
     public function resolveAssociatedUser($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         $userId = data_get($args,'user_id');
+        $message = data_get($args,'message') ?? "你好";
+
         //发起用户
         $sender = getUser();
         app_track_event('用户','关联用户关系','发起用户为:'.$sender->id.' && 接收用户为:'.$userId);
+
+        //判断接收用户是否已经关联过了
+        throw_if($sender->parent_id == $userId, GQLException::class, '您已经绑定了该接收者。。');
+        throw_if($sender->parent_id != 0 , GQLException::class,'您已经绑定过其他用户了，不能进行2次绑定哦！！');
 
         //接收用户
         $user = User::find($userId);
@@ -609,17 +615,47 @@ trait UserResolvers
             throw_if(User::where('role_id',User::BOSS_ROLE)->first(),GQLException::class,'只能存在一个老板身份。。');
             $role     = User::BOSS_ROLE;
         }else if($roleId == User::BOSS_ROLE){
-            //发消息通知给老板，设置该用户是用户还是员工
-            $user->notify(new AddAssociateNotification($user,$senderId=getUserId()));
-            event(new NewAddAssociate($user,$senderId=getUserId()));
             $role = User::USER_STATUS;
         }else{
             $role = User::CUSTOMER_ROLE;
         }
 
-        $sender->parent_id = $userId;
+        //发消息通知给接收者
+        $user->notify(new AddAssociateNotification($user,$senderId=getUserId(),$message));
+        event(new NewAddAssociate($user,$senderId=getUserId(),$message));
+
+        $json = [
+            "message" => $message
+        ];
+        $sender->parent_id  = $userId;
         $sender->role_id    = $role;
+        $sender->is_staff   = User::PENDING; //身份待通过中
+        $sender->json       = $json;
         $sender->save();
         return $sender;
+    }
+
+    /**
+     * 设置用户身份
+     */
+    public function resolveSetUserRole($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    {
+        $userId = data_get($args,'user_id');
+        $role   = data_get($args,'role');
+        $confirm = data_get($args,'confirm');
+        app_track_event('用户','设置用户角色','用户为:'.$userId);
+        if($userId){
+            $user   = User::find($userId);
+            if(!$role){
+                $user->is_staff = $confirm;
+                $user->save();
+            }else{
+                $user->is_staff = $confirm;
+                $user->role_id  = $role;
+                $user->save();
+            }
+            return true;
+        }
+        return false;
     }
 }

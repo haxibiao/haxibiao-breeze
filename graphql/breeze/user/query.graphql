@@ -32,12 +32,13 @@ type User {
     updated_at: DateTime!
     blockedUsers: [blockInfo] @field(resolver: "App\\User@blockedUsers")
     """
-    废弃(RMB钱包,请前端用户逐渐切换使用user type 下的wallets属性)
+    RMB钱包,请前端用户逐渐切换使用user type 下的wallets属性
     """
-    wallet: Wallet @rename(attribute: "is_wallet")
+    wallet: Wallet
+        @rename(attribute: "is_wallet")
     is_wallet: Wallet
     """
-    废弃(改属性已经弃用，请使用wallet type进行子查询)
+    改属性已经弃用，请使用wallet type进行子查询
     """
     gold: Int
     reward: Float
@@ -52,7 +53,7 @@ type User {
     wallets: [Wallet!] @hasMany
     totalContribution: Int
     """
-    废弃(这个属性废弃掉了，请使用total_contributes)
+    这个属性废弃掉了，请使用total_contributes
     """
     total_contribution: Int
     total_contributes: Int
@@ -60,7 +61,7 @@ type User {
     contribute: Int
     is_bind_dongdezhuan: Boolean
     """
-    废弃(这个属性废弃掉了，请使用today_contributes)
+    这个属性废弃掉了，请使用today_contributes
     """
     today_contribute: Int
     """
@@ -123,6 +124,7 @@ type User {
     绑定的员工账号
     """
     staffAccounts:[User]
+    json:JsonType
 
 
     birthday: String
@@ -143,7 +145,6 @@ type User {
     question_pass_rate: String
     curation_pass_rate: String
     question_count: Int
-    # adinfo: AdInfoType
     curation_count: Int
     curations: [Curation] @hasMany(defaultCount: 10, type: "paginator", relation: "curations")
     last_category_id: Int
@@ -152,7 +153,6 @@ type User {
         @paginate(defaultCount: 10, builder: "App\\User@resolveUserQuestions")
     answerHistories: [Answer] @hasMany(defaultCount: 10, type: "paginator", relation: "answers")
     contributes: [Contribute] @hasMany(defaultCount: 10, type: "paginator", relation: "contributes")
-    #todayCategories: [Category]
     invitations_success_count: Int
     invitations_rewarded: Int
 
@@ -188,7 +188,8 @@ type User {
     withdraw_lines: Int
     today_withdraw_amount: Int
     """
-    今日提现剩余额度(暂停用) —— 目前日提现一次
+    今日提现剩余额度(暂停用)
+    目前日提现一次
     """
     today_withdraw_left: Int
     """
@@ -199,7 +200,6 @@ type User {
     排名榜单:-1代表为入选
     """
     rank: Int
-    # goldTree: GoldTreeInfoObjectType
     received: Boolean
     bonusExpirationTime: Int
     totalBonusEarnings: Float
@@ -267,7 +267,6 @@ type User {
     answer_correct_partition_of_day: String
     real_name: String
     gender: Int
-
     avatar_url: String
     golds: [Gold] @hasMany(defaultCount: 10, type: "paginator", relation: "golds")
     level: Level @belongsTo

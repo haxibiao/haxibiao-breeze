@@ -15,15 +15,18 @@ class NewAddAssociate
 
     public $user;
     public $senderId;
+    public $message;
+
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(User $user, Int $senderId)
+    public function __construct(User $user, Int $senderId,String $message)
     {
         $this->user   = $user;
         $this->senderId = $senderId;
+        $this->message  = $message;
     }
 
     /**
@@ -42,9 +45,11 @@ class NewAddAssociate
     {
         $user = $this->user;
         $senderId = $this->senderId;
+        $message  = $this->message;
         $sender = User::find($senderId);
         $data = [
             'title'     => '用户申请成为您的员工(客户)消息提醒',
+            'message'   => "用户留言:$message",
             'recipient' => "接收者:$user->id",
             'sender'    => "发起用户:$senderId",
             'sender_name' => "发起者昵称:$sender->name",

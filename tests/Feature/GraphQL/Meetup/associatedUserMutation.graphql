@@ -1,5 +1,5 @@
-mutation associatedUserMutation($user_id: Int!) {
-	associatedUser(user_id: $user_id) {
+mutation associatedUserMutation($user_id: Int!, $message: String) {
+	associatedUser(user_id: $user_id, message: $message) {
 		id
 		name
 		gender
@@ -7,5 +7,6 @@ mutation associatedUserMutation($user_id: Int!) {
 		phone
 		is_staff
 		parent_id
+		json
 	}
 }
