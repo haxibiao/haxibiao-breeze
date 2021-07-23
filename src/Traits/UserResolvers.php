@@ -525,7 +525,7 @@ trait UserResolvers
      */
     public function resolveStaffAccountLists($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        return User::where('role_id', User::STAFF_ROLE)->where('parent_id', '==', '0');
+        return User::where('role_id', User::STAFF_ROLE)->where('parent_id', '!=', '0');
     }
 
     /**
