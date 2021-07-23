@@ -353,11 +353,6 @@ extend type Query {
     搜索用户(依据id搜索)
     """
     searchUserId(id:Int!):User @field(resolver:"App\\User@resolveSearchUserId")
-
-    """
-    管理员的客户邀请码
-    """
-    userInviteCode(user_id: Int! @eq): String @field(resolver: "App\\User@resolveCustomerInviteCode")
 }
 enum UserRankEnum {
     """

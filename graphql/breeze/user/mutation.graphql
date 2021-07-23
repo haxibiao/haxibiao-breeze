@@ -137,13 +137,8 @@ extend type Mutation {
     """
     删除员工账户
     """
-    deleteStaffAccount(staff_id:[Int!]):Boolean
+    deleteStaffAccount(staff_id:Int!):Boolean
         @guard @field(resolver:"App\\User@resolveDeleteStaffAccount")
-
-    """
-    普通用户邀请码填写
-    """
-    inputInviteCode(code:String!): Boolean @field(resolver: "App\\User@resolveInputInviteCode")
 }
 
 

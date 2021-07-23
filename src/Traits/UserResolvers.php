@@ -506,19 +506,18 @@ trait UserResolvers
      */
     public function resolveDeleteStaffAccount($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $staffIds = data_get($args, 'staff_id');
-        foreach ($staffIds as $staffId) {
+        $staffId = data_get($args, 'staff_id');
             $staffUser = User::find($staffId);
 
             //判断该员工账户是否解绑某客户
             if ($staffUser->parent_id == 0) {
-                continue;
+                return false;
             }
+
             $staffUser->parent_id = 0;
-            $staffUser->is_staff = User::FAIL;
+            $staffUser->role_id   = User::USER_STATUS;
             $staffUser->save();
-        }
-        return true;
+            return true;
     }
 
     /**
@@ -530,55 +529,10 @@ trait UserResolvers
     }
 
     /**
-     * 确定成为某客户的员工
-     */
-    public function resolveBecomeStaffAccount($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
-    {
-        $parentId = data_get($args, 'parent_id');
-        $user = getUser();
-        if (!$parentId) {
-            return false;
-        }
-        throw_if(User::where('id', $parentId)->pluck('role_id')->first() != User::CUSTOMER_ROLE, GQLException::class, '该用户不是客户');
-        throw_if($user->parent_id != 0, GQLException::class, '该用户已经绑定过了');
-        $user->parent_id = $parentId;
-        $user->save();
-        return true;
-    }
-
-    /**
      * 搜索用户uid
      */
     public function resolveSearchUserId($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         return User::find(data_get($args, 'id'));
-    }
-
-    public function resolveCustomerInviteCode($rootValue, array $args, $context, $resolveInfo)
-    {
-        $user = User::find(data_get($args, 'user_id'));
-        if ($user && $user->role_id == User::ADMIN_STATUS) {
-            return $user->makeCustomerInviteCode();
-        }
-        throw new GQLException('管理员账号才有邀请码!');
-    }
-
-    public function resolveInputInviteCode($rootValue, array $args, $context, $resolveInfo)
-    {
-        $code = data_get($args, 'code');
-        if ($user = currentUser()) {
-            if ($user->role_id != User::USER_STATUS) {
-                throw new GQLException('普通用户才能被邀请!');
-            }
-            $adminUserId = $user->deCustomerInviteCode($code);
-            $adminUser = User::find($adminUserId);
-            if ($adminUser && $adminUser->role_id == User::ADMIN_STATUS) {
-                $user->role_id = User::CUSTOMER_ROLE;
-                $user->save();
-                return true;
-            }
-            throw new GQLException('邀请码错误!');
-        }
-        return false;
     }
 }
