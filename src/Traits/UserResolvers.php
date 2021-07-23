@@ -4,21 +4,19 @@ namespace Haxibiao\Breeze\Traits;
 
 use App\Gold;
 use App\User;
+use GraphQL\Type\Definition\ResolveInfo;
+use Haxibiao\Breeze\Events\NewAddStaff;
+use Haxibiao\Breeze\Exceptions\GQLException;
+use Haxibiao\Breeze\Notifications\AddStaffNotification;
+use Haxibiao\Breeze\Verify;
+use Haxibiao\Content\Category;
+use Haxibiao\Content\PostRecommend;
+use Haxibiao\Question\Helpers\Redis\RedisSharedCounter;
 use Haxibiao\Sns\Visit;
 use Haxibiao\Task\Task;
-use Haxibiao\Breeze\Verify;
 use Haxibiao\Task\UserTask;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Haxibiao\Content\Category;
-use Haxibiao\Content\PostRecommend;
-use Haxibiao\Breeze\Events\NewAddStaff;
-use GraphQL\Type\Definition\ResolveInfo;
-use Haxibiao\Breeze\Events\NewAddAssociate;
-use Haxibiao\Breeze\Exceptions\GQLException;
-use Haxibiao\Breeze\Notifications\AddAssociateNotification;
-use Haxibiao\Breeze\Notifications\AddStaffNotification;
-use Haxibiao\Question\Helpers\Redis\RedisSharedCounter;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 trait UserResolvers
@@ -32,13 +30,13 @@ trait UserResolvers
     public static function hasRewardResolver($root, array $args, $context, $info)
     {
         $user_id = data_get($args, 'user_id');
-        $remark  = data_get($args, 'remark');
+        $remark = data_get($args, 'remark');
         return self::hasReward($user_id, $remark);
     }
 
     public static function resolveReward($root, array $args, $context, $info)
     {
-        $user   = getUser();
+        $user = getUser();
         $reason = $args['reason'];
 
         //FIXME::getUserRewardEnum这个方法答赚本地重写覆盖了了，不一样，有时间再兼容处理
@@ -56,76 +54,76 @@ trait UserResolvers
     public static function getUserRewardEnum()
     {
         return [
-            'NEW_USER_REWARD'      => [
-                'value'       => [
-                    'gold'   => Gold::NEW_USER_GOLD,
+            'NEW_USER_REWARD' => [
+                'value' => [
+                    'gold' => Gold::NEW_USER_GOLD,
                     'remark' => '新人注册奖励',
                     'action' => 'NEW_USER_REWARD',
                 ],
                 'description' => '新人注册奖励',
             ],
-            'NEW_YEAR_REWARD'      => [
-                'value'       => [
-                    'gold'   => Gold::NEW_YEAR_GOLD,
+            'NEW_YEAR_REWARD' => [
+                'value' => [
+                    'gold' => Gold::NEW_YEAR_GOLD,
                     'remark' => '新年奖励-牛年',
                     'action' => 'NEW_YEAR_REWARD',
                 ],
                 'description' => '新年奖励-牛年',
             ],
-            'WATCH_REWARD_VIDEO'   => [
-                'value'       => [
-                    'gold'       => 10,
+            'WATCH_REWARD_VIDEO' => [
+                'value' => [
+                    'gold' => 10,
                     'contribute' => 6,
-                    'remark'     => '观看激励视频奖励',
-                    'action'     => 'WATCH_REWARD_VIDEO',
+                    'remark' => '观看激励视频奖励',
+                    'action' => 'WATCH_REWARD_VIDEO',
                 ],
                 'description' => '观看激励视频奖励',
             ],
-            'SIGNIN_VIDEO_REWARD'  => [
-                'value'       => [
+            'SIGNIN_VIDEO_REWARD' => [
+                'value' => [
                     'remark' => '签到视频观看奖励',
                     'action' => 'SIGNIN_VIDEO_REWARD',
                 ],
                 'description' => '签到视频观看奖励',
             ],
             'TICKET_SIGNIN_REWARD' => [
-                'value'       => [
+                'value' => [
                     'remark' => '签到精力点奖励',
                     'action' => 'TICKET_SIGNIN_REWARD',
-                    'gold'   => 50,
+                    'gold' => 50,
                     'ticket' => 10,
                 ],
                 'description' => '签到精力点奖励',
             ],
-            'GOLD_SIGNIN_REWARD'   => [
-                'value'       => [
+            'GOLD_SIGNIN_REWARD' => [
+                'value' => [
                     'remark' => '签到金币奖励',
                     'action' => 'GOLD_SIGNIN_REWARD',
-                    'gold'   => 100,
+                    'gold' => 100,
                 ],
                 'description' => '签到金币奖励',
             ],
             'DOUBLE_SIGNIN_REWARD' => [
-                'value'       => [
+                'value' => [
                     'remark' => '双倍签到奖励',
                     'action' => 'DOUBLE_SIGNIN_REWARD',
                 ],
                 'description' => '双倍签到奖励',
             ],
-            'KEEP_SIGNIN_REWARD'   => [
-                'value'       => [
+            'KEEP_SIGNIN_REWARD' => [
+                'value' => [
                     'remark' => '连续签到奖励',
                     'action' => 'KEEP_SIGNIN_REWARD',
                 ],
                 'description' => '连续签到奖励',
             ],
-            'CLICK_REWARD_VIDEO'   => [
-                'value'       => [
-                    'ticket'     => \App\User::VIDEO_REWARD_TICKET,
+            'CLICK_REWARD_VIDEO' => [
+                'value' => [
+                    'ticket' => \App\User::VIDEO_REWARD_TICKET,
                     'contribute' => User::VIDEO_REWARD_CONTRIBUTE,
-                    'gold'       => User::VIDEO_REWARD_GOLD,
-                    'remark'     => '点击激励视频奖励',
-                    'action'     => 'CLICK_REWARD_VIDEO',
+                    'gold' => User::VIDEO_REWARD_GOLD,
+                    'remark' => '点击激励视频奖励',
+                    'action' => 'CLICK_REWARD_VIDEO',
                 ],
                 'description' => '点击激励视频奖励',
             ],
@@ -151,7 +149,7 @@ trait UserResolvers
     {
 
         $sms_code = $args['sms_code'];
-        $phone    = $args['phone'];
+        $phone = $args['phone'];
         app_track_event("用户登录", "验证码登录", $phone);
         return $this->smsSignIn($sms_code, $phone);
 
@@ -218,9 +216,9 @@ trait UserResolvers
         }
         $password = data_get($args, 'password');
 
-        $uuid  = data_get($args, 'uuid');
+        $uuid = data_get($args, 'uuid');
         $email = data_get($args, 'email');
-        $name  = data_get($args, 'name');
+        $name = data_get($args, 'name');
 
         $user = AuthHelper::signUp($phone, $password, $uuid, $email, $name);
         return $user;
@@ -243,7 +241,7 @@ trait UserResolvers
         }
 
         $password = data_get($args, 'password');
-        $uuid     = data_get($args, 'uuid', get_device_id());
+        $uuid = data_get($args, 'uuid', get_device_id());
 
         $user = AuthHelper::signIn($account, $password, $uuid);
 
@@ -253,7 +251,7 @@ trait UserResolvers
     public function updateUserInfo($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
 
-        $islegal  = app('SensitiveUtils')->islegal(Arr::get($args, 'name'));
+        $islegal = app('SensitiveUtils')->islegal(Arr::get($args, 'name'));
         $islegal2 = app('SensitiveUtils')->islegal(Arr::get($args, 'introduction'));
         if ($islegal || $islegal2) {
             throw new GQLException('修改的内容中含有包含非法内容,请删除后再试!');
@@ -284,7 +282,7 @@ trait UserResolvers
 
             //TODO:暂时不牵涉前端的gql,后期需要修改掉的gql,有关用户信息修改的
             $args_profile_infos = ["age", "gender", "introduction", "birthday"];
-            $profile_infos      = [];
+            $profile_infos = [];
             foreach ($args_profile_infos as $profile_info) {
                 foreach ($args as $index => $value) {
                     if ($index == $profile_info) {
@@ -293,11 +291,11 @@ trait UserResolvers
                             $profile_infos[$index] = User::getGenderNumber($args[$index]);
                         }
                         if ($index == "birthday") {
-                            $birthday_str                    = $args[$index];
-                            $strs                            = explode("-", str_before($birthday_str, " "));
-                            $profile_infos['birth_on_year']  = $strs[0];
+                            $birthday_str = $args[$index];
+                            $strs = explode("-", str_before($birthday_str, " "));
+                            $profile_infos['birth_on_year'] = $strs[0];
                             $profile_infos['birth_on_month'] = $strs[1];
-                            $profile_infos['birth_on_day']   = $strs[2];
+                            $profile_infos['birth_on_day'] = $strs[2];
                             //大于70年的还是继续尊重birthday
                             //小于等于70年1月1日的尊重拆解字段
                             $profile_infos[$index] = $birthday_str;
@@ -357,14 +355,14 @@ trait UserResolvers
         $user = currentUser();
         $type = $args['type'];
         if ($type === 'newUser') {
-            $task             = Task::where("name", "观看新手视频教程")->first();
-            $userTask         = UserTask::where("task_id", $task->id)->where("user_id", $user->id)->first();
+            $task = Task::where("name", "观看新手视频教程")->first();
+            $userTask = UserTask::where("task_id", $task->id)->where("user_id", $user->id)->first();
             $userTask->status = UserTask::TASK_REACH;
             $userTask->save();
             return 1;
         } else if ($type === 'douyin') {
-            $task             = Task::where("name", "观看采集视频教程")->first();
-            $userTask         = UserTask::where("task_id", $task->id)->where("user_id", $user->id)->first();
+            $task = Task::where("name", "观看采集视频教程")->first();
+            $userTask = UserTask::where("task_id", $task->id)->where("user_id", $user->id)->first();
             $userTask->status = UserTask::TASK_REACH;
             $userTask->save();
             return 1;
@@ -395,7 +393,7 @@ trait UserResolvers
 
     public function resolveUserQuery($root, array $args, $context, $info)
     {
-        $user        = getUser(false);
+        $user = getUser(false);
         $loginUserId = data_get($user, 'id');
         if ($loginUserId) {
             if ($loginUserId != data_get($args, 'id')) {
@@ -458,22 +456,22 @@ trait UserResolvers
 
     public function resolverVestUserLists($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        return User::where('role_id',data_get($args,'role_id'));
+        return User::where('role_id', data_get($args, 'role_id'));
     }
 
     public function resolveAssociateMasterAccount($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $vestIds = data_get($args,'vest_ids');
-        $masterId  = data_get($args,'master_id');
+        $vestIds = data_get($args, 'vest_ids');
+        $masterId = data_get($args, 'master_id');
 
         $masterUser = User::find($masterId);
         throw_if($masterUser->role_id != User::EDITOR_STATUS, GQLException::class, '这个账户不是运营账户哦！！！');
 
-        foreach($vestIds as $vestId){
+        foreach ($vestIds as $vestId) {
             $vestUser = User::find($vestId);
 
             //判断该用户是否已经绑定，绑定就跳过(1个马甲用户只能绑定一个运营账户)
-            if($vestUser->master_id){
+            if ($vestUser->master_id) {
                 continue;
             }
 
@@ -488,26 +486,19 @@ trait UserResolvers
      */
     public function resolveAddStaffAccount($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        app_track_event('用户','关联员工用户');
-        $staffIds = data_get($args,'staff_id');
-        $users = [];
-        foreach($staffIds as $staffId){
-            $staffUser = User::find($staffId);
+        app_track_event('用户', '关联员工用户');
+        $staffId = data_get($args, 'staff_id');
+        $staffUser = User::find($staffId);
 
-            $staffUser->notify(new AddStaffNotification($staffUser,$user_id=getUserId()));
-            event(new NewAddStaff($staffUser,$user_id = getUserId()));
+        $staffUser->notify(new AddStaffNotification($staffUser, $user = getUser()));
+        event(new NewAddStaff($staffUser, $user = getUser()));
 
-            //判断该员工是否已经绑定了客户，绑定了则跳过
-            if($staffUser->parent_id != 0){
-                continue;
-            }
+        throw_if($staffUser->parent_id != 0, GQLException::class, '用户已经绑定了。。。');
 
-            $staffUser->parent_id = getUserId();
-            $staffUser->is_staff  = User::PENDING;
-            $staffUser->save();
-            $users[] = $staffUser;
-        }
-        return $users;
+        $staffUser->parent_id = getUserId();
+        $staffUser->role_id   = User::STAFF_ROLE;
+        $staffUser->save();
+        return $staffUser;
     }
 
     /**
@@ -515,16 +506,16 @@ trait UserResolvers
      */
     public function resolveDeleteStaffAccount($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $staffIds = data_get($args,'staff_id');
-        foreach($staffIds as $staffId){
+        $staffIds = data_get($args, 'staff_id');
+        foreach ($staffIds as $staffId) {
             $staffUser = User::find($staffId);
 
             //判断该员工账户是否解绑某客户
-            if($staffUser->parent_id == 0){
+            if ($staffUser->parent_id == 0) {
                 continue;
             }
             $staffUser->parent_id = 0;
-            $staffUser->is_staff  = User::FAIL;
+            $staffUser->is_staff = User::FAIL;
             $staffUser->save();
         }
         return true;
@@ -535,7 +526,7 @@ trait UserResolvers
      */
     public function resolveStaffAccountLists($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        return User::where('role_id',User::STAFF_ROLE)->where('parent_id','==','0');
+        return User::where('role_id', User::STAFF_ROLE)->where('parent_id', '==', '0');
     }
 
     /**
@@ -543,12 +534,12 @@ trait UserResolvers
      */
     public function resolveBecomeStaffAccount($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $parentId = data_get($args,'parent_id');
+        $parentId = data_get($args, 'parent_id');
         $user = getUser();
-        if(!$parentId){
+        if (!$parentId) {
             return false;
         }
-        throw_if(User::where('id',$parentId)->pluck('role_id')->first() != User::CUSTOMER_ROLE , GQLException::class , '该用户不是客户');
+        throw_if(User::where('id', $parentId)->pluck('role_id')->first() != User::CUSTOMER_ROLE, GQLException::class, '该用户不是客户');
         throw_if($user->parent_id != 0, GQLException::class, '该用户已经绑定过了');
         $user->parent_id = $parentId;
         $user->save();
@@ -560,133 +551,33 @@ trait UserResolvers
      */
     public function resolveSearchUserId($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        return User::find(data_get($args,'id'));
+        return User::find(data_get($args, 'id'));
     }
 
-	public function resolveCustomerInviteCode($rootValue, array $args, $context, $resolveInfo){
+    public function resolveCustomerInviteCode($rootValue, array $args, $context, $resolveInfo)
+    {
         $user = User::find(data_get($args, 'user_id'));
-        if($user && $user->role_id == User::ADMIN_STATUS){
+        if ($user && $user->role_id == User::ADMIN_STATUS) {
             return $user->makeCustomerInviteCode();
         }
-		throw new GQLException('管理员账号才有邀请码!');
-	}
+        throw new GQLException('管理员账号才有邀请码!');
+    }
 
-    public function resolveInputInviteCode($rootValue, array $args, $context, $resolveInfo){
-        $code    = data_get($args, 'code');
-        if($user = currentUser()){
-            if($user->role_id != User::USER_STATUS){
+    public function resolveInputInviteCode($rootValue, array $args, $context, $resolveInfo)
+    {
+        $code = data_get($args, 'code');
+        if ($user = currentUser()) {
+            if ($user->role_id != User::USER_STATUS) {
                 throw new GQLException('普通用户才能被邀请!');
             }
             $adminUserId = $user->deCustomerInviteCode($code);
             $adminUser = User::find($adminUserId);
-            if($adminUser && $adminUser->role_id == User::ADMIN_STATUS){
+            if ($adminUser && $adminUser->role_id == User::ADMIN_STATUS) {
                 $user->role_id = User::CUSTOMER_ROLE;
                 $user->save();
                 return true;
             }
             throw new GQLException('邀请码错误!');
-        }
-        return false;
-    }
-
-    /**
-     * 关联用户关系
-     */
-    public function resolveAssociatedUser($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
-    {
-        $userId = data_get($args,'user_id');
-        $message = data_get($args,'message') ?? "你好";
-
-        //发起用户
-        $sender = getUser();
-        app_track_event('用户','关联用户关系','发起用户为:'.$sender->id.' && 接收用户为:'.$userId);
-
-        //判断接收用户是否已经关联过了
-        throw_if($sender->parent_id == $userId, GQLException::class, '您已经绑定了该接收者。。');
-        throw_if($sender->parent_id != 0 , GQLException::class,'您已经绑定过其他用户了，不能进行2次绑定哦！！');
-
-        //接收用户
-        $user = User::find($userId);
-        $roleId = $user->role_id;
-
-        //依据接收者不同身份，设置发起者的身份
-        if($roleId == User::ADMIN_STATUS){
-            //判断用户中是否存在老板用户，若是已经存在老板用户，就抛出异常
-            throw_if(User::where('role_id',User::BOSS_ROLE)->first(),GQLException::class,'只能存在一个老板身份。。');
-            $role     = User::BOSS_ROLE;
-        }else if($roleId == User::BOSS_ROLE){
-            $role = User::USER_STATUS;
-        }else{
-            $role = User::CUSTOMER_ROLE;
-        }
-
-        //发消息通知给接收者
-        $user->notify(new AddAssociateNotification($user,$senderId=getUserId(),$message));
-        event(new NewAddAssociate($user,$senderId=getUserId(),$message));
-
-        $json = [
-            "message" => $message
-        ];
-        $sender->parent_id  = $userId;
-        $sender->role_id    = $role;
-        $sender->is_staff   = User::PENDING; //身份待通过中
-        $sender->json       = $json;
-        $sender->save();
-        return $sender;
-    }
-
-    /**
-     * 设置用户身份
-     */
-    public function resolveSetUserRole($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
-    {
-        $userId = data_get($args,'user_id');
-        $role   = data_get($args,'role');
-        app_track_event('用户','设置用户角色','用户为:'.$userId.' && 角色为:'.$role);
-
-        if($userId){
-            $loginUser = getUser();
-            $user      = User::find($userId);
-
-            //管理员角色
-            if($loginUser->role_id == User::ADMIN_STATUS){
-                throw_if(User::where('role_id',User::BOSS_ROLE)->first(),GQLException::class,'只能存在一个老板身份。。');
-                $user->role_id = User::BOSS_ROLE;
-                $user->is_staff = User::PASS;
-                $user->save();
-            }else{
-                //老板角色 => 只能设置"客户","员工"
-                throw_if($loginUser->role_id != User::BOSS_ROLE , GQLException::class,'用户权限不足。。');
-                $user->role_id = $role;
-                $user->is_staff = User::PASS;
-                $user->save();
-            }
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * 确定关联用户
-     */
-    public function resolveConfirmUser($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
-    {
-        $user_id = data_get($args,'user_id');
-        $confirm = data_get($args,'confirm');
-        app_track_event('用户','确定是否关联','用户为:'.$user_id.'&& 关联状态为:'.$confirm);
-        if($user_id){
-            $user    = User::find($user_id);
-            //拒绝关联 => parent_id = 0 && role_id = 普通用户
-            if($confirm == User::FAIL){
-                $user->parent_id = 0;
-                $user->role_id   = User::USER_STATUS;
-                $user->is_staff  = $confirm;
-                $user->save();
-            }else{
-                $user->is_staff = $confirm;
-                $user->save();
-            }
-            return true;
         }
         return false;
     }

@@ -12,17 +12,17 @@ class AddStaffNotification extends Notification
 {
     use Queueable;
     public $staffUser;
-    public $user_id;
+    public $user;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(User $staffUser, Int $user_id)
+    public function __construct(User $staffUser, User $user)
     {
         $this->staffUser = $staffUser;
-        $this->user_id   = $user_id;
+        $this->user      = $user;
     }
 
     /**
@@ -59,12 +59,14 @@ class AddStaffNotification extends Notification
     public function toArray($notifiable)
     {
         $staffUser = $this->staffUser;
-        $user_id   = $this->user_id;
-        $message = "添加员工账户消息通知:【$staffUser->name】";
+        $user  = $this->user;
+        $message = "成为员工账户消息通知";
         $data =  [
-            'message' => $message,
-            'type'    => $staffUser->getMorphClass(),
-            'client_id' => $user_id,
+            'message'    => $message,
+            'id'        => $user->id, //上级用户id
+            'title'     => $user->name, //上级用户昵称
+            'cover'     => $user->avatar, //上级用户头像
+            'type'      => $staffUser->getMorphClass(),
         ];
         return $data;
     }

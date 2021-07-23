@@ -41,8 +41,6 @@ class User extends BaseUser
 
     //防止数字被占，选择大点的数字
     const STAFF_ROLE    = 10; //员工
-    const CUSTOMER_ROLE = 11; //客户
-    const BOSS_ROLE     = 12; //老板
 
     const PASS     = 2; //已通过
     const PENDING  = 1; //待确认
@@ -56,8 +54,6 @@ class User extends BaseUser
             User::ADMIN_STATUS  => '管理',
             User::VEST_STATUS   => '马甲',
             User::STAFF_ROLE    => '员工',
-            User::CUSTOMER_ROLE => '客户',
-            User::BOSS_ROLE     => '老板',
         ];
     }
 

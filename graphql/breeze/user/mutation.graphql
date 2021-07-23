@@ -131,7 +131,7 @@ extend type Mutation {
     """
     添加员工账户
     """
-    addStaffAccount(staff_id:[Int!]):[User]
+    addStaffAccount(staff_id:Int!):User
         @guard @field(resolver:"App\\User@resolveAddStaffAccount")
 
     """
@@ -144,23 +144,6 @@ extend type Mutation {
     普通用户邀请码填写
     """
     inputInviteCode(code:String!): Boolean @field(resolver: "App\\User@resolveInputInviteCode")
-
-    """
-    关联用户关系(加好友)
-    """
-    associatedUser(user_id:Int!,message:String):User @field(resolver:"App\\User@resolveAssociatedUser")
-
-    """
-    设置用户身份(老板->员工/客户，管理员->老板)
-    """
-    setUserRole(user_id:Int!,role:ROLE):Boolean @field(resolver:"App\\User@resolveSetUserRole")
-
-    """
-    确定关联某用户
-    """
-    confirmUser(user_id:Int!,confirm:ConfirmType!):Boolean @field(resolver:"App\\User@resolveConfirmUser")
-
-    becomeStaffAccount(parent_id:Int): Boolean @guard @field(resolver:"App\\User@resolveBecomeStaffAccount")
 }
 
 
