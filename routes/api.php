@@ -21,3 +21,4 @@ register_routes(dirname(__FILE__) . '/api');
 Route::middleware('auth:api')->post('/background', 'UserController@saveBackground');
 
 Route::post('/withdraw', 'WithdrawController@withdraws');
+Route::any('dimension/data', 'DimensionDataController@index');
