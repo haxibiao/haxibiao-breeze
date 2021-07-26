@@ -46,7 +46,7 @@ trait DimensionResolver
     {
         $data = $this->groupByPartition(new UserProfile, 'app_version')->toArray();
         foreach ($data as &$item) {
-            $version      = is_null($item['app_version']) ? '未知' : $item['app_version'];
+            $version      = empty($item['app_version']) ? '未知' : $item['app_version'];
             $item['name'] = $version;
         }
         return $this->buildPartitionResponse($data, '下载版本分布');
@@ -54,7 +54,12 @@ trait DimensionResolver
 
     public function resolveSourcePartition($root, $args, $context, $info)
     {
-        return $this->buildPartitionResponse($this->groupByPartition(new UserProfile, 'source')->toArray(), '下载渠道分布');
+        $data = $this->groupByPartition(new UserProfile, 'phone_brand')->toArray();
+        foreach ($data as &$item) {
+            $brand               = empty($item['下载渠道分布']) ? '未知' : $item['下载渠道分布'];
+            $item['phone_brand'] = $brand;
+        }
+        return $this->buildPartitionResponse($data, '下载渠道分布');
     }
 
     public function resolveMessagesTrend($root, $args, $context, $info)
