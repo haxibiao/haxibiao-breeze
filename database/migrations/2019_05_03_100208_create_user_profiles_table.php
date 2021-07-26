@@ -80,6 +80,7 @@ class CreateUserProfilesTable extends Migration
             $table->string('device_id')->nullable()->index()->comment('设备uuid');
             $table->string('version', 30)->default('unknow')->comment('版本');
             $table->string('package', 30)->default('unknow')->comment('渠道的APP包名');
+            $table->string('phone_brand', 15)->default('');
 
             //答题
             $table->unsignedInteger('answers_count_today')->default(0)->index()->comment('今日答题数');
