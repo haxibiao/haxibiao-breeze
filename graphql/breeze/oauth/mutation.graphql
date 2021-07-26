@@ -1,7 +1,7 @@
 extend type Mutation @guard {
     bindOAuth(input: bindOAuthInput @spread): OAuth! @field(resolver: "App\\OAuth@bindOAuth")
     
-    oAuthBind(code: String!, oauth_type: String!): OAuth
+    oAuthBind(code: String!, oauth_type: String!, platform: String): OAuth
         @field(resolver: "App\\OAuth@resovlerOAuthBind")
 
     qqBindWithToKen(access_token:String!,open_id:String):OAuth

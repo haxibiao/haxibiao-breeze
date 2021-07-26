@@ -135,8 +135,7 @@ trait OAuthResolvers
     public function resovlerOAuthBind($root, $args, $context, $info)
     {
         app_track_event("个人中心", "授权绑定", $args['oauth_type']);
-
-        return OAuthUtils::bind(getUser(), $args['code'], $args['oauth_type']);
+        return OAuthUtils::bind(getUser(), $args['code'], $args['oauth_type'], $args['platform'] ?? null);
     }
 
     public function resovlerWechatBindWithCode($root, $args, $context, $info)
