@@ -31,6 +31,9 @@ return [
     'quanminwenti.'  => [
         'dsn' => 'http://0656bb272dc744d0955966cfa41e105d@sentry.haxibiao.cn/18',
     ],
+    'dongyundong.'  => [
+        'dsn' => 'http://fc91f6969cf64a71b51a744e1bdccd31@sentry.haxibiao.cn/45',
+    ],
     'yinxiangshipin' => [
         'dsn' => 'http://13599d5c88464a77b14cd9cb11d8763b@sentry.haxibiao.cn/2',
     ],
