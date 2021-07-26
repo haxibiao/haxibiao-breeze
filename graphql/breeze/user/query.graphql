@@ -90,6 +90,10 @@ type User {
     """
     role: ROLE @rename(attribute: "role_id")
     """
+    员工管理用（具体细节找jack）
+    """
+    parent_id: Int
+    """
     隶属的主账户
     """
     masterAccount: User
