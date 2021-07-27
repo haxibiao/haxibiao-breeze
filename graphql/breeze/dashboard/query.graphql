@@ -54,7 +54,7 @@ extend type Query {
     """
     长视频剧情偏好
     """
-    MoviePlotPartition(range: Int = 7):JsonType @field(resolver: "Haxibiao\\Breeze\\Dimension@resolveMovieRegionPartition")
+    MoviePlotPartition(range: Int = 7):JsonType @field(resolver: "Haxibiao\\Breeze\\Dimension@resolveMovieTypePartition")
     """
     维度管理
     """

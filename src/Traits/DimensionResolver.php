@@ -11,6 +11,7 @@ use App\Post;
 use App\SignIn;
 use App\UserProfile;
 use App\UserRetention;
+use Haxibiao\Media\MovieType;
 
 trait DimensionResolver
 {
@@ -186,6 +187,15 @@ trait DimensionResolver
                 ->from('media_tracks')
                 ->where('media_type', 'movies');
         }), 'region')->toArray(), '长视频地区偏好');
+    }
+
+    public function resolveMovieTypePartition()
+    {
+        return $this->buildPartitionResponse($this->groupByPartition(MovieType::whereIn('movie_id', function ($query) {
+            return $query->select('media_id')
+                ->from('media_tracks')
+                ->where('media_type', 'movies');
+        })->join('types', 'types.id', 'movie_types.type_id'), 'types.name')->toArray(), '长视频地区偏好');
     }
 
     public function resolveMockPartition($root, $args, $context, $info)
