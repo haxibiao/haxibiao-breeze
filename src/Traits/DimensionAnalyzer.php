@@ -4,7 +4,6 @@ namespace Haxibiao\Breeze\Traits;
 
 use App\MediaTrack;
 use App\PangleReport;
-use App\SignIn;
 use App\User;
 use App\UserRetention;
 use Illuminate\Support\Arr;
@@ -80,7 +79,7 @@ trait DimensionAnalyzer
             'ACTIVE_USERS_TODAY'                                      => [
                 'name'  => '今日活跃数',
                 'value' => function () {
-                    return SignIn::where('created_at', '>=', today())->count();
+                    return User::where('updated_at', '>=', today())->count();
                 },
                 'tips'  => '',
                 'style' => 3,

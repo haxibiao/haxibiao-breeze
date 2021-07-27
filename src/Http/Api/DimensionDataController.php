@@ -3,7 +3,6 @@
 namespace Haxibiao\Breeze\Http\Api;
 
 use App\Http\Controllers\Controller;
-use App\SignIn;
 use App\User;
 use App\Video;
 use Illuminate\Http\Request;
@@ -38,7 +37,7 @@ class DimensionDataController extends Controller
                 return User::today()->count();
             },
             'ACTIVE_USERS_TODAY'  => function () {
-                return SignIn::where('created_at', '>=', today())->count();
+                return User::where('updated_at', '>=', today())->count();
             },
             'TOTAL_VIDEOS'        => function () {
                 return Video::count();
