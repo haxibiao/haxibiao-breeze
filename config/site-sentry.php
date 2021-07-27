@@ -31,7 +31,7 @@ return [
     'quanminwenti.'  => [
         'dsn' => 'http://0656bb272dc744d0955966cfa41e105d@sentry.haxibiao.cn/18',
     ],
-    'dongyundong.'  => [
+    'gql.dongyundong.com'  => [
         'dsn' => 'http://fc91f6969cf64a71b51a744e1bdccd31@sentry.haxibiao.cn/45',
     ],
     'yinxiangshipin' => [
