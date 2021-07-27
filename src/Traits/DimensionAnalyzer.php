@@ -26,8 +26,26 @@ trait DimensionAnalyzer
             ],
             'ADCODE_REVENUE_YESTERDAY'                                => [
                 'name'  => '昨日收益(元)',
-                'value' => mt_rand(1, 99),
-                'tips'  => '累计收益:99999',
+                'value' => function () {
+                    $value  = 0;
+                    $appIds = config('ad.pangle.appIds');
+                    if (count($appIds)) {
+                        $value = PangleReport::whereIn('app_id', $appIds)
+                            ->whereDate('reported_date', today()->subDay()->format('Y-m-d'))
+                            ->sum('revenue');
+                    }
+
+                    return $value;
+                },
+                'tips'  => function () {
+                    $amount = 0;
+                    $appIds = config('ad.pangle.appIds');
+                    if (count($appIds)) {
+                        $amount = PangleReport::whereIn('app_id', $appIds)->sum('revenue');
+                    }
+
+                    return '累计收益:' . $amount;
+                },
                 'style' => 2,
             ],
             'USER_RETENTION_YESTERDAY'                                => [
