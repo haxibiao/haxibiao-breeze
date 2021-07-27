@@ -486,11 +486,12 @@ trait UserResolvers
      */
     public function resolveAddStaffAccount($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        app_track_event('用户', '关联员工用户');
+//        app_track_event('用户', '关联员工用户');
+        $user = getUser();
         $staffId = data_get($args, 'staff_id');
         $staffUser = User::find($staffId);
 
-        $staffUser->notify(new AddStaffNotification($staffUser, $user = getUser()));
+        $staffUser->notify(new AddStaffNotification($staffUser, $user));
         event(new NewAddStaff($staffUser, $user = getUser()));
 
         throw_if($staffUser->parent_id != 0, GQLException::class, '用户已经绑定了。。。');
@@ -499,6 +500,24 @@ trait UserResolvers
         $staffUser->role_id   = User::STAFF_ROLE;
         $staffUser->save();
         return $staffUser;
+    }
+
+    /**
+     * 添加员工账户
+     */
+    public function resolveBecomeStaffAccount($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    {
+        $user       = getUser();
+        $leadId    = data_get($args, 'parent_id');
+        throw_if($user->id === $leadId, GQLException::class, '不可绑定自己的邀请ID～');
+
+        $lead      = User::find($leadId);
+        throw_if(blank($lead), GQLException::class, '该邀请已失效～');
+        throw_if($user->parent_id != 0, GQLException::class, '您已经绑定了～');
+
+        $user->parent_id = $leadId;
+        $user->save();
+        return $user;
     }
 
     /**
