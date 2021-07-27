@@ -78,6 +78,7 @@ trait DimensionResolver
 
         PangleReport::selectRaw("distinct(date_format(reported_date,'%m-%d')) as daily,sum(revenue) * 1000 / sum(ipm_cnt) as cpm ")
             ->where('reported_date', '>=', today()->subDay($range - 1))
+            ->whereIn('app_id', $appIds ?? [0])
             ->groupBy('daily')
             ->get()
             ->each(function ($item) use (&$data) {
@@ -100,6 +101,7 @@ trait DimensionResolver
 
         PangleReport::selectRaw("distinct(date_format(reported_date,'%m-%d')) as daily,sum(revenue) as daily_revenue ")
             ->where('reported_date', '>=', today()->subDay($range - 1))
+            ->whereIn('app_id', $appIds ?? [0])
             ->groupBy('daily')
             ->get()
             ->each(function ($item) use (&$data) {
@@ -122,6 +124,7 @@ trait DimensionResolver
         PangleReport::selectRaw("distinct(date_format(reported_date,'%m-%d')) as daily,code_type,sum(revenue) as daily_revenue ")
             ->where('reported_date', '>=', today()->subDay($range - 1))
             ->groupBy(['daily', 'code_type'])
+            ->whereIn('app_id', $appIds ?? [0])
             ->get()
             ->each(function ($item) use (&$groupData) {
                 $groupData[$item->code_type_name][$item->daily] = number_format($item->daily_revenue, 2);
