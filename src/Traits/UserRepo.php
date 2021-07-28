@@ -773,6 +773,12 @@ trait UserRepo
         return User::EDITOR_STATUS == $this->role_id;
     }
 
+    //是否是公司内部人员
+    public function isCompanyStaff()
+    {
+        return str_contains($this->email ?? '', '@haxibiao.com');
+    }
+
     public function isAdminRole()
     {
         return User::ADMIN_STATUS == $this->role_id;
