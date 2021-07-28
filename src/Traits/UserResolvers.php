@@ -5,7 +5,9 @@ namespace Haxibiao\Breeze\Traits;
 use App\Gold;
 use App\User;
 use GraphQL\Type\Definition\ResolveInfo;
+use Haxibiao\Breeze\Events\NewAddStaff;
 use Haxibiao\Breeze\Exceptions\GQLException;
+use Haxibiao\Breeze\Notifications\AddStaffNotification;
 use Haxibiao\Breeze\Verify;
 use Haxibiao\Content\Category;
 use Haxibiao\Content\PostRecommend;
@@ -455,12 +457,12 @@ trait UserResolvers
 
     public function resolverVestUserLists($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        return User::where('role_id', data_get($args, 'role_id'));
+        return User::where('role_id',data_get($args,'role_id'));
     }
 
     public function resolveAssociateMasterAccount($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $vestIds  = data_get($args, 'vest_ids');
+        $vestIds = data_get($args, 'vest_ids');
         $masterId = data_get($args, 'master_id');
 
         $masterUser = User::find($masterId);
@@ -478,5 +480,79 @@ trait UserResolvers
             $vestUser->save();
         }
         return true;
+    }
+
+    /**
+     * 添加员工账户
+     */
+    public function resolveAddStaffAccount($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    {
+//        app_track_event('用户', '关联员工用户');
+        $user = getUser();
+        $staffId = data_get($args, 'staff_id');
+        $staffUser = User::find($staffId);
+
+        $staffUser->notify(new AddStaffNotification($staffUser, $user));
+        event(new NewAddStaff($staffUser, $user = getUser()));
+
+        throw_if($staffUser->parent_id != 0, GQLException::class, '用户已经绑定了。。。');
+
+        $staffUser->parent_id = getUserId();
+        $staffUser->role_id   = User::STAFF_ROLE;
+        $staffUser->save();
+        return $staffUser;
+    }
+
+    /**
+     * 添加员工账户
+     */
+    public function resolveBecomeStaffAccount($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    {
+        $user       = getUser();
+        $leadId    = data_get($args, 'parent_id');
+        throw_if($user->id === $leadId, GQLException::class, '不可绑定自己的邀请ID～');
+
+        $lead      = User::find($leadId);
+        throw_if(blank($lead), GQLException::class, '该邀请已失效～');
+        throw_if($user->parent_id != 0, GQLException::class, '您已经绑定了～');
+
+        $user->parent_id = $leadId;
+        $user->save();
+        return $user;
+    }
+
+    /**
+     * 删除员工账户
+     */
+    public function resolveDeleteStaffAccount($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    {
+        $staffId = data_get($args, 'staff_id');
+            $staffUser = User::find($staffId);
+
+            //判断该员工账户是否解绑某客户
+            if ($staffUser->parent_id == 0) {
+                return false;
+            }
+
+            $staffUser->parent_id = 0;
+            $staffUser->role_id   = User::USER_STATUS;
+            $staffUser->save();
+            return true;
+    }
+
+    /**
+     * 员工用户列表
+     */
+    public function resolveStaffAccountLists($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    {
+        return User::where('role_id', User::STAFF_ROLE)->where('parent_id', '!=', '0');
+    }
+
+    /**
+     * 搜索用户uid
+     */
+    public function resolveSearchUserId($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    {
+        return User::find(data_get($args, 'id'));
     }
 }

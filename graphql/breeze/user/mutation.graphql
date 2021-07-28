@@ -97,11 +97,10 @@ extend type Mutation {
 
     """
     通用用户奖励接口
+    3.0.2之后直接用reward($reason:RewardEnum!)
     """
     userReward(reward: RewardEnum): UserReward
-        # @middleware(checks: ["graphql:10,1,userReward"])
         @field(resolver: "App\\User@resolveUserReward")
-        @deprecated(reason: "3.0.2之后直接用reward($reason:RewardEnum!)")
 
     """
     注销账号(用户主动删号)
@@ -127,7 +126,27 @@ extend type Mutation {
         主用户
         """
         master_id:Int
-        ):Boolean @guard @field(resolver:"App\\User@resolveAssociateMasterAccount")
+    ):Boolean @guard @field(resolver:"App\\User@resolveAssociateMasterAccount")
+
+    """
+    添加员工（上级视角）
+    """
+    addStaffAccount(staff_id:Int!):User
+    @guard @field(resolver:"App\\User@resolveAddStaffAccount")
+
+    """
+    成为员工（下级视角）
+    """
+    becomeStaffAccount(parent_id:Int):User
+    @guard @field(resolver:"App\\User@resolveBecomeStaffAccount")
+
+    """
+    删除员工账户
+    """
+    deleteStaffAccount(staff_id:Int):Boolean
+    @guard @field(resolver:"App\\User@resolveDeleteStaffAccount")
+
+
 }
 
 enum RewardType {

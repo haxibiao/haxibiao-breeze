@@ -1,0 +1,12 @@
+# 添加员工客户
+mutation addStaffAccountMutation($staff_id: Int!) {
+	addStaffAccount(staff_id: $staff_id) {
+		id
+		name
+		gender
+		avatar
+		phone
+		is_staff
+		parent_id
+	}
+}
