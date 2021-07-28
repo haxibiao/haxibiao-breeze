@@ -11,12 +11,12 @@ class QuestionInvited extends BreezeNotification
     use Queueable;
 
     public static $notify_event = "邀请了回答";
-    protected $user;
+    protected $sender;
     protected $issue;
 
     public function __construct($user_id, $question_id)
     {
-        $this->user  = User::find($user_id);
+        $this->sender= User::find($user_id);
         $this->issue = Issue::find($question_id);
     }
 
@@ -26,7 +26,7 @@ class QuestionInvited extends BreezeNotification
             'type'        => 'other',
             'subtype'     => 'question_invite',
             'question_id' => $this->issue->id,
-            'message'     => $this->user->link() . '邀请了您去回答问题:' . $this->issue->link(),
+            'message'     => $this->sender->link() . '邀请了您去回答问题:' . $this->issue->link(),
         ];
     }
 }

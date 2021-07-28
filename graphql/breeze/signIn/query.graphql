@@ -1,5 +1,5 @@
 type SignIn {
-    id: ID
+    id: Int
     user: User
     created_at: DateTime
     updated_at: DateTime
@@ -18,12 +18,6 @@ type SignIn {
     奖励倍数
     """
     reward_rate: Int
-
-    """
-    今日是否签到
-    """
-    today_signed: Boolean
-
     """
     连续签到天数
     """

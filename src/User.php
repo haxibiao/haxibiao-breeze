@@ -39,6 +39,9 @@ class User extends BaseUser
     // FIXME 虚拟账户这样的身份很负，应该用-1
     const VEST_STATUS = 3;
 
+    //防止数字被占，选择大点的数字
+    const STAFF_ROLE    = 10; //员工
+
     public static function getRolesMap()
     {
         return [
@@ -46,6 +49,7 @@ class User extends BaseUser
             User::EDITOR_STATUS => '编辑',
             User::ADMIN_STATUS  => '管理',
             User::VEST_STATUS   => '马甲',
+            User::STAFF_ROLE    => '员工',
         ];
     }
 
