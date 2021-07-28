@@ -11,13 +11,23 @@ class MeetupTest extends GraphQLTestCase
     use DatabaseTransactions;
 
     protected $user;
+    protected $staff;
+    protected $amdin;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->user = User::factory([
             'ticket'  => 100,
-            'role_id' => 11,
+            'role_id' => User::USER_STATUS,
+        ])->create();
+
+        $this->staff = User::factory([
+            'role_id' => User::STAFF_ROLE,
+        ])->create();
+
+        $this->admin = User::factory([
+            'role_id' => User::ADMIN_STATUS,
         ])->create();
 
     }
@@ -29,7 +39,7 @@ class MeetupTest extends GraphQLTestCase
     public function testSearchUserIdQuery()
     {
         $query = file_get_contents(__DIR__ . '/Meetup/searchUserIdQuery.graphql');
-        $headers   = $this->getRandomUserHeaders($this->user);
+        $headers   = $this->getRandomUserHeaders($this->staff);
         $variables = [
             'id' => $this->user->id,
         ];
@@ -43,9 +53,9 @@ class MeetupTest extends GraphQLTestCase
     public function testAddStaffAccountMutation()
     {
         $query = file_get_contents(__DIR__ . '/Meetup/addStaffAccountMutation.graphql');
-        $headers   = $this->getRandomUserHeaders($this->user);
+        $headers   = $this->getRandomUserHeaders($this->amdin);
         $variables = [
-            'staff_id' => [$this->user->id],
+            'staff_id' => $this->user->id,
         ];
         $this->startGraphQL($query, $variables, $headers);
     }
@@ -59,7 +69,7 @@ class MeetupTest extends GraphQLTestCase
         $query = file_get_contents(__DIR__ . '/Meetup/becomeStaffAccountMutation.graphql');
         $headers   = $this->getRandomUserHeaders($this->user);
         $variables = [
-            'parent_id' => $this->user->id,
+            'parent_id' => $this->staff->id,
         ];
         $this->startGraphQL($query, $variables, $headers);
     }
@@ -71,9 +81,9 @@ class MeetupTest extends GraphQLTestCase
     public function testDeleteStaffAccountMutation()
     {
         $query = file_get_contents(__DIR__ . '/Meetup/deleteStaffAccountMutation.graphql');
-        $headers   = $this->getRandomUserHeaders($this->user);
+        $headers   = $this->getRandomUserHeaders($this->amdin);
         $variables = [
-            'staff_id' => [$this->user->id],
+            'staff_id' => $this->staff->id,
         ];
         $this->startGraphQL($query, $variables, $headers);
     }

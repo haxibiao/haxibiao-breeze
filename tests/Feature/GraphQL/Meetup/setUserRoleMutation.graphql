@@ -1,4 +1,0 @@
-# 设置用户角色
-mutation setUserRoleMutation($user_id: Int!, $role: ROLE, $confirm: ConfirmType!) {
-	setUserRole(user_id: $user_id, role: $role, confirm: $confirm)
-}
