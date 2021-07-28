@@ -35,7 +35,7 @@ type User {
     RMB钱包,请前端用户逐渐切换使用user type 下的wallets属性
     """
     wallet: Wallet
-        @rename(attribute: "is_wallet")
+    @rename(attribute: "is_wallet")
     is_wallet: Wallet
     """
     改属性已经弃用，请使用wallet type进行子查询
@@ -150,7 +150,7 @@ type User {
     last_category_id: Int
     profile: userProfile
     questions(filter: QuestionFilterEnum, order: QuestionOrderEnum): [Question]
-        @paginate(defaultCount: 10, builder: "App\\User@resolveUserQuestions")
+    @paginate(defaultCount: 10, builder: "App\\User@resolveUserQuestions")
     answerHistories: [Answer] @hasMany(defaultCount: 10, type: "paginator", relation: "answers")
     contributes: [Contribute] @hasMany(defaultCount: 10, type: "paginator", relation: "contributes")
     invitations_success_count: Int
@@ -266,7 +266,6 @@ type User {
     """
     answer_correct_partition_of_day: String
     real_name: String
-    gender: Int
     avatar_url: String
     golds: [Gold] @hasMany(defaultCount: 10, type: "paginator", relation: "golds")
     level: Level @belongsTo

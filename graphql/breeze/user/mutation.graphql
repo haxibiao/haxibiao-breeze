@@ -126,38 +126,27 @@ extend type Mutation {
         主用户
         """
         master_id:Int
-        ):Boolean @guard @field(resolver:"App\\User@resolveAssociateMasterAccount")
+    ):Boolean @guard @field(resolver:"App\\User@resolveAssociateMasterAccount")
 
     """
-    添加员工账户
+    添加员工（上级视角）
     """
     addStaffAccount(staff_id:Int!):User
-        @guard @field(resolver:"App\\User@resolveAddStaffAccount")
+    @guard @field(resolver:"App\\User@resolveAddStaffAccount")
+
+    """
+    成为员工（下级视角）
+    """
+    becomeStaffAccount(parent_id:Int):User
+    @guard @field(resolver:"App\\User@resolveBecomeStaffAccount")
 
     """
     删除员工账户
     """
-    deleteStaffAccount(staff_id:Int!):Boolean
-        @guard @field(resolver:"App\\User@resolveDeleteStaffAccount")
-}
+    deleteStaffAccount(staff_id:Int):Boolean
+    @guard @field(resolver:"App\\User@resolveDeleteStaffAccount")
 
 
-"""
-身份确认状态
-"""
-enum ConfirmType{
-    """
-    通过
-    """
-    PASS @enum(value:2)
-    """
-    待确认
-    """
-    PENDING @enum(value:1)
-    """
-    不通过
-    """
-    FAIL @enum(value:0)
 }
 
 enum RewardType {
