@@ -13,7 +13,7 @@ class CreateInvitationsTable extends Migration
      */
     public function up()
     {
-        if(Schema::hasTable('invitations')){
+        if (Schema::hasTable('invitations')) {
             return;
         }
         //用户邀请关系表（好友列表，厂长）
@@ -21,6 +21,9 @@ class CreateInvitationsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedInteger('user_id')->index()->comment('邀请人用户ID');
             $table->unsignedInteger('be_inviter_id')->index()->comment('被邀请人ID');
+            $table->string('account')->nullable()->change();
+            $table->unsignedBigInteger('invited_user_id')->default(0)->index();
+
             $table->timestamp('invited_in')->nullable();
             $table->unsignedInteger('app_id')->index()->default(1)->comment('厂长头衔ID');
             $table->unsignedInteger('today_rewards_count')->default(0)->comment('今日奖励次数');
