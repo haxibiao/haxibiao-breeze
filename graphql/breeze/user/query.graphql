@@ -298,6 +298,10 @@ type User {
     unread_medals_count: Int
     unread_messages_count: Int
     verified_at: String
+    """
+    邀请人
+    """
+    inviter:User
 }
 
 type blockInfo {

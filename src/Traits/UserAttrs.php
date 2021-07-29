@@ -2,6 +2,7 @@
 
 namespace Haxibiao\Breeze\Traits;
 
+use App\Invitation;
 use App\UserProfile;
 use App\Wallet;
 use Haxibiao\Breeze\Exceptions\GQLException;
@@ -19,6 +20,11 @@ use Illuminate\Support\Str;
 
 trait UserAttrs
 {
+    public function getInviterAttribute(){
+        $invitation = Invitation::withoutGlobalScope('hasInvitedUser')->where('be_inviter_id',$this->id)->first();
+        return data_get($invitation,'user');
+    }
+
     public function getIsAssociateMasterAccountAttribute()
     {
         if (currentUser(false)) {
