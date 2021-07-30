@@ -15,7 +15,7 @@ class EditToInvitationsTable extends Migration
     {
         Schema::table('invitations', function (Blueprint $table) {
             if (!Schema::hasColumn('invitations', 'account')) {
-                $table->string('account')->nullable()->change();
+                $table->string('account')->nullable();
             }
             if (!Schema::hasColumn('invitations', 'invited_user_id')) {
                 $table->unsignedBigInteger('invited_user_id')->default(0)->index();
