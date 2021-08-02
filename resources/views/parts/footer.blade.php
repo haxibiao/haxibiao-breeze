@@ -13,6 +13,9 @@
         <p>
             若本站收录的内容无意侵犯了贵司版权，请发邮件至{{ get_domain() }}, 我们会在3个工作日内删除侵权内容，谢谢。
         </p>
+        <p>
+            友情链接：<a href="https://xiaocaihong.tv">小彩虹影院</a>
+        </p>
     </div>
 </footer>
 
