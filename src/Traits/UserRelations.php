@@ -214,9 +214,9 @@ trait UserRelations
     }
 
     //绑定的员工账号
-    public function staffAccounts():HasMany
+    public function staffAccounts(): HasMany
     {
-        return $this->hasMany(User::class,'parent_id');
+        return $this->hasMany(User::class, 'parent_id');
     }
 
     //我的求片
@@ -224,5 +224,16 @@ trait UserRelations
     {
         return $this->belongsToMany("App\Movie", 'movie_user')->withTimestamps()
             ->withPivot(['report_status']);
+    }
+
+    //定位功能
+    public function locations()
+    {
+        return $this->morphMany(\App\Location::class, 'located');
+    }
+
+    public function getLocationAttribute()
+    {
+        return $this->locations->last();
     }
 }
