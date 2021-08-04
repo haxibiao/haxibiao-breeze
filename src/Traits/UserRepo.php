@@ -40,6 +40,12 @@ trait UserRepo
         return '<a href="/user/' . $this->id . '">@' . $this->name . '</a>';
     }
 
+    public function saveLastCategoryId($category_id)
+    {
+        $this->last_category_id = $category_id;
+        $this->update(['last_category_id' => $category_id]);
+    }
+
     /**
      * @deprecated 用 getTaAttribute
      *
