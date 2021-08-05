@@ -64,6 +64,12 @@ trait UserRepo
         }
     }
 
+
+    public function getLatestExceptionRemark()
+    {
+        return $this->exceptionLogs()->latest('id')->first()->remark ?? '';
+    }
+
     /**
      * @deprecated 用 getTaAttribute
      *
