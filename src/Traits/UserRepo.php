@@ -64,6 +64,12 @@ trait UserRepo
         }
     }
 
+    public function muteSurplusTime()
+    {
+        $timeMs = \Carbon\Carbon::now()->diffInMinutes($this->mute_at, false);
+        return $timeMs;
+    }
+
 
     public function getLatestExceptionRemark()
     {

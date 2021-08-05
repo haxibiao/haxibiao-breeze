@@ -236,4 +236,9 @@ trait UserRelations
     {
         return $this->locations->last();
     }
+
+    function exceptionLogs(): HasMany
+    {
+        return $this->hasMany(\App\UserExceptionLog::class);
+    }
 }
