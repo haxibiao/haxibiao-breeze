@@ -46,6 +46,24 @@ trait UserRepo
         $this->update(['last_category_id' => $category_id]);
     }
 
+
+    public function checkRules()
+    {
+        $remark = $this->getLatestExceptionRemark();
+        if ($this->is_disable) {
+            throw new UserException('抱歉,您账户暂时被禁用(' . $remark . ')');
+        }
+
+        $timeMs = $this->muteSurplusTime();
+        if ($timeMs > 0) {
+            $message = sprintf('操作失败,您因%s,暂时被禁言(%s)分钟,请稍后再试', $remark, $timeMs);
+            if (empty($remark)) {
+                $message = sprintf('操作失败,您暂时被禁言(%s)分钟,请稍后再试', $timeMs);
+            }
+            throw new UserException($message);
+        }
+    }
+
     /**
      * @deprecated 用 getTaAttribute
      *
