@@ -241,4 +241,9 @@ trait UserRelations
     {
         return $this->hasMany(\App\UserExceptionLog::class);
     }
+
+    function answers(): HasMany
+    {
+        return $this->hasMany(\App\Answer::class)->latest();
+    }
 }
