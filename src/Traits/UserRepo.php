@@ -46,7 +46,6 @@ trait UserRepo
         $this->update(['last_category_id' => $category_id]);
     }
 
-
     public function checkRules()
     {
         $remark = $this->getLatestExceptionRemark();
@@ -69,7 +68,6 @@ trait UserRepo
         $timeMs = \Carbon\Carbon::now()->diffInMinutes($this->mute_at, false);
         return $timeMs;
     }
-
 
     public function getLatestExceptionRemark()
     {
@@ -916,5 +914,13 @@ trait UserRepo
             }
             return $canRestore;
         }
+    }
+
+    public function verifyPassword($password)
+    {
+        // if (Auth::attempt(['account' => $this->account, 'password' => $password])) {
+        //     return $this;
+        // }
+        return password_verify($password, $this->password);
     }
 }
