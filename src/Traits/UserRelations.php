@@ -29,7 +29,6 @@ use Haxibiao\Wallet\Wallet;
 use Haxibiao\Wallet\Withdraw;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 trait UserRelations
@@ -66,12 +65,14 @@ trait UserRelations
         return $this->hasOne(UserRetention::class);
     }
 
-    public function withdraws(): HasManyThrough
+    public function withdraws()
     {
-        if (class_exists('\App\Wallet')) {
-            return $this->hasManyThrough(\App\Withdraw::class, \App\Wallet::class);
-        }
-        return $this->hasManyThrough(Withdraw::class, Wallet::class);
+        // withdraws table 有user_id字段,直接 by user_id,减少Join带来的SQL开销
+        return $this->hasMany(Withdraw::class);
+        // if (class_exists('\App\Wallet')) {
+        //     return $this->hasManyThrough(\App\Withdraw::class, \App\Wallet::class);
+        // }
+        // return $this->hasManyThrough(Withdraw::class, Wallet::class);
     }
 
     public function level(): BelongsTo
@@ -237,12 +238,12 @@ trait UserRelations
         return $this->locations->last();
     }
 
-    function exceptionLogs(): HasMany
+    public function exceptionLogs(): HasMany
     {
         return $this->hasMany(\App\UserExceptionLog::class);
     }
 
-    function answers(): HasMany
+    public function answers(): HasMany
     {
         return $this->hasMany(\App\Answer::class)->latest();
     }
