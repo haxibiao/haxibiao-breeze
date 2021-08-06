@@ -5,6 +5,7 @@ namespace Haxibiao\Breeze\Traits;
 use App\User;
 use App\VerificationCode;
 use Haxibiao\Breeze\BlackList;
+use Haxibiao\Breeze\Exceptions\ErrorCode;
 use Haxibiao\Breeze\Exceptions\GQLException;
 use Haxibiao\Breeze\Exceptions\UserException;
 use Haxibiao\Breeze\Ip;
@@ -47,6 +48,8 @@ trait AuthHelper
                 ]);
             }
         }
+        //账号已注销
+        throw_if($user->isDegregister(), UserException::class, '操作失败,账户已注销!', ErrorCode::DEREGISTER_USER);
 
         //匿名用户名排重
         if ($user->name === User::DEFAULT_NAME) {
