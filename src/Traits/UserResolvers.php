@@ -244,7 +244,7 @@ trait UserResolvers
         $password = data_get($args, 'password');
         $uuid     = data_get($args, 'uuid', get_device_id());
 
-        $user = AuthHelper::signIn($account, $password, $uuid);
+        $user = self::signIn($account, $password, $uuid);
 
         return $user;
     }
@@ -457,12 +457,12 @@ trait UserResolvers
 
     public function resolverVestUserLists($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        return User::where('role_id',data_get($args,'role_id'));
+        return User::where('role_id', data_get($args, 'role_id'));
     }
 
     public function resolveAssociateMasterAccount($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $vestIds = data_get($args, 'vest_ids');
+        $vestIds  = data_get($args, 'vest_ids');
         $masterId = data_get($args, 'master_id');
 
         $masterUser = User::find($masterId);
@@ -488,8 +488,8 @@ trait UserResolvers
     public function resolveAddStaffAccount($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
 //        app_track_event('用户', '关联员工用户');
-        $user = getUser();
-        $staffId = data_get($args, 'staff_id');
+        $user      = getUser();
+        $staffId   = data_get($args, 'staff_id');
         $staffUser = User::find($staffId);
 
         $staffUser->notify(new AddStaffNotification($staffUser, $user));
@@ -508,11 +508,11 @@ trait UserResolvers
      */
     public function resolveBecomeStaffAccount($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $user       = getUser();
-        $leadId    = data_get($args, 'parent_id');
+        $user   = getUser();
+        $leadId = data_get($args, 'parent_id');
         throw_if($user->id === $leadId, GQLException::class, '不可绑定自己的邀请ID～');
 
-        $lead      = User::find($leadId);
+        $lead = User::find($leadId);
         throw_if(blank($lead), GQLException::class, '该邀请已失效～');
         throw_if($user->parent_id != 0, GQLException::class, '您已经绑定了～');
 
@@ -526,18 +526,18 @@ trait UserResolvers
      */
     public function resolveDeleteStaffAccount($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $staffId = data_get($args, 'staff_id');
-            $staffUser = User::find($staffId);
+        $staffId   = data_get($args, 'staff_id');
+        $staffUser = User::find($staffId);
 
-            //判断该员工账户是否解绑某客户
-            if ($staffUser->parent_id == 0) {
-                return false;
-            }
+        //判断该员工账户是否解绑某客户
+        if ($staffUser->parent_id == 0) {
+            return false;
+        }
 
-            $staffUser->parent_id = 0;
-            $staffUser->role_id   = User::USER_STATUS;
-            $staffUser->save();
-            return true;
+        $staffUser->parent_id = 0;
+        $staffUser->role_id   = User::USER_STATUS;
+        $staffUser->save();
+        return true;
     }
 
     /**
