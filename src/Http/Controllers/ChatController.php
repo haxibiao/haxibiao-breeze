@@ -4,7 +4,6 @@ namespace Haxibiao\Breeze\Http\Controllers;
 
 use App\Chat;
 use App\User;
-use Auth;
 
 class ChatController extends Controller
 {
@@ -14,23 +13,16 @@ class ChatController extends Controller
         $this->middleware('auth');
     }
 
-    public function chat($user_id)
+    public function chat($uid)
     {
-        $user_id  = intval($user_id);
-        $withUser = User::findOrFail($user_id);
-        $me       = Auth::user();
+        $uid  = intval($uid);
+        $with = User::findOrFail($uid);
+        $user = request()->user();
 
-        $uids = [$user_id, Auth::id()];
-        sort($uids);
-        $uids = json_encode($uids);
-        $chat = Chat::firstOrNew([
-            'uids' => $uids,
-        ]);
-        $chat->save();
+        $uids = [$with->id, $user->id];
 
-        // $withUser->chats()->syncWithoutDetaching($chat->id);
-        // $me->chats()->syncWithoutDetaching($chat->id);
+        $chat = Chat::store($uids);
 
-        return redirect()->to('/notification/#chat/' . $chat->id);
+        return redirect_to('/notification/#chat/' . $chat->id);
     }
 }
