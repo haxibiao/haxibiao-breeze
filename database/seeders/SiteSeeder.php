@@ -21,8 +21,11 @@ class SiteSeeder extends Seeder
         }
 
         $domains = [
-            env('APP_DOMAIN', 'diudie.com') => env('APP_NAME_CN', '丢碟图解'),
+            env('APP_DOMAIN') => env('APP_NAME_CN'),
         ];
+
+        // 清空后，以后尊重最新SiteSeeder
+        Site::truncate();
 
         foreach ($domains as $domain => $name) {
             $item = Site::firstOrCreate([

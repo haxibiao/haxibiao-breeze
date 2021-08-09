@@ -5,161 +5,78 @@
  */
 return [
     'frienly_urls' => [
-        'diudie.com' => [
-            [
-                'url'   => 'https://dianmoge.com/',
-                'title' => '点墨阁',
-            ],
-            [
-                'url'   => 'https://xiamaoshipin.com/',
-                'title' => '瞎猫视频',
-            ],
-            [
-                'url'   => 'https://www.fengkuangmeiju.com/',
-                'title' => '疯狂美剧',
-            ],
-            [
-                'url'   => 'https://www.fengkuangriju.com/',
-                'title' => '疯狂日剧',
-            ],
-            [
-                'url'   => 'https://www.fengkuanghanju.com/',
-                'name'  => '疯狂韩剧',
-            ],
-            [
-                'url'   => 'https://fengkuanggangju.com/',
-                'title' => '疯狂港剧',
-            ],
-            [
-                'url'   => 'https://www.aishangyueyu.com/',
-                'title' => '爱上粤语',
-            ],
-            [
-                'url'   => 'https://www.aishanggangju.com/',
-                'title' => '爱上港剧',
-            ],
-            [
-                'url'   => 'https://www.aishanghanju.com/',
-                'title' => '爱上韩剧',
-            ],
-            [
-                'url'   => 'https://www.jingdianriju.com/',
-                'title' => '经典日剧',
-            ],
-            [
-                'url'   => 'https://www.jingdianmeiju.com/',
-                'title' => '经典美剧',
-            ],
-            [
-                'url'   => 'https://www.jingdiangangju.com/',
-                'title' => '经典港剧',
-            ],
-        ],
-        'fengkuangmeiju.com'=>[
-            [
-                'url'   => 'https://dianmoge.com/',
-                'title' => '点墨阁',
-            ],
+        'fengkuangmeiju.com'  => [
+
             [
                 'url'   => 'https://xiamaoshipin.com/',
                 'title' => '瞎猫视频',
             ],
         ],
-        'fengkuangriju.com'=>[
-            [
-                'url'   => 'https://dianmoge.com/',
-                'title' => '点墨阁',
-            ],
+        'fengkuangriju.com'   => [
+
             [
                 'url'   => 'https://xiamaoshipin.com/',
                 'title' => '瞎猫视频',
             ],
         ],
-        'fengkuanghanju.com'=>[
-            [
-                'url'   => 'https://dianmoge.com/',
-                'title' => '点墨阁',
-            ],
+        'fengkuanghanju.com'  => [
+
             [
                 'url'   => 'https://xiamaoshipin.com/',
                 'title' => '瞎猫视频',
             ],
         ],
-        'fengkuanggangju.com'=>[
-            [
-                'url'   => 'https://dianmoge.com/',
-                'title' => '点墨阁',
-            ],
+        'fengkuanggangju.com' => [
+
             [
                 'url'   => 'https://xiamaoshipin.com/',
                 'title' => '瞎猫视频',
             ],
         ],
-        'aishangyueyu.com'=>[
-            [
-                'url'   => 'https://dianmoge.com/',
-                'title' => '点墨阁',
-            ],
+        'aishangyueyu.com'    => [
+
             [
                 'url'   => 'https://xiamaoshipin.com/',
                 'title' => '瞎猫视频',
             ],
         ],
-        'aishanggangju.com'=>[
-            [
-                'url'   => 'https://dianmoge.com/',
-                'title' => '点墨阁',
-            ],
+        'aishanggangju.com'   => [
+
             [
                 'url'   => 'https://xiamaoshipin.com/',
                 'title' => '瞎猫视频',
             ],
         ],
-        'aishanghanju.com'=>[
-            [
-                'url'   => 'https://dianmoge.com/',
-                'title' => '点墨阁',
-            ],
+        'aishanghanju.com'    => [
+
             [
                 'url'   => 'https://xiamaoshipin.com/',
                 'title' => '瞎猫视频',
             ],
         ],
-        'jingdianriju.com'=>[
-            [
-                'url'   => 'https://dianmoge.com/',
-                'title' => '点墨阁',
-            ],
+        'jingdianriju.com'    => [
+
             [
                 'url'   => 'https://xiamaoshipin.com/',
                 'title' => '瞎猫视频',
             ],
         ],
-        'jingdianmeiju.com'=>[
-            [
-                'url'   => 'https://dianmoge.com/',
-                'title' => '点墨阁',
-            ],
+        'jingdianmeiju.com'   => [
+
             [
                 'url'   => 'https://xiamaoshipin.com/',
                 'title' => '瞎猫视频',
             ],
         ],
-        'jingdiangangju.com'=>[
-            [
-                'url'   => 'https://dianmoge.com/',
-                'title' => '点墨阁',
-            ],
+        'jingdiangangju.com'  => [
+
             [
                 'url'   => 'https://xiamaoshipin.com/',
                 'title' => '瞎猫视频',
             ],
         ],
-        'caohan.com' => [
-            [
-                'url'   => 'https://dianmoge.com/',
-                'title' => '点墨阁',
-            ],
+        'caohan.com'          => [
+
             [
                 'url'   => 'https://xiamaoshipin.com/',
                 'title' => '瞎猫视频',
@@ -209,111 +126,78 @@ return [
                 'title' => '内涵港剧',
             ],
         ],
-        'jingdianyueyu.com'=>[
-            [
-                'url'   => 'https://dianmoge.com/',
-                'title' => '点墨阁',
-            ],
+        'jingdianyueyu.com'   => [
+
             [
                 'url'   => 'https://xiamaoshipin.com/',
                 'title' => '瞎猫视频',
             ],
         ],
-        'huaijiumeiju.com'=>[
-            [
-                'url'   => 'https://dianmoge.com/',
-                'title' => '点墨阁',
-            ],
+        'huaijiumeiju.com'    => [
+
             [
                 'url'   => 'https://xiamaoshipin.com/',
                 'title' => '瞎猫视频',
             ],
         ],
-        'huaijiuriju.com'=>[
-            [
-                'url'   => 'https://dianmoge.com/',
-                'title' => '点墨阁',
-            ],
+        'huaijiuriju.com'     => [
+
             [
                 'url'   => 'https://xiamaoshipin.com/',
                 'title' => '瞎猫视频',
             ],
         ],
-        'huaijiuhanju.com'=>[
-            [
-                'url'   => 'https://dianmoge.com/',
-                'title' => '点墨阁',
-            ],
+        'huaijiuhanju.com'    => [
+
             [
                 'url'   => 'https://xiamaoshipin.com/',
                 'title' => '瞎猫视频',
             ],
         ],
-        'huaijiugangju.com'=>[
-            [
-                'url'   => 'https://dianmoge.com/',
-                'title' => '点墨阁',
-            ],
+        'huaijiugangju.com'   => [
+
             [
                 'url'   => 'https://xiamaoshipin.com/',
                 'title' => '瞎猫视频',
             ],
         ],
-        'huaijiuyueyu.com'=>[
-            [
-                'url'   => 'https://dianmoge.com/',
-                'title' => '点墨阁',
-            ],
+        'huaijiuyueyu.com'    => [
+
             [
                 'url'   => 'https://xiamaoshipin.com/',
                 'title' => '瞎猫视频',
             ],
         ],
-        'laoyueyu.com'=>[
-            [
-                'url'   => 'https://dianmoge.com/',
-                'title' => '点墨阁',
-            ],
+        'laoyueyu.com'        => [
+
             [
                 'url'   => 'https://xiamaoshipin.com/',
                 'title' => '瞎猫视频',
             ],
         ],
-        'neihanmeiju.com'=>[
-            [
-                'url'   => 'https://dianmoge.com/',
-                'title' => '点墨阁',
-            ],
+        'neihanmeiju.com'     => [
+
             [
                 'url'   => 'https://xiamaoshipin.com/',
                 'title' => '瞎猫视频',
             ],
         ],
-        'neihanriju.com'=>[
-            [
-                'url'   => 'https://dianmoge.com/',
-                'title' => '点墨阁',
-            ],
+        'neihanriju.com'      => [
+
             [
                 'url'   => 'https://xiamaoshipin.com/',
                 'title' => '瞎猫视频',
             ],
         ],
-        'neihanhanju.com'=>[
-            [
-                'url'   => 'https://dianmoge.com/',
-                'title' => '点墨阁',
-            ],
+        'neihanhanju.com'     => [
+
             [
                 'url'   => 'https://xiamaoshipin.com/',
                 'title' => '瞎猫视频',
             ],
         ],
-        'neihangangju.com'=>[
-            [
-                'url'   => 'https://dianmoge.com/',
-                'title' => '点墨阁',
-            ],
+        'neihangangju.com'    => [
+
             [
                 'url'   => 'https://xiamaoshipin.com/',
                 'title' => '瞎猫视频',

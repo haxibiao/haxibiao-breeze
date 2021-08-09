@@ -40,18 +40,18 @@ if (!function_exists('seo_small_logo')) {
 if (!function_exists('seo_site_name')) {
     function seo_site_name()
     {
-        //1尊重cms配置站群名称
+        //1.尊重cms配置站群名称
         if ($site = cms_get_site()) {
             return $site->name;
         }
 
-        //2尊重内部站群名字
-        $sites_name_map = array_merge(neihan_sites_domains(), neihan_beian_domains());
+        //2.尊重D类站群名字
+        $sites_name_map = array_merge(neihan_sites_domains(), []);
         if ($name = $sites_name_map[get_domain()] ?? null) {
             return $name;
         }
 
-        //3最后尊重env name_cn
+        //3.最后尊重env
         return env('APP_NAME_CN') ?? '内涵电影';
     }
 }
@@ -61,49 +61,43 @@ if (!function_exists('matomo_site_id')) {
     {
         if (request() && $url = request()->getUri()) {
             $sites = [
-                "neihanxinwen.com"     => "",
-                "neihanxiaoshipin.com" => "",
-                "neihanduanshipin.com" => "",
 
-                "xiamaoshipin.com"     => "32",
-                "diudie.com"           => "29",
-                "caohan.com"           => "30",
+                "xiamaoshipin.com"    => "32",
 
-                "jingdianmeiju.com"    => "2",
-                "jingdianriju.com"     => "3",
-                "jingdianhanju.com"    => "4",
-                "jingdiangangju.com"   => "5",
-                "jingdianyueyu.com"    => "6",
+                "jingdianmeiju.com"   => "2",
+                "jingdianriju.com"    => "3",
+                "jingdianhanju.com"   => "4",
+                "jingdiangangju.com"  => "5",
+                "jingdianyueyu.com"   => "6",
 
-                "huaijiumeiju.com"     => "7",
-                "huaijiuriju.com"      => "8",
-                "huaijiuhanju.com"     => "9",
-                "huaijiugangju.com"    => "10",
-                "huaijiuyueyu.com"     => "11",
+                "huaijiumeiju.com"    => "7",
+                "huaijiuriju.com"     => "8",
+                "huaijiuhanju.com"    => "9",
+                "huaijiugangju.com"   => "10",
+                "huaijiuyueyu.com"    => "11",
 
-                "fengkuangmeiju.com"   => "12",
-                "fengkuangriju.com"    => "14",
-                "fengkuanghanju.com"   => "13",
-                "fengkuanggangju.com"  => "15",
+                "fengkuangmeiju.com"  => "12",
+                "fengkuangriju.com"   => "14",
+                "fengkuanghanju.com"  => "13",
+                "fengkuanggangju.com" => "15",
 
-                "zaixianmeiju.com"     => "16",
-                "zaixianriju.com"      => "18",
-                "zaixianhanju.com"     => "17",
-                "zaixiangangju.com"    => "19",
+                "zaixianmeiju.com"    => "16",
+                "zaixianriju.com"     => "18",
+                "zaixianhanju.com"    => "17",
+                "zaixiangangju.com"   => "19",
 
-                "neihandianying.com"   => "1",
-                "neihanmeiju.com"      => "24",
-                "neihanriju.com"       => "25",
-                "neihanhanju.com"      => "26",
-                "neihangangju.com"     => "27",
+                "neihandianying.com"  => "1",
+                "neihanmeiju.com"     => "24",
+                "neihanriju.com"      => "25",
+                "neihanhanju.com"     => "26",
+                "neihangangju.com"    => "27",
 
-                "aishanghanju.com"     => "20",
-                "aishangriju.com"      => "21",
-                "aishanggangju.com"    => "22",
-                "aishangyueyu.com"     => "23",
+                "aishanghanju.com"    => "20",
+                "aishangriju.com"     => "21",
+                "aishanggangju.com"   => "22",
+                "aishangyueyu.com"    => "23",
 
-                "laoyueyu.com"         => "28",
-                'dianmoge.com'         => '31',
+                "laoyueyu.com"        => "28",
             ];
 
             $host = parse_url($url)['host'];
@@ -122,24 +116,7 @@ if (!function_exists('matomo_site_id')) {
 if (!function_exists('is_beian_sites')) {
     function is_beian_sites()
     {
-        return in_array(get_domain(), array_keys(neihan_beian_domains()));
-    }
-}
-
-/**
- * 所有内涵站群备案域名
- */
-if (!function_exists('neihan_beian_domains')) {
-    function neihan_beian_domains()
-    {
-        return [
-            "diudie.com"       => "丢碟图解",
-            "shengkangtang.cn" => "圣康堂",
-            "xinfashun.cn"     => "新发顺",
-            "jingshiyang.cn"   => "静师杨",
-            "jinlaikaisuo.cn"  => "进来开锁",
-            "hushentouzi.cn"   => "沪深投资",
-        ];
+        return false;
     }
 }
 
@@ -150,52 +127,38 @@ if (!function_exists('neihan_sites_domains')) {
     function neihan_sites_domains()
     {
         return [
-            "caohan.com"           => "曹汉视频",
+            "jingdianmeiju.com"   => "经典美剧",
+            "jingdianriju.com"    => "经典日剧",
+            "jingdianhanju.com"   => "经典韩剧",
+            "jingdiangangju.com"  => "经典港剧",
+            "jingdianyueyu.com"   => "经典粤语",
 
-            "jingdianmeiju.com"    => "经典美剧",
-            "jingdianriju.com"     => "经典日剧",
-            "jingdianhanju.com"    => "经典韩剧",
-            "jingdiangangju.com"   => "经典港剧",
-            "jingdianyueyu.com"    => "经典粤语",
+            "huaijiumeiju.com"    => "怀旧美剧",
+            "huaijiuriju.com"     => "怀旧日剧",
+            "huaijiuhanju.com"    => "怀旧韩剧",
+            "huaijiugangju.com"   => "怀旧港剧",
+            "huaijiuyueyu.com"    => "怀旧粤语",
 
-            "huaijiumeiju.com"     => "怀旧美剧",
-            "huaijiuriju.com"      => "怀旧日剧",
-            "huaijiuhanju.com"     => "怀旧韩剧",
-            "huaijiugangju.com"    => "怀旧港剧",
-            "huaijiuyueyu.com"     => "怀旧粤语",
+            "fengkuangmeiju.com"  => "疯狂美剧",
+            "fengkuangriju.com"   => "疯狂日剧",
+            "fengkuanghanju.com"  => "疯狂韩剧",
+            "fengkuanggangju.com" => "疯狂港剧",
 
-            "fengkuangmeiju.com"   => "疯狂美剧",
-            "fengkuangriju.com"    => "疯狂日剧",
-            "fengkuanghanju.com"   => "疯狂韩剧",
-            "fengkuanggangju.com"  => "疯狂港剧",
+            "zaixianmeiju.com"    => "在线美剧",
+            "zaixianriju.com"     => "在线日剧",
+            "zaixianhanju.com"    => "在线韩剧",
+            "zaixiangangju.com"   => "在线港剧",
 
-            "zaixianmeiju.com"     => "在线美剧",
-            "zaixianriju.com"      => "在线日剧",
-            "zaixianhanju.com"     => "在线韩剧",
-            "zaixiangangju.com"    => "在线港剧",
+            "neihanmeiju.com"     => "内涵美剧",
+            "neihanriju.com"      => "内涵日剧",
+            "neihanhanju.com"     => "内涵韩剧",
+            "neihangangju.com"    => "内涵港剧",
 
-            "neihanmeiju.com"      => "内涵美剧",
-            "neihanriju.com"       => "内涵日剧",
-            "neihanhanju.com"      => "内涵韩剧",
-            "neihangangju.com"     => "内涵港剧",
-
-            "neihanxinwen.com"     => "内涵新闻",
-            "neihanxiaoshipin.com" => "内涵小视频",
-            "neihanduanshipin.com" => "内涵短视频",
-            "neihanyouxi.com"      => "内涵游戏",
-
-            "aishanghanju.com"     => "爱上韩剧",
-            "aishangriju.com"      => "爱上日剧",
-            "aishanggangju.com"    => "爱上港剧",
-            "aishangyueyu.com"     => "爱上粤语",
-            "laoyueyu.com"         => "老粤语",
-
-            "nageshipin.com"       => "那个视频",
-
-            // "xingqilianren.com"    => "星期恋人",
-            // "didipeipei.com"       => "滴滴陪陪",
-            // "pipipei.com"          => "皮皮陪",
-            // "tiantiandati.cn"      => "天天答题",
+            "aishanghanju.com"    => "爱上韩剧",
+            "aishangriju.com"     => "爱上日剧",
+            "aishanggangju.com"   => "爱上港剧",
+            "aishangyueyu.com"    => "爱上粤语",
+            "laoyueyu.com"        => "老粤语",
         ];
     }
 }
@@ -205,49 +168,43 @@ if (!function_exists('neihan_ga_measure_id')) {
     {
         if (request() && $url = request()->getUri()) {
             $sites = [
-                "neihanxinwen.com"     => "G-02NVWTLXQQ",
-                "neihanxiaoshipin.com" => "G-L9K2KE4FMN",
-                "neihanduanshipin.com" => "G-ZPBJTK4SWZ",
 
-                "jingdianmeiju.com"    => "G-24RS5FX84Z",
-                "jingdianriju.com"     => "G-VQ9ZZDZ71E",
-                "jingdianhanju.com"    => "G-D9T3L30JHX",
-                "jingdiangangju.com"   => "G-WLFYB2J9DV",
-                "jingdianyueyu.com"    => "G-CW14RTZJD8",
+                "jingdianmeiju.com"   => "G-24RS5FX84Z",
+                "jingdianriju.com"    => "G-VQ9ZZDZ71E",
+                "jingdianhanju.com"   => "G-D9T3L30JHX",
+                "jingdiangangju.com"  => "G-WLFYB2J9DV",
+                "jingdianyueyu.com"   => "G-CW14RTZJD8",
 
-                "huaijiumeiju.com"     => "G-EHSQV96WDS",
-                "huaijiuriju.com"      => "G-H03WCVM8MM",
-                "huaijiuhanju.com"     => "G-SKF9JT2YHQ",
-                "huaijiugangju.com"    => "G-PND6NHRDGD",
-                "huaijiuyueyu.com"     => "G-NVEGSN3QDS",
+                "huaijiumeiju.com"    => "G-EHSQV96WDS",
+                "huaijiuriju.com"     => "G-H03WCVM8MM",
+                "huaijiuhanju.com"    => "G-SKF9JT2YHQ",
+                "huaijiugangju.com"   => "G-PND6NHRDGD",
+                "huaijiuyueyu.com"    => "G-NVEGSN3QDS",
 
-                "fengkuangmeiju.com"   => "G-CRK4B4W5R4",
-                "fengkuangriju.com"    => "G-RBMTDGYWJB",
-                "fengkuanghanju.com"   => "G-ZD5VS57QS0",
-                "fengkuanggangju.com"  => "G-K0PDPPNKPQ",
+                "fengkuangmeiju.com"  => "G-CRK4B4W5R4",
+                "fengkuangriju.com"   => "G-RBMTDGYWJB",
+                "fengkuanghanju.com"  => "G-ZD5VS57QS0",
+                "fengkuanggangju.com" => "G-K0PDPPNKPQ",
 
-                "zaixianmeiju.com"     => "G-0G65PG9RET",
-                "zaixianriju.com"      => "G-V0P1GMLNP7",
-                "zaixianhanju.com"     => "G-Y175YH6FQX",
-                "zaixiangangju.com"    => "G-Y9X8DRH6JP",
+                "zaixianmeiju.com"    => "G-0G65PG9RET",
+                "zaixianriju.com"     => "G-V0P1GMLNP7",
+                "zaixianhanju.com"    => "G-Y175YH6FQX",
+                "zaixiangangju.com"   => "G-Y9X8DRH6JP",
 
-                "neihandianying.com"   => "G-W72CHJT74V",
-                "neihanmeiju.com"      => "G-6F8W0505E1",
-                "neihanriju.com"       => "G-QRG8C7FJ6P",
-                "neihanhanju.com"      => "G-NYBSGC3Z53",
-                "neihangangju.com"     => "G-CC0CD82NYG",
+                "neihandianying.com"  => "G-W72CHJT74V",
+                "neihanmeiju.com"     => "G-6F8W0505E1",
+                "neihanriju.com"      => "G-QRG8C7FJ6P",
+                "neihanhanju.com"     => "G-NYBSGC3Z53",
+                "neihangangju.com"    => "G-CC0CD82NYG",
 
-                "aishanghanju.com"     => "G-C3QPSPFRLY",
-                "aishangriju.com"      => "G-WKFL8YBP7S",
-                "aishanggangju.com"    => "G-F07SGXP0CV",
-                "aishangyueyu.com"     => "G-68LTE5T2LQ",
+                "aishanghanju.com"    => "G-C3QPSPFRLY",
+                "aishangriju.com"     => "G-WKFL8YBP7S",
+                "aishanggangju.com"   => "G-F07SGXP0CV",
+                "aishangyueyu.com"    => "G-68LTE5T2LQ",
 
-                "laoyueyu.com"         => "G-NTLN63MYR6",
-                'dianmoge.com'         => 'G-92H6K7HTKT',
-                'xiamaoshipin.com'     => 'G-3KK2NYZYLF',
-                'cheliange.cn'         => 'G-H6DLJJWY2Y',
-                'dongdaima.com'        => 'G-PKQL2HN9BM',
-                'ainicheng.com'        => 'G-PX3RDWLYYY',
+                "laoyueyu.com"        => "G-NTLN63MYR6",
+                'xiamaoshipin.com'    => 'G-3KK2NYZYLF',
+                'cheliange.cn'        => 'G-H6DLJJWY2Y',
             ];
 
             $host = parse_url($url)['host'];
@@ -263,46 +220,35 @@ if (!function_exists('neihan_tencent_app_id')) {
     {
         if (request() && $url = request()->getUri()) {
             $sites = [
-                "neihanxinwen.com"     => "",
-                "neihanxiaoshipin.com" => "",
-                "neihanduanshipin.com" => "",
+                "jingdianmeiju.com"   => "",
+                "jingdianriju.com"    => "",
+                "jingdianhanju.com"   => "",
+                "jingdiangangju.com"  => "",
+                "jingdianyueyu.com"   => "",
 
-                "jingdianmeiju.com"    => "",
-                "jingdianriju.com"     => "",
-                "jingdianhanju.com"    => "",
-                "jingdiangangju.com"   => "",
-                "jingdianyueyu.com"    => "",
+                "huaijiumeiju.com"    => "",
+                "huaijiuriju.com"     => "",
+                "huaijiuhanju.com"    => "",
+                "huaijiugangju.com"   => "",
+                "huaijiuyueyu.com"    => "",
 
-                "huaijiumeiju.com"     => "",
-                "huaijiuriju.com"      => "",
-                "huaijiuhanju.com"     => "",
-                "huaijiugangju.com"    => "",
-                "huaijiuyueyu.com"     => "",
+                "fengkuangmeiju.com"  => "",
+                "fengkuangriju.com"   => "",
+                "fengkuanghanju.com"  => "",
+                "fengkuanggangju.com" => "",
 
-                "fengkuangmeiju.com"   => "",
-                "fengkuangriju.com"    => "",
-                "fengkuanghanju.com"   => "",
-                "fengkuanggangju.com"  => "",
+                "zaixianmeiju.com"    => "500733778",
+                "zaixianriju.com"     => "",
+                "zaixianhanju.com"    => "500733766",
+                "zaixiangangju.com"   => "",
 
-                "zaixianmeiju.com"     => "500733778",
-                "zaixianriju.com"      => "",
-                "zaixianhanju.com"     => "500733766",
-                "zaixiangangju.com"    => "",
+                "aishanghanju.com"    => "",
+                "aishangriju.com"     => "",
+                "aishanggangju.com"   => "",
+                "aishangyueyu.com"    => "",
 
-                "neihandianying.com"   => "500733779",
-                "neihanmeiju.com"      => "",
-                "neihanriju.com"       => "",
-                "neihanhanju.com"      => "",
-                "neihangangju.com"     => "",
-
-                "aishanghanju.com"     => "",
-                "aishangriju.com"      => "",
-                "aishanggangju.com"    => "",
-                "aishangyueyu.com"     => "",
-
-                "laoyueyu.com"         => "",
-                'dianmoge.com'         => '500734959',
-                'xiamaoshipin.com'     => '500735048',
+                "laoyueyu.com"        => "",
+                'xiamaoshipin.com'    => '500735048',
 
             ];
 
@@ -319,59 +265,53 @@ if (!function_exists('siteName')) {
     {
         if (request() && $url = request()->getUri()) {
             $sites = [
-                "neihanxinwen.com"     => "内涵新闻",
-                "neihanxiaoshipin.com" => "内涵小视频",
-                "neihanduanshipin.com" => "内涵短视频",
+                "jingdianmeiju.com"   => "经典美剧",
+                "jingdianriju.com"    => "经典日剧",
+                "jingdianhanju.com"   => "经典韩剧",
+                "jingdiangangju.com"  => "经典港剧",
+                "jingdianyueyu.com"   => "经典粤语",
 
-                "jingdianmeiju.com"    => "经典美剧",
-                "jingdianriju.com"     => "经典日剧",
-                "jingdianhanju.com"    => "经典韩剧",
-                "jingdiangangju.com"   => "经典港剧",
-                "jingdianyueyu.com"    => "经典粤语",
+                "huaijiumeiju.com"    => "怀旧美剧",
+                "huaijiuriju.com"     => "怀旧日剧",
+                "huaijiuhanju.com"    => "怀旧韩剧",
+                "huaijiugangju.com"   => "怀旧港剧",
+                "huaijiuyueyu.com"    => "怀旧粤语",
 
-                "huaijiumeiju.com"     => "怀旧美剧",
-                "huaijiuriju.com"      => "怀旧日剧",
-                "huaijiuhanju.com"     => "怀旧韩剧",
-                "huaijiugangju.com"    => "怀旧港剧",
-                "huaijiuyueyu.com"     => "怀旧粤语",
+                "fengkuangmeiju.com"  => "疯狂美剧",
+                "fengkuangriju.com"   => "疯狂日剧",
+                "fengkuanghanju.com"  => "疯狂韩剧",
+                "fengkuanggangju.com" => "疯狂港剧",
 
-                "fengkuangmeiju.com"   => "疯狂美剧",
-                "fengkuangriju.com"    => "疯狂日剧",
-                "fengkuanghanju.com"   => "疯狂韩剧",
-                "fengkuanggangju.com"  => "疯狂港剧",
+                "zaixianmeiju.com"    => "在线美剧",
+                "zaixianriju.com"     => "在线日剧",
+                "zaixianhanju.com"    => "在线韩剧",
+                "zaixiangangju.com"   => "在线港剧",
 
-                "zaixianmeiju.com"     => "在线美剧",
-                "zaixianriju.com"      => "在线日剧",
-                "zaixianhanju.com"     => "在线韩剧",
-                "zaixiangangju.com"    => "在线港剧",
+                "neihandianying.com"  => "内涵电影",
+                "neihanmeiju.com"     => "内涵美剧",
+                "neihanriju.com"      => "内涵日剧",
+                "neihanhanju.com"     => "内涵韩剧",
+                "neihangangju.com"    => "内涵港剧",
 
-                "neihandianying.com"   => "内涵电影",
-                "neihanmeiju.com"      => "内涵美剧",
-                "neihanriju.com"       => "内涵日剧",
-                "neihanhanju.com"      => "内涵韩剧",
-                "neihangangju.com"     => "内涵港剧",
+                "aishanghanju.com"    => "爱上韩剧",
+                "aishangriju.com"     => "爱上日剧",
+                "aishanggangju.com"   => "爱上港剧",
+                "aishangyueyu.com"    => "爱上粤语",
 
-                "aishanghanju.com"     => "爱上韩剧",
-                "aishangriju.com"      => "爱上日剧",
-                "aishanggangju.com"    => "爱上港剧",
-                "aishangyueyu.com"     => "爱上粤语",
+                "laoyueyu.com"        => "老粤语",
 
-                "laoyueyu.com"         => "老粤语",
+                "xiamaoshipin.com"    => "瞎猫视频",
 
-                "caohan.com"           => "曹汉视频",
-                "dianmoge.com"         => "点墨阁",
-                "xiamaoshipin.com"     => "瞎猫视频",
-
-                'cheliange.cn'         => '彻恋阁',
-                'renzaichazai.cn'      => '人在茶在',
-                'shengkangtang.cn'     => '盛康泰',
-                'xinfashun.cn'         => '心法书',
-                'xinyuezhong.cn'       => '新月中',
-                'jingshiyang.cn'       => '景士阳',
-                'jinlaikaisuo.cn'      => '进来开锁',
-                'shiyongceping.cn'     => '使用测评',
-                'hushentouzi.cn'       => '沪深投资',
-                'nageshipin.com'       => '那个视频',
+                'cheliange.cn'        => '彻恋阁',
+                'renzaichazai.cn'     => '人在茶在',
+                'shengkangtang.cn'    => '盛康泰',
+                'xinfashun.cn'        => '心法书',
+                'xinyuezhong.cn'      => '新月中',
+                'jingshiyang.cn'      => '景士阳',
+                'jinlaikaisuo.cn'     => '进来开锁',
+                'shiyongceping.cn'    => '使用测评',
+                'hushentouzi.cn'      => '沪深投资',
+                'nageshipin.com'      => '那个视频',
             ];
             $host = parse_url($url)['host'];
             $host = str_replace(['l.', 'www.', 'cdn.'], '', $host);
@@ -426,7 +366,6 @@ if (!function_exists('friend_links')) {
         if (request() && $url = request()->getUri()) {
             $sites = [
                 "neihandianying.com" => $zaixianSites,
-                "dianmoge.com"       => $neihanjuzhen,
                 "xiamaoshipin.com"   => $neihanjuzhen,
             ];
 
@@ -473,49 +412,43 @@ if (!function_exists('baidu_id')) {
     {
         if (request() && $url = request()->getUri()) {
             $sites = [
-                "neihanxinwen.com"     => "",
-                "neihanxiaoshipin.com" => "",
-                "neihanduanshipin.com" => "",
+                "xiamaoshipin.com"    => "96467d054f941be696ddb37f213d246f",
 
-                "xiamaoshipin.com"     => "96467d054f941be696ddb37f213d246f",
-                "diudie.com"           => "29",
-                "caohan.com"           => "30",
+                "jingdianmeiju.com"   => "2",
+                "jingdianriju.com"    => "3",
+                "jingdianhanju.com"   => "4",
+                "jingdiangangju.com"  => "5",
+                "jingdianyueyu.com"   => "6",
 
-                "jingdianmeiju.com"    => "2",
-                "jingdianriju.com"     => "3",
-                "jingdianhanju.com"    => "4",
-                "jingdiangangju.com"   => "5",
-                "jingdianyueyu.com"    => "6",
+                "huaijiumeiju.com"    => "7",
+                "huaijiuriju.com"     => "8",
+                "huaijiuhanju.com"    => "9",
+                "huaijiugangju.com"   => "10",
+                "huaijiuyueyu.com"    => "11",
 
-                "huaijiumeiju.com"     => "7",
-                "huaijiuriju.com"      => "8",
-                "huaijiuhanju.com"     => "9",
-                "huaijiugangju.com"    => "10",
-                "huaijiuyueyu.com"     => "11",
+                "fengkuangmeiju.com"  => "12",
+                "fengkuangriju.com"   => "14",
+                "fengkuanghanju.com"  => "13",
+                "fengkuanggangju.com" => "15",
 
-                "fengkuangmeiju.com"   => "12",
-                "fengkuangriju.com"    => "14",
-                "fengkuanghanju.com"   => "13",
-                "fengkuanggangju.com"  => "15",
+                "zaixianmeiju.com"    => "16",
+                "zaixianriju.com"     => "18",
+                "zaixianhanju.com"    => "17",
+                "zaixiangangju.com"   => "19",
 
-                "zaixianmeiju.com"     => "16",
-                "zaixianriju.com"      => "18",
-                "zaixianhanju.com"     => "17",
-                "zaixiangangju.com"    => "19",
+                "neihandianying.com"  => "6e97a3278bb1c87902e1db0ccaf413bd",
+                "neihanmeiju.com"     => "24",
+                "neihanriju.com"      => "25",
+                "neihanhanju.com"     => "26",
+                "neihangangju.com"    => "27",
 
-                "neihandianying.com"   => "6e97a3278bb1c87902e1db0ccaf413bd",
-                "neihanmeiju.com"      => "24",
-                "neihanriju.com"       => "25",
-                "neihanhanju.com"      => "26",
-                "neihangangju.com"     => "27",
-                "aishanghanju.com"     => "20",
-                "aishangriju.com"      => "21",
-                "aishanggangju.com"    => "22",
-                "aishangyueyu.com"     => "23",
+                "aishanghanju.com"    => "20",
+                "aishangriju.com"     => "21",
+                "aishanggangju.com"   => "22",
+                "aishangyueyu.com"    => "23",
 
-                "laoyueyu.com"         => "28",
-                "cheliange.cn"         => "38dcbe82fe7f03235d6cde7a1c6b4c19",
-                'dianmoge.com'         => '3bd05fbfcaaf8dad90231ea3de958d76',
+                "laoyueyu.com"        => "28",
+                "cheliange.cn"        => "38dcbe82fe7f03235d6cde7a1c6b4c19",
             ];
 
             $host = parse_url($url)['host'];
