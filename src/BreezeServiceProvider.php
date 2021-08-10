@@ -5,10 +5,10 @@ namespace Haxibiao\Breeze;
 use Haxibiao\Breeze\Console\ImageLogo;
 use Haxibiao\Breeze\Console\InstallCommand;
 use Haxibiao\Breeze\Console\PublishCommand;
-use Illuminate\Config\Repository as Config;
 use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
@@ -89,6 +89,17 @@ class BreezeServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        //多站/多APP切换数据库实例
+        if ($switch_map = config('cms.app_domain_switch')) {
+            foreach ($switch_map as $app_name => $domain) {
+                if ($domain == get_domain()) {
+                    //数据库名和app_name默认同名
+                    Config::set('database.connections.mysql.database', $app_name);
+                    DB::reconnect('mysql');
+                }
+            }
+        }
+
         $this->bindObservers();
         $this->bindListeners();
 
@@ -147,11 +158,11 @@ class BreezeServiceProvider extends ServiceProvider
             return "<?php echo gmdate('i:s', $expression); ?>";
         });
         Blade::if('admin', function () {
-            return Auth::check() && Auth::user()->checkAdmin();
+            return currentUser() && currentUser()->checkAdmin();
         });
 
         Blade::if('editor', function () {
-            return Auth::check() && Auth::user()->checkEditor();
+            return currentUser() && currentUser()->checkEditor();
         });
 
         Blade::if('weixin', function () {
