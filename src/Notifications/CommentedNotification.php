@@ -45,7 +45,9 @@ class CommentedNotification extends BreezeNotification
         else if ($commentable instanceof Question) {
             $question               = $commentable;
             $this->data_description = $question->description;
-            $this->data_cover       = $question->image;
+            if ($question->iamge) {
+                $this->data_cover = $question->image->url;
+            }
         }
         // - FIXME: 评论了电影/文章/题目
         $data = array_merge($data, [
