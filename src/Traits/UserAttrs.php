@@ -16,13 +16,13 @@ use Haxibiao\Wallet\Exchange;
 use Haxibiao\Wallet\Gold as AppGold;
 use Haxibiao\Wallet\Withdraw;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Str;
 
 trait UserAttrs
 {
-    public function getInviterAttribute(){
-        $invitation = Invitation::withoutGlobalScope('hasInvitedUser')->where('be_inviter_id',$this->id)->first();
-        return data_get($invitation,'user');
+    public function getInviterAttribute()
+    {
+        $invitation = Invitation::withoutGlobalScope('hasInvitedUser')->where('be_inviter_id', $this->id)->first();
+        return data_get($invitation, 'user');
     }
 
     public function getIsAssociateMasterAccountAttribute()
@@ -148,34 +148,25 @@ trait UserAttrs
         return 0;
     }
 
-    public function getAvatarAttribute()
+    public function getAvatarAttribute($value)
     {
-        $avatar = $this->getRawOriginal('avatar');
-        if (blank($avatar)) {
-            $avatar = $this->getDefaultAvatar();
-            //FIXME: ivan: 目前 guarded=[] 这里引起不少save出错，确保UT先
-            //保存到本地数据库，不然头像一直在换
-            // $this->update(['avatar' => $avatar]);
+        $avatar = $value;
+        if (str_contains(((string) $avatar), "http")) {
             return $avatar;
         }
-
-        //不支持url,都存path,本地不存storage
-        // if (str_contains($avatar, 'http')) {
-        //     return $avatar;
-        // }
-        $avatar_path = parse_url($avatar, PHP_URL_PATH);
-
-        //breeze默认头像
-        if (Str::contains($avatar_path, 'images/avatar')) {
-            return url($avatar_path);
+        //FIXME: 答赚的 user->avatar 字段存的还不是标准的 cos_path, 答妹已修复 “cos:%” ...
+        if (empty($avatar)) {
+            $avatar_url = sprintf('https://cos.haxibiao.com/avatars/avatar-%d.png', mt_rand(1, 15));
+        } else {
+            $avatar_url = cdnurl($avatar);
         }
-        //一分钟内的更新头像刷新cdn
-        // if ($this->updated_at > now()->subSeconds(60)) {
-        //     $avatar_path = $avatar_path . '?t=' . now()->timestamp;
-        // }
 
-        //更新头像到could的
-        return cdnurl($avatar_path);
+        //一分钟内的更新头像刷新cdn
+        if ($this->updated_at > now()->subSeconds(60)) {
+            $avatar_url = $avatar_url . '?t=' . now()->timestamp;
+        }
+
+        return $avatar_url;
     }
 
     /**
