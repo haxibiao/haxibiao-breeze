@@ -36,10 +36,10 @@ class AuditQuestionResultNotification extends Notification
      */
     public function toArray($notifiable)
     {
-
         $question = $this->question;
+        $cateName = data_get($question->category, 'name');
         //文本描述
-        $message = "您在【{$question->category->name}】题库下的出题“{$question->description}”已被采纳，
+        $message = "您在【{$cateName}】题库下的出题“{$question->description}”已被采纳，
                     恭喜您获得奖励：{$this->gold}智慧点";
 
         $data = [
