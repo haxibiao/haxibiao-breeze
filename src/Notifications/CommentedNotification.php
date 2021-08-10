@@ -3,6 +3,7 @@
 namespace Haxibiao\Breeze\Notifications;
 
 use Haxibiao\Content\Post;
+use Haxibiao\Question\Question;
 use Haxibiao\Sns\Comment;
 use Illuminate\Bus\Queueable;
 
@@ -40,7 +41,13 @@ class CommentedNotification extends BreezeNotification
             $this->data_description = $post->description;
             $this->data_cover       = $post->cover;
         }
-        // - FIXME: 评论了电影/文章
+        // - 评论了题目
+        else if ($commentable instanceof Question) {
+            $question               = $commentable;
+            $this->data_description = $question->description;
+            $this->data_cover       = $question->image;
+        }
+        // - FIXME: 评论了电影/文章/题目
         $data = array_merge($data, [
             'id'          => $this->comment->commentable_id,
             'type'        => $this->comment->commentable_type,
