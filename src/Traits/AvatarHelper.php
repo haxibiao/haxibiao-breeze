@@ -61,7 +61,7 @@ trait AvatarHelper
      */
     public function getAvatarUrlAttribute()
     {
-        $avatar = $this->getRawOriginal('avatar');
+        $avatar = $this->avatar;
         if (is_null($avatar)) {
             return url($this->getDefaultAvatar());
         }
