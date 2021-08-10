@@ -12,7 +12,7 @@ class ImageLogo extends Command
      *
      * @var string
      */
-    protected $signature = 'image:logo';
+    protected $signature = 'image:logo {--domain=}';
 
     /**
      * The console command description.
@@ -39,7 +39,8 @@ class ImageLogo extends Command
     public function handle()
     {
         $this->info('开始执行 image:logo 命令 生成logo文件...');
-        if ($domain = env('APP_DOMAIN')) {
+        $domain = $this->option('domain') ?? env('APP_DOMAIN');
+        if ($domain) {
             if (!file_exists(public_path('logo.png'))) {
                 $this->error("必须在public目录下放入APP的icon,尺寸1024x1024,文件名logo.png");
                 return 0;
