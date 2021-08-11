@@ -5,7 +5,7 @@ namespace Haxibiao\Breeze\Console\Config;
 use Illuminate\Console\Command;
 
 /**
- * 依赖ops/env里的bash/server_etc.sh同步一些关键环境配置key secret到目标服务的/etc目录下
+ * 依赖bash/sync/server.sh同步一些关键环境配置key secret到目标服务器的/etc目录下
  */
 class SetEnv extends Command
 {
@@ -48,18 +48,21 @@ class SetEnv extends Command
         }
         @file_put_contents($envFile, $env);
 
-        setEnvValues(['DB_PASSWORD' => @file_get_contents("/etc/sql_pass_dm")]);
+        if ($db_password = @file_get_contents("/etc/sql_pass_dm")) {
+            setEnvValues(['DB_PASSWORD' => $db_password]);
+        }
+
         // setEnvValues(['MONGO_PASSWORD' => @file_get_contents("/etc/nosql_pass")]);
 
         //数据库
-        if ($this->option("db_database")) {
-            setEnvValues(['DB_DATABASE' => $this->option("db_database")]);
+        if ($db_database = $this->option("db_database")) {
+            setEnvValues(['DB_DATABASE' => $db_database]);
         }
-        if ($this->option("db_host")) {
-            setEnvValues(['DB_HOST' => $this->option("db_host")]);
+        if ($db_host = $this->option("db_host")) {
+            setEnvValues(['DB_HOST' => $db_host]);
         }
-        if ($this->option("db_port")) {
-            setEnvValues(['DB_PORT' => $this->option("db_port")]);
+        if ($db_port = $this->option("db_port")) {
+            setEnvValues(['DB_PORT' => $db_port]);
         }
 
         // 直播 (已暂停开发)
