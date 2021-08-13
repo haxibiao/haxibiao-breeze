@@ -51,12 +51,12 @@ class ArticleCommented extends BreezeNotification
         if (empty($this->body)) {
             $this->body = $this->comment->body;
         }
-        return [
+
+        $data = [
             'user_id'       => $this->user->id,
             'user_avatar'   => $this->user->avatarUrl,
             'user_name'     => $this->user->name,
-
-            'type'          => 'comment',
+            'type'          => $this->comment->commentable_type,
             'article_title' => $this->article->title,
             'article_id'    => $this->article->id,
             'comment_id'    => $this->comment->id,
@@ -66,5 +66,14 @@ class ArticleCommented extends BreezeNotification
             'url'           => $this->article->url,
             'lou'           => $this->comment->lou,
         ];
+
+        $data = array_merge($data,[
+            'id'          => $this->article->id,    
+            'message'     => $this->comment->body,
+            'cover'       => $this->article->cover,
+            'description' => $this->article->description,
+            'url'         => $this->article->url,
+        ]);
+        return $data;
     }
 }
