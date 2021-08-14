@@ -106,8 +106,10 @@ class BreezeServiceProvider extends ServiceProvider
                 Config::set('database.connections.' . $app_name . '.database', $app_name);
 
                 if ($domain == get_domain()) {
-                    //切换APP对应的项目的db conenction
-                    DB::reconnect($app_name);
+                    DB::purge('mysql');
+                    //修改为当前项目的数据库名
+                    Config::set('database.connections.mysql.database', $app_name);
+                    DB::reconnect();
                 }
             }
         }
