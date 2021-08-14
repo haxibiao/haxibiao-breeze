@@ -92,13 +92,22 @@ class BreezeServiceProvider extends ServiceProvider
         //多站/多APP切换数据库实例
         if ($switch_map = config('cms.app_domain_switch')) {
             foreach ($switch_map as $app_name => $domain) {
-                //配置APP需要的connection
+
+                //配置多个APP/网站需要的connection
+                $connection_mysql   = config('database.connections.mysql');
+                $connection_for_app = [
+                    $app_name => $connection_mysql,
+                ];
+                $connections = config('database.connections');
+                $connections = array_merge($connections, $connection_for_app);
+                Config::set('database.connections', $connections);
+
+                //每个db connection 对应一个数据库(连接名=数据库名=app_name同名)
+                Config::set('database.connections.' . $app_name . '.database', $app_name);
+
                 if ($domain == get_domain()) {
-                    DB::purge('mysql');
-                    //数据库名和app_name默认同名
-                    Config::set('database.connections.mysql.database', $app_name);
-                    //切换APP对应的mysql conenction
-                    DB::reconnect();
+                    //切换APP对应的项目的db conenction
+                    DB::reconnect($app_name);
                 }
             }
         }
