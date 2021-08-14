@@ -61,29 +61,24 @@ trait AvatarHelper
      */
     public function getAvatarUrlAttribute()
     {
-        $avatar = $this->avatar;
+        $avatar = $this->getRawOriginal('avatar') ?? null;
         if (is_null($avatar)) {
             return url($this->getDefaultAvatar());
         }
 
-        //不支持url,都存path,本地不存storage
-        // if (str_contains($avatar, 'http')) {
-        //     return $avatar;
-        // }
         $avatar_path = parse_url($avatar, PHP_URL_PATH);
-
-        //breeze默认头像
+        //FIXME: breeze默认头像,就应该数据null,不要写数据库里
         if (Str::contains($avatar_path, 'images/avatar')) {
             return url($avatar_path);
         }
 
-        //FIXME: 答赚的 user->avatar 字段存的还不是标准的 cos_path, 答妹已修复 “cos:%” ...
+        //FIXME: 所有头像都不存在本地，直接上传cloud
         $avatar_url = cdnurl($avatar_path);
 
-        //一分钟内的更新头像刷新cdn
-        if ($this->updated_at > now()->subSeconds(60)) {
-            $avatar_url = $avatar_url . '?t=' . now()->timestamp;
-        }
+        //新上传头像文件名已用时间戳区分
+        // if ($this->updated_at > now()->subSeconds(60)) {
+        //     $avatar_url = $avatar_url . '?t=' . now()->timestamp;
+        // }
 
         return $avatar_url;
     }
@@ -95,8 +90,6 @@ trait AvatarHelper
     {
         $avatar_path = sprintf('/images/avatar-%d.jpg', ($this->id % 14) + 1);
         return url($avatar_path);
-        //以前的要求每个项目去cos上传默认头像文件，太费劲了
-        // return "https://cos.haxibiao.com/" . $avatar_path;
     }
 
     /**
