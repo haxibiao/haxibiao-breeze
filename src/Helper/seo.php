@@ -40,9 +40,11 @@ if (!function_exists('seo_small_logo')) {
 if (!function_exists('seo_site_name')) {
     function seo_site_name()
     {
+        $site_name = env('APP_NAME_CN') ?? '内涵电影';
+
         //1.尊重seo站群config配置
         $sites = config('seo.sites') ?? [];
-        if ($name = data_get($sites, get_domain())) {
+        if ($name = array_get($sites, get_domain())) {
             return $name;
         }
 
@@ -52,7 +54,7 @@ if (!function_exists('seo_site_name')) {
         }
 
         //3.最后默认用env
-        return env('APP_NAME_CN') ?? '内涵电影';
+        return $site_name;
     }
 }
 
