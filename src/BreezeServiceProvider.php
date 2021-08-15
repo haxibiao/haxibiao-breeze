@@ -165,10 +165,8 @@ class BreezeServiceProvider extends ServiceProvider
 
             $this->publishes([
                 __DIR__ . '/../config/breeze.php' => config_path('breeze.php'),
-            ], 'breeze-config');
-
-            $this->publishes([
                 __DIR__ . '/../config/matomo.php' => config_path('matomo.php'),
+                __DIR__ . '/../config/seo.php'    => config_path('seo.php'),
             ], 'breeze-config');
 
             //前端资源
