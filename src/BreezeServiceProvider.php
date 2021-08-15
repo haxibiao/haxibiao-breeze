@@ -89,11 +89,10 @@ class BreezeServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //多站/多APP切换数据库实例
-        if ($switch_map = config('cms.app_domain_switch')) {
+        //SEO网站多数据库实例切换
+        if ($switch_map = config('cms.sites_db')) {
             foreach ($switch_map as $app_name => $domain) {
-
-                //配置多个APP/网站需要的connection
+                //配置SEO网站需要的connection
                 $connection_mysql   = config('database.connections.mysql');
                 $connection_for_app = [
                     $app_name => $connection_mysql,
@@ -105,7 +104,33 @@ class BreezeServiceProvider extends ServiceProvider
                 //每个db connection 对应一个数据库(连接名=数据库名=app_name同名)
                 Config::set('database.connections.' . $app_name . '.database', $app_name);
 
+                //SEO都用顶级域名
                 if ($domain == get_domain()) {
+                    DB::purge('mysql');
+                    //修改为当前项目的数据库名
+                    Config::set('database.connections.mysql.database', $app_name);
+                    DB::reconnect();
+                }
+            }
+        }
+
+        //apps多数据库实例切换
+        if ($switch_map = config('cms.apps_db')) {
+            foreach ($switch_map as $app_name => $domain) {
+                //配置app需要的connection
+                $connection_mysql   = config('database.connections.mysql');
+                $connection_for_app = [
+                    $app_name => $connection_mysql,
+                ];
+                $connections = config('database.connections');
+                $connections = array_merge($connections, $connection_for_app);
+                Config::set('database.connections', $connections);
+
+                //每个db connection 对应一个数据库(连接名=数据库名=app_name同名)
+                Config::set('database.connections.' . $app_name . '.database', $app_name);
+
+                //APP都用二级域名
+                if ($domain == get_sub_domain()) {
                     DB::purge('mysql');
                     //修改为当前项目的数据库名
                     Config::set('database.connections.mysql.database', $app_name);
