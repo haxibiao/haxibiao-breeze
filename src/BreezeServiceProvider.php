@@ -117,8 +117,8 @@ class BreezeServiceProvider extends ServiceProvider
         $this->bindObservers();
         $this->bindListeners();
 
-        //默认强制线上的站点支持https(google已开始强制站点只收录https多年)
-        if (is_prod_env()) {
+        //仅线上seo域名顶级域名强制https
+        if (is_prod_env() && get_domain() == get_sub_domain()) {
             URL::forceScheme('https');
         }
 
