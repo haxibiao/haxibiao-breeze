@@ -136,8 +136,7 @@
             <div class="app-version-pop-container">
                 <h4 class="app-version-pop-header">版本记录</h4>
                 <div class="app-version-pop-body">
-                    @foreach ($data as $index => $version)
-
+                    @foreach ($data ?? [] as $index => $version)
                         <div class="app-version-item">
                             <div class="app-version-item-content">
                                 <p>版本号：{{ $version['name'] }}</p>
