@@ -151,8 +151,14 @@ if (!function_exists('text_logo')) {
 if (!function_exists('small_logo')) {
     function small_logo()
     {
+        //APP的
+        $logo_path = '/logo/' . get_sub_domain() . '.small.png';
+        if (file_exists(public_path($logo_path))) {
+            return url($logo_path);
+        }
+        //站群的
         $logo_path = '/logo/' . get_domain() . '.small.png';
-        if (file_exists(public_path('/logo/' . get_domain() . '.small.png'))) {
+        if (file_exists(public_path($logo_path))) {
             return url($logo_path);
         }
         //breeze默认logo
@@ -216,7 +222,7 @@ if (!function_exists('qrcode_url')) {
                         $qrcode = $qrcode->generate($apkUrl);
                         $data   = base64_encode($qrcode);
                         return $data;
-                    } catch (\Throwable $ex) {
+                    } catch (\Throwable$ex) {
                     }
                 }
             }

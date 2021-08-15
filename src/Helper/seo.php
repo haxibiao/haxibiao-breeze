@@ -29,21 +29,17 @@ if (!function_exists('seo_friendly_urls')) {
     }
 }
 
-if (!function_exists('seo_small_logo')) {
-    function seo_small_logo()
-    {
-        //logo主要针对请求域名变化
-        return small_logo();
-    }
-}
-
 if (!function_exists('seo_site_name')) {
     function seo_site_name()
     {
         $site_name = env('APP_NAME_CN') ?? '内涵电影';
 
-        //1.尊重seo站群config配置
+        //1.尊重seo站群配置
         $sites = config('seo.sites') ?? [];
+        // - APP网站后台用二级域名
+        if ($name = array_get($sites, get_sub_domain())) {
+            return $name;
+        }
         if ($name = array_get($sites, get_domain())) {
             return $name;
         }
@@ -112,18 +108,6 @@ if (!function_exists('neihan_tencent_app_id')) {
     }
 }
 
-if (!function_exists('siteName')) {
-    function siteName()
-    {
-        if (request() && $url = request()->getUri()) {
-            $sites = config('seo.sites');
-            $host  = parse_url($url)['host'];
-            $host  = str_replace(['l.', 'www.', 'cdn.'], '', $host);
-            return $sites[$host] ?? '内涵电影';
-        }
-    }
-}
-
 if (!function_exists('friend_links')) {
     function friend_links()
     {
@@ -131,24 +115,10 @@ if (!function_exists('friend_links')) {
     }
 }
 
-if (!function_exists('getDomain')) {
-    function getDomain()
-    {
-        $urlInfo = parse_url(request()->getUri());
-        $arr     = explode(".", $urlInfo['host']);
-        if (count($arr) == 3) {
-            $host = $arr[1];
-        } else {
-            $host = $arr[0];
-        }
-        return $host;
-    }
-}
-
 if (!function_exists('sitemap')) {
     function sitemap()
     {
-        $host = getDomain();
+        $host = get_domain();
         $path = "sitemap/" . $host;
         return [
             'Google地图' => "/{$path}/google.xml",
