@@ -39,8 +39,8 @@ class UserSeeder extends Seeder
             ]);
         }
         $admin->email   = $admin_email;
-        $admin->account = $admin->email;
-        $admin->phone   = $admin->email;
+        $admin->account = '001'; //账户名指派
+        $admin->phone   = null; //未绑定手机
         $admin->name    = env('APP_NAME_CN');
         $pass           = $default_pass;
 
@@ -59,8 +59,8 @@ class UserSeeder extends Seeder
             ]);
         }
         $editor->email     = $editor_email;
-        $editor->account   = $editor->email;
-        $editor->phone     = $editor->email;
+        $admin->account    = '002'; //账户名指派
+        $admin->phone      = null; //未绑定手机
         $editor->name      = env('APP_NAME_CN') . "小编";
         $pass              = $default_pass;
         $editor->password  = bcrypt($pass);
@@ -78,8 +78,8 @@ class UserSeeder extends Seeder
             ]);
         }
         $user->email     = $user_email;
-        $user->account   = $user->email;
-        $user->phone     = $user->email;
+        $admin->account  = '003'; //账户名指派
+        $admin->phone    = null; //未绑定手机
         $user->name      = env('APP_NAME_CN') . "用户";
         $pass            = $default_pass;
         $user->password  = bcrypt($pass);
@@ -87,7 +87,7 @@ class UserSeeder extends Seeder
         //role_id 默认为普通用户
         $user->save();
 
-        echo "\n已初始化账户:" . $user->email;
+        echo "\n已初始化账户:" . $user->email . "\n";
 
     }
 }
