@@ -90,13 +90,13 @@ class BreezeServiceProvider extends ServiceProvider
     public function boot()
     {
         //SEO网站多数据库实例切换(根据顶级域名)
-        $switch_map = [];
-        foreach (config('cms.sites') as $domain => $names) {
+        $db_switch_map = [];
+        foreach (config('cms.sites', []) as $domain => $names) {
             if ($app_name = array_get($names, 'app_name')) {
-                $switch_map[$app_name] = $domain;
+                $db_switch_map[$app_name] = $domain;
             }
         }
-        foreach ($switch_map as $app_name => $domain) {
+        foreach ($db_switch_map as $app_name => $domain) {
             //配置SEO网站需要的connection
             $connection_mysql   = config('database.connections.mysql');
             $connection_for_app = [
@@ -119,13 +119,13 @@ class BreezeServiceProvider extends ServiceProvider
         }
 
         //apps多数据库实例切换(根据二级域名)
-        $switch_map = [];
-        foreach (config('cms.apps') as $domain => $names) {
+        $db_switch_map = [];
+        foreach (config('cms.apps', []) as $domain => $names) {
             if ($app_name = array_get($names, 'app_name')) {
-                $switch_map[$app_name] = $domain;
+                $db_switch_map[$app_name] = $domain;
             }
         }
-        foreach ($switch_map as $app_name => $domain) {
+        foreach ($db_switch_map as $app_name => $domain) {
             //配置app需要的connection
             $connection_mysql   = config('database.connections.mysql');
             $connection_for_app = [
