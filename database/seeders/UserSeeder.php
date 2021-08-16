@@ -29,7 +29,8 @@ class UserSeeder extends Seeder
         if ($db_name != $app_name) {
             $app_name = $db_name;
             //找到对应域名
-            $app_domain = array_get(config('cms.apps_db'), $app_name) ?? array_get(config('cms.sites_db'), $app_name);
+            $app_domain = get_app_domain($app_name);
+
             //找到对应seo_site_name
             $seo_site_name = get_app_name_cn($app_domain);
             if ($seo_site_name != $app_name_cn) {

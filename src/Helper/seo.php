@@ -29,6 +29,29 @@ if (!function_exists('seo_friendly_urls')) {
     }
 }
 
+//通过app_name获取域名
+function get_app_domain($app_name)
+{
+    $app_domain = env('APP_DOMAIN');
+    $sites      = config('cms.sites') ?? [];
+    foreach ($sites as $domain => $names) {
+        if ($appname = array_get($names, 'app_name')) {
+            if ($appname == $app_name) {
+                $app_domain = $domain;
+            }
+        }
+    }
+    $apps = config('cms.apps') ?? [];
+    foreach ($apps as $domain => $names) {
+        if ($appname = array_get($names, 'app_name')) {
+            if ($appname == $app_name) {
+                $app_domain = $domain;
+            }
+        }
+    }
+    return $app_domain;
+}
+
 //通过域名获取app_name
 function get_app_name($domain)
 {
@@ -50,7 +73,7 @@ function get_app_name_cn($domain)
         $names       = config('cms.apps') ?? [];
         $app_name_cn = array_get(array_get($names, $domain), 'app_name_cn');
     }
-    return $app_name ?? env('APP_NAME_CN');
+    return $app_name_cn ?? env('APP_NAME_CN');
 }
 
 //网站显示的站名/APP后端名称
