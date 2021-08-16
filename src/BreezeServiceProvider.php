@@ -89,53 +89,61 @@ class BreezeServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //SEO网站多数据库实例切换
-        if ($switch_map = config('cms.sites_db')) {
-            foreach ($switch_map as $app_name => $domain) {
-                //配置SEO网站需要的connection
-                $connection_mysql   = config('database.connections.mysql');
-                $connection_for_app = [
-                    $app_name => $connection_mysql,
-                ];
-                $connections = config('database.connections');
-                $connections = array_merge($connections, $connection_for_app);
-                Config::set('database.connections', $connections);
+        //SEO网站多数据库实例切换(根据顶级域名)
+        $switch_map = [];
+        foreach (config('cms.sites') as $domain => $names) {
+            if ($app_name = array_get($names, 'app_name')) {
+                $switch_map[$app_name] = $domain;
+            }
+        }
+        foreach ($switch_map as $app_name => $domain) {
+            //配置SEO网站需要的connection
+            $connection_mysql   = config('database.connections.mysql');
+            $connection_for_app = [
+                $app_name => $connection_mysql,
+            ];
+            $connections = config('database.connections');
+            $connections = array_merge($connections, $connection_for_app);
+            Config::set('database.connections', $connections);
 
-                //每个db connection 对应一个数据库(连接名=数据库名=app_name同名)
-                Config::set('database.connections.' . $app_name . '.database', $app_name);
+            //每个db connection 对应一个数据库(连接名=数据库名=app_name同名)
+            Config::set('database.connections.' . $app_name . '.database', $app_name);
 
-                //SEO都用顶级域名
-                if ($domain == get_domain()) {
-                    DB::purge('mysql');
-                    //修改为当前项目的数据库名
-                    Config::set('database.connections.mysql.database', $app_name);
-                    DB::reconnect();
-                }
+            //SEO都用顶级域名
+            if ($domain == get_domain()) {
+                DB::purge('mysql');
+                //修改为当前项目的数据库名
+                Config::set('database.connections.mysql.database', $app_name);
+                DB::reconnect();
             }
         }
 
-        //apps多数据库实例切换
-        if ($switch_map = config('cms.apps_db')) {
-            foreach ($switch_map as $app_name => $domain) {
-                //配置app需要的connection
-                $connection_mysql   = config('database.connections.mysql');
-                $connection_for_app = [
-                    $app_name => $connection_mysql,
-                ];
-                $connections = config('database.connections');
-                $connections = array_merge($connections, $connection_for_app);
-                Config::set('database.connections', $connections);
+        //apps多数据库实例切换(根据二级域名)
+        $switch_map = [];
+        foreach (config('cms.apps') as $domain => $names) {
+            if ($app_name = array_get($names, 'app_name')) {
+                $switch_map[$app_name] = $domain;
+            }
+        }
+        foreach ($switch_map as $app_name => $domain) {
+            //配置app需要的connection
+            $connection_mysql   = config('database.connections.mysql');
+            $connection_for_app = [
+                $app_name => $connection_mysql,
+            ];
+            $connections = config('database.connections');
+            $connections = array_merge($connections, $connection_for_app);
+            Config::set('database.connections', $connections);
 
-                //每个db connection 对应一个数据库(连接名=数据库名=app_name同名)
-                Config::set('database.connections.' . $app_name . '.database', $app_name);
+            //每个db connection 对应一个数据库(连接名=数据库名=app_name同名)
+            Config::set('database.connections.' . $app_name . '.database', $app_name);
 
-                //APP都用二级域名
-                if ($domain == get_sub_domain()) {
-                    DB::purge('mysql');
-                    //修改为当前项目的数据库名
-                    Config::set('database.connections.mysql.database', $app_name);
-                    DB::reconnect();
-                }
+            //APP都用二级域名
+            if ($domain == get_sub_domain()) {
+                DB::purge('mysql');
+                //修改为当前项目的数据库名
+                Config::set('database.connections.mysql.database', $app_name);
+                DB::reconnect();
             }
         }
 
@@ -149,7 +157,6 @@ class BreezeServiceProvider extends ServiceProvider
 
         if (!app()->configurationIsCached()) {
             $this->mergeConfigFrom(__DIR__ . '/../config/breeze.php', 'breeze');
-            $this->mergeConfigFrom(__DIR__ . '/../config/seo.php', 'seo');
         }
 
         //修复分页样式
@@ -166,7 +173,6 @@ class BreezeServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__ . '/../config/breeze.php' => config_path('breeze.php'),
                 __DIR__ . '/../config/matomo.php' => config_path('matomo.php'),
-                __DIR__ . '/../config/seo.php'    => config_path('seo.php'),
             ], 'breeze-config');
 
             //前端资源

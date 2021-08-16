@@ -29,18 +29,43 @@ if (!function_exists('seo_friendly_urls')) {
     }
 }
 
+//通过域名获取app_name
+function get_app_name($domain)
+{
+    $names    = config('cms.sites') ?? [];
+    $app_name = array_get(array_get($names, $domain), 'app_name');
+    if (blank($app_name)) {
+        $names    = config('cms.apps') ?? [];
+        $app_name = array_get(array_get($names, $domain), 'app_name');
+    }
+    return $app_name ?? env('APP_NAME');
+}
+
+//通过域名获取app_name中文
+function get_app_name_cn($domain)
+{
+    $names       = config('cms.sites') ?? [];
+    $app_name_cn = array_get(array_get($names, $domain), 'app_name_cn');
+    if (blank($app_name_cn)) {
+        $names       = config('cms.apps') ?? [];
+        $app_name_cn = array_get(array_get($names, $domain), 'app_name_cn');
+    }
+    return $app_name ?? env('APP_NAME_CN');
+}
+
+//网站显示的站名/APP后端名称
 if (!function_exists('seo_site_name')) {
     function seo_site_name()
     {
         $site_name = env('APP_NAME_CN') ?? '内涵电影';
 
-        //1.尊重seo站群配置
-        $sites = config('seo.sites') ?? [];
-        // - APP网站后台用二级域名
-        if ($name = array_get($sites, get_sub_domain())) {
+        //1.尊重站名配置
+        $apps = config('cms.apps') ?? [];
+        if ($name = array_get(array_get($apps, get_sub_domain()), 'app_name_cn')) {
             return $name;
         }
-        if ($name = array_get($sites, get_domain())) {
+        $sites = config('cms.sites') ?? [];
+        if ($name = array_get(array_get($sites, get_domain()), 'app_name_cn')) {
             return $name;
         }
 
@@ -58,7 +83,7 @@ if (!function_exists('matomo_site_id')) {
     function matomo_site_id()
     {
         if (request() && $url = request()->getUri()) {
-            $sites = config('seo.matomo_ids');
+            $sites = config('cms.matomo_ids') ?? [];
 
             $host = parse_url($url)['host'];
             $host = str_replace(['l.', 'www.', 'cdn.'], '', $host);
@@ -84,7 +109,7 @@ if (!function_exists('neihan_ga_measure_id')) {
     function neihan_ga_measure_id()
     {
         if (request() && $url = request()->getUri()) {
-            $sites = config('seo.google_tj_ids');
+            $sites = config('cms.google_tj_ids') ?? [];
 
             $host = parse_url($url)['host'];
             $host = str_replace(['l.', 'www.', 'cdn.'], '', $host);
@@ -98,7 +123,7 @@ if (!function_exists('neihan_tencent_app_id')) {
     function neihan_tencent_app_id()
     {
         if (request() && $url = request()->getUri()) {
-            $sites = config('seo.tencent_tj_ids');
+            $sites = config('cms.tencent_tj_ids') ?? [];
 
             $host = parse_url($url)['host'];
             $host = str_replace(['l.', 'www.', 'cdn.'], '', $host);
@@ -111,7 +136,7 @@ if (!function_exists('neihan_tencent_app_id')) {
 if (!function_exists('friend_links')) {
     function friend_links()
     {
-        return config('seo.friend_links');
+        return config('cms.friend_links') ?? [];
     }
 }
 
@@ -135,7 +160,7 @@ if (!function_exists('baidu_id')) {
     function baidu_id()
     {
         if (request() && $url = request()->getUri()) {
-            $sites = config('seo.baidu_tj_ids');
+            $sites = config('cms.baidu_tj_ids');
 
             $host = parse_url($url)['host'];
             $host = str_replace(['l.', 'www.', 'cdn.'], '', $host);

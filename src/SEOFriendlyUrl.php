@@ -10,7 +10,7 @@ class SEOFriendlyUrl
     public static function generate()
     {
         $domain      = get_domain();
-        $frienlyUrls = Arr::get(config('seo.friend_links'), $domain, false);
+        $frienlyUrls = Arr::get(config('cms.friend_links'), $domain, false);
         if (!$frienlyUrls) {
             return null;
         }
