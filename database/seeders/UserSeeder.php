@@ -40,7 +40,7 @@ class UserSeeder extends Seeder
 
         $default_pass = env('DEFAULT_PASSWORD', 'dadada');
 
-        $admin_email = "master@" . $app_name;
+        $admin_email = "admin@" . $app_name;
         //删除冗余的用admin邮箱的账户？
         foreach (User::whereEmail($admin_email)->get() as $admin) {
             if ($admin->id > 1) {
