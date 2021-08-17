@@ -32,6 +32,11 @@ class OAuth extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function appId()
+    {
+        return $this->belongsTo(AppId::class, 'app_id');
+    }
+
     public function scopeOfType($query, $value)
     {
         return is_array($value) ? $query->whereIn('oauth_type', $value) : $query->where('oauth_type', $value);
