@@ -2,6 +2,7 @@
 
 namespace Haxibiao\Breeze;
 
+use Haxibiao\Breeze\AppId;
 use Haxibiao\Breeze\Exceptions\UserException;
 use Haxibiao\Breeze\Traits\OAuthRepo;
 use Haxibiao\Breeze\Traits\OAuthResolvers;
@@ -105,7 +106,7 @@ class OAuth extends Model
         return Arr::get($types, $type, '授权');
     }
 
-    public static function store($userId, $type, $oauthId, $unionId = '', $data = null, $source = 0)
+    public static function store($userId, $type, $oauthId, $unionId = '', $data = null, $source = 0, $authAppId = '')
     {
         $field = OAuth::getUnionIdField($type);
 
@@ -118,6 +119,7 @@ class OAuth extends Model
                 $field       => ($field == 'oauth_id' ? $oauthId : $unionId),
             ]);
             throw_if(isset($oauth->id) && $oauth->user_id != $userId, UserException::class, '该授权账户已被绑定,请尝试其他账户!');
+            $appId = !empty($authAppId) ? data_get(AppId::byValue($authAppId)->select('id')->first(), 'id', 0) : 0;
             $oauth->fill([
                 'oauth_id' => $oauthId,
                 'union_id' => $unionId,
@@ -125,6 +127,7 @@ class OAuth extends Model
                 'user_id'  => $userId,
                 'is_fix'   => 1,
                 'source'   => $source,
+                'app_id'   => $appId,
             ]);
             $oauth->save();
         }
