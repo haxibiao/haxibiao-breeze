@@ -106,8 +106,9 @@ if (!function_exists('sendMatomoTcpEvent')) {
         try {
             $client = new \swoole_client(SWOOLE_SOCK_TCP); //同步阻塞？？
             //默认0.1秒就timeout, 所以直接丢给本地matomo:server
+            $host = config('matomo.proxy_host');
             $port = config('matomo.proxy_port');
-            $client->connect('127.0.0.1', $port) or die("swoole connect failed\n");
+            $client->connect($host, $port) or die("swoole connect failed\n");
             $client->set([
                 'open_length_check'     => true,
                 'package_length_type'   => 'n',

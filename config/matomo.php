@@ -6,6 +6,7 @@ return [
 
     //是否借用swoole的proxy实现tcp+bulk发送
     'use_swoole'  => env('MATOMO_USE_SWOOLE', false),
+    'proxy_host'  => env('MATOMO_PROXY_HOST', '127.0.0.1'),
     'proxy_port'  => env('MATOMO_PROXY_PORT', 9502),
     'token_auth'  => env('MATOMO_TOKEN_AUTH'),
 
