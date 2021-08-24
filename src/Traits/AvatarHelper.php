@@ -74,6 +74,7 @@ trait AvatarHelper
 
         //FIXME: 所有头像都不存在本地，直接上传cloud
         $avatar_url = cdnurl($avatar_path);
+        info('attribute avatar:' . $avatar_url);
 
         //新上传头像文件名已用时间戳区分
         // if ($this->updated_at > now()->subSeconds(60)) {
