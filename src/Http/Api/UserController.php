@@ -39,7 +39,6 @@ class UserController extends Controller
         //上传图片或者base64data
         $avatar = !blank($request->get('avatar')) ? $request->get('avatar') : $request->file('avatar');
         $user->saveAvatar($avatar);
-        info('用户头像:' . $user->avatar_url);
         return $user->avatar_url;
     }
 
