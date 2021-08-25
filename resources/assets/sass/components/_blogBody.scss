@@ -207,15 +207,45 @@ $max-width: 520px !default;
 		color: rgba(0, 0, 0, 0.65) !important;
 	}
 
-	pre code {
-		// margin: 0 0.2rem !important;
-		padding: 1em 1.2em !important;
+	// pre code {
+	// 	// margin: 0 0.2rem !important;
+	// 	padding: 1em 1.2em !important;
+	// }
+
+	// pre {
+	// 	display: flex !important;
+	// 	font-family: sfmono-regular, Consolas, liberation mono, Menlo, Courier, monospace !important;
+	// 	border-radius: 2px !important;
+	// }
+
+	pre {
+		/*min-height: 28px;*/
+		box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		word-wrap: break-word !important;
+		white-space: pre-wrap !important;
 	}
 
 	pre {
-		display: flex !important;
-		font-family: sfmono-regular, Consolas, liberation mono, Menlo, Courier, monospace !important;
-		border-radius: 2px !important;
+		padding: 10px 5px 10px 10px;
+		margin: 15px 0;
+		display: block;
+		line-height: 18px;
+		background: #f0f0f0;
+		border-radius: 3px;
+		font-size: 13px;
+		font-family: 'monaco', 'Consolas', 'Liberation Mono', Courier, monospace;
+		white-space: pre;
+		word-wrap: normal;
+		overflow-x: auto;
+
+		code {
+			display: block;
+			padding: 0;
+			margin: 0;
+			background: none;
+			border-radius: 0;
+		}
 	}
 
 	.language-abc svg,
