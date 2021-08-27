@@ -22,15 +22,21 @@ class SearchController extends Controller
         $page_size = 10;
         $page      = request('page') ? request('page') : 1;
         $query     = request('q');
-        $articles  = Article::where(function ($qb) use ($query) {
-            $qb->where('title', 'like', '%' . $query . '%');
-            $qb->orWhere('keywords', 'like', '%' . $query . '%');
-            $qb->orWhere('description', 'like', '%' . $query . '%');
-        })->exclude(['body', 'json'])
-            ->where('status', 1)
-            ->whereIn('type', ['article', 'diagrams'])
-            ->orderBy('id', 'desc')
-            ->paginate(10);
+        if (config('media.enable_meilisearch', false)) {
+            $articles = Article::search($query)
+                ->paginate(10);
+        } else {
+            $articles = Article::where(function ($qb) use ($query) {
+                $qb->where('title', 'like', '%' . $query . '%');
+                $qb->orWhere('keywords', 'like', '%' . $query . '%');
+                $qb->orWhere('description', 'like', '%' . $query . '%');
+            })->exclude(['body', 'json'])
+                ->where('status', 1)
+                ->whereIn('type', ['article', 'diagrams'])
+                ->orderBy('id', 'desc')
+                ->paginate(10);
+        }
+
         $total = $articles->total();
 
         //高亮关键词
@@ -166,7 +172,7 @@ class SearchController extends Controller
         $tags         = Tag::all();
         $matched_tags = [];
         foreach ($tags as $tag) {
-            if ( $query && str_contains($query, $tag->name)) {
+            if ($query && str_contains($query, $tag->name)) {
                 foreach ($tag->articles as $article) {
                     $articles[] = $article;
                 }
