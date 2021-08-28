@@ -47,7 +47,10 @@ class SetEnv extends Command
 
         //数据库密码
         if ($db_password = @file_get_contents("/etc/breeze/sql_pass")) {
-            setEnvValues(['DB_PASSWORD' => $db_password]);
+            //留空的模板才支持 /etc/breeze覆盖
+            if (blank(env('DB_PASSWORD'))) {
+                setEnvValues(['DB_PASSWORD' => $db_password]);
+            }
         }
         //nosql数据库密码
         // setEnvValues(['MONGO_PASSWORD' => @file_get_contents("/etc/nosql_pass")]);
