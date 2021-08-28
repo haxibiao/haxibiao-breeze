@@ -157,7 +157,7 @@ function getUser($throw = true)
         $cache_user->user_data    = null;
     }
 
-    if(!$cache_user){
+    if (!$cache_user) {
         request()->request->add(['current_user' => json_encode($cache_user)]);
     }
 
@@ -307,8 +307,11 @@ if (!function_exists('get_file_ext')) {
  */
 function setEnvValues(array $keyValues, $envFilePath = null)
 {
-    $envFile = $envFilePath ?? app()->environmentFilePath();
-    $str     = file_get_contents($envFile);
+    $envFilePath = $envFilePath ?? base_path('.env.prod');
+    $str         = @file_get_contents($envFilePath);
+    if (blank($str)) {
+        $str = @file_get_contents(app()->environmentFilePath());
+    }
 
     // 确保.env最后一行有换行符
     if (!str_ends_with($str, "\n")) {
@@ -335,7 +338,7 @@ function setEnvValues(array $keyValues, $envFilePath = null)
         }
         // $str = substr($str, 0, -1); //最后的换行清理？
     }
-    if (!file_put_contents($envFile, $str)) {
+    if (!file_put_contents($envFilePath, $str)) {
         return false;
     }
     return true;

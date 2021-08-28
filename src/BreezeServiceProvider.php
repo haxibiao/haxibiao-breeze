@@ -58,6 +58,7 @@ class BreezeServiceProvider extends ServiceProvider
 
             Console\Config\EnvRefresh::class,
             Console\Config\SetEnv::class,
+            Console\Config\UpdateEnv::class,
         ]);
 
         //合并view paths
