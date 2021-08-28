@@ -52,32 +52,30 @@ class UpdateEnv extends Command
         $envFile = app()->environmentFilePath();
         $str     = file_get_contents($envFile);
 
-        if (count($values) > 0) {
-            foreach ($values as $envKey => $envValue) {
-                // $this->info("更新 $envKey");
+        // 确保.env最后一行有换行符
+        if (!ends_with($str, "\n")) {
+            $str .= "\n";
+        }
 
-                $str .= "\n"; // 确保.env最后一行有换行符
-                $keyPosition       = strpos($str, "{$envKey}="); //找到要替换的行字符起始位
-                $endOfLinePosition = strpos($str, "\n", $keyPosition); //那行的结束位
-                $oldLine           = substr($str, $keyPosition, $endOfLinePosition - $keyPosition);
+        foreach ($values as $envKey => $envValue) {
+            $keyPosition       = strpos($str, "{$envKey}="); //找到要替换的行字符起始位
+            $endOfLinePosition = strpos($str, "\n", $keyPosition); //那行的结束位
+            $oldLine           = substr($str, $keyPosition, $endOfLinePosition - $keyPosition);
 
-                // 如果不存在，就添加一行
-                if ($keyPosition === -1) {
-                    $str .= "{$envKey}={$envValue}\n";
-                    $this->info(" - 增加 $envKey");
-                } else {
-                    //否则替换
-                    $str = str_replace($oldLine, "{$envKey}={$envValue}", $str);
-                    $this->info(" - 替换 $envKey");
-                }
+            // 如果不存在，就添加一行
+            if ($keyPosition === -1) {
+                $str .= "{$envKey}={$envValue}\n";
+                $this->info(" - 增加 $envKey");
+            } else {
+                //否则替换
+                $str = str_replace($oldLine, "{$envKey}={$envValue}", $str);
+                $this->info(" - 替换 $envKey");
             }
         }
 
-        // $str = substr($str, 0, -1);
         if (!file_put_contents($envFile, $str)) {
             return false;
         }
-
         return true;
     }
 }
