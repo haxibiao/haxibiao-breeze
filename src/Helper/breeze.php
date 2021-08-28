@@ -307,11 +307,8 @@ if (!function_exists('get_file_ext')) {
  */
 function setEnvValues(array $keyValues, $envFilePath = null)
 {
-    $envFilePath = $envFilePath ?? base_path('.env.prod');
-    $str         = @file_get_contents($envFilePath);
-    if (blank($str)) {
-        $str = @file_get_contents(app()->environmentFilePath());
-    }
+    $envFilePath = $envFilePath ?? app()->environmentFilePath();
+    $str         = file_get_contents($envFilePath);
 
     // 确保.env最后一行有换行符
     if (!str_ends_with($str, "\n")) {
