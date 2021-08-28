@@ -5,7 +5,7 @@ namespace Haxibiao\Breeze\Console\Config;
 use Illuminate\Console\Command;
 
 /**
- * 读取webconfig.json模式的，适合工厂，set:env适合单个项目单个服务器简单刷新私密配置
+ *  @deprecated 读取/etc/breeze/webconfig.json 适合旧工厂，逐步用set:env替代
  */
 class EnvRefresh extends Command
 {
@@ -116,7 +116,8 @@ class EnvRefresh extends Command
     {
         $this->info("更新配置 db_host=$db_host db_database=$db_database db_port=$db_port");
 
-        $data = @file_get_contents('/etc/webconfig.json');
+        $data = @file_get_contents('/etc/webconfig.json') ?? @file_get_contents('/etc/breeze/webconfig.json');
+
         if ($data) {
             $webconfig  = json_decode($data);
             $db_changes = [
