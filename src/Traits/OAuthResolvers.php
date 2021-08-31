@@ -39,10 +39,11 @@ trait OAuthResolvers
 
     public function wechat(User $user, $code)
     {
-        $utils = new WechatUtils;
-
         //获取微信token
-        $accessTokens = $utils->accessToken($code);
+        $wechatIns            = WechatUtils::getInstance();
+        list($appid, $secret) = $wechatIns->getWechatAppConfig('');
+        $accessTokens         = $wechatIns->accessToken($code, $$appid, $secret);
+
         throw_if(!Arr::has($accessTokens, ['unionid', 'openid']), GQLException::class, '授权失败,请稍后再试!');
 
         //建立oauth关联
