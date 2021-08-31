@@ -47,9 +47,9 @@ class EnvRefresh extends Command
     public function copy_env()
     {
         $this->info('copy .env ...');
-        $env_dev = file_get_contents(base_path('.env.local'));
+        $env_dev = @file_get_contents(base_path('.env.local'));
         if (blank($env_dev)) {
-            $env_dev = file_get_contents(base_path('.env.prod'));
+            $env_dev = @file_get_contents(base_path('.env.prod'));
         }
         file_put_contents(base_path('.env'), $env_dev);
     }
