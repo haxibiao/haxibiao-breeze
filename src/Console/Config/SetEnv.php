@@ -67,7 +67,7 @@ class SetEnv extends Command
         // setEnvValues(['LIVE_SECRET_KEY' => @file_get_contents("/etc/breeze/live_secret")]);
 
         // 邮件
-        if ($mail_pass = @file_get_contents("/etc/breeze/mailgun_mail_pass")) {
+        if ($mail_pass = @file_get_contents("/etc/breeze/mail_pass")) {
             setEnvValues(['MAIL_PASSWORD' => $mail_pass]);
         }
 
