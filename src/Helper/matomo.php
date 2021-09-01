@@ -19,61 +19,51 @@ if (!function_exists('track_web')) {
 if (!function_exists('app_track_event')) {
     function app_track_event($category, $action = null, $name = null, $value = null)
     {
-        //开启matomo开关功能
-        if (!config('matomo.on')) {
-            return;
-        }
+        //开启matomo开关功能 && 测试环境不发送 && //是否开启管理员账号行为不埋点
+        $canTrack = config('matomo.on') && (!is_testing_env() && !is_local_env()) && (config('matomo.matomo_user', false) && isAdmin());
 
-        //UT跳过matomo即可,前面的改动结果停掉了答赚的matomo
-        if (is_testing_env()) {
-            return;
-        }
-        if (is_local_env()) {
-            return;
-        }
-        //是否开启管理员账号行为不埋点
-        if (config('matomo.matomo_user', false)) {
-            if (isAdmin()) {
-                return;
+        if ($canTrack) {
+            $event['category'] = $category;
+            $event['action']   = $action ?? $category;
+            $event['name']     = $name;
+            //避免进入的value有对象，不是String会异常
+            $event['value'] = $value instanceof String ? $value : false;
+
+            if (config('matomo.use_swoole')) {
+                //TCP发送事件数据
+                return sendMatomoTcpEvent($event);
+            } else {
+                //直接发送，兼容matomo 3.13.6
+                $tracker = new \MatomoTracker(config('matomo.matomo_id'), config('matomo.matomo_url'));
+                //用户机型
+                // $tracker->setCustomVariable(1, '机型', $event['dimension5'], 'visit');
+
+                $tracker->setUserId(getUniqueUserId());
+                $tracker->setIp(getIp());
+                $tracker->setTokenAuth(config('matomo.token_auth'));
+                $tracker->setRequestTimeout(1); //最多卡1s
+                $tracker->setForceVisitDateTime(time());
+
+                $tracker->setCustomVariable(1, '系统', $event['dimension1'] ?? null, 'visit');
+                $tracker->setCustomVariable(2, '来源', $event['dimension2'] ?? null, 'visit');
+                $tracker->setCustomVariable(3, '版本', $event['dimension3'] ?? null, 'visit');
+                $tracker->setCustomVariable(4, '用户', $event['dimension4'] ?? null, 'visit');
+                $tracker->setCustomVariable(5, "服务器", gethostname(), "visit");
+                $tracker->setCustomVariable(6, '机型', $event['dimension5'] ?? null, 'visit');
+
+                try {
+                    //直接发送到matomo
+                    $tracker->doTrackEvent($category, $action, $name, $value);
+                    // $url = $tracker->getUrlTrackEvent($category, $action, $name, $value);
+                } catch (\Throwable $ex) {
+                    return false;
+                }
+
+                return true;
             }
         }
 
-        $event['category'] = $category;
-        $event['action']   = $action ?? $category;
-        $event['name']     = $name;
-        //避免进入的value有对象，不是String会异常
-        $event['value'] = $value instanceof String ? $value : false;
-
-        if (config('matomo.use_swoole')) {
-            //TCP发送事件数据
-            sendMatomoTcpEvent($event);
-        } else {
-            //直接发送，兼容matomo 3.13.6
-            $tracker = new \MatomoTracker(config('matomo.matomo_id'), config('matomo.matomo_url'));
-            //用户机型
-            // $tracker->setCustomVariable(1, '机型', $event['dimension5'], 'visit');
-
-            $tracker->setUserId(getUniqueUserId());
-            $tracker->setIp(getIp());
-            $tracker->setTokenAuth(config('matomo.token_auth'));
-            $tracker->setRequestTimeout(1); //最多卡1s
-            $tracker->setForceVisitDateTime(time());
-
-            $tracker->setCustomVariable(1, '系统', $event['dimension1'] ?? null, 'visit');
-            $tracker->setCustomVariable(2, '来源', $event['dimension2'] ?? null, 'visit');
-            $tracker->setCustomVariable(3, '版本', $event['dimension3'] ?? null, 'visit');
-            $tracker->setCustomVariable(4, '用户', $event['dimension4'] ?? null, 'visit');
-            $tracker->setCustomVariable(5, "服务器", gethostname(), "visit");
-            $tracker->setCustomVariable(6, '机型', $event['dimension5'] ?? null, 'visit');
-
-            try {
-                //直接发送到matomo
-                $tracker->doTrackEvent($category, $action, $name, $value);
-                // $url = $tracker->getUrlTrackEvent($category, $action, $name, $value);
-            } catch (\Throwable $ex) {
-                return false;
-            }
-        }
+        return $canTrack;
     }
 }
 
