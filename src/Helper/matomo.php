@@ -20,7 +20,7 @@ if (!function_exists('app_track_event')) {
     function app_track_event($category, $action = null, $name = null, $value = null)
     {
         //开启matomo开关功能 && 测试环境不发送 && //是否开启管理员账号行为不埋点
-        $canTrack = config('matomo.on') && (!is_testing_env() && !is_local_env()) && (config('matomo.matomo_user', false) && isAdmin());
+        $canTrack = config('matomo.on') && (!is_testing_env() && !is_local_env()) && (!config('matomo.matomo_user', false) && !isAdmin());
 
         if ($canTrack) {
             $event['category'] = $category;
