@@ -245,6 +245,6 @@ trait UserRelations
 
     public function answers(): HasMany
     {
-        return $this->hasMany(\App\Answer::class)->latest();
+        return $this->hasMany(\App\Answer::class);
     }
 }
