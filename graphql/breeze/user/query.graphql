@@ -302,6 +302,10 @@ type User {
     邀请人
     """
     inviter:User
+    """
+    技师信息
+    """
+    technician_profile:TechnicianProfile
 }
 
 type blockInfo {

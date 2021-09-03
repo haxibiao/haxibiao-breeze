@@ -555,4 +555,12 @@ trait UserResolvers
     {
         return User::find(data_get($args, 'id'));
     }
+
+    /**
+     * 技师列表
+     */
+    public function resolveTehnicianUsers($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    {
+        return User::query()->has('technicianProfile')->with('technicianProfile');
+    }
 }

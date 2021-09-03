@@ -9,10 +9,11 @@ class Role extends Model
     protected $guarded = [
     ];
 
-    const NORMAL_USER    = 1;
-    const MODERATOR_USER = 2;
-    const EDITOR_USER    = 3;
-    const ROOT_USER      = 4;
+    const NORMAL_USER     = 1;
+    const MODERATOR_USER  = 2;
+    const EDITOR_USER     = 3;
+    const ROOT_USER       = 4;
+    const TECHNICIAN_USER = 9; //技师
 
     public function users()
     {
@@ -22,6 +23,11 @@ class Role extends Model
     public function isNormalUser()
     {
         return $this->id == self::NORMAL_USER;
+    }
+
+    public function isTechnicianUser()
+    {
+        return $this->id == self::TECHNICIAN_USER;
     }
 
     public function isEditor()
@@ -48,8 +54,8 @@ class Role extends Model
     {
         return [
             self::MODERATOR_USER => '版主',
-            self::EDITOR_USER    => '内容管理',
-            self::ROOT_USER      => '超级管理',
+            self::EDITOR_USER    => '编辑员',
+            self::ROOT_USER      => '管理员',
         ];
     }
 }

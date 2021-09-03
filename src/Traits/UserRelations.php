@@ -6,6 +6,7 @@ use App\Action;
 use App\Chat;
 use App\Curation;
 use App\Querylog;
+use App\TechnicianProfile;
 use App\UserProfile;
 use Haxibiao\Breeze\CheckIn;
 use Haxibiao\Breeze\OAuth;
@@ -34,6 +35,11 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 trait UserRelations
 {
     //关系
+
+    public function technicianProfile(): HasOne
+    {
+        return $this->hasOne(TechnicianProfile::class);
+    }
 
     public function profile(): HasOne
     {
