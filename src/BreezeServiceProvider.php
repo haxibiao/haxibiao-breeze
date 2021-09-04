@@ -77,9 +77,10 @@ class BreezeServiceProvider extends ServiceProvider
 
         $this->bindPathsInContainer();
 
-        $hide_routes = config('breeze.routes_autoload') === false;
-        if (!$hide_routes) {
-            $this->loadRoutesFrom(__DIR__ . '/../router.php');
+        if (config('breeze.routes_autoload', true)) {
+            $this->app->booted(function () {
+                $this->loadRoutesFrom(__DIR__ . '/../router.php');
+            });
         }
     }
 
