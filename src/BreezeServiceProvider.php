@@ -78,9 +78,7 @@ class BreezeServiceProvider extends ServiceProvider
         $this->bindPathsInContainer();
 
         if (config('breeze.routes_autoload', true)) {
-            $this->app->booted(function () {
-                $this->loadRoutesFrom(__DIR__ . '/../router.php');
-            });
+            $this->loadRoutesFrom(__DIR__ . '/../router.php');
         }
     }
 
