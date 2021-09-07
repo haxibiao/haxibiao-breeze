@@ -35,7 +35,7 @@
 			g.type = 'text/javascript';
 			g.async = true;
 			g.defer = true;
-			g.src = u + 'matomo.js';
+			g.src = u + '/matomo.js';
 			s.parentNode.insertBefore(g, s);
 		})();
 

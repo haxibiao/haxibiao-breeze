@@ -1,14 +1,15 @@
+{{-- 这些代码不应该强制写入blade,让CMS系统站长管理临时配置才对 --}}
 
 {{-- 360自动收录 --}}
-<script>
+{{-- <script>
     (function() {
         var src = "https://jspassport.ssl.qhimg.com/11.0.1.js?d182b3f28525f2db83acfaaf6e696dba";
         document.write('<script src="' + src + '" id="sozz"><\/script>');
     })();
-</script>
+</script> --}}
 
 {{-- 百度推送 --}}
-<script>
+{{-- <script>
 	(function() {
 		var canonicalURL, curProtocol;
 		//Get the <link> tag
@@ -44,4 +45,4 @@
 			}
 		}(window);
 	})();
-</script>
+</script> --}}
