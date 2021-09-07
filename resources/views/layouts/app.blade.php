@@ -28,7 +28,7 @@
 
     @stack('css')
 
-	@if(config('enable_onesignal','false'))
+	@if(config('breeze.enable_onesignal',false))
 	<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
 	<script>
 	window.OneSignal = window.OneSignal || [];

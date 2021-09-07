@@ -1,6 +1,6 @@
 //设置rem
-(function() {
-    var newRem = function() {
+(function () {
+    var newRem = function () {
         var html = document.documentElement;
 
         var ClientWidth = html.getBoundingClientRect().width;
@@ -21,7 +21,7 @@ var VideoBtn = $('#video_btn');
 var Video = $('#theVideo');
 var videoInfo = $('#videoInfo');
 
-var bofang = function() {
+var bofang = function () {
     if (Video.get(0).paused) {
         Video.get(0).play();
         VideoBtn.hide();
@@ -35,21 +35,23 @@ Video.on('click', bofang);
 
 videoInfo.on('click', bofang);
 
-VideoBtn.on('click', function() {
+VideoBtn.on('click', function () {
     Video.get(0).play();
     VideoBtn.hide();
 });
 
 // 播放结束
-Video.get(0).addEventListener(
-    'ended',
-    function() {
-        $('#xiazaiimg').show();
-        $('#tancen').show();
-        VideoBtn.show();
-    },
-    false
-);
+if (Video.get(0)) {
+    Video.get(0).addEventListener(
+        'ended',
+        function () {
+            $('#xiazaiimg').show();
+            $('#tancen').show();
+            VideoBtn.show();
+        },
+        false
+    );
+}
 
 //关闭广告
 var close = $('#close');

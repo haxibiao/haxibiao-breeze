@@ -30,6 +30,7 @@ class BreezeServiceProvider extends ServiceProvider
      */
     public function register()
     {
+
         //注册一些helpers 函数
         $src_path = __DIR__;
         foreach (glob($src_path . '/Helper/*.php') as $filename) {
