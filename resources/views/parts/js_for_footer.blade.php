@@ -1,7 +1,7 @@
 @if(!Agent::isRobot())
 	
 	{{-- GA统计 --}}
-	if($ga_id = neihan_ga_measure_id())
+	@if($ga_id = neihan_ga_measure_id())
 	<!-- Global site tag (gtag.js) - Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id={{ $ga_id }}"></script>
 	<script>
