@@ -26,7 +26,7 @@
 		_paq.push(['trackPageView']);
 		_paq.push(['enableLinkTracking']);
 		(function() {
-			var u = "{{ $matomo_url }}";
+			var u = "{{ $matomo_url }}/";
 			_paq.push(['setTrackerUrl', u + 'matomo.php']);
 			_paq.push(['setSiteId', '{{ matomo_site_id() }}']);
 			var d = document,
@@ -35,7 +35,7 @@
 			g.type = 'text/javascript';
 			g.async = true;
 			g.defer = true;
-			g.src = u + '/matomo.js';
+			g.src = u + 'matomo.js';
 			s.parentNode.insertBefore(g, s);
 		})();
 

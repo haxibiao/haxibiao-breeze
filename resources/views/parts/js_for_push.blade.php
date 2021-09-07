@@ -11,7 +11,7 @@
 <!-- End PushAlert -->
 @endif
 
-@if(config('breeze.enable_onesignal',false))
+@if(is_prod_env() && config('breeze.enable_onesignal',false))
 	<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
 	<script>
 		window.OneSignal = window.OneSignal || [];
