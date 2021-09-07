@@ -27,6 +27,19 @@
     <link href="{{ breeze_mix('/css/breeze.css') }}" rel="stylesheet">
 
     @stack('css')
+
+	@if(config('enable_onesignal','false'))
+	<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+	<script>
+	window.OneSignal = window.OneSignal || [];
+	OneSignal.push(function() {
+		OneSignal.init({
+		appId: "{{ env('ONESIGNAL_APPID') }}",
+		});
+	});
+	</script>
+	@endif
+	
 </head>
 
 <body>
