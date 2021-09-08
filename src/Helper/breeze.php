@@ -185,7 +185,7 @@ function getUserId()
 function isAdmin()
 {
     if ($user = currentUser()) {
-        return isset($user->role_id) && $user->role_id = User::ADMIN_STATUS;
+        return isset($user->role_id) && $user->role_id == User::ADMIN_STATUS;
     }
     return false;
 }
