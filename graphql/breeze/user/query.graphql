@@ -305,7 +305,7 @@ type User {
     """
     技师信息
     """
-    technician_profile:TechnicianProfile
+    technicianProfile:TechnicianProfile
 }
 
 type blockInfo {
