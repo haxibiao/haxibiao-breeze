@@ -82,7 +82,7 @@ $ga_id = neihan_ga_measure_id();
     _paq.push(['trackPageView']);
     _paq.push(['enableLinkTracking']);
     (function() {
-        var u = "//matomo.diudie.com/";
+        var u = "//{{ env('MATOMO_URL') }}/";
         _paq.push(['setTrackerUrl', u + 'matomo.php']);
         _paq.push(['setSiteId', '{{ matomo_site_id() }}']);
         var d = document,
