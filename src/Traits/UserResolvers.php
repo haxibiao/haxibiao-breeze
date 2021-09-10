@@ -592,14 +592,18 @@ trait UserResolvers
     {
         $store_id = $args['store_id'] ?? null;
         $status   = $args['status'] ?? null;
-        return User::query()->has('technicianProfile')
+        return User::query()
+            ->select('users.*')
             ->with('technicianProfile')
+            ->rightJoin('technician_profiles', function ($join) {
+                return $join->on('users.id', 'technician_profiles.user_id');
+            })
             ->when($store_id, function ($qb) use ($store_id) {
-                return $qb->where('technicianProfile.store_id', $store_id);
+                return $qb->where('technician_profiles.store_id', $store_id);
             })
             ->when($status, function ($qb) use ($status) {
-                return $qb->where('technicianProfile.status', $status);
+                return $qb->where('technician_profiles.status', $status);
             })
-            ->orderByDesc('technicianProfile.status');
+            ->orderByDesc('technician_profiles.status');
     }
 }
