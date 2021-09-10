@@ -38,7 +38,26 @@ trait UserResolvers
         return true;
     }
 
-    //获取技师排钟榜
+    //技师排钟榜
+    public function resolveLoopTechnicianUserShifts($root, array $args, $context, $info)
+    {
+        $store_id = $args['store_id'] ?? null;
+        $user_id  = $args['user_id'] ?? null;
+
+        if (empty($store_id) || empty(empty($user_id))) {
+            throw new GQLException('参数有误！');
+        }
+        $shifts = "store:{$store_id}:technician:shifts";
+        $redis  = RedisHelper::redis();
+
+        //把指定技师先删除，再添加到末尾，实现从第一到最后，一个loop
+        if ($redis->srem($shifts, $user_id)) {
+            return $redis->sAdd($shifts, $user_id);
+        }
+        return false;
+    }
+
+    //刷新技师排钟榜
     public function resolveShowTechnicianUserShifts($root, array $args, $context, $info)
     {
         $store_id = $args['store_id'] ?? null;

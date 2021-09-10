@@ -153,6 +153,13 @@ extend type Mutation {
   获取技师排钟榜
   """
   showTechnicianUserShifts(store_id: Int!): Boolean @guard @field(resolver: "App\\User@resolveShowTechnicianUserShifts")
+
+  """
+  重排技师排钟榜（第一个到最后一个）
+  """
+  loopTechnicianUserShifts(store_id: Int!, user_id: Int!): Boolean
+    @guard
+    @field(resolver: "App\\User@resolveLoopTechnicianUserShifts")
 }
 
 enum RewardType {
