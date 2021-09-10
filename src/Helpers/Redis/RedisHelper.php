@@ -13,7 +13,7 @@ class RedisHelper
             $redis = Redis::connection($conn);
             try {
                 $redis->ping();
-            } catch (\Predis\Connection\ConnectionException $ex) {
+            } catch (\Predis\Connection\ConnectionException$ex) {
                 $redis = null;
                 //丢给sentry报告
                 app('sentry')->captureException($ex);

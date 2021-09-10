@@ -7,6 +7,7 @@ use App\User;
 use GraphQL\Type\Definition\ResolveInfo;
 use Haxibiao\Breeze\Events\NewAddStaff;
 use Haxibiao\Breeze\Exceptions\GQLException;
+use Haxibiao\Breeze\Helpers\Redis\RedisHelper;
 use Haxibiao\Breeze\Notifications\AddStaffNotification;
 use Haxibiao\Breeze\Verify;
 use Haxibiao\Content\Category;
@@ -16,11 +17,39 @@ use Haxibiao\Sns\Visit;
 use Haxibiao\Task\Task;
 use Haxibiao\Task\UserTask;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Str;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 trait UserResolvers
 {
+    //添加技师到排钟榜
+    public function resolveAddTechnicianUserShifts($root, array $args, $context, $info)
+    {
+        $uids     = $args['uids'] ?? null;
+        $store_id = $args['store_id'] ?? null;
+        if (empty($uids) || empty($store_id)) {
+            throw new GQLException('参数有误！');
+        }
+        $redis = RedisHelper::redis();
+        foreach ($uids as $uid) {
+            $redis->sAdd("store:{$store_id}:technician:shifts", $uid);
+        }
+        return true;
+    }
+
+    //获取技师排钟榜
+    public function resolveShowTechnicianUserShifts($root, array $args, $context, $info)
+    {
+        $store_id = $args['store_id'] ?? null;
+        if (empty($store_id)) {
+            throw new GQLException('参数有误！');
+        }
+        $redis = RedisHelper::redis();
+        $uids  = $redis->sMembers("store:{$store_id}:technician:shifts");
+        return User::whereIn('id', $uids)->with('technicianProfile')->orderByRaw("field(${uids})");
+    }
+
     public function resolveMe($root, array $args, $context, $info)
     {
         $user = getUser();
@@ -561,6 +590,16 @@ trait UserResolvers
      */
     public function resolveTehnicianUsers($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        return User::query()->has('technicianProfile')->with('technicianProfile');
+        $store_id = $args['store_id'] ?? null;
+        $status   = $args['status'] ?? null;
+        return User::query()->has('technicianProfile')
+            ->with('technicianProfile')
+            ->when($store_id, function ($qb) use ($store_id) {
+                return $qb->where('technicianProfile.store_id', $store_id);
+            })
+            ->when($status, function ($qb) use ($status) {
+                return $qb->where('technicianProfile.status', $status);
+            })
+            ->orderByDesc('technicianProfile.status');
     }
 }
