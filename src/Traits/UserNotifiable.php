@@ -140,6 +140,7 @@ trait UserNotifiable
                 $types = [
                     $namespace . 'AddAssociateNotification',
                     $namespace . 'AddStaffNotification',
+                    $namespace . 'MeetupApproved',
                     $namespace . 'CollectionFollowed',
                     $namespace . 'CategoryFollowed',
                     $namespace . 'ArticleApproved',
