@@ -28,7 +28,7 @@ class MeetupApproved extends BreezeNotification
             $this->senderToArray(), [
             //通知互动的内容
             'type'        => 'meetups',
-            'id'          => count($meetups),// 偏移量
+            'id'          => count($meetups)-1,// 偏移量
             'message'     => '申请加入《'.data_get($this->league,'title').'》联盟',
             'cover'       => data_get($this,'meetup.images.0.url'),
             'description' => $this->meetup->title,
