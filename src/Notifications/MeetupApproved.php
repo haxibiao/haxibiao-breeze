@@ -30,8 +30,8 @@ class MeetupApproved extends BreezeNotification
             'type'        => 'meetups',
             'id'          => count($meetups),// 偏移量
             'message'     => '申请加入《'.data_get($this->league,'title').'》联盟',
-            'cover'       => $this->meetup->cover,
-            'description' => $this->meetup->description,
+            'cover'       => data_get($this,'meetup.images.0.url'),
+            'description' => $this->meetup->title,
             'meetup_id'   => $this->meetup->id,
             'league_id'   => $this->league->id,
             'event'       => '加入联盟订单',
