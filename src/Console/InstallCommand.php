@@ -164,7 +164,7 @@ class InstallCommand extends Command
 
         setEnvValues([
             'APP_ENV'        => 'prod', //这个小别名兼容以前的习惯，并且避免 migrate 无--force 会跳过的小问题
-            'APP_DEBUG'      => 'false',
+            'APP_DEBUG' => 'false',
             'DB_PASSWORD'    => '',
             'COS_SECRET_KEY' => '',
             'SPACE_SECRET'   => '',
@@ -204,9 +204,11 @@ class InstallCommand extends Command
             $this->call("task:install", ['--force' => $force]);
             $this->call("wallet:install", ['--force' => $force]);
             $this->call("question:install", ['--force' => $force]);
+            $this->call("store:install", ['--force' => $force]);
         } else {
             $this->callSilent("media:install", ['--force' => $force]);
             $this->callSilent("content:install", ['--force' => $force]);
+            $this->callSilent("store:install", ['--force' => $force]);
             $this->callSilent("sns:install", ['--force' => $force]);
             $this->callSilent("task:install", ['--force' => $force]);
             $this->callSilent("wallet:install", ['--force' => $force]);
