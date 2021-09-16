@@ -40,7 +40,7 @@ trait UserRelations
     //可服务项目
     public function services()
     {
-        return $this->belongsToMany(Product::class, 'technician_products');
+        return $this->belongsToMany(Product::class, 'technician_products')->withTimestamps();
     }
 
     //技师信息

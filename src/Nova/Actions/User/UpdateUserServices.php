@@ -53,6 +53,7 @@ class UpdateUserServices extends Action
             Select::make('技师', 'user_id')
                 ->options(
                     User::where('role_id', User::TECHNICIAN_USER)
+                        ->select('users.*')
                         ->rightJoin('technician_profiles', function ($join) {
                             return $join->on('users.id', 'technician_profiles.user_id');
                         })
