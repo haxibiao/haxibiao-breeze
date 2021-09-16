@@ -40,16 +40,18 @@ class User extends BaseUser
     const VEST_STATUS = 3;
 
     //防止数字被占，选择大点的数字
-    const STAFF_ROLE    = 10; //员工
+    const TECHNICIAN_USER = 9; //技师
+    const STAFF_ROLE      = 10; //员工
 
     public static function getRolesMap()
     {
         return [
-            User::USER_STATUS   => '用户',
-            User::EDITOR_STATUS => '编辑',
-            User::ADMIN_STATUS  => '管理',
-            User::VEST_STATUS   => '马甲',
-            User::STAFF_ROLE    => '员工',
+            User::USER_STATUS     => '用户',
+            User::EDITOR_STATUS   => '编辑',
+            User::ADMIN_STATUS    => '管理',
+            User::VEST_STATUS     => '马甲',
+            User::TECHNICIAN_USER => '技师',
+            User::STAFF_ROLE      => '员工',
         ];
     }
 

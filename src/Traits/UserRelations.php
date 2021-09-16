@@ -5,6 +5,7 @@ namespace Haxibiao\Breeze\Traits;
 use App\Action;
 use App\Chat;
 use App\Curation;
+use App\Product;
 use App\Querylog;
 use App\TechnicianProfile;
 use App\UserProfile;
@@ -36,6 +37,13 @@ trait UserRelations
 {
     //关系
 
+    //可服务项目
+    public function services()
+    {
+        return $this->belongsToMany(Product::class, 'technician_products');
+    }
+
+    //技师信息
     public function technicianProfile(): HasOne
     {
         return $this->hasOne(TechnicianProfile::class);
