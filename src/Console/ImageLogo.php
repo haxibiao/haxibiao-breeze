@@ -89,6 +89,11 @@ class ImageLogo extends Command
         $image->save(public_path('images/icons/splash-' . $w . 'x' . $h . '.png'));
 
         $w = 1242;
+        $h = 2208;
+        $image->resize($w, $h);
+        $image->save(public_path('images/icons/splash-' . $w . 'x' . $h . '.png'));
+
+        $w = 1242;
         $h = 2688;
         $image->resize($w, $h);
         $image->save(public_path('images/icons/splash-' . $w . 'x' . $h . '.png'));
