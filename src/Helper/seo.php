@@ -110,8 +110,12 @@ if (!function_exists('matomo_site_id')) {
 
             $host = parse_url($url)['host'];
             $host = str_replace(['l.', 'www.', 'cdn.'], '', $host);
-            // 默认内函电影的
-            return $sites[$host] ?? '1';
+
+			$matomoId = data_get($sites,$host);
+			if(!blank($matomoId)){
+				return $matomoId;
+			}
+			return config('matomo.web_id','1');
         }
     }
 }
