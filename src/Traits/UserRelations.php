@@ -23,6 +23,7 @@ use Haxibiao\Sns\Feedback;
 use Haxibiao\Sns\Follow;
 use Haxibiao\Sns\UserBlock;
 use Haxibiao\Store\Order;
+use Haxibiao\Store\Store;
 use Haxibiao\Task\Contribute;
 use Haxibiao\Wallet\Exchange;
 use Haxibiao\Wallet\Gold;
@@ -36,6 +37,11 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 trait UserRelations
 {
     //关系
+    //所属商铺
+    public function store()
+    {
+        return $this->belongsTo(Store::class);
+    }
 
     //可服务项目
     public function services()

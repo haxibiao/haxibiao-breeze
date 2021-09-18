@@ -301,6 +301,10 @@ type User {
   """
   inviter: User
   """
+  所属商铺
+  """
+  store: Store
+  """
   技师信息
   """
   technicianProfile: TechnicianProfile
