@@ -292,7 +292,7 @@ trait UserResolvers
         $password = data_get($args, 'password');
         $uuid     = data_get($args, 'uuid', get_device_id());
 
-        $user = self::signIn($account, $password, $uuid);
+        $user = static::signIn($account, $password, $uuid);
 
         return $user;
     }
