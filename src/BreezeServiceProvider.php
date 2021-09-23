@@ -40,6 +40,13 @@ class BreezeServiceProvider extends ServiceProvider
         //加载编译的breeze css js fonts images
         load_breeze_assets(breeze_path('public'));
 
+        //加载不同域名的pwa icons
+        foreach (glob(public_path('/images/icons/' . get_domain() . '/*')) as $filepath) {
+            $asset_path = str_replace(public_path('/'), '/', $filepath);
+            $asset_path = str_replace('/images/icons/' . get_domain(), '/images/icons', $asset_path);
+            Breeze::asset($asset_path, $filepath);
+        }
+
         // 这一段会重写掉整个sentry的配置
         $this->rewriteSentryDsn();
 

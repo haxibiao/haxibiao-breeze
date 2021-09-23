@@ -6,11 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+	{{-- pwa icons --}}
+	{{-- @laravelPWA --}}
+
     {{-- icon --}}
     <link rel="icon" type="image/png" href="{{ small_logo() }}" sizes="60*60">
     <link rel="icon" type="image/png" href="{{ web_logo() }}" sizes="120*120">
     <link rel="apple-touch-icon" href="{{ touch_logo() }}" sizes="160*160">
     <link href="{{ small_logo() }}" rel="icon" type="image/x-ico">
+
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     {!! get_seo_meta() !!}
