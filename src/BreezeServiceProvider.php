@@ -37,16 +37,6 @@ class BreezeServiceProvider extends ServiceProvider
             require_once $filename;
         }
 
-        //加载编译的breeze css js fonts images
-        load_breeze_assets(breeze_path('public'));
-
-        //加载不同域名的pwa icons
-        foreach (glob(public_path('/images/icons/' . get_domain() . '/*')) as $filepath) {
-            $asset_path = str_replace(public_path('/'), '/', $filepath);
-            $asset_path = str_replace('/images/icons/' . get_domain(), '/images/icons', $asset_path);
-            Breeze::asset($asset_path, $filepath);
-        }
-
         // 这一段会重写掉整个sentry的配置
         $this->rewriteSentryDsn();
 
@@ -97,6 +87,17 @@ class BreezeServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
+        //加载编译的breeze css js fonts images
+        load_breeze_assets(breeze_path('public'));
+
+        //加载不同域名的pwa icons
+        foreach (glob(public_path('/images/icons/' . get_domain() . '/*')) as $filepath) {
+            $asset_path = str_replace(public_path('/'), '/', $filepath);
+            $asset_path = str_replace('/images/icons/' . get_domain(), '/images/icons', $asset_path);
+            Breeze::asset($asset_path, $filepath);
+        }
+
         //SEO网站多数据库实例切换(根据顶级域名)
         $db_switch_map = [];
         foreach (config('cms.sites', []) as $domain => $names) {
