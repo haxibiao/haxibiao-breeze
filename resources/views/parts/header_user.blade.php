@@ -104,7 +104,9 @@
 				<ul class="nav navbar-nav">
 					<li class="tab {{ get_active_css('/') }}"><a href="/"><i class="iconfont icon-faxian hidden-xs hidden-md"></i><span class="hidden-sm">发现</span></a></li>
 					<li class="tab {{ get_active_css('video') }}"><a   href="/video"><i class="iconfont icon-shipin1 hidden-xs hidden-md"></i><span class="hidden-sm">短视频</span></a></li>
-					<li class="tab {{ get_active_css('video') }}"><a   href="/movie"><i class="iconfont icon-shipin3 hidden-xs hidden-md"></i><span class="hidden-sm">长视频</span></a></li>
+					@if(config('media.movie.enable',false))
+						<li class="tab {{ get_active_css('video') }}"><a   href="/movie"><i class="iconfont icon-shipin3 hidden-xs hidden-md"></i><span class="hidden-sm">长视频</span></a></li>
+					@endif
 					<li class="tab {{ get_active_css('follow') }}" class="follow"><a   href="/follow"><i class="iconfont icon-huizhang hidden-xs hidden-md"></i><span class="hidden-sm">关注</span></a></li>
 					<li class="tab notification {{ get_active_css('notification') }}" data-hover="dropdown">
 						<a   href="/notification"><i class="iconfont icon-zhongyaogaojing hidden-xs hidden-md"></i><span class="hidden-sm">消息</span></a>

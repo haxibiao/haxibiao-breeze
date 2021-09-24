@@ -19,8 +19,10 @@
                      @include('index.parts.poster', ['items' => $data->carousel])
                 </div>
                 @endif
-                {{-- 最新电影 --}}
-                @include('index.parts.top_movies', ['movies'=>$data->movies])
+                @if(config('media.movie.enable',false))
+                    {{-- 最新电影 --}}
+                    @include('index.parts.top_movies', ['movies'=>$data->movies])
+                @endif
                 {{-- 推荐专题 --}}
                 @include('index.parts.recommend_categories',['categories'=>$data->categories])
 				<recommend-category></recommend-category>
