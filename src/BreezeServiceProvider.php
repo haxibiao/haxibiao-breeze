@@ -53,6 +53,7 @@ class BreezeServiceProvider extends ServiceProvider
 
             Console\Matomo\MatomoProxy::class,
             Console\Matomo\MatomoClient::class,
+            Console\Matomo\MatomoGoalModuleCommand::class,
 
             Console\Config\EnvRefresh::class,
             Console\Config\SetEnv::class,
