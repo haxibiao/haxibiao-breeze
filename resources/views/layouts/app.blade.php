@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-	{{-- pwa icons --}}
-	{{-- @laravelPWA --}}
+	{{-- pwa icons 指令重构到breeze后统一开启 --}}
+	{{--  @pwa  --}}
 
     {{-- icon --}}
     <link rel="icon" type="image/png" href="{{ small_logo() }}" sizes="60*60">
@@ -54,6 +54,15 @@
         </div>
 
         @stack('modals')
+
+		<pwa-prompt
+			app-name="{{ seo_site_name() }}"
+			logo="{{ small_logo() }}"
+			debug="true"
+			v-bind:prompt-on-visit="1"
+			v-bind:times-to-show="10"
+			v-bind:permanently-hide-on-dismiss="false"
+		/>
 
     </div>
 

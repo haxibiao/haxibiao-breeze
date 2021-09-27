@@ -35,8 +35,6 @@
         "node-sass": "^4.7.2",
         "simditor": "2.3.6",
         "simditor-dropzone": "2.0.1",
-        "video.js": "^7.10.2",
-        "videojs-contrib-hls": "^5.15.0",
         "vue-multiselect": "^2.0.8",
         "vue-router": "3.0.1",
         "vuex": "^3.0.1"

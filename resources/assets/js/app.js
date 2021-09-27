@@ -109,7 +109,6 @@ Vue.component('side-tool', require('./components/SideTool.vue').default);
 Vue.component('to-comment', require('./components/ToComment.vue').default);
 Vue.component('share-module', require('./components/ShareModule.vue').default);
 Vue.component('close-share', require('./components/CloseShare.vue').default);
-Vue.component('modal-contribute', require('./components/modals/ModalContribute.vue').default);
 
 //write 编辑写作
 Vue.component('write', require('./components/write/Write.vue').default);
@@ -138,8 +137,11 @@ Vue.component('delete-note', require('./components/write/deleteNote.vue').defaul
 //彻底删除
 Vue.component('thorough-delete', require('./components/write/thoroughDelete.vue').default);
 
-//支持hls的视频播放器dplayer
+//播放器dplayer
 Vue.component('dplayer', require('./components/video/DPlayer.vue').default);
+
+//苹果pwa提示
+Vue.component('pwa-prompt', require('./components/pwa/PWAPrompt.vue').default);
 
 //spa
 import store from './store';
