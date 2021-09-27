@@ -14,7 +14,7 @@ class RenameRoleIdToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            if (Schema::hasColumn('users', 'is_editor')) {
+            if (Schema::hasColumn('users', 'is_editor') && !Schema::hasColumn('users', 'role_id')) {
                 $table->renameColumn('is_editor', 'role_id');
             }
         });
