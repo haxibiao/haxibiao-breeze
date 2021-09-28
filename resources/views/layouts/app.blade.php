@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
 	{{-- pwa icons --}}
-	@laravelPWA
+	@pwa
 
     {{-- icon --}}
     <link rel="icon" type="image/png" href="{{ small_logo() }}" sizes="60*60">

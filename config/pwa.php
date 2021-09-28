@@ -1,10 +1,10 @@
 <?php
 
 return [
-    'name'     => env('APP_NAME_CN', '哈希表'),
+    'name'     => env('APP_NAME_CN', '清风CMS'),
     'manifest' => [
-        'name'             => env('APP_NAME_CN', '哈希表'),
-        'short_name'       => env('APP_NAME_CN', '哈希表'),
+        'name'             => env('APP_NAME_CN', '清风CMS'),
+        'short_name'       => env('APP_NAME_CN', '清风CMS'),
         'start_url'        => '/',
         'background_color' => '#ffffff',
         'theme_color'      => '#000000',

@@ -73,6 +73,9 @@ class BreezeServiceProvider extends ServiceProvider
             config(['view.paths' => $view_paths]);
         }
 
+        //注册搜索laravelPWA的views
+        $this->loadViewsFrom([breeze_path('resources/views/pwa')], 'laravelpwa');
+
         //注册blade directives
         $this->registerBladeDirectives();
 
@@ -90,6 +93,8 @@ class BreezeServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
+        $this->mergeConfigFrom(__DIR__ . '/../config/pwa.php', 'breeze.pwa');
 
         //加载编译的breeze css js fonts images
         load_breeze_assets(breeze_path('public'));
@@ -185,7 +190,7 @@ class BreezeServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__ . '/../config/breeze.php' => config_path('breeze.php'),
                 __DIR__ . '/../config/matomo.php' => config_path('matomo.php'),
-                __DIR__ . '/../config/pwa.php'    => config_path('laravelpwa.php'),
+                __DIR__ . '/../config/pwa.php'    => config_path('pwa.php'),
             ], 'breeze-config');
 
             //前端资源
@@ -215,7 +220,7 @@ class BreezeServiceProvider extends ServiceProvider
             return "<?php echo gmdate('i:s', $expression); ?>";
         });
 
-        Blade::directive('laravelPWA', function () {
+        Blade::directive('pwa', function () {
             return (new MetaService)->render();
         });
 
