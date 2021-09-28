@@ -1,8 +1,9 @@
 <template>
   <PWAPromptModal
     v-if="debug || (belowMaxVisits && aboveMinVisits)"
+    :appName="appName"
+    :logo="logo"
     :delay="delay"
-    :copyTitle="copyTitle"
     :copyBody="copyBody"
     :copyAddHomeButtonLabel="copyAddHomeButtonLabel"
     :copyShareButtonLabel="copyShareButtonLabel"
@@ -34,25 +35,23 @@ export default {
     PWAPromptModal,
   },
   props: {
+    appName:{ type: String },
+    logo:{ type: String },
     timesToShow: { type: Number, default: 1 },
     promptOnVisit: { type: Number, default: 1 },
     permanentlyHideOnDismiss: { type: Boolean, default: false },
-    copyTitle: {
-      type: String,
-      default: '添加"极速版APP"到主屏幕',
-    },
     copyBody: {
       type: String,
       default:
-        "本网站有极速版APP功能. 把她添加到主屏幕，可以全屏模式和离线模式访问，速度更快.",
+        "将该网站添加到桌面以便离线时都可以随时使用，无需通过应用商店安装与下载",
     },
     copyShareButtonLabel: {
       type: String,
-      default: "1) 点击 下面中间的'分享' 按钮.",
+      default: "1）点击底部工具栏“分享”按钮",
     },
     copyAddHomeButtonLabel: {
       type: String,
-      default: "2) 点击 '添加到主屏幕'.",
+      default: "2）在弹出框中选择“添加到主屏幕”即可",
     },
     copyClosePrompt: {
       type: String,

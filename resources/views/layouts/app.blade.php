@@ -56,8 +56,8 @@
         @stack('modals')
 
 		<pwa-prompt
-			app-name="{{ seo_site_name() }}"
-			logo="{{ small_logo() }}"
+			app-name={{ seo_site_name() }}
+			logo={{ small_logo() }}
 			debug="true"
 			v-bind:prompt-on-visit="1"
 			v-bind:times-to-show="10"

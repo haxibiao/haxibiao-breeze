@@ -1,8 +1,9 @@
 <template>
   <PWAPromptCore
+    :appName="appName"
+    :logo="logo"
     :debug="debug"
     :delay="delay"
-    :copyTitle="copyTitle"
     :copyBody="copyBody"
     :promptOnVisit="promptOnVisit"
     :timesToShow="timesToShow"
@@ -18,9 +19,10 @@ export default {
     PWAPromptCore,
   },
   props: [
+    "appName",
+    "logo",
     "debug",
     "delay",
-    "copyTitle",
     "copyBody",
     "promptOnVisit",
     "timesToShow",

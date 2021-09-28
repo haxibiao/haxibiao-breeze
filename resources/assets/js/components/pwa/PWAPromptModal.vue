@@ -15,9 +15,12 @@
       @transitionEnd="onTransitionOut"
     >
       <div :class="['pwaPromptHeader', 'iOSPWA-header']">
-        <p id="pwa-prompt-title" :class="['pwaPromptTitle', 'iOSPWA-title']">
-          {{ copyTitle }}
-        </p>
+        <div :class="['pwaPromptHeaderInfo']">
+          <img :src="logo" :class="['pwaPromptHeaderLogo']" />
+          <p id="pwa-prompt-title" :class="['pwaPromptTitle', 'iOSPWA-title']">
+            添加“{{ appName }}”到桌面
+          </p>
+        </div>
         <button
           :class="['pwaPromptCancel', 'iOSPWA-cancel']"
           @click="dismissPrompt"
@@ -75,8 +78,9 @@ export default {
     CloseIcon,
   },
   props: {
+    appName:{ type: String },
+    logo:{ type: String },
     delay: { type: Number, default: 1000 },
-    copyTitle: { type: String, required: true },
     copyBody: { type: String, required: true },
     copyAddHomeButtonLabel: { type: String, required: true },
     copyShareButtonLabel: { type: String, required: true },
@@ -152,32 +156,32 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$overlay-color-legacy: rgba(0, 0, 0, 0.8);
+$overlay-color-legacy: rgba(0, 0, 0, 0.22);
 $overlay-color-modern-light: rgba(10, 10, 10, 0.5);
 $overlay-color-modern-dark: rgba(10, 10, 10, 0.5);
 
 $bg-color-legacy: rgba(250, 250, 250, 0.8);
-$bg-color-modern-light: rgba(255, 255, 255, 0.6);
-$bg-color-modern-dark: rgba(65, 65, 65, 0.7);
+$bg-color-modern-light: rgba(255, 255, 255, 1);
+$bg-color-modern-dark: rgba(92, 92, 92, 0.88);
 
 $border-color-legacy: rgba(0, 0, 0, 0.1);
-$border-color-modern-light: rgba(60, 60, 67, 0.29);
-$border-color-modern-dark: rgba(140, 140, 140, 0.7);
+$border-color-modern-light: rgba(230, 230, 230, 1);
+$border-color-modern-dark: rgba(230, 230, 230, 0.52);
 
 $font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
   "微软雅黑";
 
 $title-color-legacy: rgb(51, 51, 51);
-$title-color-modern-light: rgba(0, 0, 0, 1);
+$title-color-modern-light: rgba(55, 63, 87, 1);
 $title-color-modern-dark: rgba(255, 255, 255, 1);
 
 $font-color-legacy: rgb(123, 123, 122);
-$font-color-modern-light: rgba(44, 44, 71, 0.8);
-$font-color-modern-dark: rgba(235, 235, 245, 0.6);
+$font-color-modern-light: rgba(55, 63, 87, 1);
+$font-color-modern-dark: rgba(255, 255, 255, 1);
 
 $blue-color-legacy: rgb(45, 124, 246);
-$blue-color-modern-light: rgba(0, 85, 179, 1);
-$blue-color-modern-dark: rgba(9, 132, 255, 1);
+$blue-color-modern-light: rgba(69, 146, 254, 1);
+$blue-color-modern-dark: rgba(69, 146, 254, 1);
 
 .noScroll {
   overflow: hidden;
@@ -219,17 +223,16 @@ $blue-color-modern-dark: rgba(9, 132, 255, 1);
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   background-color: $bg-color-legacy;
-  border-radius: 10px;
+  border-radius: 15px;
   bottom: 0;
   color: black;
-  filter: brightness(1.1);
   left: 0;
-  margin: 0 8px 10px;
+  margin: 12px;
   overflow: hidden;
   position: fixed;
   transform: translateY(calc(100% + 10px));
   transition: transform 0.4s cubic-bezier(0.4, 0.24, 0.3, 1);
-  width: calc(100vw - 16px);
+  width: calc(100vw - 24px);
   z-index: 999999;
 
   &.visible {
@@ -244,12 +247,10 @@ $blue-color-modern-dark: rgba(9, 132, 255, 1);
 
   &.modern {
     background: $bg-color-modern-light;
-    filter: brightness(1.6);
 
     @media (prefers-color-scheme: dark) {
       & {
         background: $bg-color-modern-dark;
-        filter: brightness(1.1);
       }
     }
   }
@@ -265,7 +266,7 @@ $blue-color-modern-dark: rgba(9, 132, 255, 1);
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
-  padding: 13px 16px;
+  padding: 14px 20px;
 
   .modern & {
     border-color: $border-color-modern-light;
@@ -277,14 +278,23 @@ $blue-color-modern-dark: rgba(9, 132, 255, 1);
     }
   }
 
+  .pwaPromptHeaderLogo {
+    width: 40px;
+    height: 40px;
+  }
+
+  .pwaPromptHeaderInfo {
+    display: flex;
+    align-items: center;
+  }
+
   .pwaPromptTitle {
     color: $title-color-legacy;
-    font-family: $font-family;
-    font-size: 18px;
-    font-weight: 400;
-    line-height: 1.125;
-    margin: 0;
-    padding: 0;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 23px;
+    letter-spacing: 0.21px;
+    margin: 0 0 0 10px;
 
     .modern & {
       color: $title-color-modern-light;
@@ -300,10 +310,11 @@ $blue-color-modern-dark: rgba(9, 132, 255, 1);
   .pwaPromptCancel {
     color: $blue-color-legacy;
     font-size: 16px;
-    padding: 0;
+    padding: 5px;
     margin: 0;
     border: 0;
     background: transparent;
+    display: inherit;
 
     .modern & {
       color: $blue-color-modern-light;
@@ -328,8 +339,8 @@ $blue-color-modern-dark: rgba(9, 132, 255, 1);
     border-right: 0px;
     border-width: 0.5px;
     color: inherit;
-    margin: 0 16px;
-    padding: 16px;
+    margin: 0 20px;
+    padding: 14px 0;
     width: 100%;
 
     .modern & {
@@ -346,9 +357,9 @@ $blue-color-modern-dark: rgba(9, 132, 255, 1);
 
 .pwaPromptCopy {
   color: $font-color-legacy;
-  font-family: $font-family;
   font-size: 13px;
-  line-height: 17px;
+  line-height: 22px;
+  letter-spacing: 0.17px;
   margin: 0;
   padding: 0;
 
@@ -361,7 +372,6 @@ $blue-color-modern-dark: rgba(9, 132, 255, 1);
 
     @media (prefers-color-scheme: dark) {
       & {
-        border-color: $font-color-modern-dark;
         color: $font-color-modern-dark;
       }
     }
@@ -370,8 +380,7 @@ $blue-color-modern-dark: rgba(9, 132, 255, 1);
 
 .pwaPromptInstruction {
   color: inherit;
-  margin: 0 16px;
-  padding: 16px;
+  margin: 20px 30px;
 
   .pwaPromptInstructionStep {
     align-items: center;
@@ -379,7 +388,7 @@ $blue-color-modern-dark: rgba(9, 132, 255, 1);
     flex-flow: row nowrap;
     justify-content: flex-start;
     text-align: left;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
 
     &:last-of-type {
       margin-bottom: 0;
@@ -389,9 +398,9 @@ $blue-color-modern-dark: rgba(9, 132, 255, 1);
   .pwaPromptShareIcon,
   .pwaPromptHomeIcon {
     flex: 0 0 auto;
-    height: 30px;
-    margin-right: 32px;
-    width: 25px;
+    height: 23px;
+    margin-right: 12px;
+    width: 23px;
   }
 
   .pwaPromptHomeIcon {
