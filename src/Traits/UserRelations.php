@@ -23,6 +23,7 @@ use Haxibiao\Sns\Feedback;
 use Haxibiao\Sns\Follow;
 use Haxibiao\Sns\UserBlock;
 use Haxibiao\Store\Order;
+use Haxibiao\Store\Store;
 use Haxibiao\Task\Contribute;
 use Haxibiao\Wallet\Exchange;
 use Haxibiao\Wallet\Gold;
@@ -41,6 +42,11 @@ trait UserRelations
     public function services()
     {
         return $this->belongsToMany(Product::class, 'technician_products')->withTimestamps();
+    }
+
+    public function stores()
+    {
+        return $this->hasMany(Store::class);
     }
 
     //技师信息

@@ -323,6 +323,11 @@ trait UserAttrs
         return $this->api_token;
     }
 
+    public function getIsStoreAttribute()
+    {
+        return $this->stores()->exists();
+    }
+
     public function getBalanceAttribute()
     {
         $balance = 0;
