@@ -63,6 +63,12 @@ if (!function_exists('load_breeze_assets')) {
             $asset_path = str_replace($public_path, '', $filepath);
             Breeze::asset($asset_path, $filepath);
         }
+
+        foreach (glob($public_path . '/images/icons/*') as $filepath) {
+            $asset_path = str_replace($public_path, '', $filepath);
+            Breeze::asset($asset_path, $filepath);
+        }
+
     }
 }
 

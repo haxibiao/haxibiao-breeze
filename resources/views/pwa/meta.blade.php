@@ -31,9 +31,9 @@
 <meta name="msapplication-TileImage" content="{{ data_get(end($config['icons']), 'src') }}">
 
 <script type="text/javascript">
-    // Initialize the service worker
+    console.log('准备 Initialize the service worker');
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/serviceworker.js', {
+        navigator.serviceWorker.register('/js/serviceworker.js', {
             scope: '.'
         }).then(function (registration) {
             // Registration was successful

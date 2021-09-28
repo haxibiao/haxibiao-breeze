@@ -8,7 +8,7 @@ Route::get('/css/{asset}', 'BreezeAssetController@show')->middleware(CheckRespon
 Route::get('/js/{asset}', 'BreezeAssetController@show')->middleware(CheckResponseForModifications::class);
 // Route::get('/fonts/{asset}', 'BreezeAssetController@show')->middleware(CheckResponseForModifications::class);
 Route::get('/images/{asset}', 'BreezeAssetController@show')->middleware(CheckResponseForModifications::class);
-Route::get('/images/{asset_group}/{asset}', 'BreezeAssetController@show')->middleware(CheckResponseForModifications::class);
+Route::get('/images/{folder}/{asset}', 'BreezeAssetController@show')->middleware(CheckResponseForModifications::class);
 
 //资源ID的规则
 Route::pattern('id', '\d+');
