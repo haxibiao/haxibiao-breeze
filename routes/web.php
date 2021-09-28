@@ -73,3 +73,7 @@ Route::get('/searchQuery', 'SearchController@search_all');
 
 //返回URL二维码
 Route::get('/share/qrcode/{url}', 'SharingController@qrcode');
+
+//pwa
+Route::get('/manifest.json', 'LaravelPWAController@manifestJson')->name('manifest');
+Route::get('/offline/', 'LaravelPWAController@offline');

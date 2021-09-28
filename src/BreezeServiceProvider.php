@@ -2,9 +2,11 @@
 
 namespace Haxibiao\Breeze;
 
+use Haxibiao\Breeze\Console\DeployManifest;
 use Haxibiao\Breeze\Console\ImageLogo;
 use Haxibiao\Breeze\Console\InstallCommand;
 use Haxibiao\Breeze\Console\PublishCommand;
+use Haxibiao\Breeze\Services\MetaService;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
@@ -45,7 +47,7 @@ class BreezeServiceProvider extends ServiceProvider
             InstallCommand::class,
             PublishCommand::class,
             ImageLogo::class,
-
+            DeployManifest::class,
             Console\Dimension\ArchiveAll::class,
             Console\Dimension\ArchiveRetention::class,
             Console\Dimension\ArchiveUser::class,
@@ -183,6 +185,7 @@ class BreezeServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__ . '/../config/breeze.php' => config_path('breeze.php'),
                 __DIR__ . '/../config/matomo.php' => config_path('matomo.php'),
+                __DIR__ . '/../config/pwa.php'    => config_path('laravelpwa.php'),
             ], 'breeze-config');
 
             //前端资源
@@ -191,6 +194,7 @@ class BreezeServiceProvider extends ServiceProvider
                 // __DIR__ . '/../public/images'            => public_path('/images'),
                 // __DIR__ . '/../public/css'               => public_path('/css'),
                 // __DIR__ . '/../public/js'                => public_path('/js'),
+                __DIR__ . '/../public/assets' => public_path('/assets'),
             ], 'breeze-assets');
 
             //发布 graphql
@@ -210,6 +214,11 @@ class BreezeServiceProvider extends ServiceProvider
         Blade::directive('sectominute', function ($expression) {
             return "<?php echo gmdate('i:s', $expression); ?>";
         });
+
+        Blade::directive('laravelPWA', function () {
+            return (new MetaService)->render();
+        });
+
         Blade::if('admin', function () {
             return currentUser() && currentUser()->checkAdmin();
         });

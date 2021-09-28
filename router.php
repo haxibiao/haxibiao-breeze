@@ -29,3 +29,13 @@ Route::group(
     ],
     __DIR__ . '/routes/auth.php'
 );
+
+//pwa routes.
+Route::group(
+    [
+        'as'         => 'laravelpwa.',
+        'middleware' => ['web'],
+        'namespace'  => 'Haxibiao\Breeze\Http\Controllers',
+    ],
+    __DIR__ . '/routes/web.php'
+);

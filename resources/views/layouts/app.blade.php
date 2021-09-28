@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-	{{-- pwa icons 指令重构到breeze后统一开启 --}}
-	{{--  @pwa  --}}
+	{{-- pwa icons --}}
+	@laravelPWA
 
     {{-- icon --}}
     <link rel="icon" type="image/png" href="{{ small_logo() }}" sizes="60*60">
@@ -33,7 +33,7 @@
     @stack('css')
 
 	@include('parts.js_for_push')
-	
+
 </head>
 
 <body>
