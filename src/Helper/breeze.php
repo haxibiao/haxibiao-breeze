@@ -34,6 +34,9 @@ if (!function_exists('register_routes')) {
 if (!function_exists('load_breeze_assets')) {
     function load_breeze_assets($public_path)
     {
+        //单独注册sw.js
+        Breeze::asset('/serviceworker.js', $public_path . '/serviceworker.js');
+
         foreach (glob($public_path . '/css/*') as $filepath) {
             $asset_path = str_replace($public_path, '', $filepath);
             Breeze::asset($asset_path, $filepath);

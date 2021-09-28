@@ -33,7 +33,7 @@
 <script type="text/javascript">
     console.log('准备 Initialize the service worker');
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/js/serviceworker.js', {
+        navigator.serviceWorker.register('/serviceworker.js', {
             scope: '.'
         }).then(function (registration) {
             // Registration was successful
