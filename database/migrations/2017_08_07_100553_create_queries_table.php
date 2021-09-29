@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateQueriesTable extends Migration
 {
@@ -13,6 +13,7 @@ class CreateQueriesTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('queries');
         Schema::create('queries', function (Blueprint $table) {
             $table->increments('id');
             $table->string('query');
