@@ -40,14 +40,8 @@
                     {{-- 文章 --}}
                     @each('parts.article_item', $data->articles, 'article')
 
-                    {{-- 登录后才加载更多 --}}
-                    @if (Auth::check())
-                        <article-list api="/api/articles" start-page="2" is-desktop="{{ isDeskTop() == 1 }}" />
-                    @else
-                        <div>
-                            {!! $data->articles->links() !!}
-                        </div>
-                    @endif
+                    {{-- PWA优化，直接VUE体验刷文章 --}}
+                    <article-list api="/api/articles" start-page="2" is-desktop="{{ isDeskTop() == 1 }}" />                    
 
                 </ul>
             </div>
