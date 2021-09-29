@@ -96,15 +96,8 @@ class BreezeServiceProvider extends ServiceProvider
 
         $this->mergeConfigFrom(__DIR__ . '/../config/pwa.php', 'breeze.pwa');
 
-        //加载编译的breeze css js fonts images
-        load_breeze_assets(breeze_path('public'));
-
-        //加载不同域名的pwa icons
-        foreach (glob(public_path('/images/icons/' . get_domain() . '/*')) as $filepath) {
-            $asset_path = str_replace(public_path('/'), '/', $filepath);
-            $asset_path = str_replace('/images/icons/' . get_domain(), '/images/icons', $asset_path);
-            Breeze::asset($asset_path, $filepath);
-        }
+        //加载 breeze 自带的 assets
+        load_breeze_assets();
 
         //SEO网站多数据库实例切换(根据顶级域名)
         $db_switch_map = [];

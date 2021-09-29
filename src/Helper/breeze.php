@@ -32,10 +32,18 @@ if (!function_exists('register_routes')) {
  * 加载 个breeze模块 下 views 依赖的 css js images
  */
 if (!function_exists('load_breeze_assets')) {
-    function load_breeze_assets($public_path)
+    function load_breeze_assets($public_path = null)
     {
-        //单独注册sw.js
+        $public_path = $public_path ?? breeze_path('public');
+        //单独注册pwa 需要的 serviceworker.js
         Breeze::asset('/serviceworker.js', $public_path . '/serviceworker.js');
+
+        //加载不同域名的pwa icons
+        foreach (glob(public_path('/images/icons/' . get_domain() . '/*')) as $filepath) {
+            $asset_path = str_replace(public_path('/'), '/', $filepath);
+            $asset_path = str_replace('/images/icons/' . get_domain(), '/images/icons', $asset_path);
+            Breeze::asset($asset_path, $filepath);
+        }
 
         foreach (glob($public_path . '/css/*') as $filepath) {
             $asset_path = str_replace($public_path, '', $filepath);
