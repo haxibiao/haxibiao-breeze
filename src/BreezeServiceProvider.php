@@ -93,7 +93,12 @@ class BreezeServiceProvider extends ServiceProvider
     {
         if (!app()->configurationIsCached()) {
             $this->mergeConfigFrom(__DIR__ . '/../config/breeze.php', 'breeze');
-            $this->mergeConfigFrom(__DIR__ . '/../config/pwa.php', 'breeze.pwa');
+            //尊重pwa配置覆盖
+            if (file_exists(config_path('pwa.php'))) {
+                $this->mergeConfigFrom(config_path('pwa.php'), 'breeze.pwa');
+            } else {
+                $this->mergeConfigFrom(__DIR__ . '/../config/pwa.php', 'breeze.pwa');
+            }
         }
 
         //加载 breeze 自带的 assets
