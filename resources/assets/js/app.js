@@ -141,7 +141,7 @@ Vue.component('thorough-delete', require('./components/write/thoroughDelete.vue'
 Vue.component('dplayer', require('./components/video/DPlayer.vue').default);
 
 //苹果pwa提示
-Vue.component('pwa-prompt', require('./components/pwa/PWAPrompt.vue').default);
+Vue.component('ios-pwa-prompt', require('./components/pwa/PWAPrompt.vue').default);
 
 //spa
 import store from './store';

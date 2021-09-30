@@ -55,10 +55,11 @@
 
         @stack('modals')
 
-		<pwa-prompt
+		{{--  苹果pwa提示安装  --}}
+		<ios-pwa-prompt
 			app-name={{ seo_site_name() }}
 			logo={{ small_logo() }}
-			debug="true"
+			v-bind:delay="3000"
 			v-bind:prompt-on-visit="1"
 			v-bind:times-to-show="10"
 			v-bind:permanently-hide-on-dismiss="false"

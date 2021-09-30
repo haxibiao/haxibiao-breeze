@@ -35,8 +35,8 @@ export default {
     PWAPromptModal,
   },
   props: {
-    appName:{ type: String },
-    logo:{ type: String },
+    appName: { type: String },
+    logo: { type: String },
     timesToShow: { type: Number, default: 1 },
     promptOnVisit: { type: Number, default: 1 },
     permanentlyHideOnDismiss: { type: Boolean, default: false },
@@ -58,7 +58,7 @@ export default {
       default: "关闭",
     },
     delay: { type: Number, default: 1000 },
-    debug: { type: Boolean, default: true },
+    debug: { type: Boolean, default: false },
     onClose: { type: Function, default: () => {} },
   },
 
