@@ -6,9 +6,10 @@ class ManifestService
 {
     public function generate()
     {
+        //尊重 seo_site_name() 定义pwa的name
         $basicManifest = [
-            'name'             => config('breeze.pwa.manifest.name'),
-            'short_name'       => config('breeze.pwa.manifest.short_name'),
+            'name'             => seo_site_name() ?? config('breeze.pwa.manifest.name'),
+            'short_name'       => seo_site_name() ?? config('breeze.pwa.manifest.short_name'),
             'start_url'        => asset(config('breeze.pwa.manifest.start_url')),
             'display'          => config('breeze.pwa.manifest.display'),
             'theme_color'      => config('breeze.pwa.manifest.theme_color'),

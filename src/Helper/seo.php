@@ -80,7 +80,7 @@ function get_app_name_cn($domain)
 if (!function_exists('seo_site_name')) {
     function seo_site_name()
     {
-        $site_name = env('APP_NAME_CN') ?? '内涵电影';
+        $site_name = env('APP_NAME_CN');
 
         //1.尊重站名配置
         $apps = config('cms.apps') ?? [];
@@ -111,11 +111,11 @@ if (!function_exists('matomo_site_id')) {
             $host = parse_url($url)['host'];
             $host = str_replace(['l.', 'www.', 'cdn.'], '', $host);
 
-			$matomoId = data_get($sites,$host);
-			if(!blank($matomoId)){
-				return $matomoId;
-			}
-			return config('matomo.web_id','1');
+            $matomoId = data_get($sites, $host);
+            if (!blank($matomoId)) {
+                return $matomoId;
+            }
+            return config('matomo.web_id', '1');
         }
     }
 }

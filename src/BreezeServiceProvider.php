@@ -10,7 +10,6 @@ use Haxibiao\Breeze\Services\MetaService;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
@@ -38,6 +37,7 @@ class BreezeServiceProvider extends ServiceProvider
         foreach (glob($src_path . '/Helper/*.php') as $filename) {
             require_once $filename;
         }
+        $this->bindPathsInContainer();
 
         // 这一段会重写掉整个sentry的配置
         $this->rewriteSentryDsn();
@@ -62,7 +62,12 @@ class BreezeServiceProvider extends ServiceProvider
             Console\Config\UpdateEnv::class,
         ]);
 
-        //合并view paths
+        //加载路由
+        if (config('breeze.routes_autoload', true)) {
+            $this->loadRoutesFrom(__DIR__ . '/../router.php');
+        }
+
+        //加载视图
         if (!app()->configurationIsCached()) {
             $view_paths = array_merge(
                 //APP 的 views 最先匹配
@@ -72,18 +77,11 @@ class BreezeServiceProvider extends ServiceProvider
             );
             config(['view.paths' => $view_paths]);
         }
-
-        //注册搜索laravelPWA的views
+        //注册laravelPWA的views
         $this->loadViewsFrom([breeze_path('resources/views/pwa')], 'laravelpwa');
 
         //注册blade directives
         $this->registerBladeDirectives();
-
-        $this->bindPathsInContainer();
-
-        if (config('breeze.routes_autoload', true)) {
-            $this->loadRoutesFrom(__DIR__ . '/../router.php');
-        }
     }
 
     /**
@@ -93,69 +91,16 @@ class BreezeServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
-        $this->mergeConfigFrom(__DIR__ . '/../config/pwa.php', 'breeze.pwa');
+        if (!app()->configurationIsCached()) {
+            $this->mergeConfigFrom(__DIR__ . '/../config/breeze.php', 'breeze');
+            $this->mergeConfigFrom(__DIR__ . '/../config/pwa.php', 'breeze.pwa');
+        }
 
         //加载 breeze 自带的 assets
         load_breeze_assets();
 
         //SEO网站多数据库实例切换(根据顶级域名)
-        $db_switch_map = [];
-        foreach (config('cms.sites', []) as $domain => $names) {
-            if ($app_name = array_get($names, 'app_name')) {
-                $db_switch_map[$app_name] = $domain;
-            }
-        }
-        foreach ($db_switch_map as $app_name => $domain) {
-            //配置SEO网站需要的connection
-            $connection_mysql   = config('database.connections.mysql');
-            $connection_for_app = [
-                $app_name => $connection_mysql,
-            ];
-            $connections = config('database.connections');
-            $connections = array_merge($connections, $connection_for_app);
-            Config::set('database.connections', $connections);
-
-            //每个db connection 对应一个数据库(连接名=数据库名=app_name同名)
-            Config::set('database.connections.' . $app_name . '.database', $app_name);
-
-            //SEO都用顶级域名
-            if ($domain == get_domain()) {
-                DB::purge('mysql');
-                //修改为当前项目的数据库名
-                Config::set('database.connections.mysql.database', $app_name);
-                DB::reconnect();
-            }
-        }
-
-        //apps多数据库实例切换(根据二级域名)
-        $db_switch_map = [];
-        foreach (config('cms.apps', []) as $domain => $names) {
-            if ($app_name = array_get($names, 'app_name')) {
-                $db_switch_map[$app_name] = $domain;
-            }
-        }
-        foreach ($db_switch_map as $app_name => $domain) {
-            //配置app需要的connection
-            $connection_mysql   = config('database.connections.mysql');
-            $connection_for_app = [
-                $app_name => $connection_mysql,
-            ];
-            $connections = config('database.connections');
-            $connections = array_merge($connections, $connection_for_app);
-            Config::set('database.connections', $connections);
-
-            //每个db connection 对应一个数据库(连接名=数据库名=app_name同名)
-            Config::set('database.connections.' . $app_name . '.database', $app_name);
-
-            //APP都用二级域名
-            if ($domain == get_sub_domain()) {
-                DB::purge('mysql');
-                //修改为当前项目的数据库名
-                Config::set('database.connections.mysql.database', $app_name);
-                DB::reconnect();
-            }
-        }
+        switch_breeze_db();
 
         $this->bindObservers();
         $this->bindListeners();
@@ -165,35 +110,26 @@ class BreezeServiceProvider extends ServiceProvider
             URL::forceScheme('https');
         }
 
-        if (!app()->configurationIsCached()) {
-            $this->mergeConfigFrom(__DIR__ . '/../config/breeze.php', 'breeze');
-        }
-
         //修复分页样式
         Paginator::useBootstrap();
 
         //安装时需要
         if ($this->app->runningInConsole()) {
 
-            // FIXME:临时添加了一个属性动态控制了migrations的加载。
+            // 数据库
             if (config('breeze.migration_autoload')) {
                 $this->loadMigrationsFrom($this->app->make('path.haxibiao-breeze.migrations'));
             }
 
+            // 配置
             $this->publishes([
                 __DIR__ . '/../config/breeze.php' => config_path('breeze.php'),
                 __DIR__ . '/../config/matomo.php' => config_path('matomo.php'),
                 __DIR__ . '/../config/pwa.php'    => config_path('pwa.php'),
             ], 'breeze-config');
 
-            //前端资源
-            $this->publishes([
-                // __DIR__ . '/../public/fonts' => public_path('/fonts'),
-                // __DIR__ . '/../public/images'            => public_path('/images'),
-                // __DIR__ . '/../public/css'               => public_path('/css'),
-                // __DIR__ . '/../public/js'                => public_path('/js'),
-                __DIR__ . '/../public/assets' => public_path('/assets'),
-            ], 'breeze-assets');
+            //发布前端资源(暂无需要)
+            // load_breeze_assets 已预先加载，因为Breeze是不需要publish就能用的,但是支持覆盖自定义
 
             //发布 graphql
             $this->publishes([
