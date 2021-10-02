@@ -32,9 +32,9 @@ class InstallCommand extends Command
     {
         $force = $this->option('force');
         if ($force) {
-            if (!$this->confirm("强制重装breeze?")) {
-                $this->info('安装已取消');
-                return;
+            if (!$this->confirm("安装breeze，确定强制覆盖被自定义过的模型(Models)?")) {
+                $force = false;
+                $this->info("将跳过已自定义的对象模型(Models)");
             }
         } else {
             $this->comment("开始安装Breeze...");
@@ -54,8 +54,8 @@ class InstallCommand extends Command
         }
 
         if (is_dir(base_path('graphql')) && !$force) {
-            if (!$this->confirm('已安装过breeze,是否强制覆盖安装?')) {
-                return;
+            if ($this->confirm('已安装过breeze,是否强制覆盖安装?')) {
+                $force = true;
             }
         }
 
