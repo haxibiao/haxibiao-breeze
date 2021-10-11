@@ -2,9 +2,9 @@
 
 namespace Haxibiao\Breeze\Traits;
 
+use App\BanUser;
 use App\User;
 use App\VerificationCode;
-use Haxibiao\Breeze\BlackList;
 use Haxibiao\Breeze\Exceptions\ErrorCode;
 use Haxibiao\Breeze\Exceptions\GQLException;
 use Haxibiao\Breeze\Exceptions\UserException;
@@ -50,6 +50,9 @@ trait AuthHelper
         }
         //账号已注销
         throw_if($user->isDegregister(), UserException::class, '操作失败,账户已注销!', ErrorCode::DEREGISTER_USER);
+
+        $basnUser = BanUser::where('user_id', $user->id)->first();
+        throw_if($basnUser, UserException::class, '您因恶意刷取广告已被封禁！');
 
         //匿名用户名排重
         if ($user->name === User::DEFAULT_NAME) {
