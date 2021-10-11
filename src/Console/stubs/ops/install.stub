@@ -1,6 +1,20 @@
 #!/bin/bash
-echo "安装依赖..."
-composer install -o --no-dev
 
-echo "更新git子模块代码(非git源码方式，可选)..."
+echo "修复目录权限"
+chmod -R 777 ./storage/
+chmod -R 777 .env*
+git config core.filemode false
+
+
+echo "更新子模块..."
 git submodule init && git submodule update && git pull --recurse-submodules
+
+echo "安装依赖..."
+composer install -o --no-dev --ignore-platform-reqs
+[ ! -d ./public/storage ] && php artisan storage:link
+
+echo "更新缓存 ..."
+php artisan lighthouse:clear-cache
+php artisan view:clear
+php artisan config:clear
+php artisan cache:clear
