@@ -258,18 +258,18 @@ trait UserResolvers
     public static function resolveSignUp($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         app_track_event('用户', '手动注册');
-        $phone = data_get($args, 'phone');
+        $account = data_get($args, 'phone');
         //兼容答赚
-        if (blank($phone)) {
-            $phone = data_get($args, 'account');
+        if (blank($account)) {
+            $account = data_get($args, 'account');
         }
         $password = data_get($args, 'password');
 
         $uuid  = data_get($args, 'uuid');
         $email = data_get($args, 'email');
-        $name  = data_get($args, 'name');
+        $name  = data_get($args, 'name') ?? config('auth.default_name', User::DEFAULT_NAME);
 
-        $user = AuthHelper::signUp($phone, $password, $uuid, $email, $name);
+        $user = AuthHelper::signUp($account, $password, $uuid, $email, $name);
         return $user;
     }
 

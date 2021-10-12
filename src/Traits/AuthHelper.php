@@ -137,7 +137,7 @@ trait AuthHelper
      * @param $email 邮箱
      * @param $name 昵称
      */
-    public static function signUp(string $account, string $password, string $uuid, $email = null, $name = null): User
+    public static function signUp(string $account, string $password, $uuid = null, $email = null, $name = null): User
     {
         app_track_event('用户', '用户注册');
         //手机号格式验证
@@ -150,7 +150,7 @@ trait AuthHelper
         }
 
         throw_if(User::where('account', $account)->exists(), GQLException::class, '账号已存在');
-
+        
         $user = User::create([
             'uuid'      => $uuid,
             'account'   => $account,
