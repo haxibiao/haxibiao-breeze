@@ -153,7 +153,7 @@ trait UserRepo
             Transaction::makeIncome($wallet, $amount, '智慧点兑换');
 
             DB::commit();
-        } catch (\Exception $ex) {
+        } catch (\Exception$ex) {
             DB::rollBack(); //数据库回滚
             \Yansongda\Supports\Log::error($ex);
         }
@@ -171,7 +171,7 @@ trait UserRepo
             ->sum('withdraws.amount');
     }
 
-    public static function userReward(\App\User $user, array $reward)
+    public static function userReward(\App\User$user, array $reward)
     {
         $action = Arr::get($reward, 'action');
         $result = [
@@ -383,10 +383,13 @@ trait UserRepo
     public function wechat($code)
     {
         try {
-            $accessTokens = WechatUtils::getInstance()->accessToken($code);
+            $wechatIns            = WechatUtils::getInstance();
+            list($appid, $secret) = $wechatIns->getWechatAppConfig();
+            $accessTokens         = $wechatIns->accessToken($code, $appid, $secret);
+
             Log::info("微信用户登录接口回参", $accessTokens);
             if (!is_array($accessTokens) || !array_key_exists('unionid', $accessTokens) || !array_key_exists('openid', $accessTokens)) {
-                throw new \App\Exceptions\GQLException("获取微信登录授权失败");
+                throw new GQLException("获取微信登录授权失败");
             }
             $token = $accessTokens['unionid'];
 
@@ -423,7 +426,7 @@ trait UserRepo
             $oAuth->user_id = $user->id;
             $oAuth->save();
             return $user;
-        } catch (\Exception $e) {
+        } catch (\Exception$e) {
             Log::info('异常信息' . $e->getMessage());
         }
 
@@ -540,7 +543,7 @@ trait UserRepo
             $profile             = $this->profile;
             $profile->background = $background_url;
             $profile->save();
-        } catch (\Exception $e) {
+        } catch (\Exception$e) {
             return null;
         }
         return $background_url;
@@ -661,7 +664,7 @@ trait UserRepo
                 'status'       => '已到账',
                 'balance'      => $to_user->balance + $amount,
             ]);
-        } catch (\Exception $ex) {
+        } catch (\Exception$ex) {
             DB::rollBack();
             return false;
         }
