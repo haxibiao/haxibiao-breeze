@@ -4,7 +4,6 @@ namespace Haxibiao\Breeze\Traits;
 
 use App\User;
 use App\VerificationCode;
-use Haxibiao\Breeze\BlackList;
 use Haxibiao\Breeze\Exceptions\ErrorCode;
 use Haxibiao\Breeze\Exceptions\GQLException;
 use Haxibiao\Breeze\Exceptions\UserException;
@@ -50,6 +49,7 @@ trait AuthHelper
         }
         //账号已注销
         throw_if($user->isDegregister(), UserException::class, '操作失败,账户已注销!', ErrorCode::DEREGISTER_USER);
+        throw_if($user->isDisable, UserException::class, "您因违规刷取广告奖励已被系统封禁!ID：{$user->id}，如有疑问可添加官方Q群联系处理:735220029", ErrorCode::DEREGISTER_USER);
 
         //匿名用户名排重
         if ($user->name === User::DEFAULT_NAME) {
@@ -94,6 +94,8 @@ trait AuthHelper
 
         //账号已注销
         throw_if($user->isDegregister(), UserException::class, '操作失败,账户已注销!', config('auth.close_account', '9999'));
+        throw_if($user->isDisable, UserException::class, "您因违规刷取广告奖励已被系统封禁!ID：{$user->id}，如有疑问可添加官方Q群联系处理:735220029", config('auth.close_account', '9999'));
+
         return $user;
     }
 
@@ -134,7 +136,7 @@ trait AuthHelper
      * @param $email 邮箱
      * @param $name 昵称
      */
-    public static function signUp(string $account, string $password, string $uuid, $email = null, $name = null): User
+    public static function signUp(string $account, string $password, $uuid = null, $email = null, $name = null): User
     {
         app_track_event('用户', '用户注册');
         //手机号格式验证
@@ -147,7 +149,7 @@ trait AuthHelper
         }
 
         throw_if(User::where('account', $account)->exists(), GQLException::class, '账号已存在');
-
+        
         $user = User::create([
             'uuid'      => $uuid,
             'account'   => $account,
