@@ -610,7 +610,7 @@ trait UserResolvers
     public function resolveTehnicianUsers($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         $store_id = $args['store_id'] ?? null;
-        $status   = $args['status'] ?? null;
+        $status   = $args['status'] ?? 'all';
         return User::query()
             ->select('users.*')
             ->with('technicianProfile')
@@ -620,7 +620,7 @@ trait UserResolvers
             ->when($store_id, function ($qb) use ($store_id) {
                 return $qb->where('technician_profiles.store_id', $store_id);
             })
-            ->when($status, function ($qb) use ($status) {
+            ->when(!is_null($status) && $status != "all", function ($qb) use ($status) {
                 return $qb->where('technician_profiles.status', $status);
             })
             ->orderByDesc('technician_profiles.status');
