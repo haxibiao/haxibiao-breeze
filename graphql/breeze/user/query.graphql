@@ -58,6 +58,7 @@ type User {
   total_contributes: Int
   exchangeRate: Int
   contribute: Int
+  store_id: Int
   is_bind_dongdezhuan: Boolean
   """
   这个属性废弃掉了，请使用today_contributes
