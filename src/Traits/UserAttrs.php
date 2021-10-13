@@ -328,6 +328,15 @@ trait UserAttrs
         return $this->stores()->exists();
     }
 
+    public function getStoreIdAttribute()
+    {
+        $store = $this->stores()->first();
+        if ($store) {
+            return $store->id;
+        }
+        return null;
+    }
+
     public function getBalanceAttribute()
     {
         $balance = 0;
