@@ -7,6 +7,7 @@ use App\User;
 use GraphQL\Type\Definition\ResolveInfo;
 use Haxibiao\Breeze\Events\NewAddStaff;
 use Haxibiao\Breeze\Exceptions\GQLException;
+use Haxibiao\Breeze\Exceptions\UserException;
 use Haxibiao\Breeze\Helpers\Redis\RedisHelper;
 use Haxibiao\Breeze\Notifications\AddStaffNotification;
 use Haxibiao\Breeze\Verify;
@@ -624,5 +625,25 @@ trait UserResolvers
                 return $qb->where('technician_profiles.status', $status);
             })
             ->orderByDesc('technician_profiles.status');
+    }
+
+    public static function signIn(string $account, string $password, string $uuid = null): User
+    {
+        throw_if(!is_phone_number($account) && !is_email($account), GQLException::class, '账号格式不正确!');
+        //
+        $user = User::where('account', $account)->first();
+
+        throw_if(empty($user), UserException::class, '账号不存在,请先注册!');
+        if (!password_verify($password, $user->password)) {
+            throw new UserException('登录失败,账号或者密码错误');
+        }
+
+        if (!empty($uuid) && !strcmp($user->uuid, $uuid)) {
+            $user->update(['uuid' => $uuid]);
+        }
+
+        //账号已注销
+        throw_if($user->isDegregister(), UserException::class, '操作失败,账户已注销!', config('auth.close_account', '9999'));
+        return $user;
     }
 }
