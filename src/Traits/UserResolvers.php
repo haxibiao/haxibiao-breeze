@@ -631,7 +631,7 @@ trait UserResolvers
     {
         throw_if(!is_phone_number($account) && !is_email($account), GQLException::class, '账号格式不正确!');
         //
-        $user = User::where('account', $account)->first();
+        $user = User::where('account', $account)->orWhere('phone', $account)->first();
 
         throw_if(empty($user), UserException::class, '账号不存在,请先注册!');
         if (!password_verify($password, $user->password)) {
