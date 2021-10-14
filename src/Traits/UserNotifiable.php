@@ -138,6 +138,7 @@ trait UserNotifiable
             case 'GROUP_OTHERS':
                 //其他 - 审核 反馈 求片
                 $types = [
+                    $namespace . 'OrderNotification',
                     $namespace . 'AddAssociateNotification',
                     $namespace . 'AddStaffNotification',
                     $namespace . 'MeetupApproved',
