@@ -1,0 +1,4 @@
+# 关联马甲用户
+mutation associateMasterAccountMutation($vest_ids:[Int],$master_id:Int){
+  associateMasterAccount(vest_ids:$vest_ids,master_id:$master_id)
+}

@@ -1,8 +1,6 @@
-#import "./signInFragment.graphql"
-
-# 注册
-mutation signUpMutation($account: String!, $password: String!, $name: String, $uuid: String) {
-    signUp(account: $account, password: $password, name: $name, uuid: $uuid) {
+# 第三方账号登陆
+mutation otherSignInMutation($code: String!, $type: OAuthType!) {
+    authSignIn(code: $code, type: $type) {
         uuid
         token
         id
@@ -10,15 +8,44 @@ mutation signUpMutation($account: String!, $password: String!, $name: String, $u
         name
         avatar
         gender
+        gender_msg
         birthday_msg
         introduction
         background
         count_likes
         count_articles
+        count_posts
+        unread_follows
         count_followers
         count_followings
         count_favorites
         followed_status
+        parent_id
+        role
+        inviter {
+            id
+            name
+        }
+        vestAccounts {
+            id
+            name
+            avatar
+            uuid
+            token
+        }
+        masterAccount {
+            id
+            name
+            avatar
+            uuid
+            token
+        }
+        staffAccounts {
+            id
+            name
+            avatar
+            parent_id
+        }
         wallet {
             id
             type

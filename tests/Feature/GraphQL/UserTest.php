@@ -20,8 +20,10 @@ class UserTest extends GraphQLTestCase
         parent::setUp();
         $this->user = User::factory(
             [
-                'uuid'  => "e0416b8f323a2dce",
-                'phone' => "15580235001",
+                'uuid'      => "e0416b8f323a2dce",
+                'phone'     => "15580235001",
+                'password'  => 'password',
+                'api_token' => "dhuiyrfnbfuyg21",
             ]
         )->create();
         $this->userTo = User::factory()->create();
@@ -60,7 +62,6 @@ class UserTest extends GraphQLTestCase
 
     /**
      * 修改用户信息
-     *
      * @group  user
      * @group  testUpdateUserInfoMutation
      */
@@ -90,7 +91,6 @@ class UserTest extends GraphQLTestCase
     public function testAutoSignInMutation()
     {
         $query = file_get_contents(__DIR__ . '/User/autoSignInMutation.graphql');
-
         //用户UUID
         $uuid = $this->user->uuid;
         $this->startGraphQL($query, [
@@ -129,12 +129,19 @@ class UserTest extends GraphQLTestCase
      */
     public function testSignInMutation()
     {
-        $query = file_get_contents(__DIR__ . '/User/signInMutation.graphql');
+        //注册
+        $register = file_get_contents(__DIR__ . '/User/signUpMutation.graphql');
+        $this->startGraphQL($register,[
+            'account' => $this->user->phone,
+            'password' => $this->user->password,
+        ],[]);
 
+        //登录
+        $query = file_get_contents(__DIR__ . '/User/signInMutation.graphql');
         $this->startGraphQL($query, [
-            'account'  => $this->user->account,
-            'password' => 'password',
-        ], []);
+            'account'  => $this->user->phone,
+            'password' => $this->user->password,
+        ],[]);
     }
 
     /**
@@ -165,11 +172,11 @@ class UserTest extends GraphQLTestCase
     /**
      * 账户注销
      * @group  user
-     * @group  testDestroyUserMutation
+     * @group  testRemoveAccountMutation
      */
-    public function testDestoryUserMutation()
+    public function testRemoveAccountMutation()
     {
-        $query = file_get_contents(__DIR__ . '/User/destroyUserMutation.graphql');
+        $query = file_get_contents(__DIR__ . '/User/removeAccountMutation.graphql');
         //新创建一个用户测试注销
         $destroyUser = User::factory()->create();
         $this->startGraphQL($query, [], $this->getRandomUserHeaders($destroyUser));
@@ -217,15 +224,46 @@ class UserTest extends GraphQLTestCase
     }
 
     /**
+     * token登陆
+     * @group user
+     * @group testTokenSignInMutation
+     */
+    public function testTokenSignInMutation()
+    {
+        $query = file_get_contents(__DIR__ . '/User/tokenSignInMutation.graphql');
+        $this->startGraphQL($query,[
+            'token' => $this->user->api_token,
+        ],[]);
+    }
+
+    /**
      * @group  user
      * @group  testUnreadsQuery
      */
     public function testUnreadsQuery()
     {
         $query = file_get_contents(__DIR__ . '/User/UnreadsQuery.graphql');
-
         $this->startGraphQL($query, [], $this->getRandomUserHeaders($this->user));
     }
+
+    /**
+     *  是否有奖励
+     *  @group user
+     *  @group testHasReward
+     */
+    public function testHasReward()
+    {
+        $query = file_get_contents(__DIR__ . '/User/hasReward.graphql');
+        $headers = $this->getRandomUserHeaders($this->user);
+
+        //新人注册奖励
+        $variables = [
+            'remark'    => 'NEW_USER_REWARD',
+            'user_id'   => $this->user->id,
+        ];
+        $this->startGraphQL($query,$variables,$headers);
+    }
+   
 
     protected function tearDown(): void
     {
