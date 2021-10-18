@@ -4,7 +4,7 @@ type Notice {
     发布者
     """
     user: User
-    
+
     """
     标题
     """
@@ -13,8 +13,8 @@ type Notice {
     内容
     """
     content: String!
-   type: String!
-   unread: Boolean
+    type: String!
+    unread: Boolean
 
     """
     到期时间
@@ -38,6 +38,11 @@ extend type Query {
     官方公告
     """
     notices: [Notice!] @paginate(builder: "App\\Notice@resolveNotices", defaultCount: 10)
+
+    """
+    官方Push公告
+    """
+    pushNotice: Notice @field(resolver: "App\\Notice@resolvePushNotice")
 
     """
     官方公告详情
