@@ -63,7 +63,7 @@ class UpdateEnv extends Command
             $oldLine           = substr($str, $keyPosition, $endOfLinePosition - $keyPosition);
 
             // 如果不存在，就添加一行
-            if ($keyPosition === -1) {
+            if ($keyPosition === -1 || $keyPosition === false) {
                 $str .= "{$envKey}={$envValue}\n";
                 $this->info(" - 增加 $envKey");
             } else {
