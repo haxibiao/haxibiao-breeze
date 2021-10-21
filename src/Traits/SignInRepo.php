@@ -7,10 +7,10 @@
 
 namespace Haxibiao\Breeze\Traits;
 
+use App\Notice;
 use App\User;
 use Carbon\Carbon;
 use Haxibiao\Breeze\SignIn;
-use Haxibiao\Sns\Notice;
 
 trait SignInRepo
 {
@@ -30,7 +30,6 @@ trait SignInRepo
         $keepSignDays = $profile->keep_signin_days + 1;
         $profile->update(['keep_signin_days' => $keepSignDays]);
 
-        Notice::pushUnReadNotice($user);
         //触发连续签到奖励 && 保存奖励
         self::keepSignInReward($signIn, $keepSignDays);
         return $signIn;
@@ -103,6 +102,8 @@ trait SignInRepo
                 $signs[$date->created_at->toDateString()] = array_merge($signIn, $rewards);
             }
         }
+
+        Notice::pushUnReadNotice($user);
 
         //按照时间排序
         ksort($signs);
