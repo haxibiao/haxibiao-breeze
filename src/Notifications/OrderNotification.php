@@ -48,11 +48,16 @@ class OrderNotification extends BreezeNotification
             $this->sender       = $store->user;
             $this->data_message = "商家已接单";
             $this->custom_event = "订单生效提醒";
+        } else if ($order->status == Order::ALLOT) {
+            //5. 商家派钟 通知技师
+            $this->sender       = $store->user;
+            $this->data_message = "您有一个新的派钟通知提醒";
+            $this->custom_event = "订单已派钟提醒";
         } else if ($order->status == Order::OVER) {
-            //5. 订单结束 通知技师和用户
+            //6. 订单结束 通知技师和用户
             $this->sender       = $order->user;
             $this->data_message = "订单完成";
-            $this->custom_event = "订单生效提醒";
+            $this->custom_event = "订单完成提醒";
         }
 
         //互动用户
