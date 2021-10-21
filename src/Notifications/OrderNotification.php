@@ -32,7 +32,7 @@ class OrderNotification extends BreezeNotification
         if ($this->order->status = Order::RESERVE) {
             //1. 发起预约 通知商家
             $this->sender       = $store->user;
-            $this->data_message = "【{$this->sender->name}】发起了预约订单！";
+            $this->data_message = "【{$this->order->user->name}】发起了预约订单！";
             $this->custom_event = "新的预约订单提醒";
         } else if ($order->status = Order::REJECT) {
             //2. 商家拒绝接单 通知用户
@@ -42,7 +42,7 @@ class OrderNotification extends BreezeNotification
         } else if ($order->status = Order::CANCEL) {
             //3. 用户取消订单 通知商家
             $this->sender       = $store->user;
-            $this->data_message = "【{$this->order->name}】用户取消了该订单";
+            $this->data_message = "【{$this->order->user->name}】用户取消了该订单";
             $this->custom_event = "取消订单提醒";
         } else if ($order->status = Order::ACCEPT) {
             //4. 商家接单 通知用户
