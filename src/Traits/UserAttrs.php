@@ -57,7 +57,7 @@ trait UserAttrs
             return $profile;
         }
 
-        $profile     = UserProfile::firstOrNew(['user_id' => $this->id]);
+        $profile = UserProfile::firstOrNew(['user_id' => $this->id]);
         $app_version = request()->header('version', null);
         //用户开始新增时激活的版本号
         if ($app_version) {
@@ -156,7 +156,7 @@ trait UserAttrs
         }
         //FIXME: 答赚的 user->avatar 字段存的还不是标准的 cos_path, 答妹已修复 “cos:%” ...
         if (empty($avatar)) {
-            $avatar_url = sprintf('https://cos.haxibiao.com/avatars/avatar-%d.png', mt_rand(1, 15));
+            $avatar_url = sprintf('https://cos.haxibiao.com/avatars/avatar-%d.png', 1);
         } else {
             $avatar_url = cdnurl($avatar);
         }
@@ -340,7 +340,7 @@ trait UserAttrs
     public function getBalanceAttribute()
     {
         $balance = 0;
-        $wallet  = $this->wallet;
+        $wallet = $this->wallet;
         if (!$wallet) {
             return 0;
         }
@@ -357,9 +357,9 @@ trait UserAttrs
         return $this->remember('followable_id', 0, function () {
             if ($user = currentUser()) {
                 $follow = Follow::where([
-                    'user_id'         => $user->id,
+                    'user_id' => $user->id,
                     'followable_type' => 'users',
-                    'followable_id'   => $this->id,
+                    'followable_id' => $this->id,
                 ])->select('id')->first();
                 if (!is_null($follow)) {
                     return $follow->id;
@@ -607,7 +607,7 @@ trait UserAttrs
     {
 
         $todayCount = AppGold::where([
-            'remark'  => $remark,
+            'remark' => $remark,
             'user_id' => $user->id,
         ])->whereBetween('created_at', [today(), now()])->count();
 
