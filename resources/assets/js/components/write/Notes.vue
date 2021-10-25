@@ -10,8 +10,9 @@
 					<ul class="note-list">
 						<router-link :to="'/notebooks/'+collection.id+'/notes/'+article.id" tag="li" active-class="active" v-for="article in articles" :key="article.id">
 							<i :class="['status-icon','iconfont', article.status > 0 ? 'icon-fabuxiaoxi' : 'icon-icon_article']"></i>
-							<div class="setting pull-right"><i class="iconfont icon-shezhi" @click="showSetting" tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-html="true"
-      						:data-content="dataContent"></i></div>
+							<div class="setting pull-right">
+								<i class="iconfont icon-shezhi" @click="showSetting" tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-html="true" :data-content="dataContent"></i>
+							</div>
 							<span class="title single-line">{{ article.title ? article.title : article.time }}</span>
 							<span class="abstract single-line">{{ article.description }}</span>
 							<span class="word-count">字数:{{ article.count_words }}</span>
@@ -124,6 +125,11 @@ export default {
 				.parent()
 				.click(function() {
 					_this.unpublish();
+				});
+			$(".note-setting-menu i.icon-lajitong")
+				.parent()
+				.click(function() {
+					$('.delete-note').modal()
 				});
 			$(".note-setting-menu .sub-menu a").click(function() {
 				let collectionId = $(this).attr("data-id");
