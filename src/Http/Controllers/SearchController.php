@@ -6,13 +6,11 @@ use App\Article;
 use App\Category;
 use App\Collection;
 use App\Query;
-use App\Querylog;
 use App\Tag;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection as LCollection;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
 class SearchController extends Controller
@@ -36,8 +34,10 @@ class SearchController extends Controller
                 ->orderBy('id', 'desc')
                 ->paginate(10);
         }
-
         $total = $articles->total();
+
+        //保存搜索的关键词记录
+        save_searched_keyword($query, $total);
 
         //高亮关键词
         foreach ($articles as $article) {
@@ -63,12 +63,6 @@ class SearchController extends Controller
                 }
             }
         }
-
-        //TODO:: 关联搜索整个哈希表旗下产品里的文章了，后期专注做搜索才处理
-        // if (!$total) {
-        //     $articles_hxb = $this->search_hxb($query);
-        //     $total = count($articles_hxb);
-        // }
 
         //用户，专题
         $data['users'] = User::where('name', 'like', "%$query%")
@@ -111,22 +105,9 @@ class SearchController extends Controller
         $data['query'] = $query;
         $total         = count($data['movie']);
 
-        if (!empty($query)) {
-            //保存全局搜索
-            $query_item = Query::firstOrNew([
-                'query' => $query,
-            ]);
-            $query_item->results = $total;
-            $query_item->hits++;
-            $query_item->save();
+        //保存搜索的关键词记录
+        save_searched_keyword($query, $total);
 
-            //保存个人搜索
-            $query_log = Querylog::firstOrNew([
-                'user_id' => Auth::id(),
-                'query'   => $query,
-            ]);
-            $query_log->save();
-        }
         return view('search.movie')->withData($data);
     }
 

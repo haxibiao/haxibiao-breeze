@@ -2,15 +2,12 @@
 
 namespace Haxibiao\Breeze\Console\Dimension;
 
-use App\Answer;
 use App\User;
 use App\UserActivation;
-use App\UserProfile;
 use Carbon\Carbon;
-use Illuminate\Console\Command;
 use Haxibiao\Breeze\Dimension;
+use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
-use xin\helper\Arr;
 
 class ArchiveUser extends Command
 {
@@ -140,9 +137,9 @@ class ArchiveUser extends Command
 
         $qb_first_day = DB::table('users')
             ->join('user_profiles', 'users.id', '=', 'user_profiles.user_id')
-            //开启下面留存条件就是次日流失用户了...
-            // ->join('user_retentions', 'users.id', '=', 'user_retentions.user_id')
-            // ->whereNull('user_retentions.day2_at')
+        //开启下面留存条件就是次日流失用户了...
+        // ->join('user_retentions', 'users.id', '=', 'user_retentions.user_id')
+        // ->whereNull('user_retentions.day2_at')
             ->whereBetween('users.created_at', $dates);
 
         $avgGold   = $qb_first_day->avg('gold') ?? 0;
@@ -220,7 +217,6 @@ class ArchiveUser extends Command
         $dimension->save();
         echo '新老用户分类活跃数 - 纯新用户:' . $pureNewUserCount . ' 日期:' . $date . "\n";
 
-
         // 提现一次用户
         $NewUserQuery = DB::select('SELECT count(1) as newUserCount FROM ( SELECT count(1) as num, wallet_id FROM withdraws WHERE created_at >= "2018-12-12" GROUP BY wallet_id HAVING num = 1) AS b;');
         $newUserCount = current($NewUserQuery)->newUserCount;
@@ -268,8 +264,8 @@ class ArchiveUser extends Command
     {
         // 归档昨天的数据
         $date_format = Carbon::make($date);
-        $day   = $date_format->toDateTimeString();
-        $dates = [$date_format->subDay()->toDateTimeString(), $day];
+        $day         = $date_format->toDateTimeString();
+        $dates       = [$date_format->subDay()->toDateTimeString(), $day];
 
         $qb_first_day = DB::table('user_profiles')
             ->whereBetween('created_at', $dates);
@@ -289,10 +285,10 @@ class ArchiveUser extends Command
 
         // 计算 环节转化率、整体转化率
         $activation = UserActivation::firstOrNew([
-            'date' => $date,
-            'action' => '首次登陆',
-            'remark' => '当日新用户',
-            'all_conversion_rate' => '100%',
+            'date'                 => $date,
+            'action'               => '首次登陆',
+            'remark'               => '当日新用户',
+            'all_conversion_rate'  => '100%',
             'link_conversion_rate' => '100%',
         ]);
         $activation->action_count = $fistLoginCount;
@@ -316,14 +312,14 @@ class ArchiveUser extends Command
 
         // 计算 环节转化率、整体转化率
         $activation = UserActivation::firstOrNew([
-            'date' => $date,
+            'date'   => $date,
             'action' => '领取新人红包',
             'remark' => '新人注册奖励',
         ]);
 
-        $activation->all_conversion_rate = round($redPacketCount / $fistLoginCount, 2) * 100 . '%';
+        $activation->all_conversion_rate  = round($redPacketCount / $fistLoginCount, 2) * 100 . '%';
         $activation->link_conversion_rate = round($redPacketCount / $fistLoginCount, 2) * 100 . '%';
-        $activation->action_count = $redPacketCount;
+        $activation->action_count         = $redPacketCount;
 
         $activation->save();
 
@@ -345,14 +341,14 @@ class ArchiveUser extends Command
 
         // 计算 环节转化率、整体转化率
         $activation = UserActivation::firstOrNew([
-            'date' => $date,
+            'date'   => $date,
             'action' => '领取签到奖励',
             'remark' => 'gold!=300',
         ]);
 
-        $activation->all_conversion_rate = round($signInCount / $fistLoginCount, 2) * 100 . '%';
+        $activation->all_conversion_rate  = round($signInCount / $fistLoginCount, 2) * 100 . '%';
         $activation->link_conversion_rate = round($signInCount / $redPacketCount, 2) * 100 . '%';
-        $activation->action_count = $signInCount;
+        $activation->action_count         = $signInCount;
 
         $activation->save();
 
@@ -360,7 +356,7 @@ class ArchiveUser extends Command
 
         // 开始答题
         $answers_begin = (clone $qb_first_day)->where('answers_count', '>=', 1)->count();
-        $dimension = Dimension::firstOrNew([
+        $dimension     = Dimension::firstOrNew([
             'group' => '新用户激活漏斗',
             'name'  => '开始答题',
             'date'  => $date,
@@ -370,14 +366,14 @@ class ArchiveUser extends Command
 
         // 计算 环节转化率、整体转化率
         $activation = UserActivation::firstOrNew([
-            'date' => $date,
+            'date'   => $date,
             'action' => '开始答题',
             'remark' => '新用户-答题0题以上',
         ]);
 
-        $activation->all_conversion_rate = round($answers_begin / $fistLoginCount, 2) * 100 . '%';
+        $activation->all_conversion_rate  = round($answers_begin / $fistLoginCount, 2) * 100 . '%';
         $activation->link_conversion_rate = round($answers_begin / $signInCount, 2) * 100 . '%';
-        $activation->action_count = $answers_begin;
+        $activation->action_count         = $answers_begin;
 
         $activation->save();
         echo '新用户激活漏斗 - 开始答题:' . $answers_begin . ' 日期:' . $date . "\n";
@@ -394,14 +390,14 @@ class ArchiveUser extends Command
 
         // 计算 环节转化率、整体转化率
         $activation = UserActivation::firstOrNew([
-            'date' => $date,
+            'date'   => $date,
             'action' => '完成5题',
             'remark' => '新用户-答题5题以上',
         ]);
 
-        $activation->all_conversion_rate = round($answers_5 / $fistLoginCount, 2) * 100 . '%';
+        $activation->all_conversion_rate  = round($answers_5 / $fistLoginCount, 2) * 100 . '%';
         $activation->link_conversion_rate = round($answers_5 / $answers_begin, 2) * 100 . '%';
-        $activation->action_count = $answers_5;
+        $activation->action_count         = $answers_5;
 
         $activation->save();
         echo '新用户激活漏斗 - 完成 5 题:' . $answers_5 . ' 日期:' . $date . "\n";
@@ -418,22 +414,21 @@ class ArchiveUser extends Command
 
         // 计算 环节转化率、整体转化率
         $activation = UserActivation::firstOrNew([
-            'date' => $date,
+            'date'   => $date,
             'action' => '完成6题',
             'remark' => '新用户-答题6题以上',
         ]);
 
-        $activation->all_conversion_rate = round($answers_6 / $fistLoginCount, 2) * 100 . '%';
+        $activation->all_conversion_rate  = round($answers_6 / $fistLoginCount, 2) * 100 . '%';
         $activation->link_conversion_rate = round($answers_6 / $answers_5, 2) * 100 . '%';
-        $activation->action_count = $answers_6;
+        $activation->action_count         = $answers_6;
 
         $activation->save();
         echo '新用户激活漏斗 - 完成 6 题:' . $answers_6 . ' 日期:' . $date . "\n";
 
-
         // 完成 10 题
         $answers_10 = (clone $qb_first_day)->where('answers_count', '>=', 10)->count();
-        $dimension = Dimension::firstOrNew([
+        $dimension  = Dimension::firstOrNew([
             'group' => '新用户激活漏斗',
             'name'  => '完成10题',
             'date'  => $date,
@@ -443,14 +438,14 @@ class ArchiveUser extends Command
 
         // 计算 环节转化率、整体转化率
         $activation = UserActivation::firstOrNew([
-            'date' => $date,
+            'date'   => $date,
             'action' => '完成10题',
             'remark' => '新用户-答题10题以上',
         ]);
 
-        $activation->all_conversion_rate = round($answers_10 / $fistLoginCount, 2) * 100 . '%';
+        $activation->all_conversion_rate  = round($answers_10 / $fistLoginCount, 2) * 100 . '%';
         $activation->link_conversion_rate = round($answers_10 / $answers_6, 2) * 100 . '%';
-        $activation->action_count = $answers_10;
+        $activation->action_count         = $answers_10;
 
         $activation->save();
         echo '新用户激活漏斗 - 完成 10 题:' . $answers_10 . ' 日期:' . $date . "\n";
@@ -477,14 +472,14 @@ class ArchiveUser extends Command
 
         // 计算 环节转化率、整体转化率
         $activation = UserActivation::firstOrNew([
-            'date' => $date,
+            'date'   => $date,
             'action' => '绑定提现账号',
             'remark' => '支付宝、微信',
         ]);
 
-        $activation->all_conversion_rate = round($bindOauthCount / $fistLoginCount, 2) * 100 . '%';
+        $activation->all_conversion_rate  = round($bindOauthCount / $fistLoginCount, 2) * 100 . '%';
         $activation->link_conversion_rate = round($bindOauthCount / $answers_10, 2) * 100 . '%';
-        $activation->action_count = $bindOauthCount;
+        $activation->action_count         = $bindOauthCount;
 
         $activation->save();
 
@@ -496,7 +491,7 @@ class ArchiveUser extends Command
         } else {
             $filed = 'wallet_id';
             //这里其实是wallet_id
-            $newUserId =  $newUserId = DB::table('wallets')
+            $newUserId = $newUserId = DB::table('wallets')
                 ->whereBetween('created_at', $dates)
                 ->pluck('id');
         }
@@ -517,14 +512,14 @@ class ArchiveUser extends Command
 
         // 计算 环节转化率、整体转化率
         $activation = UserActivation::firstOrNew([
-            'date' => $date,
+            'date'   => $date,
             'action' => '完成提现',
             'remark' => '提现0.3元',
         ]);
 
-        $activation->all_conversion_rate = round($withdraws / $fistLoginCount, 2) * 100 . '%';
+        $activation->all_conversion_rate  = round($withdraws / $fistLoginCount, 2) * 100 . '%';
         $activation->link_conversion_rate = round($withdraws / $bindOauthCount, 2) * 100 . '%';
-        $activation->action_count = $withdraws;
+        $activation->action_count         = $withdraws;
 
         $activation->save();
 
@@ -591,7 +586,6 @@ class ArchiveUser extends Command
         DB::update('update user_activation set second_link_conversion_rate = ? where `date` = ? and `action` = ?', [$link_conversion_rate, $date, '完成5题']);
         echo '更新新用户激活漏斗 - 完成 5 题:' . $answers_5 . ' 日期:' . $date . "\n";
 
-
         // 完成 6 题
         // 前日注册用户并完成 6 题的用户主键
         $answers_6_user_ids = DB::table('user_profiles')
@@ -611,7 +605,6 @@ class ArchiveUser extends Command
 
         DB::update('update user_activation set second_link_conversion_rate = ? where `date` = ? and `action` = ?', [$link_conversion_rate, $date, '完成6题']);
         echo '更新新用户激活漏斗 - 完成 6 题:' . $answers_6 . ' 日期:' . $date . "\n";
-
 
         // 完成 10 题
         // 前日注册用户并完成 10 题的用户主键
@@ -635,7 +628,7 @@ class ArchiveUser extends Command
         // 完成提现
         // 前日注册用户并完成提现的用户主键
         //damei withdraws table  does not have the user_ID field
-        $filed = '';
+        $filed    = '';
         $queryIds = null;
         if (config('app.name') == 'datizhuanqian') {
             $queryIds = DB::table('users')
@@ -674,7 +667,6 @@ class ArchiveUser extends Command
         echo '更新新用户激活漏斗 - 完成提现:' . $withdraws . ' 日期:' . $date . "\n";
     }
 
-
     /**
      * 用户平均答题数统计(筛选条件: 新老用户)
      *
@@ -684,9 +676,9 @@ class ArchiveUser extends Command
     public function avgAnswersByUserCreatedAt($date)
     {
         $success_withdraw_type = [0, 1, 2, 3];
-        $group_names = ['纯新用户', '新用户', '老用户', '纯老用户'];
+        $group_names           = ['纯新用户', '新用户', '老用户', '纯老用户'];
         // 归档前天的数据
-        $yesterday = Carbon::parse($date)->subDay(1)->toDateString(); // 昨天
+        $yesterday        = Carbon::parse($date)->subDay(1)->toDateString(); // 昨天
         $before_yesterday = Carbon::parse($date)->subDay(2)->toDateString(); // 前天
 
         for ($int = 0; $int < count($success_withdraw_type); $int++) {
@@ -709,7 +701,7 @@ class ArchiveUser extends Command
             $sum_answer_count = current($answer_count_db)->answer_count;
 
             // 持久化
-            $avg = round($sum_answer_count / $users_count);
+            $avg = $users_count > 0 ? round($sum_answer_count / $users_count) : 0;
 
             $dimension = Dimension::firstOrNew([
                 'group' => '用户平均答题趋势',
@@ -721,7 +713,6 @@ class ArchiveUser extends Command
             $this->info($group_names[$int] . "平均答题统计完成🍺");
         }
     }
-
 
     // 每三小时发一次新增和提现统计短信 - 暂时停用
     public function smsAlert()

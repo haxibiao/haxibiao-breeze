@@ -1,0 +1,79 @@
+# 查询马甲用户列表
+# role_id = EDITOR
+query vestUserListsQuery($role_id: ROLE, $page: Int) {
+	vestUserLists(role_id: $role_id, page: $page) {
+		paginatorInfo {
+			hasMorePages
+			currentPage
+		}
+		data {
+			uuid
+			token
+			id
+			age
+			name
+			avatar
+			gender
+			gender_msg
+			birthday_msg
+			introduction
+			background
+			count_likes
+			count_articles
+			count_posts
+			unread_follows
+			count_followers
+			count_followings
+			count_favorites
+			followed_status
+			parent_id
+			role
+			inviter {
+				id
+				name
+			}
+			vestAccounts {
+				id
+				name
+				avatar
+				uuid
+				token
+			}
+			masterAccount {
+				id
+				name
+				avatar
+				uuid
+				token
+			}
+			staffAccounts {
+				id
+				name
+				avatar
+				parent_id
+			}
+			wallet {
+				id
+				type
+				balance
+				real_name
+				pay_account
+				total_withdraw_amount
+				available_balance
+				today_withdraw_left
+				platforms {
+					alipay
+					wechat
+				}
+			}
+			gold
+			ticket
+			balance
+			exchangeRate
+			total_contributes
+			today_contributes
+			phone
+			title_phone
+		}
+	}
+}

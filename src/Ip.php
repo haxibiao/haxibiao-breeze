@@ -31,7 +31,7 @@ class Ip extends Model
             'ipable_type' => $type,
             'ipable_id'   => $id,
             'user_id'     => $userId,
-            'ip'          => getIp(),
+            'ip'          => getIp('HTTP_X_FORWARDED_FOR'),
         ]);
     }
 }

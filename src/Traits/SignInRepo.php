@@ -7,6 +7,7 @@
 
 namespace Haxibiao\Breeze\Traits;
 
+use App\Notice;
 use App\User;
 use Carbon\Carbon;
 use Haxibiao\Breeze\SignIn;
@@ -101,6 +102,8 @@ trait SignInRepo
                 $signs[$date->created_at->toDateString()] = array_merge($signIn, $rewards);
             }
         }
+
+        Notice::pushUnReadNotice($user);
 
         //按照时间排序
         ksort($signs);

@@ -11,18 +11,14 @@ if (!function_exists('adIsOpened')) {
     {
 
         $os     = request()->header('os', 'android');
-        $config = AppConfig::where([
-            'group' => $os,
-            'name'  => 'ad',
-        ])->first();
+        $config = AppConfig::where(['group' => 'android', 'name' => 'ad'])->first();
         //如果使用的是版本开关
         if ($config && isset($config->app_version)) {
             $user          = getUser(false);
             $userVersion   = $user && $user->profile->app_version ? $user->profile->app_version : $config->app_version;
             $config->state = $config->isOpen($userVersion) == 'on' ? AppConfig::STATUS_ON : AppConfig::STATUS_OFF;
-
         }
-        if ($config && $config->state === AppConfig::STATUS_OFF) {
+        if ($config && intval($config->state) === AppConfig::STATUS_OFF) {
             return false;
         } else {
             return true;
@@ -222,7 +218,7 @@ if (!function_exists('qrcode_url')) {
                         $qrcode = $qrcode->generate($apkUrl);
                         $data   = base64_encode($qrcode);
                         return $data;
-                    } catch (\Throwable$ex) {
+                    } catch (\Throwable $ex) {
                     }
                 }
             }

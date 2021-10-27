@@ -1,12 +1,48 @@
-# 添加员工客户
-mutation addStaffAccountMutation($staff_id: Int!) {
-	addStaffAccount(staff_id: $staff_id) {
-		id
-		name
-		gender
-		avatar
-		phone
-		is_staff
-		parent_id
-	}
+# 添加员工接口
+mutation addStaffAccountMutation($staff_id:Int!){
+  addStaffAccount(staff_id:$staff_id){
+    id
+    age
+    name
+    avatar
+    gender
+    gender_msg
+    birthday_msg
+    introduction
+    background
+    count_likes
+    count_articles
+    count_posts
+    unread_follows
+    count_followers
+    count_followings
+    count_favorites
+    followed_status
+    parent_id
+    role
+    inviter {
+        id
+        name
+    }
+    vestAccounts {
+        id
+        name
+        avatar
+        uuid
+        token
+    }
+    masterAccount {
+        id
+        name
+        avatar
+        uuid
+        token
+    }
+    staffAccounts {
+        id
+        name
+        avatar
+        parent_id
+    }
+  }
 }

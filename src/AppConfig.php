@@ -39,7 +39,6 @@ class AppConfig extends Model
         $appConfig      = $this;
         $switch_version = $appConfig->app_version;
         if ($app_version && $switch_version != self::ALL_VERSION) {
-
             //规定版本则按开关设置生效
             if ($app_version == $switch_version) {
                 return $appConfig->status;
@@ -65,4 +64,12 @@ class AppConfig extends Model
         return $query->whereIn('group', ['SEO_KEYWORDS', 'SEO_CUSTOM_SCRIPT', 'SEO_CUSTOM_META']);
     }
 
+    public function getAppVersionAttribute()
+    {
+        return $this->version;
+    }
+    public function getStateAttribute()
+    {
+        return $this->value;
+    }
 }

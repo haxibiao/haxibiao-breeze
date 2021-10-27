@@ -1,0 +1,7 @@
+# enum RewardEnum {
+# NEW_USER_REWARD 新人注册奖励
+# NEW_YEAR_REWARD 新年红包
+# }
+query hasReward($user_id: Int!, $remark: RewardEnum!) {
+    hasReward(user_id: $user_id, remark: $remark)
+}
