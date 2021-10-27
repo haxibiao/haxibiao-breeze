@@ -18,7 +18,8 @@ if (!function_exists('adIsOpened')) {
             $userVersion   = $user && $user->profile->app_version ? $user->profile->app_version : $config->app_version;
             $config->state = $config->isOpen($userVersion) == 'on' ? AppConfig::STATUS_ON : AppConfig::STATUS_OFF;
         }
-        if ($config && intval($config->state) === AppConfig::STATUS_OFF) {
+
+        if ($config && !empty($config->state) && intval($config->state) === AppConfig::STATUS_OFF) {
             return false;
         } else {
             return true;
@@ -218,7 +219,7 @@ if (!function_exists('qrcode_url')) {
                         $qrcode = $qrcode->generate($apkUrl);
                         $data   = base64_encode($qrcode);
                         return $data;
-                    } catch (\Throwable$ex) {
+                    } catch (\Throwable $ex) {
                     }
                 }
             }
