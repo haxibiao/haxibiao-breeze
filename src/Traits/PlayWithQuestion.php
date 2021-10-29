@@ -255,7 +255,10 @@ trait PlayWithQuestion
             //更新user_profiles 字段
             if (in_array($attribute, $userInfoFillable['profile'])) {
                 //空字符串不影响birthday = null,不然给''会sql出错
-                if ($attribute == "birthday" && empty($value)) {
+                if ($attribute == "birthday") {
+                    if (!empty($value)) {
+                        $profile->setBirthdayAttribute($value);
+                    }
                     continue;
                 }
                 $profile->$attribute = $value;
