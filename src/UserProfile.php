@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Haxibiao\Breeze\Model;
 use Haxibiao\Breeze\User;
 use Haxibiao\Content\Post;
+use Haxibiao\Wallet\Withdraw;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Schema;
 
@@ -113,5 +114,28 @@ class UserProfile extends Model
     public function syncFollowersCount()
     {
         $this->followers_count = $this->user->followers()->count();
+    }
+
+    public function syncWithdrawCount()
+    {
+        $user = $this->user;
+        if (!is_null($user)) {
+            $count               = $user->withdraws()->success()->count();
+            $successWithdrawType = null;
+            if (1 == $count) {
+                $successWithdrawType = Withdraw::SUCCESS_WITHDRAWS_1;
+            }
+
+            if ($count >= 2 && $count <= 7) {
+                $successWithdrawType = Withdraw::SUCCESS_WITHDRAWS_2_7;
+            }
+
+            if ($count > 7) {
+                $successWithdrawType = Withdraw::SUCCESS_WITHDRAWS_7;
+            }
+
+            $this->success_withdraw_counts = $successWithdrawType;
+            $this->save();
+        }
     }
 }
