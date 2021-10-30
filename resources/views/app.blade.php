@@ -153,6 +153,12 @@
         </div>
     </div>
 @endpush
+
+@push('scripts')
+	{{--  支持视图层自定义下载地址  --}}
+	@include('parts.js_for_apk')
+@endpush
+
 @push('scripts')
     <script type="text/javascript">
         if (checkIsTenCent()) {
@@ -163,7 +169,7 @@
             if (checkIsTenCent()) {
                 document.getElementById("mask").style.display = "inline";
             } else {
-                window.location.href = "{{ getDownloadUrl() }}";
+                window.location.href = apkurl;
             }
         }
 
@@ -176,8 +182,6 @@
             console.log(`show_more_version`)
             document.getElementById("app-version-pop").style.display = "none";
         }
-
-
 
         function checkIsTenCent() {
             var ua = navigator.userAgent.toLowerCase();
