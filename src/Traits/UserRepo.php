@@ -153,7 +153,7 @@ trait UserRepo
             Transaction::makeIncome($wallet, $amount, '智慧点兑换');
 
             DB::commit();
-        } catch (\Exception$ex) {
+        } catch (\Exception $ex) {
             DB::rollBack(); //数据库回滚
             \Yansongda\Supports\Log::error($ex);
         }
@@ -171,7 +171,7 @@ trait UserRepo
             ->sum('withdraws.amount');
     }
 
-    public static function userReward(\App\User$user, array $reward)
+    public static function userReward(\App\User $user, array $reward)
     {
         $action = Arr::get($reward, 'action');
         $result = [
@@ -426,7 +426,7 @@ trait UserRepo
             $oAuth->user_id = $user->id;
             $oAuth->save();
             return $user;
-        } catch (\Exception$e) {
+        } catch (\Exception $e) {
             Log::info('异常信息' . $e->getMessage());
         }
 
@@ -488,6 +488,7 @@ trait UserRepo
             $user->phone = $account;
         }
         $user->account   = $account;
+        $user->uuid      = $account;
         $user->name      = $name;
         $user->password  = bcrypt($password);
         $user->api_token = str_random(60);
@@ -543,7 +544,7 @@ trait UserRepo
             $profile             = $this->profile;
             $profile->background = $background_url;
             $profile->save();
-        } catch (\Exception$e) {
+        } catch (\Exception $e) {
             return null;
         }
         return $background_url;
@@ -664,7 +665,7 @@ trait UserRepo
                 'status'       => '已到账',
                 'balance'      => $to_user->balance + $amount,
             ]);
-        } catch (\Exception$ex) {
+        } catch (\Exception $ex) {
             DB::rollBack();
             return false;
         }
