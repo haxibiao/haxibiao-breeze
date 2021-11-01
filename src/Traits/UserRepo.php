@@ -494,8 +494,8 @@ trait UserRepo
         $user->api_token = str_random(60);
         $user->save();
 
-        $profile = UserProfile::create([
-            'user_id' => $user->id,
+        $profile = UserProfile::firstOrCreate([
+            'user_id' => $user->id
         ]);
 
         // //FIXME: 记录用户的APP版本号
