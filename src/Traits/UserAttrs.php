@@ -16,6 +16,7 @@ use Haxibiao\Wallet\Exchange;
 use Haxibiao\Wallet\Gold as AppGold;
 use Haxibiao\Wallet\Withdraw;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 trait UserAttrs
 {
