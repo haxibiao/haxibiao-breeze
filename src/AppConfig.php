@@ -64,12 +64,15 @@ class AppConfig extends Model
         return $query->whereIn('group', ['SEO_KEYWORDS', 'SEO_CUSTOM_SCRIPT', 'SEO_CUSTOM_META']);
     }
 
-    public function getAppVersionAttribute()
+    public function getAppVersionAttribute($value)
     {
-        return $this->version;
+        if (empty($value)) {
+            return $this->version;
+        }
+        return $value;
     }
-    public function getStateAttribute()
+    public function getStateAttribute($value)
     {
-        return $this->value;
+        return $value;
     }
 }
