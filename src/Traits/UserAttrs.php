@@ -57,7 +57,7 @@ trait UserAttrs
             return $profile;
         }
 
-        $profile = UserProfile::firstOrNew(['user_id' => $this->id]);
+        $profile     = UserProfile::firstOrNew(['user_id' => $this->id]);
         $app_version = request()->header('version', null);
         //用户开始新增时激活的版本号
         if ($app_version) {
@@ -245,6 +245,13 @@ trait UserAttrs
 
     public function getGoldAttribute()
     {
+        /**
+         * 切勿注释,答赚大表会经常清空来释放磁盘空间,所以读取冗余字段就好了
+         * 这行代码是为了防止未引用App/User导致被清零
+         */
+        if (DB::getDatabaseName() == 'dazhuan' || config('app.name') == 'datizhuanqian') {
+            return $this->attributes['gold'] ?? 0;
+        }
         return $this->goldWallet->goldBalance;
     }
 
@@ -340,7 +347,7 @@ trait UserAttrs
     public function getBalanceAttribute()
     {
         $balance = 0;
-        $wallet = $this->wallet;
+        $wallet  = $this->wallet;
         if (!$wallet) {
             return 0;
         }
@@ -357,9 +364,9 @@ trait UserAttrs
         return $this->remember('followable_id', 0, function () {
             if ($user = currentUser()) {
                 $follow = Follow::where([
-                    'user_id' => $user->id,
+                    'user_id'         => $user->id,
                     'followable_type' => 'users',
-                    'followable_id' => $this->id,
+                    'followable_id'   => $this->id,
                 ])->select('id')->first();
                 if (!is_null($follow)) {
                     return $follow->id;
@@ -607,7 +614,7 @@ trait UserAttrs
     {
 
         $todayCount = AppGold::where([
-            'remark' => $remark,
+            'remark'  => $remark,
             'user_id' => $user->id,
         ])->whereBetween('created_at', [today(), now()])->count();
 
