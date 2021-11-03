@@ -46,7 +46,7 @@
                         @endif
 
                         <div class="download2">
-                            <a href="{{ aso_value('下载页', '苹果地址') }}">
+                            <a href="https://testflight.apple.com/join/Xllc718P">
                                 <img src="/images/app/ios_app.png" class="download2" alt="download-ios">
                             </a>
                             <p onclick="show_more_version()">版本记录</p>
@@ -113,7 +113,7 @@
                         @endif
 
                         <div class="download2">
-                            <a href="{{ aso_value('下载页', '苹果地址') }}">
+                            <a href="https://testflight.apple.com/join/Xllc718P">
                                 <img src="/images/app/ios_app.png" class="download2" alt="download-ios">
                             </a>
                             <p>版本记录</p>
@@ -155,8 +155,8 @@
 @endpush
 
 @push('scripts')
-	{{--  支持视图层自定义下载地址  --}}
-	@include('parts.js_for_apk')
+    {{-- 支持视图层自定义下载地址 --}}
+    @include('parts.js_for_apk')
 @endpush
 
 @push('scripts')
