@@ -7,8 +7,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/css/{asset}', 'BreezeAssetController@show')->middleware(CheckResponseForModifications::class);
 Route::get('/js/{asset}', 'BreezeAssetController@show')->middleware(CheckResponseForModifications::class);
 Route::get('/serviceworker.js', 'BreezeAssetController@show')->middleware(CheckResponseForModifications::class);
+Route::get('/service-worker.js', 'BreezeAssetController@show')->middleware(CheckResponseForModifications::class);
 Route::get('/images/{asset}', 'BreezeAssetController@show')->middleware(CheckResponseForModifications::class);
+Route::get('/img/{asset}', 'BreezeAssetController@show')->middleware(CheckResponseForModifications::class);
 Route::get('/images/{folder}/{asset}', 'BreezeAssetController@show')->middleware(CheckResponseForModifications::class);
+Route::get('/img/{folder}/{asset}', 'BreezeAssetController@show')->middleware(CheckResponseForModifications::class);
 
 //资源ID的规则
 Route::pattern('id', '\d+');

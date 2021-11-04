@@ -102,7 +102,7 @@ if (!function_exists('load_breeze_assets')) {
     {
         $public_path = $public_path ?? breeze_path('public');
         //单独注册pwa 需要的 serviceworker.js
-        Breeze::asset('/serviceworker.js', $public_path . '/serviceworker.js');
+        Breeze::asset('/service-worker.js', $public_path . '/service-worker.js');
 
         //加载不同域名的pwa icons
         foreach (glob(public_path('/images/icons/' . get_domain() . '/*')) as $filepath) {
@@ -121,6 +121,10 @@ if (!function_exists('load_breeze_assets')) {
             Breeze::asset($asset_path, $filepath);
         }
 
+        foreach (glob($public_path . '/img/*') as $filepath) {
+            $asset_path = str_replace($public_path, '', $filepath);
+            Breeze::asset($asset_path, $filepath);
+        }
         foreach (glob($public_path . '/images/*') as $filepath) {
             $asset_path = str_replace($public_path, '', $filepath);
             Breeze::asset($asset_path, $filepath);
