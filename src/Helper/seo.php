@@ -261,7 +261,7 @@ if (!function_exists('get_seo_title')) {
                 }
             }
         }
-        return seo_value('TKD', 'title');
+        return seo_value('TDK', 'title');
     }
 }
 
@@ -276,7 +276,7 @@ if (!function_exists('get_seo_keywords')) {
                 }
             }
         }
-        return seo_value('TKD', 'keywords');
+        return seo_value('TDK', 'keywords');
     }
 }
 
@@ -291,7 +291,7 @@ if (!function_exists('get_seo_description')) {
                 }
             }
         }
-        return seo_value('TKD', 'description');
+        return seo_value('TDK', 'description');
     }
 }
 
