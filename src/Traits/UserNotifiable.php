@@ -139,6 +139,8 @@ trait UserNotifiable
                 //其他 - 审核 反馈 求片
                 $types = [
                     $namespace . 'OrderNotification',
+                    $namespace . 'ChatJoinNotification',
+                    $namespace . 'ChatJoinResultNotification',
                     $namespace . 'AddAssociateNotification',
                     $namespace . 'AddStaffNotification',
                     $namespace . 'MeetupApproved',
