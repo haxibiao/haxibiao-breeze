@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('sub_title') - {{ cms_seo_title() }} @stop
+@section('title') - {{ cms_seo_title() }} @stop
 
 @section('keywords') {{ cms_seo_keywords() }} @stop
 
@@ -41,7 +41,7 @@
                     @each('parts.article_item', $data->articles, 'article')
 
                     {{-- PWA优化，直接VUE体验刷文章 --}}
-                    <article-list api="/api/articles" start-page="2" is-desktop="{{ isDeskTop() == 1 }}" />                    
+                    <article-list api="/api/articles" start-page="2" is-desktop="{{ isDeskTop() == 1 }}" />
 
                 </ul>
             </div>
