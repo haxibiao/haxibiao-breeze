@@ -1,0 +1,13 @@
+type Seo {
+  id: Int
+  group: String
+  name: String
+  value: String
+}
+
+extend type Query {
+  """
+  seo站点配置
+  """
+  seos(name: String, group: String): [Seo!] @field(resolver: "App\\Seo@resolveSeos")
+}
