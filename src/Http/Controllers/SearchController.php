@@ -17,6 +17,7 @@ class SearchController extends Controller
 {
     public function search(Request $request)
     {
+        return view('pwa.index');
         $page_size = 10;
         $page      = request('page') ? request('page') : 1;
         $query     = request('q');
@@ -37,7 +38,7 @@ class SearchController extends Controller
         $total = $articles->total();
 
         //保存搜索的关键词记录
-        save_searched_keyword($query, $total);
+        // save_searched_keyword($query, $total);
 
         //高亮关键词
         foreach ($articles as $article) {
@@ -106,7 +107,7 @@ class SearchController extends Controller
         $total         = count($data['movie']);
 
         //保存搜索的关键词记录
-        save_searched_keyword($query, $total);
+        // save_searched_keyword($query, $total);
 
         return view('search.movie')->withData($data);
     }

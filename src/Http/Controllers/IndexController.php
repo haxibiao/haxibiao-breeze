@@ -14,7 +14,7 @@ class IndexController extends Controller
      */
     public function index()
     {
-
+        return view('pwa.index');
         if (isRecording() && !is_crawler()) {
             return view('app');
         }
