@@ -9,7 +9,6 @@ use App\Issue;
 use App\Solution;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -25,7 +24,6 @@ class UserController extends Controller
      */
     public function index()
     {
-
         $currentPage = request()->get('page', 1);
         $perPage     = request()->get('count', 24);
         $total       = User::count();
@@ -76,6 +74,8 @@ class UserController extends Controller
      */
     public function show($id)
     {
+        return view('pwa.index');
+
         $user                   = User::with('articles')->findOrFail($id);
         $user->followUsers      = $user->followingUsers()->count();
         $user->count_production = $user->articles()->count();
