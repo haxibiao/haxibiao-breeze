@@ -17,7 +17,6 @@ class SearchController extends Controller
 {
     public function search(Request $request)
     {
-        return view('pwa.index');
         $page_size = 10;
         $page      = request('page') ? request('page') : 1;
         $query     = request('q');
