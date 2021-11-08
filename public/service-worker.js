@@ -1,13 +1,13 @@
-importScripts("./js/precache-manifest.124414a4e585439b9fa976339ad46aac.js");
+importScripts("/precache-manifest.cd8d287da66db37e5457909ed10fcb0c.js");
 
-importScripts("./js/workbox-sw.js");
-importScripts("./js/idb-keyval.js");
-importScripts("./js/crypto-js.min.js");
+importScripts('./js/workbox-sw.js');
+importScripts('./js/idb-keyval.js');
+importScripts('./js/crypto-js.min.js');
 
-const DATABASE_NAME = "juhaokan-db-v1";
-const STORE_NAME = "juhaokan-post";
+const DATABASE_NAME = 'juhaokan-db-v1';
+const STORE_NAME = 'juhaokan-post';
 
-console.log("DATABASE_NAME", DATABASE_NAME, "STORE_NAME", STORE_NAME);
+console.log('DATABASE_NAME', DATABASE_NAME, 'STORE_NAME', STORE_NAME);
 const dbStore = new idbKeyval.createStore(DATABASE_NAME, STORE_NAME);
 
 if (workbox) {
@@ -18,25 +18,25 @@ if (workbox) {
 
 // Workbox with custom handler to use IndexedDB for cache.
 workbox.routing.registerRoute(
-  new RegExp("/gql"),
+  new RegExp('/gql'),
   // Uncomment below to see the error thrown from Cache Storage API.
   //workbox.strategies.staleWhileRevalidate(),
   async ({ event }) => {
     return staleWhileRevalidate(event);
   },
-  "POST"
+  'POST'
 );
 
-self.addEventListener("message", (event) => {
-  if (event.data && event.data.type === "SKIP_WAITING") {
+self.addEventListener('message', event => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
   }
 });
 
 // Return cached response when possible, and fetch new results from server in
 // the background and update the cache.
-self.addEventListener("fetch", async (event) => {
-  if (event.request.method === "POST") {
+self.addEventListener('fetch', async event => {
+  if (event.request.method === 'POST') {
     // console.log('fetch', event.request);
     event.respondWith(staleWhileRevalidate(event));
   }
@@ -46,11 +46,11 @@ self.addEventListener("fetch", async (event) => {
 async function staleWhileRevalidate(event) {
   const cachedResponse = await getCache(event.request.clone());
   const fetchPromise = fetch(event.request.clone())
-    .then((response) => {
+    .then(response => {
       setCache(event.request.clone(), response.clone());
       return response;
     })
-    .catch((err) => {
+    .catch(err => {
       console.error(err);
     });
   return cachedResponse ? Promise.resolve(cachedResponse) : fetchPromise;
@@ -64,7 +64,7 @@ async function serializeResponse(response) {
   const serialized = {
     headers: serializedHeaders,
     status: response.status,
-    statusText: response.statusText,
+    statusText: response.statusText
   };
   serialized.body = await response.json();
   return serialized;
@@ -78,7 +78,7 @@ async function setCache(request, response) {
     query: body.query,
     variables: body.variables,
     response: await serializeResponse(response),
-    timestamp: Date.now(),
+    timestamp: Date.now()
   };
   // console.log(`setCache==> key:`, id, ' value:', entry);
   idbKeyval.set(id, entry, dbStore);
@@ -94,8 +94,8 @@ async function getCache(request) {
     if (!data) return null;
 
     // Check cache max age.
-    const cacheControl = request.headers.get("Cache-Control");
-    const maxAge = cacheControl ? parseInt(cacheControl.split("=")[1]) : 3600;
+    const cacheControl = request.headers.get('Cache-Control');
+    const maxAge = cacheControl ? parseInt(cacheControl.split('=')[1]) : 3600;
     if (Date.now() - data.timestamp > maxAge * 1000) {
       // console.log('Cache expired. Load from API endpoint.');
       return null;
@@ -115,3 +115,4 @@ async function getCache(request) {
  */
 self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
+
