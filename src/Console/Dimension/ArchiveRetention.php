@@ -133,7 +133,7 @@ class ArchiveRetention extends Command
         foreach ($partitions->get() as $part) {
             $dimension = Dimension::firstOrNew([
                 'group' => '次日流失用户分布',
-                'name'  => $part->source,
+                'name'  => $part->source ?? '次日流失用户分布',
                 'date'  => $date,
             ]);
             $dimension->value = $part->num;
