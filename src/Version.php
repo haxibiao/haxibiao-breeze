@@ -38,6 +38,7 @@ class Version extends Model
         return [
             'Android' => 'Android',
             'IOS'     => 'IOS',
+            'RCUT'    => 'RCUT',
         ];
     }
 

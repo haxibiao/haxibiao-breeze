@@ -21,6 +21,7 @@ class CreateVersionsTable extends Migration
             $table->string('name')->comment('版本名称');
             $table->unsignedInteger('build')->default(0);
             $table->string('description')->nullable()->comment('描述');
+            $table->string('remark')->nullable()->comment('备注');
             $table->unsignedInteger('size')->default(0)->comment('文件大小');
             $table->string('url')->nullable();
             $table->string('os', 30)->nullable();

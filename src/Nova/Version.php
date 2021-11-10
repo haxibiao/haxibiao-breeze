@@ -37,6 +37,7 @@ class Version extends Resource
             Number::make('build'),
             Text::make('包名', 'package'),
             Textarea::make('更新描述', 'description'),
+            Textarea::make('说明', 'remark'),
             Number::make('大小', 'size')->step(0.01)->displayUsing(function ($value) {
                 return formatBytes($value);
             }),

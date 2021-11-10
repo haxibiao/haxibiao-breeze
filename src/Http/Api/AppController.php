@@ -179,4 +179,15 @@ class AppController extends Controller
             );
         }, $array);
     }
+
+    //ios 指令更新检查
+    public function rcutsVersionCheck(Request $request)
+    {
+        $builder = Version::where('os', 'RCUT')->orderByDesc('id');
+        $package = $request->input('package');
+        if (!empty($package)) {
+            $builder = $builder->where('package', $package);
+        }
+        return $builder->first();
+    }
 }

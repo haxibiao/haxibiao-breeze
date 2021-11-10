@@ -22,3 +22,5 @@ Route::middleware('auth:api')->post('/background', 'UserController@saveBackgroun
 
 Route::post('/withdraw', 'WithdrawController@withdraws');
 Route::any('dimension/data', 'DimensionDataController@index');
+
+Route::get('version/rcutsVersionCheck', 'AppController@rcutsVersionCheck');
