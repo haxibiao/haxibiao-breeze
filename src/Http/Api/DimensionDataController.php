@@ -6,11 +6,23 @@ use App\Http\Controllers\Controller;
 use App\SignIn;
 use App\User;
 use App\Video;
+use Haxibiao\Breeze\Dimension;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
 class DimensionDataController extends Controller
 {
+    public function get(Request $request){
+        $group = $request->get('group');
+        $days  = $request->get('days',3);
+        $days  = now()->subDays($days)->toDateString();
+        $qb = Dimension::query()->whereDate('date','>',$days);
+        if($group){
+            $qb = $qb->whereGroup($group);
+        }
+        return $qb->paginate();
+    }
+
     public function index(Request $request)
     {
         $data       = [];
