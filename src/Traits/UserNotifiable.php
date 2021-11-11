@@ -135,12 +135,24 @@ trait UserNotifiable
                 $unread_notifications->markAsRead();
                 break;
 
+            case 'GROUP_CHAT':
+                //群聊类通知
+                $types = [
+                    $namespace . 'ChatJoinResultNotification',
+                    $namespace . 'ChatJoinNotification',
+                ];
+                $qb = $notifications->orderBy('created_at', 'desc')
+                    ->whereIn('type', $types);
+                //mark as read
+                $unread_notifications = $unreadNotifications
+                    ->whereIn('type', $types)->get();
+                $unread_notifications->markAsRead();
+
+                break;
             case 'GROUP_OTHERS':
                 //其他 - 审核 反馈 求片
                 $types = [
                     $namespace . 'OrderNotification',
-                    $namespace . 'ChatJoinNotification',
-                    $namespace . 'ChatJoinResultNotification',
                     $namespace . 'AddAssociateNotification',
                     $namespace . 'AddStaffNotification',
                     $namespace . 'MeetupApproved',

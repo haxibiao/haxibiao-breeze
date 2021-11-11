@@ -1,157 +1,158 @@
 type Notification {
-    id: String!
-    body: String
-    time_ago: String
-    """
-    通知的行为类型(点赞了/关注了)
-    """
-    type: String @rename(attribute: "TypeName")
-    """
-    废弃(旧方式了，依赖n+1查询，建议切换为通知数据的属性)
-    """
-    article: Article
-    """
-    废弃(旧方式了，依赖n+1查询，建议切换为通知数据的属性)
-    """
-    post: Post 
-    """
-    废弃(旧方式了，依赖n+1查询，建议切换为通知数据的属性)
-    """
-    comment: Comment 
-    """
-    废弃(旧方式了，依赖n+1查询，建议切换为通知数据的属性)
-    """
-    reply: Comment 
+  id: String!
+  body: String
+  time_ago: String
+  """
+  通知的行为类型(点赞了/关注了)
+  """
+  type: String @rename(attribute: "TypeName")
+  """
+  废弃(旧方式了，依赖n+1查询，建议切换为通知数据的属性)
+  """
+  article: Article
+  """
+  废弃(旧方式了，依赖n+1查询，建议切换为通知数据的属性)
+  """
+  post: Post
+  """
+  废弃(旧方式了，依赖n+1查询，建议切换为通知数据的属性)
+  """
+  comment: Comment
+  """
+  废弃(旧方式了，依赖n+1查询，建议切换为通知数据的属性)
+  """
+  reply: Comment
 
-    """
-    互动的用户(非通知本人)
-    """
-    user: User
-    """
-    通知数据的id
-    """
-    data_id: Int
-    """
-    通知数据的message
-    """
-    data_message: String
-    """
-    通知数据的type(比如:movies)
-    """
-    data_type: String
-    """
-    通知标题
-    """
-    data_title: String
-    """
-    通知数据的cover
-    """
-    data_cover: String
-    """
-    通知数据的description
-    """
-    data_description: String
-    """
-    通知数据的url(做网页跳转用)
-    """
-    data_url: String
-    created_at: DateTime!
-    updated_at: DateTime!
+  """
+  互动的用户(非通知本人)
+  """
+  user: User
+  """
+  通知数据的id
+  """
+  data_id: Int
+  """
+  通知数据的message
+  """
+  data_message: String
+  """
+  通知数据的type(比如:movies)
+  """
+  data_type: String
+  """
+  通知标题
+  """
+  data_title: String
+  """
+  通知数据的cover
+  """
+  data_cover: String
+  """
+  通知数据的description
+  """
+  data_description: String
+  """
+  通知数据的url(做网页跳转用)
+  """
+  data_url: String
+  created_at: DateTime!
+  updated_at: DateTime!
 
-    """
-    下面一堆连着的兼容答赚属性
-    """
-    data: String @rename(attribute: "data_string")
-    """
-    废弃(旧方式了，依赖n+1查询，建议切换为通知数据的属性)
-    """
-    report: Report 
-    """
-    废弃(旧方式了，依赖n+1查询，建议切换为通知数据的属性)
-    """
-    withdraw: Withdraw 
-    """
-    废弃(旧方式了，依赖n+1查询，建议切换为通知数据的属性)
-    """
-    feedback: Feedback 
-    """
-    废弃(旧方式了，依赖n+1查询，建议切换为通知数据的属性)
-    """
-    curation: Curation 
-    """
-    废弃(旧方式了，依赖n+1查询，建议切换为通知数据的属性)
-    """
-    question: Question 
-    """
-    废弃(旧方式了，依赖n+1查询，建议切换为通知数据的属性)
-    """
-    follow: Follow 
-    """
-    废弃(旧方式了，依赖n+1查询，建议切换为通知数据的属性)
-    """
-    like: Like @rename(attribute: "like_obj") 
-    """
-    废弃(旧方式了，依赖n+1查询，建议切换为通知数据的属性)
-    """
-    medal: Medal 
-    """
-    废弃(旧方式了，依赖n+1查询，建议切换为通知数据的属性)
-    """
-    user_reward: UserRewardField 
-    read_at: String
-    target_type: String
+  """
+  下面一堆连着的兼容答赚属性
+  """
+  data: String @rename(attribute: "data_string")
+  """
+  废弃(旧方式了，依赖n+1查询，建议切换为通知数据的属性)
+  """
+  report: Report
+  """
+  废弃(旧方式了，依赖n+1查询，建议切换为通知数据的属性)
+  """
+  withdraw: Withdraw
+  """
+  废弃(旧方式了，依赖n+1查询，建议切换为通知数据的属性)
+  """
+  feedback: Feedback
+  """
+  废弃(旧方式了，依赖n+1查询，建议切换为通知数据的属性)
+  """
+  curation: Curation
+  """
+  废弃(旧方式了，依赖n+1查询，建议切换为通知数据的属性)
+  """
+  question: Question
+  """
+  废弃(旧方式了，依赖n+1查询，建议切换为通知数据的属性)
+  """
+  follow: Follow
+  """
+  废弃(旧方式了，依赖n+1查询，建议切换为通知数据的属性)
+  """
+  like: Like @rename(attribute: "like_obj")
+  """
+  废弃(旧方式了，依赖n+1查询，建议切换为通知数据的属性)
+  """
+  medal: Medal
+  """
+  废弃(旧方式了，依赖n+1查询，建议切换为通知数据的属性)
+  """
+  user_reward: UserRewardField
+  read_at: String
+  target_type: String
 }
 
 extend type Query @guard {
-    notifications(type: NotificationType, user_id: Int, filter: [NotificationEnum!], read_filter: Int): [Notification!]
-        @paginate(defaultCount: 10, builder: "App\\Notification@resolveNotifications")
+  notifications(type: NotificationType, user_id: Int, filter: [NotificationEnum!], read_filter: Int): [Notification!]
+    @paginate(defaultCount: 10, builder: "App\\Notification@resolveNotifications")
 }
 
 enum NotificationType {
-    GROUP_LIKES
-    GROUP_OTHERS
-    GROUP_COMMENT
-    ARTICLE_APPROVED @enum(value: "Haxibiao\\Breeze\\Notifications\\ArticleApproved")
-    ARTICLE_REJECTED @enum(value: "Haxibiao\\Breeze\\Notifications\\ArticleRejected")
-    ARTICLE_COMMENTED @enum(value: "Haxibiao\\Breeze\\Notifications\\ArticleCommented")
-    ARTICLE_FAVORITED @enum(value: "Haxibiao\\Breeze\\Notifications\\ArticleFavorited")
-    ARTICLE_LIKED @enum(value: "App\\\\Notifications\\\\ArticleLiked")
-    COMMENT_LIKED @enum(value: "App\\\\Notifications\\\\CommentLiked")
-    ARTICLE_TIPED @enum(value: "Haxibiao\\Breeze\\Notifications\\ArticleTiped")
-    CATEGORY_FOLLOWED @enum(value: "Haxibiao\\Breeze\\Notifications\\CategoryFollowed")
-    CATEGORY_REQUESTED @enum(value: "Haxibiao\\Breeze\\Notifications\\CategoryRequested")
-    COLLECTION_FOLLOWED @enum(value: "Haxibiao\\Breeze\\Notifications\\CollectionFollowed")
-    USER_FOLLOWED @enum(value: "Haxibiao\\Breeze\\Notifications\\UserFollowed")
-    UNPROCESSED_REQUESTS @enum(value: "UNPROCESSED_REQUESTS")
-    COMMENT_ACCEPTED @enum(value: "Haxibiao\\Breeze\\Notifications\\CommentAccepted")
-    RECEIVE_AWARD @enum(value: "Haxibiao\\Breeze\\Notifications\\ReceiveAward")
-    SYSTEM_NOTICE @enum(value: "Haxibiao\\Breeze\\Notifications\\SystemNotice")
-    STAFF_NOTICE @enum(value: "Haxibiao\\Breeze\\Notifications\\AddStaffNotification")
-    ASSOCIATE_NOTICE @enum(value: "Haxibiao\\Breeze\\Notifications\\AddAssociateNotification")
+  GROUP_LIKES
+  GROUP_OTHERS
+  GROUP_COMMENT
+  GROUP_CHAT
+  ARTICLE_APPROVED @enum(value: "Haxibiao\\Breeze\\Notifications\\ArticleApproved")
+  ARTICLE_REJECTED @enum(value: "Haxibiao\\Breeze\\Notifications\\ArticleRejected")
+  ARTICLE_COMMENTED @enum(value: "Haxibiao\\Breeze\\Notifications\\ArticleCommented")
+  ARTICLE_FAVORITED @enum(value: "Haxibiao\\Breeze\\Notifications\\ArticleFavorited")
+  ARTICLE_LIKED @enum(value: "App\\\\Notifications\\\\ArticleLiked")
+  COMMENT_LIKED @enum(value: "App\\\\Notifications\\\\CommentLiked")
+  ARTICLE_TIPED @enum(value: "Haxibiao\\Breeze\\Notifications\\ArticleTiped")
+  CATEGORY_FOLLOWED @enum(value: "Haxibiao\\Breeze\\Notifications\\CategoryFollowed")
+  CATEGORY_REQUESTED @enum(value: "Haxibiao\\Breeze\\Notifications\\CategoryRequested")
+  COLLECTION_FOLLOWED @enum(value: "Haxibiao\\Breeze\\Notifications\\CollectionFollowed")
+  USER_FOLLOWED @enum(value: "Haxibiao\\Breeze\\Notifications\\UserFollowed")
+  UNPROCESSED_REQUESTS @enum(value: "UNPROCESSED_REQUESTS")
+  COMMENT_ACCEPTED @enum(value: "Haxibiao\\Breeze\\Notifications\\CommentAccepted")
+  RECEIVE_AWARD @enum(value: "Haxibiao\\Breeze\\Notifications\\ReceiveAward")
+  SYSTEM_NOTICE @enum(value: "Haxibiao\\Breeze\\Notifications\\SystemNotice")
+  STAFF_NOTICE @enum(value: "Haxibiao\\Breeze\\Notifications\\AddStaffNotification")
+  ASSOCIATE_NOTICE @enum(value: "Haxibiao\\Breeze\\Notifications\\AddAssociateNotification")
 }
 
 #下面都是为了兼容答赚，过两天重构好
 type UserRewardField {
-    gold: Int
-    contribute: Int
-    ticket: Int
+  gold: Int
+  contribute: Int
+  ticket: Int
 }
 
 enum NotificationEnum {
-    WITHDRAW_SUCCESS @enum(value: "App\\Notifications\\WithdrawSuccessNotification")
-    WITHDRAW_FAILURE @enum(value: "App\\Notifications\\WithdrawFailureNotification")
-    FEEDBACK_COMMENT @enum(value: "App\\Notifications\\FeedbackCommentNotification")
-    REPLY_COMMENT @enum(value: "App\\Notifications\\ReplyCommentNotification")
-    CURATION_REWARD @enum(value: "App\\Notifications\\CurationRewardNotification")
-    QUESTION_AUDIT @enum(value: "App\\Notifications\\AuditQuestionResultNotification")
+  WITHDRAW_SUCCESS @enum(value: "App\\Notifications\\WithdrawSuccessNotification")
+  WITHDRAW_FAILURE @enum(value: "App\\Notifications\\WithdrawFailureNotification")
+  FEEDBACK_COMMENT @enum(value: "App\\Notifications\\FeedbackCommentNotification")
+  REPLY_COMMENT @enum(value: "App\\Notifications\\ReplyCommentNotification")
+  CURATION_REWARD @enum(value: "App\\Notifications\\CurationRewardNotification")
+  QUESTION_AUDIT @enum(value: "App\\Notifications\\AuditQuestionResultNotification")
 
-    USER_FOLLOW @enum(value: "App\\Notifications\\UserFollowNotification")
-    QUESTION_COMMENT @enum(value: "App\\Notifications\\QuestionCommented")
-    LEVEL_UP @enum(value: "App\\Notifications\\LevelUpNotification")
-    REPORT_SUCCEED @enum(value: "App\\Notifications\\ReportSucceedNotification")
-    LIKE @enum(value: "App\\Notifications\\LikedNotification")
-    NEW_MEDAL @enum(value: "App\\Notifications\\NewMedalsNotification")
-    OFFICIAL_REWARD @enum(value: "App\\Notifications\\RewardNotification")
+  USER_FOLLOW @enum(value: "App\\Notifications\\UserFollowNotification")
+  QUESTION_COMMENT @enum(value: "App\\Notifications\\QuestionCommented")
+  LEVEL_UP @enum(value: "App\\Notifications\\LevelUpNotification")
+  REPORT_SUCCEED @enum(value: "App\\Notifications\\ReportSucceedNotification")
+  LIKE @enum(value: "App\\Notifications\\LikedNotification")
+  NEW_MEDAL @enum(value: "App\\Notifications\\NewMedalsNotification")
+  OFFICIAL_REWARD @enum(value: "App\\Notifications\\RewardNotification")
 
-    LUCKY_DRAW @enum(value: "App\\Notifications\\LuckyUserNotification")
+  LUCKY_DRAW @enum(value: "App\\Notifications\\LuckyUserNotification")
 }

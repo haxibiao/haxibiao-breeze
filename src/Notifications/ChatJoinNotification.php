@@ -31,7 +31,6 @@ class ChatJoinNotification extends BreezeNotification
     {
         //互动用户
         $data = $this->senderToArray();
-        \info("wdawda");
         //互动对象
         $data = array_merge($data, [
             'type'        => 'chat',
