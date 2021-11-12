@@ -35,6 +35,7 @@ class ChatJoinNotification extends BreezeNotification
         $data = array_merge($data, [
             'type'        => 'chat',
             'id'          => $this->chat->id,
+            'status'      => null,
             'name'        => $this->chat->subject,
             'description' => $this->description, //对象的内容
             'cover' => $this->chat->icon ?? null,

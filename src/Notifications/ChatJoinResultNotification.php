@@ -38,6 +38,7 @@ class ChatJoinResultNotification extends BreezeNotification
         $data = [
             'type'        => 'chat',
             'id'          => $this->chat->id,
+            'status'      => $this->result,
             'name'        => $this->chat->subject,
             'description' => $description, //对象的内容
             'cover' => $this->chat->icon ?? null,
