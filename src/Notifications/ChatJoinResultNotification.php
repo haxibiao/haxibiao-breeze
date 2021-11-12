@@ -9,15 +9,17 @@ class ChatJoinResultNotification extends BreezeNotification
 {
     use Queueable;
 
-    public static $notify_event = "成功加入群聊通知";
+    public static $notify_event = "群聊申请审核通知";
 
     public $chat;
     public $result;
+    public $description;
 
-    public function __construct(Chat $chat, $result)
+    public function __construct(Chat $chat, $result, $description)
     {
-        $this->chat   = $chat;
-        $this->result = $result;
+        $this->chat        = $chat;
+        $this->result      = $result;
+        $this->description = $description;
     }
 
     public function via($notifiable)
@@ -27,12 +29,11 @@ class ChatJoinResultNotification extends BreezeNotification
 
     public function toArray($notifiable)
     {
-        \info("====");
-        $description = '';
+        $title = '';
         if ($this->result) {
-            $description = "您申请加入【{$this->chat->subjuect}】的申请已通过审核";
+            $title = "群主同意了你的加群申请";
         } else {
-            $description = "您申请加入【{$this->chat->subjuect}】的申请已被拒绝";
+            $title = "群主拒绝了你的加群申请";
         }
         //互动对象
         $data = [
@@ -40,7 +41,8 @@ class ChatJoinResultNotification extends BreezeNotification
             'id'          => $this->chat->id,
             'status'      => $this->result,
             'name'        => $this->chat->subject,
-            'description' => $description, //对象的内容
+            'title'       => $title,
+            'description' => $this->description, //对象的内容
             'cover' => $this->chat->icon ?? null,
         ];
         return $data;

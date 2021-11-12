@@ -36,6 +36,7 @@ class ChatJoinNotification extends BreezeNotification
             'type'        => 'chat',
             'id'          => $this->chat->id,
             'status'      => null,
+            'title'       => "申请加入 {$this->chat->subject}",
             'name'        => $this->chat->subject,
             'description' => $this->description, //对象的内容
             'cover' => $this->chat->icon ?? null,
