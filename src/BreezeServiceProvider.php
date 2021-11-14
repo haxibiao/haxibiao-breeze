@@ -140,8 +140,25 @@ class BreezeServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__ . '/../graphql' => base_path('graphql'),
             ], 'breeze-graphql');
-
         }
+
+        $this->registerSingleton();
+    }
+
+    public function registerSingleton()
+    {
+        $this->app->singleton('app.config.beian', function ($app) {
+            return \App\AppConfig::where([
+                'group' => 'record',
+                'name'  => 'web',
+            ])->first();
+        });
+        $this->app->singleton('asos', function ($app) {
+            return \App\Aso::all();
+        });
+        $this->app->singleton('seos', function ($app) {
+            return \App\Seo::all();
+        });
     }
 
     public function registerBladeDirectives()
@@ -168,20 +185,6 @@ class BreezeServiceProvider extends ServiceProvider
 
         Blade::if('weixin', function () {
             return request('weixin');
-        });
-
-        $this->app->singleton('app.config.beian', function ($app) {
-            return \App\AppConfig::where([
-                'group' => 'record',
-                'name'  => 'web',
-            ])->first();
-        });
-
-        $this->app->singleton('asos', function ($app) {
-            return \App\Aso::all();
-        });
-        $this->app->singleton('seos', function ($app) {
-            return \App\Seo::all();
         });
     }
 

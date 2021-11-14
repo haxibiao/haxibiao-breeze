@@ -16,61 +16,40 @@ function switch_breeze_db()
 {
     $db_switch_map = [];
     foreach (config('cms.sites', []) as $domain => $names) {
-        if ($app_name = array_get($names, 'app_name')) {
-            $db_switch_map[$app_name] = $domain;
+        if ($db_name = data_get($names, 'db_name', data_get($names, 'app_name'))) {
+            $db_switch_map[$db_name] = $domain;
         }
     }
-    foreach ($db_switch_map as $app_name => $domain) {
-        //配置SEO网站需要的connection
-        $connection_mysql   = config('database.connections.mysql');
-        $connection_for_app = [
-            $app_name => $connection_mysql,
-        ];
-        $connections = config('database.connections');
-        $connections = array_merge($connections, $connection_for_app);
-        Config::set('database.connections', $connections);
-
-        //每个db connection 对应一个数据库(连接名=数据库名=app_name同名)
-        Config::set('database.connections.' . $app_name . '.database', $app_name);
-
+    foreach ($db_switch_map as $db_name => $domain) {
         //SEO都用顶级域名
-        if ($domain == get_domain()) {
-            DB::purge('mysql');
-            //修改为当前项目的数据库名
-            Config::set('database.connections.mysql.database', $app_name);
-            DB::reconnect();
+        if ($domain === get_domain()) {
+            if ($db_name !== config('database.connections.mysql.database')) {
+                DB::purge('mysql');
+                //修改为当前项目的数据库名
+                config(['database.connections.mysql.database' => $db_name]);
+                DB::reconnect();
+            }
         }
     }
 
     //apps多数据库实例切换(根据二级域名)
     $db_switch_map = [];
     foreach (config('cms.apps', []) as $domain => $names) {
-        if ($app_name = array_get($names, 'app_name')) {
-            $db_switch_map[$app_name] = $domain;
+        if ($db_name = data_get($names, 'db_name', data_get($names, 'app_name'))) {
+            $db_switch_map[$db_name] = $domain;
         }
     }
-    foreach ($db_switch_map as $app_name => $domain) {
-        //配置app需要的connection
-        $connection_mysql   = config('database.connections.mysql');
-        $connection_for_app = [
-            $app_name => $connection_mysql,
-        ];
-        $connections = config('database.connections');
-        $connections = array_merge($connections, $connection_for_app);
-        Config::set('database.connections', $connections);
-
-        //每个db connection 对应一个数据库(连接名=数据库名=app_name同名)
-        Config::set('database.connections.' . $app_name . '.database', $app_name);
-
+    foreach ($db_switch_map as $db_name => $domain) {
         //APP都用二级域名
-        if ($domain == get_sub_domain()) {
-            DB::purge('mysql');
-            //修改为当前项目的数据库名
-            Config::set('database.connections.mysql.database', $app_name);
-            DB::reconnect();
+        if ($domain === get_sub_domain()) {
+            if ($db_name !== config('database.connections.mysql.database')) {
+                DB::purge('mysql');
+                //修改为当前项目的数据库名
+                config(['database.connections.mysql.database' => $db_name]);
+                DB::reconnect();
+            }
         }
     }
-
 }
 
 if (!function_exists('register_routes')) {
@@ -149,7 +128,6 @@ if (!function_exists('load_breeze_assets')) {
             $asset_path = str_replace($public_path, '', $filepath);
             Breeze::asset($asset_path, $filepath);
         }
-
     }
 }
 
@@ -200,7 +178,6 @@ function currentUser()
             $user->id = $user_id;
         }
         return $user;
-
     }
     return getUser(false);
 }
@@ -403,9 +380,7 @@ function setEnvValues(array $keyValues, $envFilePath = null)
     }
 
     if (count($keyValues) > 0) {
-
         foreach ($keyValues as $envKey => $envValue) {
-
             $keyPosition       = strpos($str, "{$envKey}="); //找到要替换的行字符起始位
             $endOfLinePosition = strpos($str, "\n", $keyPosition); //那行的结束位
             $oldLine           = substr($str, $keyPosition, $endOfLinePosition - $keyPosition); //提取原值
@@ -492,7 +467,6 @@ function copyStubs($pwd, $force = false)
             copy($filepath, $dest);
         }
     }
-
 }
 
 /**
