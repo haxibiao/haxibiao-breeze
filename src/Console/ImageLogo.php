@@ -175,7 +175,14 @@ class ImageLogo extends Command
             mkdir(public_path('logo'));
         }
         //breeze的logo一直选择复用app的icon(1024*1024)
-        $icon_path = $this->option('icon') ? public_path($this->option('icon')) : public_path('logo.png');
+        $icon_path = public_path('logo.png');
+        if ($icon = $this->option('icon')) {
+            $icon_path = $icon;
+        }
+        //自动搜索 logo/域名.png
+        if (file_exists(public_path('logo/' . $domain . '.png'))) {
+            $icon_path = public_path('logo/' . $domain . '.png');
+        }
 
         $image = Image::make($icon_path);
         $image->resize(60, 60);
