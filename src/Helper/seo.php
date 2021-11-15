@@ -110,8 +110,7 @@ if (!function_exists('matomo_site_id')) {
 
             $host = parse_url($url)['host'];
             $host = str_replace(['l.', 'www.', 'cdn.'], '', $host);
-
-            $matomoId = data_get($sites, $host);
+            $matomoId = @$sites[$host];
             if (!blank($matomoId)) {
                 return $matomoId;
             }
