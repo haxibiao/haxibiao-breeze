@@ -168,7 +168,7 @@ if (!function_exists('small_logo')) {
 if (!function_exists('app_qrcode_url')) {
     function app_qrcode_url()
     {
-        $qrcode_path      = "/storage/qrcode." . get_domain() . ".jpg";
+        $qrcode_path      = "/storage/qrcode." . get_sub_domain() . ".jpg";
         $qrcode_full_path = public_path($qrcode_path);
         //缓存的二维码图片
         if (file_exists($qrcode_full_path)) {
@@ -192,7 +192,7 @@ if (!function_exists('app_qrcode_url')) {
 }
 
 /**
- * 返回的是base64 data
+ * 返回的是base64 data 内容是apk的cdn URL
  * @deprecated 建议用app_qrcode_url返回图片地址
  */
 if (!function_exists('qrcode_url')) {
@@ -218,7 +218,7 @@ if (!function_exists('qrcode_url')) {
                         $qrcode = $qrcode->generate($apkUrl);
                         $data   = base64_encode($qrcode);
                         return $data;
-                    } catch (\Throwable $ex) {
+                    } catch (\Throwable$ex) {
                     }
                 }
             }
