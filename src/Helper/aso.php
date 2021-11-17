@@ -170,7 +170,7 @@ if (!function_exists('app_qrcode_url')) {
     {
         $domain = get_sub_domain();
         //二维码域名入口尊重腾讯流量拦截处理配置
-        if (isWechat() || isQQ()) {
+        if (isWechat() || isQQ() || config('app.name') == 'juhaokan') {
             if ($income_domain = config('cms.tencent_traffic.income_domain')) {
                 $domain = $income_domain;
             }
