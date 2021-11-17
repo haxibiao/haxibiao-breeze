@@ -168,7 +168,14 @@ if (!function_exists('small_logo')) {
 if (!function_exists('app_qrcode_url')) {
     function app_qrcode_url()
     {
-        $qrcode_path      = "/storage/qrcode." . get_sub_domain() . ".jpg";
+        $domain = get_sub_domain();
+        //二维码域名入口尊重腾讯流量拦截处理配置
+        if (isWechat() || isQQ()) {
+            if ($income_domain = config('cms.tencent_traffic.income_domain')) {
+                $domain = $income_domain;
+            }
+        }
+        $qrcode_path      = "/storage/qrcode." . $domain . ".jpg";
         $qrcode_full_path = public_path($qrcode_path);
         //缓存的二维码图片
         if (file_exists($qrcode_full_path)) {
