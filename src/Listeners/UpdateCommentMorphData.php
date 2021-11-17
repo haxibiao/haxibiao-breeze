@@ -72,9 +72,9 @@ class UpdateCommentMorphData
 
     protected function updateFeedback(Feedback $feedback)
     {
-        // $feedback->comments_count         = $feedback->comments()->count();
-        // $feedback->publish_comments_count = $feedback->publishComments()->count();
-        // $feedback->save();
+        $feedback->comments_count         = $feedback->comments()->count();
+        $feedback->publish_comments_count = $feedback->publishComments()->count();
+        $feedback->save();
     }
 
     protected function updateComment(Comment $comment)
