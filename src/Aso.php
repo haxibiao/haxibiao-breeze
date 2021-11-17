@@ -23,10 +23,10 @@ class Aso extends Model
     public function saveDownloadImage($file, $name)
     {
         if ($file) {
-            $aso      = Aso::where('name', $name)->first();
-            $aso_path = parse_url($aso->value, PHP_URL_PATH);
-            Storage::put($aso_path, file_get_contents($file->path()));
-            return Storage::url($aso_path);
+            $value = 'images/'. env('APP_NAME') . '.qrcode.png';
+            $cosDisk   = Storage::cloud();
+            $cosDisk->put($value, @file_get_contents($file->path()));
+            return "https://" . env('ORIGIN_COS_DOMAIN') .'/' . $value;
         }
     }
 }
