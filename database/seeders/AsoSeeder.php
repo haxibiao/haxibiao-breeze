@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use Haxibiao\Breeze\Aso;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class AsoSeeder extends Seeder
 {
@@ -17,19 +16,6 @@ class AsoSeeder extends Seeder
     {
         $app_name    = env('APP_NAME');
         $app_name_cn = env('APP_NAME_CN');
-
-        //apps sites切换数据库后，seed不同的账户名
-        $db_name = DB::connection()->getDatabaseName();
-        if ($db_name != $app_name) {
-            $app_name = $db_name;
-            //找到对应域名
-            $app_domain = get_app_domain($app_name);
-            //找到对应seo_site_name
-            $seo_site_name = get_app_name_cn($app_domain);
-            if ($seo_site_name != $app_name_cn) {
-                $app_name_cn = $seo_site_name;
-            }
-        }
 
         $item = Aso::firstOrCreate([
             'group' => '下载页',
