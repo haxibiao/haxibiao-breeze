@@ -108,8 +108,8 @@ if (!function_exists('matomo_site_id')) {
         if (request() && $url = request()->getUri()) {
             $sites = config('cms.matomo_ids') ?? [];
 
-            $host = parse_url($url)['host'];
-            $host = str_replace(['l.', 'www.', 'cdn.'], '', $host);
+            $host     = parse_url($url)['host'];
+            $host     = str_replace(['l.', 'www.', 'cdn.'], '', $host);
             $matomoId = @$sites[$host];
             if (!blank($matomoId)) {
                 return $matomoId;
@@ -236,7 +236,7 @@ if (!function_exists('get_seo_tj')) {
     function get_seo_tj()
     {
         //站群模式
-        if (config('cms.multi_domains')) {
+        if (config('cms.enable_sites')) {
             if ($site = cms_get_site()) {
                 return $site->footer_js;
             }
@@ -253,7 +253,7 @@ if (!function_exists('get_seo_title')) {
     function get_seo_title()
     {
         //站群模式
-        if (config('cms.multi_domains')) {
+        if (config('cms.enable_sites')) {
             if ($site = cms_get_site()) {
                 if ($site->title) {
                     return $site->title;
@@ -268,7 +268,7 @@ if (!function_exists('get_seo_keywords')) {
     function get_seo_keywords()
     {
         //站群模式
-        if (config('cms.multi_domains')) {
+        if (config('cms.enable_sites')) {
             if ($site = cms_get_site()) {
                 if ($site->keywords) {
                     return $site->keywords;
@@ -283,7 +283,7 @@ if (!function_exists('get_seo_description')) {
     function get_seo_description()
     {
         //站群模式
-        if (config('cms.multi_domains')) {
+        if (config('cms.enable_sites')) {
             if ($site = cms_get_site()) {
                 if ($site->description) {
                     return $site->description;
@@ -299,7 +299,7 @@ if (!function_exists('get_seo_meta')) {
     {
         //配合调试模式才允许验证站长
         if (env('APP_DEBUG')) {
-            if (config('cms.multi_domains')) {
+            if (config('cms.enable_sites')) {
                 //站群模式
 
                 if ($site = cms_get_site()) {
