@@ -1,4 +1,4 @@
-importScripts("./js/precache-manifest.e9d3822f47152adc39a6073c34aeefe7.js");
+importScripts("./js/precache-manifest.392aa04c7cab982ffa845a6ff76d2ca9.js");
 
 importScripts("./js/workbox-sw.js");
 importScripts("./js/idb-keyval.js");

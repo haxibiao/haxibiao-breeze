@@ -13,7 +13,7 @@
   <script src="/js/hls.min.js"></script>
   <link href="/css/chunk-032d70ef.6c5d22b6.css" rel="prefetch" />
   <link href="/css/chunk-04c421da.36ee9821.css" rel="prefetch" />
-  <link href="/css/chunk-1ebdc77c.be1469fb.css" rel="prefetch" />
+  <link href="/css/chunk-1ebdc77c.0dad481d.css" rel="prefetch" />
   <link href="/css/chunk-22e83e04.2088d2db.css" rel="prefetch" />
   <link href="/css/chunk-2bf6ea46.e5fffa13.css" rel="prefetch" />
   <link href="/css/chunk-31b2f336.99469f6c.css" rel="prefetch" />
@@ -39,10 +39,10 @@
   <link href="/js/chunk-ccc8bfb4.cdd4d565.js" rel="prefetch" />
   <link href="/js/chunk-ddd24742.c5598707.js" rel="prefetch" />
   <link href="/js/chunk-fa04c498.b69a1911.js" rel="prefetch" />
-  <link href="/css/app.8d81a863.css" rel="preload" as="style" />
-  <link href="/js/app.5868421c.js" rel="preload" as="script" />
-  <link href="/js/chunk-vendors.1d76a2e8.js" rel="preload" as="script" />
-  <link href="/css/app.8d81a863.css" rel="stylesheet" />
+  <link href="/css/app.d04a1b8c.css" rel="preload" as="style" />
+  <link href="/js/app.bf9252fb.js" rel="preload" as="script" />
+  <link href="/js/chunk-vendors.09f4ce64.js" rel="preload" as="script" />
+  <link href="/css/app.d04a1b8c.css" rel="stylesheet" />
   <link rel="icon" type="image/png" sizes="32x32" href="/img/icons/favicon-32x32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="/img/icons/favicon-16x16.png" />
   <link rel="manifest" href="/manifest.json" />
@@ -60,10 +60,10 @@
    <strong>We're sorry but 剧好看-剧说很好看 doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
   </noscript>
   <div id="app"></div>
-  <script src="/js/chunk-vendors.1d76a2e8.js"></script>
-  <script src="/js/app.5868421c.js"></script>
+  <script src="/js/chunk-vendors.09f4ce64.js"></script>
+  <script src="/js/app.bf9252fb.js"></script>
  </body>
-     @if(!Agent::isRobot()) @if($matomo_url = config('matomo.matomo_url'))
+      @if(!Agent::isRobot()) @if($matomo_url = config('matomo.matomo_url'))
         <script type="text/javascript">
             var _paq = window._paq || [];
             _paq.push(['trackPageView']);
