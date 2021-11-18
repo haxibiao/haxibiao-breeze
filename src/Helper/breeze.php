@@ -5,51 +5,49 @@ use App\User;
 use Haxibiao\Breeze\Breeze;
 use Haxibiao\Breeze\Exceptions\UserException;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 /**
- * 根据网站，app后端域名切换不同的数据库连接
+ * 站群APP群暂时没必须分库的理由
  */
-function switch_breeze_db()
+function switch_sites_db()
 {
-    $db_switch_map = [];
-    foreach (config('cms.sites', []) as $domain => $names) {
-        if ($db_name = data_get($names, 'db_name', data_get($names, 'app_name'))) {
-            $db_switch_map[$db_name] = $domain;
-        }
-    }
-    foreach ($db_switch_map as $db_name => $domain) {
-        //SEO都用顶级域名
-        if ($domain === get_domain()) {
-            if ($db_name !== config('database.connections.mysql.database')) {
-                DB::purge('mysql');
-                //修改为当前项目的数据库名
-                config(['database.connections.mysql.database' => $db_name]);
-                DB::reconnect();
-            }
-        }
-    }
+    // $db_switch_map = [];
+    // foreach (config('cms.sites', []) as $domain => $names) {
+    //     if ($db_name = data_get($names, 'db_name', data_get($names, 'app_name'))) {
+    //         $db_switch_map[$db_name] = $domain;
+    //     }
+    // }
+    // foreach ($db_switch_map as $db_name => $domain) {
+    //     //SEO都用顶级域名
+    //     if ($domain === get_domain()) {
+    //         if ($db_name !== config('database.connections.mysql.database')) {
+    //             DB::purge('mysql');
+    //             //修改为当前项目的数据库名
+    //             config(['database.connections.mysql.database' => $db_name]);
+    //             DB::reconnect();
+    //         }
+    //     }
+    // }
 
-    //apps多数据库实例切换(根据二级域名)
-    $db_switch_map = [];
-    foreach (config('cms.apps', []) as $domain => $names) {
-        if ($db_name = data_get($names, 'db_name', data_get($names, 'app_name'))) {
-            $db_switch_map[$db_name] = $domain;
-        }
-    }
-    foreach ($db_switch_map as $db_name => $domain) {
-        //APP都用二级域名
-        if ($domain === get_sub_domain()) {
-            if ($db_name !== config('database.connections.mysql.database')) {
-                DB::purge('mysql');
-                //修改为当前项目的数据库名
-                config(['database.connections.mysql.database' => $db_name]);
-                DB::reconnect();
-            }
-        }
-    }
+    // //apps多数据库实例切换(根据二级域名)
+    // $db_switch_map = [];
+    // foreach (config('cms.apps', []) as $domain => $names) {
+    //     if ($db_name = data_get($names, 'db_name', data_get($names, 'app_name'))) {
+    //         $db_switch_map[$db_name] = $domain;
+    //     }
+    // }
+    // foreach ($db_switch_map as $db_name => $domain) {
+    //     //APP都用二级域名
+    //     if ($domain === get_sub_domain()) {
+    //         if ($db_name !== config('database.connections.mysql.database')) {
+    //             DB::purge('mysql');
+    //             //修改为当前项目的数据库名
+    //             config(['database.connections.mysql.database' => $db_name]);
+    //             DB::reconnect();
+    //         }
+    //     }
+    // }
 }
 
 if (!function_exists('register_routes')) {

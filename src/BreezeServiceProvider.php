@@ -48,6 +48,7 @@ class BreezeServiceProvider extends ServiceProvider
             PublishCommand::class,
             ImageLogo::class,
             DeployManifest::class,
+
             Console\Dimension\ArchiveAll::class,
             Console\Dimension\ArchiveRetention::class,
             Console\Dimension\ArchiveUser::class,
@@ -104,8 +105,8 @@ class BreezeServiceProvider extends ServiceProvider
         //加载 breeze 自带的 assets
         load_breeze_assets();
 
-        //SEO网站多数据库实例切换(根据顶级域名)
-        switch_breeze_db();
+        //站群分库支持
+        switch_sites_db();
 
         $this->bindObservers();
         $this->bindListeners();
