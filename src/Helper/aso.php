@@ -169,12 +169,11 @@ if (!function_exists('app_qrcode_url')) {
     function app_qrcode_url()
     {
         $domain = get_sub_domain();
-        //二维码域名入口尊重腾讯流量拦截处理配置
-        if (isWechat() || isQQ() || config('app.name') == 'juhaokan') {
-            if ($income_domain = config('cms.tencent_traffic.income_domain')) {
-                $domain = $income_domain;
-            }
+        //二维码域名入口,优先尊重腾讯流量的可用域名
+        if ($income_domain = config('cms.tencent_traffic.income_domain')) {
+            $domain = $income_domain;
         }
+
         $qrcode_path      = "/storage/qrcode." . $domain . ".jpg";
         $qrcode_full_path = public_path($qrcode_path);
         //缓存的二维码图片
@@ -183,17 +182,16 @@ if (!function_exists('app_qrcode_url')) {
         }
 
         //包含PC扫码场景，先打开app下载页
-        $small_logo_path = small_logo();
-
         //中心带上small logo
-        $qrcode = QrCode::format('png')->size(250)->encoding('UTF-8');
+        $small_logo_path = parse_url(small_logo(), PHP_URL_PATH);
+        $qrcode          = QrCode::format('png')->size(250)->encoding('UTF-8');
         if (file_exists($small_logo_path)) {
             $qrcode->merge($small_logo_path, .1, true);
         }
         try {
-            @file_put_contents($qrcode_full_path, $qrcode->generate(url('/app')));
-        } catch (Exception $ex) {
-        }
+            $url = "https://" . $domain . "/app";
+            @file_put_contents($qrcode_full_path, $qrcode->generate($url));
+        } catch (Exception $ex) {}
         return url($qrcode_path);
     }
 }
@@ -207,7 +205,7 @@ if (!function_exists('qrcode_url')) {
     {
         if (class_exists("App\\Aso", true)) {
             $apkUrl = aso_value('下载页', '安卓地址');
-            $logo   = small_logo();
+            $logo   = parse_url(small_logo(), PHP_URL_PATH);
 
             if (class_exists("SimpleSoftwareIO\QrCode\Facades\QrCode")) {
                 $qrcode = QrCode::format('png')->size(250)->encoding('UTF-8');
