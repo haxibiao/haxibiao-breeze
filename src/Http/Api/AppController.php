@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Version;
 use Haxibiao\Breeze\Aso;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class AppController extends Controller
 {
@@ -154,30 +155,38 @@ class AppController extends Controller
 
     public function version(Request $request)
     {
+		$package = $request->input('package');
+		$cacheKey = "app_android_version_$package";
+		$result = Cache::get($cacheKey);
+		if($result){
+			return $result;
+		}
+		// 缓存10分钟
+		return Cache::remember($cacheKey, 10*60, function() use ($package)
+		{
+			$builder = Version::where('os', 'Android')->orderByDesc('id');
 
-        $builder = Version::where('os', 'Android')->orderByDesc('id');
-        $package = $request->input('package');
-        if (!empty($package)) {
-            $builder = $builder->where('package', $package);
-        }
+			if (!empty($package)) {
+				$builder = $builder->where('package', $package);
+			}
 
-        if (is_prod_env()) {
-            $builder = $builder->where('type', 1);
-        }
+			if (is_prod_env()) {
+				$builder = $builder->where('type', 1);
+			}
 
-        $version = $builder->get();
-
-        $array = $version->toArray();
-        return array_map(static function ($item) {
-            return array(
-                'version'     => $item['name'],
-                'apk'         => $item['url'],
-                'is_force'    => $item['is_force'],
-                'description' => $item['description'],
-                'size'        => formatSizeUnits($item['size']),
-                'package'     => $item['package'],
-            );
-        }, $array);
+			$version = $builder->get();
+			$array = $version->toArray();
+			return array_map(static function ($item) {
+				return array(
+					'version'     => $item['name'],
+					'apk'         => $item['url'],
+					'is_force'    => $item['is_force'],
+					'description' => $item['description'],
+					'size'        => formatSizeUnits($item['size']),
+					'package'     => $item['package'],
+				);
+			}, $array);
+		});
     }
 
     //ios 指令更新检查
