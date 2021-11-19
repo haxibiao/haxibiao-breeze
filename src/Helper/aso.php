@@ -181,14 +181,15 @@ if (!function_exists('app_qrcode_url')) {
             return url($qrcode_path);
         }
 
-        //包含PC扫码场景，先打开app下载页
-        //中心带上small logo
+        $qrcode = QrCode::format('png')->size(250)->encoding('UTF-8');
+
+        //二维码中心带上logo
         $small_logo_path = parse_url(small_logo(), PHP_URL_PATH);
-        $qrcode          = QrCode::format('png')->size(250)->encoding('UTF-8');
-        if (file_exists($small_logo_path)) {
-            $qrcode->merge($small_logo_path, .1, true);
+        if (file_exists(public_path($small_logo_path))) {
+            $qrcode->merge(public_path($small_logo_path), .1, true);
         }
         try {
+            //兼容PC扫码场景，先打开app下载页
             $url = "https://" . $domain . "/app";
             @file_put_contents($qrcode_full_path, $qrcode->generate($url));
         } catch (Exception $ex) {}
@@ -205,17 +206,14 @@ if (!function_exists('qrcode_url')) {
     {
         if (class_exists("App\\Aso", true)) {
             $apkUrl = aso_value('下载页', '安卓地址');
-            $logo   = parse_url(small_logo(), PHP_URL_PATH);
 
             if (class_exists("SimpleSoftwareIO\QrCode\Facades\QrCode")) {
                 $qrcode = QrCode::format('png')->size(250)->encoding('UTF-8');
 
-                if (@file_get_contents($logo)) {
-                    $qrcode->merge($logo, .1, true);
-                } else {
-                    if (file_exists(public_path($logo))) {
-                        $qrcode->merge(public_path($logo), .1, true);
-                    }
+                //二维码中心带上logo
+                $logo = parse_url(small_logo(), PHP_URL_PATH);
+                if (file_exists(public_path($logo))) {
+                    $qrcode->merge(public_path($logo), .1, true);
                 }
 
                 if (!empty($apkUrl)) {
