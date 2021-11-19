@@ -186,7 +186,7 @@ if (!function_exists('app_qrcode_url')) {
         //二维码中心带上logo
         $small_logo_path = parse_url(small_logo(), PHP_URL_PATH);
         if (file_exists(public_path($small_logo_path))) {
-            $qrcode->merge(public_path($small_logo_path), .1, true);
+            $qrcode->merge(public_path($small_logo_path), .2, true);
         }
         try {
             //兼容PC扫码场景，先打开app下载页
@@ -213,7 +213,7 @@ if (!function_exists('qrcode_url')) {
                 //二维码中心带上logo
                 $logo = parse_url(small_logo(), PHP_URL_PATH);
                 if (file_exists(public_path($logo))) {
-                    $qrcode->merge(public_path($logo), .1, true);
+                    $qrcode->merge(public_path($logo), .2, true);
                 }
 
                 if (!empty($apkUrl)) {
