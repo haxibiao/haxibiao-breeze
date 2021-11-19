@@ -14,6 +14,11 @@ class IndexController extends Controller
      */
     public function index()
     {
+        //app群用二级域名的默认都给pwa模板
+        if (config('breeze.enable_pwa') || get_sub_domain() === get_domain()) {
+            return view('pwa.index');
+        }
+
         if (isRecording() && !is_crawler()) {
             return view('app');
         }
