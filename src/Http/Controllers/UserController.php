@@ -74,7 +74,9 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        return view('pwa.index');
+        if (config('breeze.enable_pwa')) {
+            return view('pwa.index');
+        }
 
         $user                   = User::with('articles')->findOrFail($id);
         $user->followUsers      = $user->followingUsers()->count();

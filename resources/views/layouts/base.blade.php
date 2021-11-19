@@ -29,11 +29,7 @@
 
     <!-- Styles -->
     <link href="{{ breeze_mix('/css/breeze.css') }}" rel="stylesheet">
-
     @stack('css')
-
-    @include('parts.js_for_push')
-
 </head>
 
 <body>
