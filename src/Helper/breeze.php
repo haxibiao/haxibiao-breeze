@@ -8,6 +8,14 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 /**
+ * 明确开启pwa配置或者腾讯流量入口只支持pwa
+ */
+function is_enable_pwa()
+{
+    return config('breeze.enable_pwa') || get_sub_domain() === config('cms.tencent_traffic.income_domain');
+}
+
+/**
  * 站群APP群暂时没必须分库的理由
  */
 function switch_sites_db()
