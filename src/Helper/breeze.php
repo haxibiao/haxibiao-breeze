@@ -8,11 +8,17 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 /**
- * 明确开启pwa配置或者腾讯流量入口只支持pwa
+ * 明确开启pwa的域名，或者腾讯流量入口
  */
 function is_enable_pwa()
 {
-    return config('breeze.enable_pwa') || get_sub_domain() === config('cms.tencent_traffic.income_domain');
+    if (get_sub_domain() === config('cms.tencent_traffic.income_domain')) {
+        return true;
+    }
+    if (in_array(get_subdomain(), config('breeze.enable_pwa_domains') ?? [])) {
+        return true;
+    }
+    return false;
 }
 
 /**
