@@ -15,7 +15,7 @@ function is_enable_pwa()
     if (get_sub_domain() === config('cms.tencent_traffic.income_domain')) {
         return true;
     }
-    if (in_array(get_sub_domain(), config('breeze.enable_pwa_domains') ?? [])) {
+    if (in_array(get_sub_domain(), config('cms.enable_pwa_domains') ?? [])) {
         return true;
     }
     return false;
