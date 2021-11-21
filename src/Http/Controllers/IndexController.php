@@ -44,14 +44,17 @@ class IndexController extends Controller
 
     public function app()
     {
-        $builder = Version::where('os', 'Android')->orderByDesc('id');
+        if (isWechat() || isQQ()) {
+            if (is_enable_pwa()) {
+                return view('pwa.index');
+            }
+        }
 
+        $builder = Version::where('os', 'Android')->orderByDesc('id');
         if (is_prod_env()) {
             $builder = $builder->where('type', 1);
         }
-
         $version = $builder->get();
-
         $array   = $version->toArray();
         $verions = array_map(static function ($item) {
             $createdAt = Carbon::parse($item['created_at']);
@@ -65,7 +68,6 @@ class IndexController extends Controller
                 'created_at'  => (string) $createdAt->toDateString(),
             );
         }, $array);
-
         return view('app')->with('data', $verions);
     }
 

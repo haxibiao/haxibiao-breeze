@@ -120,11 +120,21 @@ function web_logo()
 }
 
 /**
- * 注册登录场景用的文字logo
+ * 其实就是banner的场景
  */
-
 function text_logo()
 {
+    //域名定制banner
+    $banner_path = '/img/banner/' . get_sub_domain() . '.png';
+    if (file_exists(public_path($banner_path))) {
+        return url($banner_path);
+    }
+    //默认banner
+    $banner_path = '/img/banner/banner.png';
+    if (file_exists(public_path($banner_path))) {
+        return url($banner_path);
+    }
+    //兼容以前复用small logo
     return str_replace('.small.', '.text.', small_logo());
 }
 
