@@ -154,7 +154,7 @@ function small_logo()
 
 function app_qrcode_url()
 {
-    $domain           = app_download_domain();
+    $domain           = app_domain();
     $qrcode_path      = "/storage/qrcode." . $domain . ".jpg";
     $qrcode_full_path = public_path($qrcode_path);
     //缓存的二维码图片
