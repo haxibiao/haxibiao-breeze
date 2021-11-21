@@ -185,13 +185,14 @@ class ImageLogo extends Command
         }
 
         $image = Image::make($icon_path);
-        $image->resize(60, 60);
-        $logoPath = public_path('logo/' . $domain . '.small.png');
-        $image->save($logoPath);
-        $this->comment(" - " . $logoPath);
 
         $image->resize(190, 190);
         $logoPath = public_path('logo/' . $domain . '.text.png');
+        $image->save($logoPath);
+        $this->comment(" - " . $logoPath);
+
+        $image->resize(160, 160);
+        $logoPath = public_path('logo/' . $domain . '.touch.png');
         $image->save($logoPath);
         $this->comment(" - " . $logoPath);
 
@@ -200,9 +201,10 @@ class ImageLogo extends Command
         $image->save($logoPath);
         $this->comment(" - " . $logoPath);
 
-        $image->resize(160, 160);
-        $logoPath = public_path('logo/' . $domain . '.touch.png');
+        $image->resize(60, 60);
+        $logoPath = public_path('logo/' . $domain . '.small.png');
         $image->save($logoPath);
         $this->comment(" - " . $logoPath);
+
     }
 }
