@@ -173,13 +173,18 @@ function app_qrcode_url()
     return url($qrcode_path);
 }
 
-//兼容PC扫码场景，先打开app下载页
+/**
+ * 当前app的下载页URL
+ */
 function app_download_url()
 {
-    return "https://" . app_download_domain() . "/app";
+    return "https://" . app_domain() . "/app";
 }
 
-function app_download_domain()
+/**
+ * 当前app的入口域名
+ */
+function app_domain()
 {
     $domain = get_sub_domain();
     //二维码域名入口,优先尊重腾讯流量的可用域名
