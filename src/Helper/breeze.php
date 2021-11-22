@@ -8,14 +8,14 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 /**
- * 明确开启pwa的域名，或者腾讯流量入口
+ * 简化pwa开启逻辑，只要是二级域名都是pwa
  */
 function is_enable_pwa()
 {
     if (get_sub_domain() === config('cms.tencent_traffic.income_domain')) {
         return true;
     }
-    if (in_array(get_sub_domain(), config('cms.enable_pwa_domains') ?? [])) {
+    if (is_sub_domain()) {
         return true;
     }
     return false;
