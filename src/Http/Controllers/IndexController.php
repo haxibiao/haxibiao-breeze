@@ -44,12 +44,14 @@ class IndexController extends Controller
 
     public function app()
     {
+        //微信扫码打开时先跳转到pwa首页看剧
         if (isWechat() || isQQ()) {
             if (is_enable_pwa()) {
-                return view('pwa.index');
+                return redirect()->to('/');
             }
         }
 
+        //浏览器打开的模式，才是APP下载介绍页
         $builder = Version::where('os', 'Android')->orderByDesc('id');
         if (is_prod_env()) {
             $builder = $builder->where('type', 1);
