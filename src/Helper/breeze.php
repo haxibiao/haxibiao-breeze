@@ -12,8 +12,8 @@ use Illuminate\Support\Str;
  */
 function is_enable_pwa()
 {
-    if (get_sub_domain() === config('cms.tencent_traffic.income_domain')) {
-        return true;
+    if (isRobot()) {
+        return false;
     }
     if (is_sub_domain()) {
         return true;
