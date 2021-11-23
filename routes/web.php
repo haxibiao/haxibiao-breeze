@@ -4,16 +4,17 @@ use Illuminate\Http\Middleware\CheckResponseForModifications;
 use Illuminate\Support\Facades\Route;
 
 // Scripts & Styles...
-Route::get('/css/{asset}', 'BreezeAssetController@show')->middleware(CheckResponseForModifications::class);
-Route::get('/js/{asset}', 'BreezeAssetController@show')->middleware(CheckResponseForModifications::class);
-Route::get('/serviceworker.js', 'BreezeAssetController@show')->middleware(CheckResponseForModifications::class);
-Route::get('/service-worker.js', 'BreezeAssetController@show')->middleware(CheckResponseForModifications::class);
-Route::get('/images/{asset}', 'BreezeAssetController@show')->middleware(CheckResponseForModifications::class);
-Route::get('/img/{asset}', 'BreezeAssetController@show')->middleware(CheckResponseForModifications::class);
-Route::get('/images/{folder}/{asset}', 'BreezeAssetController@show')->middleware(CheckResponseForModifications::class);
-Route::get('/img/{folder}/{asset}', 'BreezeAssetController@show')->middleware(CheckResponseForModifications::class);
+Route::get('/css/{asset}', 'BreezeAssetController@frontend')->middleware(CheckResponseForModifications::class);
+Route::get('/js/{asset}', 'BreezeAssetController@frontend')->middleware(CheckResponseForModifications::class);
+Route::get('/serviceworker.js', 'BreezeAssetController@frontend')->middleware(CheckResponseForModifications::class);
+Route::get('/service-worker.js', 'BreezeAssetController@frontend')->middleware(CheckResponseForModifications::class);
 
-//资源ID的规则
+Route::get('/images/{asset}', 'BreezeAssetController@assets')->middleware(CheckResponseForModifications::class);
+Route::get('/images/{folder}/{asset}', 'BreezeAssetController@assets')->middleware(CheckResponseForModifications::class);
+Route::get('/img/{asset}', 'BreezeAssetController@assets')->middleware(CheckResponseForModifications::class);
+Route::get('/img/{folder}/{asset}', 'BreezeAssetController@assets')->middleware(CheckResponseForModifications::class);
+
+//ID默认数字化
 Route::pattern('id', '\d+');
 
 //主页

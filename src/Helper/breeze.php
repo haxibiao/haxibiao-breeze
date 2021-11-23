@@ -22,6 +22,17 @@ function is_enable_pwa()
 }
 
 /**
+ * pwa视图,支持cms.pwa_themes主题配置
+ */
+function pwa_view()
+{
+    if ($theme = config('cms.pwa_themes')[get_sub_domain()] ?? null) {
+        return view('pwa.' . $theme);
+    }
+    return view('pwa.index');
+}
+
+/**
  * 站群APP群暂时没必须分库的理由
  */
 function switch_sites_db()
@@ -85,58 +96,64 @@ if (!function_exists('register_routes')) {
     }
 }
 
+function load_breeze_frontend($public_path)
+{
+    //breeze核心的前端
+    $scan_folders = [
+        'css',
+        'js',
+    ];
+    foreach ($scan_folders as $folder) {
+        foreach (glob($public_path . "/" . $folder . "/*") as $filepath) {
+            $asset_path = str_replace($public_path, '', $filepath);
+            Breeze::asset($asset_path, $filepath);
+        }
+    }
+
+    //单独加载默认pwa根目录需要的
+    Breeze::asset('/service-worker.js', $public_path . '/service-worker.js');
+
+    //站群：不同域名的icons
+    foreach (glob(public_path('/images/icons/' . get_domain() . '/*')) as $filepath) {
+        $asset_path = str_replace(public_path('/'), '/', $filepath);
+        $asset_path = str_replace('/images/icons/' . get_domain(), '/images/icons', $asset_path);
+        Breeze::asset($asset_path, $filepath);
+    }
+
+    //APP群：不同主题的pwa前端
+    if ($theme = config('cms.pwa_themes')[get_sub_domain()] ?? null) {
+        foreach ($scan_folders as $folder) {
+            foreach (glob(public_path('/themes/' . $theme . '/' . $folder . '/*')) as $filepath) {
+                $asset_path = str_replace(public_path('/'), '/', $filepath);
+                //替换为根目录的
+                $asset_path = str_replace('/themes/' . $theme . '/' . $folder, '/' . $folder, $asset_path);
+                Breeze::asset($asset_path, $filepath);
+            }
+        }
+    }
+}
+
 /**
- * 加载 个breeze模块 下 views 依赖的 css js images
+ * 加载子模块视图依赖的public目录下的assets
  */
-if (!function_exists('load_breeze_assets')) {
-    function load_breeze_assets($public_path = null)
-    {
-        $public_path = $public_path ?? breeze_path('public');
-        //单独注册pwa 需要的 serviceworker.js
-        Breeze::asset('/service-worker.js', $public_path . '/service-worker.js');
+function load_breeze_assets($public_path = null)
+{
+    $public_path = $public_path ?? breeze_path('public');
 
-        //加载不同域名的pwa icons
-        foreach (glob(public_path('/images/icons/' . get_domain() . '/*')) as $filepath) {
-            $asset_path = str_replace(public_path('/'), '/', $filepath);
-            $asset_path = str_replace('/images/icons/' . get_domain(), '/images/icons', $asset_path);
-            Breeze::asset($asset_path, $filepath);
-        }
+    //加载前端代码
+    load_breeze_frontend($public_path);
 
-        foreach (glob($public_path . '/css/*') as $filepath) {
-            $asset_path = str_replace($public_path, '', $filepath);
-            Breeze::asset($asset_path, $filepath);
-        }
-
-        foreach (glob($public_path . '/js/*') as $filepath) {
-            $asset_path = str_replace($public_path, '', $filepath);
-            Breeze::asset($asset_path, $filepath);
-        }
-
-        foreach (glob($public_path . '/img/*') as $filepath) {
-            $asset_path = str_replace($public_path, '', $filepath);
-            Breeze::asset($asset_path, $filepath);
-        }
-        foreach (glob($public_path . '/images/*') as $filepath) {
-            $asset_path = str_replace($public_path, '', $filepath);
-            Breeze::asset($asset_path, $filepath);
-        }
-
-        foreach (glob($public_path . '/images/movie/*') as $filepath) {
-            $asset_path = str_replace($public_path, '', $filepath);
-            Breeze::asset($asset_path, $filepath);
-        }
-
-        foreach (glob($public_path . '/images/app/*') as $filepath) {
-            $asset_path = str_replace($public_path, '', $filepath);
-            Breeze::asset($asset_path, $filepath);
-        }
-
-        foreach (glob($public_path . '/images/logo/*') as $filepath) {
-            $asset_path = str_replace($public_path, '', $filepath);
-            Breeze::asset($asset_path, $filepath);
-        }
-
-        foreach (glob($public_path . '/images/icons/*') as $filepath) {
+    //加载图片字体
+    $scan_folders = [
+        'img',
+        'images',
+        'images/movie',
+        'images/app',
+        'images/logo',
+        'images/icons',
+    ];
+    foreach ($scan_folders as $folder) {
+        foreach (glob($public_path . "/" . $folder . "/*") as $filepath) {
             $asset_path = str_replace($public_path, '', $filepath);
             Breeze::asset($asset_path, $filepath);
         }
