@@ -110,7 +110,7 @@ function load_breeze_frontend($public_path)
         }
     }
 
-    //单独加载默认pwa根目录需要的
+    //默认pwa的sw
     Breeze::asset('/service-worker.js', $public_path . '/service-worker.js');
 
     //站群：不同域名的icons
@@ -130,7 +130,11 @@ function load_breeze_frontend($public_path)
                 Breeze::asset($asset_path, $filepath);
             }
         }
+
+        //主题模板pwa的sw
+        Breeze::asset('/service-worker.js', public_path('/themes/' . $theme . '/js/service-worker.js'));
     }
+
 }
 
 /**
