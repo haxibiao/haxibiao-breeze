@@ -174,22 +174,21 @@ class ImageLogo extends Command
         if (!file_exists(public_path('logo'))) {
             mkdir(public_path('logo'));
         }
-        //breeze的logo一直选择复用app的icon(1024*1024)
+
+        //默认logo
         $icon_path = public_path('logo.png');
+        //复用app的icon(1024*1024)
         if ($icon = $this->option('icon')) {
             $icon_path = $icon;
         }
-        //自动搜索 logo/域名.png
+        //自动搜索每个域名的logo
         if (file_exists(public_path('logo/' . $domain . '.png'))) {
             $icon_path = public_path('logo/' . $domain . '.png');
         }
 
         $image = Image::make($icon_path);
 
-        $image->resize(190, 190);
-        $logoPath = public_path('logo/' . $domain . '.text.png');
-        $image->save($logoPath);
-        $this->comment(" - " . $logoPath);
+        //FIXME: 模板中用text_logo的全部需要换banner/get_domain_key().png
 
         $image->resize(160, 160);
         $logoPath = public_path('logo/' . $domain . '.touch.png');

@@ -8,7 +8,6 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 function adIsOpened()
 {
-
     $os     = request()->header('os', 'android');
     $config = AppConfig::where(['group' => 'android', 'name' => 'ad'])->first();
     //如果使用的是版本开关
@@ -42,7 +41,6 @@ function getDownloadUrl()
 {
     if (Agent::isAndroidOS()) {
         return getApkUrl();
-
     }
     return getIpaUrl();
 }
@@ -76,35 +74,19 @@ if (!function_exists('douyinOpen')) {
         } else {
             return true;
         }
-
     }
 }
 
-/*****************************
- * *****答赚web网页兼容*********
- * ***************************
+/**
+ * 是否处于备案状态
  */
-//是否处于备案状态
-
 function isRecording()
 {
     if (class_exists("App\\AppConfig", true)) {
         $config = app('app.config.beian');
-        // //兼容答赚web默认开启备案检查模式?
-        // if ($config === null) {
-        //     return true;
-        // }
         if ($config && $config->state === \App\AppConfig::STATUS_ON) {
             return true;
         }
-    }
-    /**
-     * 暂时硬编码了，对用户关闭深圳哈希坊下八个站点的视频/电影播放模块
-     * https://pm.haxifang.com/browse/HXB-288
-     */
-    $isRecording = in_array(get_domain(), ['dongdianhai.com', 'dongshengyin.com', 'tongjiuxiu.com', 'dongtaolu.cn', 'dongdezhuan.com', 'dongyundong.com', 'dongwuli.com']);
-    if ($isRecording) {
-        return true;
     }
     return false;
 }
@@ -120,32 +102,31 @@ function web_logo()
 }
 
 /**
- * 其实就是banner的场景
+ * banner场景的带文字的logo
  */
 function text_logo()
 {
     //域名定制banner
-    $banner_path = '/img/banner/' . get_sub_domain() . '.png';
+    $banner_path = '/banner/' . get_domain_key() . '.png';
     if (file_exists(public_path($banner_path))) {
         return url($banner_path);
     }
     //默认banner
-    $banner_path = '/img/banner/banner.png';
+    $banner_path = '/banner/default.png';
     if (file_exists(public_path($banner_path))) {
         return url($banner_path);
     }
-    //兼容以前复用small logo
+    //复用text_logo
     return str_replace('.small.', '.text.', small_logo());
 }
 
 /**
  * 小尺寸logo,大部分场景得到logo,尺寸60*60
  */
-
 function small_logo()
 {
-    //APP的
-    $logo_path = '/logo/' . get_sub_domain() . '.small.png';
+    //APP群
+    $logo_path = '/logo/' . get_domain_key() . '.small.png';
     if (file_exists(public_path($logo_path))) {
         return url($logo_path);
     }
@@ -161,7 +142,6 @@ function small_logo()
 /**
  * 去下载APP的qrcode图片地址(自动生成)
  */
-
 function app_qrcode_url()
 {
     $domain           = app_domain();
@@ -211,7 +191,6 @@ function app_domain()
             }
         }
     }
-
     return $app_domain;
 }
 
@@ -219,7 +198,6 @@ function app_domain()
  * 返回的是base64 data 内容是apk的cdn URL
  * @deprecated 建议用app_qrcode_url返回图片地址
  */
-
 function qrcode_url()
 {
     if (class_exists("App\\Aso", true)) {
