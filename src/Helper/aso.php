@@ -184,7 +184,7 @@ function app_qrcode_url()
 }
 
 /**
- * 当前app的下载页URL
+ * 当前网站的app的下载页URL
  */
 function app_download_url()
 {
@@ -192,16 +192,27 @@ function app_download_url()
 }
 
 /**
- * 当前app的入口域名
+ * 获取当前app的入口域名
  */
 function app_domain()
 {
-    $domain = get_sub_domain();
-    //二维码域名入口,优先尊重腾讯流量的可用域名
-    if ($income_domain = config('cms.tencent_traffic.income_domain')) {
-        $domain = $income_domain;
+    // 如果是二级域名，尊重二级域名
+    $app_domain = get_sub_domain();
+
+    // 已配置二维码域名入口的
+    if ($scan_domain = config('cms.qrcode_traffic.scan_domain')) {
+        $app_domain = $scan_domain;
     }
-    return $domain;
+    // 允许站群多SEO域名合并为一个扫码入口转化app的域名
+    foreach (config('cms.qrcode_traffic.scan_domains', []) as $scan_domain => $scan_config) {
+        foreach ($scan_config['seo_domains'] ?? [] as $seo_domain) {
+            if ($seo_domain == get_domain()) {
+                $app_domain = $scan_domain;
+            }
+        }
+    }
+
+    return $app_domain;
 }
 
 /**
