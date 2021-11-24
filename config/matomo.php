@@ -9,6 +9,7 @@ return [
     'proxy_host'  => env('MATOMO_PROXY_HOST', '127.0.0.1'),
     'proxy_port'  => env('MATOMO_PROXY_PORT', 9502),
     'token_auth'  => env('MATOMO_TOKEN_AUTH'),
+    'matomo_agent'=> env('MATOMO_AGENT',false),
 
     //后端事件统计的site_id
     'matomo_id'   => env('MATOMO_ID'),
