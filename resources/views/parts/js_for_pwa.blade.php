@@ -9,5 +9,9 @@ window.logoTextUrl = '{{ text_logo() }}';
 window.apkUrl = '{{ getApkUrl() }}';
 window.downloadUrl = '{{ app_download_url() }}';
 window.appDomain = '{{ app_domain() }}';
+window.appName = '{{ get_app_name() }}';
+window.appSchema = '{{ get_app_name() }}';
+window.apkPackage = '{{ get_apk_package() }}';
+window.apkVersion = '{{ env("APK_VERSION","4.1.0") }}';
 
 </script>

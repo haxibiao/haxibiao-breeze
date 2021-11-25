@@ -107,7 +107,7 @@ function web_logo()
 function text_logo()
 {
     //域名定制banner
-    $banner_path = '/banner/' . get_domain_key() . '.png';
+    $banner_path = '/banner/' . get_app_name() . '.png';
     if (file_exists(public_path($banner_path))) {
         return url($banner_path);
     }
@@ -126,7 +126,7 @@ function text_logo()
 function small_logo()
 {
     //APP群
-    $logo_path = '/logo/' . get_domain_key() . '.small.png';
+    $logo_path = '/logo/' . get_app_name() . '.small.png';
     if (file_exists(public_path($logo_path))) {
         return url($logo_path);
     }
