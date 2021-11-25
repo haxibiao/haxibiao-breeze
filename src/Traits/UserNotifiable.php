@@ -58,6 +58,8 @@ trait UserNotifiable
                     break;
                 //打赏文章通知 - 网页用
                 case 'ChatNewMessage':
+                case 'ChatJoinResultNotification':
+                case 'ChatJoinNotification':
                     $unreads['chats']++;
                     break;
 
@@ -69,7 +71,7 @@ trait UserNotifiable
         });
 
         //聊天消息数
-        $unreads['chats'] = $this->chats->sum(function ($item) {
+        $unreads['chats'] += $this->chats->sum(function ($item) {
             return $item->pivot->unreads;
         });
         //投稿请求数
