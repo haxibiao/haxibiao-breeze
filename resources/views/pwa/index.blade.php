@@ -58,37 +58,39 @@
 </head>
 
 <body>
-	<noscript>
-		<strong>抱歉，需要浏览器支持JS才能正常使用本站.</strong>
-	</noscript>
+    <noscript>
+        <strong>抱歉，需要浏览器支持JS才能正常使用本站.</strong>
+    </noscript>
     <div id="app"></div>
     <script src="/js/chunk-vendors.1d76a2e8.js"></script>
     <script src="/js/app.6c4fed2e.js"></script>
-	<script>
-		window.downloadUrl = '{{ app_download_url() }}';
-	</script>
-	@if(!Agent::isRobot()) 
-		@if($matomo_url = config('matomo.matomo_url'))
-		<script type="text/javascript">
-			var _paq = window._paq || [];
-			_paq.push(['trackPageView']);
-			_paq.push(['enableLinkTracking']);
-			(function() {
-				var u = "{{ $matomo_url }}/";
-				_paq.push(['setTrackerUrl', u + 'matomo.php']);
-				_paq.push(['setSiteId', '{{ matomo_site_id() }}']);
-				var d = document,
-					g = d.createElement('script'),
-					s = d.getElementsByTagName('script')[0];
-				g.type = 'text/javascript';
-				g.async = true;
-				g.defer = true;
-				g.src = u + 'matomo.js';
-				s.parentNode.insertBefore(g, s);
-			})();
-		</script>
-		@endif 
-	@endif
+    <script>
+        window.downloadUrl = '{{ download_url() }}';
+
+    </script>
+    @if(!Agent::isRobot())
+    @if($matomo_url = config('matomo.matomo_url'))
+    <script type="text/javascript">
+        var _paq = window._paq || [];
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+        (function() {
+            var u = "{{ $matomo_url }}/";
+            _paq.push(['setTrackerUrl', u + 'matomo.php']);
+            _paq.push(['setSiteId', '{{ matomo_site_id() }}']);
+            var d = document
+                , g = d.createElement('script')
+                , s = d.getElementsByTagName('script')[0];
+            g.type = 'text/javascript';
+            g.async = true;
+            g.defer = true;
+            g.src = u + 'matomo.js';
+            s.parentNode.insertBefore(g, s);
+        })();
+
+    </script>
+    @endif
+    @endif
 
 </body>
 

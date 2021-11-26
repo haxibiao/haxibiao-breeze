@@ -85,25 +85,21 @@ function get_app_name_cn($domain)
 //网站显示的站名/APP后端名称
 function seo_site_name()
 {
-    $site_name = env('APP_NAME_CN');
-
-    //1.尊重站名配置
+    //1.app群cms config
     $apps = config('cms.apps') ?? [];
     if ($name = array_get(array_get($apps, get_sub_domain()), 'app_name_cn')) {
         return $name;
     }
+    //2.站群cms config
     $sites = config('cms.sites') ?? [];
     if ($name = array_get(array_get($sites, get_domain()), 'app_name_cn')) {
         return $name;
     }
-
-    //2.尊重cms配置站群数据库表
+    //3.cms数据库sites表
     if ($site = cms_get_site()) {
         return $site->name;
     }
-
-    //3.最后默认用env
-    return $site_name;
+    return env('APP_NAME_CN');
 }
 
 function matomo_site_id()

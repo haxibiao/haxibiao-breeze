@@ -158,7 +158,7 @@ function app_qrcode_url()
         $qrcode->merge(public_path($small_logo_path), .2, true);
     }
     try {
-        @file_put_contents($qrcode_full_path, $qrcode->generate(app_download_url()));
+        @file_put_contents($qrcode_full_path, $qrcode->generate(download_url()));
     } catch (Exception $ex) {}
     return url($qrcode_path);
 }
