@@ -1,5 +1,5 @@
 @if(!Agent::isRobot())
-	
+
 	{{-- GA统计 --}}
 	@if($ga_id = neihan_ga_measure_id())
 	<!-- Global site tag (gtag.js) - Google Analytics -->
@@ -35,7 +35,7 @@
 			g.type = 'text/javascript';
 			g.async = true;
 			g.defer = true;
-			g.src = u + 'matomo.js';
+			g.src = 'https://cdn.jsdelivr.net/gh/breesite/d/matomo.js';
 			s.parentNode.insertBefore(g, s);
 		})();
 
