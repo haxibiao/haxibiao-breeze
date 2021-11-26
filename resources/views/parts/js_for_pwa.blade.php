@@ -5,6 +5,7 @@
 {{-- window.gqlUri = '/gql';  --}}
 
 window.logoUrl = '{{ small_logo() }}';
+window.logoIconUrl = '{{ small_logo() }}';
 window.logoTextUrl = '{{ text_logo() }}';
 window.apkUrl = '{{ getApkUrl() }}';
 window.appDomain = '{{ app_domain() }}';
