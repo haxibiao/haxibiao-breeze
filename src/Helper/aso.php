@@ -41,10 +41,10 @@ function aso_value($name)
 
 function getDownloadUrl()
 {
-    if (Agent::isAndroidOS()) {
-        return getApkUrl();
+    if (Agent::isPhone() && Agent::isSafari()) {
+        return getIpaUrl();
     }
-    return getIpaUrl();
+    return getApkUrl();
 }
 
 function getApkUrl()
