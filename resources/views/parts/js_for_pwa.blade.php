@@ -7,8 +7,8 @@
 window.logoUrl = '{{ small_logo() }}';
 window.logoTextUrl = '{{ text_logo() }}';
 window.apkUrl = '{{ getApkUrl() }}';
-window.downloadUrl = '{{ app_download_url() }}';
 window.appDomain = '{{ app_domain() }}';
+window.downloadUrl = '{{ download_url() }}';
 window.appName = '{{ get_app_name() }}';
 window.appSchema = '{{ get_app_name() }}';
 window.apkPackage = '{{ get_apk_package() }}';
