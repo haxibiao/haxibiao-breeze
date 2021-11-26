@@ -188,7 +188,7 @@ class ImageLogo extends Command
 
         $image = Image::make($icon_path);
 
-        //FIXME: 模板中用text_logo的全部需要换banner/get_domain_key().png
+        //FIXME: 模板中用text_logo的全部需要换banner/get_app_name().png
 
         $image->resize(160, 160);
         $logoPath = public_path('logo/' . $domain . '.touch.png');

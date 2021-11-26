@@ -23,32 +23,34 @@ function adIsOpened()
     }
 }
 
-function aso_value($group, $name)
+function aso_value($name)
 {
     if ($asos = app('asos')) {
         foreach ($asos as $aso) {
-            if ($aso->group == $group) {
+            //默认支持app群多个子域名的下载页设置
+            $domain = get_sub_domain();
+            if ($aso->domain == $domain) {
                 if ($aso->name == $name) {
                     return $aso->value;
                 }
             }
         }
     }
-    return Aso::getValue($group, $name);
+    return Aso::getValue($name);
 }
 
 function getDownloadUrl()
 {
-    if (Agent::isAndroidOS()) {
-        return getApkUrl();
+    if (Agent::isPhone() && Agent::isSafari()) {
+        return getIpaUrl();
     }
-    return getIpaUrl();
+    return getApkUrl();
 }
 
 function getApkUrl()
 {
-    $apkUrl = aso_value('下载页', '安卓地址');
-    if (is_null($apkUrl) || empty($apkUrl)) {
+    $apkUrl = aso_value('安卓地址');
+    if (blank($apkUrl)) {
         return null;
     }
     return $apkUrl;
@@ -56,24 +58,22 @@ function getApkUrl()
 
 function getIpaUrl()
 {
-    $url = aso_value('下载页', '苹果地址');
-    if (is_null($url) || empty($url)) {
+    $url = aso_value('苹果地址');
+    if (blank($url)) {
         return null;
     }
     return $url;
 }
 
-if (!function_exists('douyinOpen')) {
-    function douyinOpen()
-    {
-        $config = Config::where([
-            'name' => 'douyin',
-        ])->first();
-        if ($config && $config->value === Config::CONFIG_OFF) {
-            return false;
-        } else {
-            return true;
-        }
+function douyinOpen()
+{
+    $config = Config::where([
+        'name' => 'douyin',
+    ])->first();
+    if ($config && $config->value === Config::CONFIG_OFF) {
+        return false;
+    } else {
+        return true;
     }
 }
 
@@ -107,7 +107,7 @@ function web_logo()
 function text_logo()
 {
     //域名定制banner
-    $banner_path = '/banner/' . get_domain_key() . '.png';
+    $banner_path = '/banner/' . get_app_name() . '.png';
     if (file_exists(public_path($banner_path))) {
         return url($banner_path);
     }
@@ -126,7 +126,7 @@ function text_logo()
 function small_logo()
 {
     //APP群
-    $logo_path = '/logo/' . get_domain_key() . '.small.png';
+    $logo_path = '/logo/' . get_app_name() . '.small.png';
     if (file_exists(public_path($logo_path))) {
         return url($logo_path);
     }
@@ -158,7 +158,7 @@ function app_qrcode_url()
         $qrcode->merge(public_path($small_logo_path), .2, true);
     }
     try {
-        @file_put_contents($qrcode_full_path, $qrcode->generate(app_download_url()));
+        @file_put_contents($qrcode_full_path, $qrcode->generate(download_url()));
     } catch (Exception $ex) {}
     return url($qrcode_path);
 }
@@ -166,7 +166,7 @@ function app_qrcode_url()
 /**
  * 当前网站的app的下载页URL
  */
-function app_download_url()
+function download_url()
 {
     return "https://" . app_domain() . "/app";
 }
@@ -201,7 +201,7 @@ function app_domain()
 function qrcode_url()
 {
     if (class_exists("App\\Aso", true)) {
-        $apkUrl = aso_value('下载页', '安卓地址');
+        $apkUrl = aso_value('安卓地址');
 
         if (class_exists("SimpleSoftwareIO\QrCode\Facades\QrCode")) {
             $qrcode = QrCode::format('png')->size(250)->encoding('UTF-8');

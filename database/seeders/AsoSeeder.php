@@ -14,23 +14,18 @@ class AsoSeeder extends Seeder
      */
     public function run()
     {
-        $app_name    = env('APP_NAME');
-        $app_name_cn = env('APP_NAME_CN');
-
         $item = Aso::firstOrCreate([
             'group' => '下载页',
             'name'  => '安卓地址',
         ]);
-        // 示范代码，项目下需要覆盖AsoSeeder 或者 AsoTableSeeder来修复单个项目的app下载地址(小火箭的下载版本管理做好之前)
-        $item->value = 'https://cos.haxibiao.com/apk/' . $app_name . '_4.0.0.apk';
+        $item->value = '';
         $item->save();
 
         $item = Aso::firstOrCreate([
             'group' => '下载页',
             'name'  => '苹果地址',
         ]);
-        // 示范代码，项目下需要覆盖AsoSeeder 或者 AsoTableSeeder来修复单个项目的app下载地址(小火箭的下载版本管理做好之前)
-        $item->value = "itms-services:///\?action=download-manifest&url=https://cos.haxibiao.com/ipa/" . $app_name . "_4.0.0_1.manifest.plist";
+        $item->value = "";
         $item->save();
 
         $item = Aso::firstOrCreate([
@@ -111,14 +106,5 @@ class AsoSeeder extends Seeder
         ]);
         $item->value = $item->value ?? '不知道最近哪些美剧好看？上疯狂美剧帮你告别剧荒！我们有最新美剧评分、最热预告花絮、最精彩的剧情剪辑片段、 还有评论区的剧迷一起与你追星聊剧点评吐槽，疯狂美剧是美剧爱好者的天堂，看美剧请认准疯狂美剧！';
         $item->save();
-
-        $item = Aso::firstOrCreate([
-            'group' => '下载页',
-            'name'  => 'logo',
-        ]);
-        $item->value = small_logo();
-
-        $item->save();
-
     }
 }

@@ -13,12 +13,9 @@ class CreateAsosTable extends Migration
      */
     public function up()
     {
-        if (Schema::hasTable('asos')) {
-            return;
-        }
-
         Schema::create('asos', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('domain')->nullable()->comment('域名,多APP时需要匹配子域名');
             $table->string('group')->comment('功能组');
             $table->string('name')->comment('名称');
             $table->text('value')->nullable()->comment('ASO相关具体值');

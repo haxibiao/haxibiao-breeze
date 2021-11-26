@@ -14,10 +14,14 @@ class Aso extends Model
         return optional(self::where('name', '动态修改群qq号')->first())->value;
     }
 
-    public static function getValue($group, $name)
+    public static function getValue($name, $domain = null)
     {
-        $item = Aso::whereGroup($group)->whereName($name)->first();
-        return $item ? $item->value : '';
+        $qb = Aso::whereName($name);
+        if ($domain) {
+            $qb = $qb->whereDomain($domain);
+        }
+        $item = $qb->first();
+        return $item->value ?? '';
     }
 
     public function saveDownloadImage($file, $name)
