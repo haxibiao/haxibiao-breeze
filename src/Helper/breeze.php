@@ -15,6 +15,10 @@ function is_enable_pwa()
     if (isRobot()) {
         return false;
     }
+    //优先尊重breeze.enable_pwa
+    if (!is_null(config('breeze.enable_pwa'))) {
+        return config('breeze.enable_pwa');
+    }
     if (is_sub_domain()) {
         return true;
     }

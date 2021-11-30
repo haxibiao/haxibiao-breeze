@@ -74,7 +74,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        if (config('breeze.enable_pwa')) {
+        if (is_enable_pwa()) {
             return view('pwa.index');
         }
 
