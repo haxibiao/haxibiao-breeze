@@ -70,9 +70,10 @@ function get_app_name($domain = null)
     return $app_name;
 }
 
-//通过域名获取app_name中文
-function get_app_name_cn($domain)
+//获取app_name_cn
+function get_app_name_cn($domain = null)
 {
+    $domain      = $domain ?? get_sub_domain();
     $names       = config('cms.sites') ?? [];
     $app_name_cn = array_get(array_get($names, $domain), 'app_name_cn');
     if (blank($app_name_cn)) {
@@ -226,11 +227,6 @@ function get_seo_tj()
     }
     return Seo::getValue('统计', 'matomo');
 }
-
-/*****************************
- * *****答赚web网页兼容*********
- * ***************************
- */
 
 function get_seo_title()
 {
