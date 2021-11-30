@@ -102,24 +102,26 @@ function seo_site_name()
     return env('APP_NAME_CN');
 }
 
-function matomo_site_id()
+function matomo_url()
 {
-    if (request() && $url = request()->getUri()) {
-        $sites = config('cms.matomo_ids') ?? [];
+    return config('matomo.matomo_url');
+}
 
-        $host     = parse_url($url)['host'];
-        $host     = str_replace(['l.', 'www.', 'cdn.'], '', $host);
-        $matomoId = @$sites[$host];
-        if (!blank($matomoId)) {
-            return $matomoId;
-        }
-        return config('matomo.web_id', '1');
+/**
+ * 获取当前站点的matomo_id（兼容cms站群app群）
+ */
+function matomo_id()
+{
+    $domain   = get_sub_domain();
+    $matomoId = config('cms.matomo_ids', [])[$domain] ?? null;
+    if (!blank($matomoId)) {
+        return $matomoId;
     }
+    return config('matomo.matomo_id', '1');
 }
 
 /**
  * 是否备案站群
- * @return boolean
  */
 function is_beian_sites()
 {

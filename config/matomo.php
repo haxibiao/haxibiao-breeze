@@ -11,15 +11,15 @@ return [
     'token_auth'   => env('MATOMO_TOKEN_AUTH'),
     'matomo_agent' => env('MATOMO_AGENT', false),
 
-    //后端事件
+    //默认事件(含后端)
     'matomo_id'    => env('MATOMO_ID'),
     'matomo_url'   => env('MATOMO_URL'),
 
-    //APP事件(native的直接跟踪，这里主要是pwa)
+    //APP事件
     'app_id'       => env('MATOMO_APP_ID', env('MATOMO_ID')),
     'app_url'      => env('MATOMO_APP_URL', env('MATOMO_URL')),
 
-    //网页事件
+    //网页事件(含PWA)
     'web_id'       => env('MATOMO_WEB_ID', env('MATOMO_ID')),
     'web_url'      => env('MATOMO_WEB_URL', env('MATOMO_URL')),
 
