@@ -417,6 +417,10 @@ trait UserAttrs
     {
         return $this->unreads('follows');
     }
+    public function getInviteCodeAttribute()
+    {
+        return $this->makeInviteCode();
+    }
 
     public function getUnreadRequestsAttribute()
     {

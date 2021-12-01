@@ -54,6 +54,9 @@ class CreateProfilesTable extends Migration
 
             //答题
             $table->unsignedInteger('questions_count')->index()->default(0)->comment('出题总数');
+            $table->unsignedInteger('invited_count')->index()->default(0)->comment('邀请人数量');
+            $table->timestamp('ad_free_expires_at')->nullable()->comment('免广告过期时间');
+            $table->boolean('ad_free')->default(false)->comment('是否免广告');
             $table->unsignedInteger('answers_time_count')->index()->default(0)->comment('答题耗时总数');
             $table->unsignedInteger('answers_count')->index()->default(0)->comment('答题总数');
             $table->unsignedInteger('correct_count')->index()->default(0)->comment('答对总数');

@@ -8,6 +8,7 @@ use Haxibiao\Breeze\Dimension;
 use Haxibiao\Breeze\Exceptions\GQLException;
 use Haxibiao\Breeze\Exceptions\UserException;
 use Haxibiao\Breeze\OAuth;
+use Haxibiao\Breeze\Traits\InviteCoder;
 use Haxibiao\Breeze\User;
 use Haxibiao\Breeze\UserProfile;
 use Haxibiao\Breeze\UserRetention;
@@ -15,6 +16,7 @@ use Haxibiao\Breeze\Verify;
 use Haxibiao\Helpers\utils\PhoneUtils;
 use Haxibiao\Helpers\utils\WechatUtils;
 use Haxibiao\Task\Contribute;
+use Haxibiao\Task\Invitation;
 use Haxibiao\Wallet\Exchange;
 use Haxibiao\Wallet\Gold;
 use Haxibiao\Wallet\Transaction;
@@ -495,7 +497,7 @@ trait UserRepo
         $user->save();
 
         $profile = UserProfile::firstOrCreate([
-            'user_id' => $user->id
+            'user_id' => $user->id,
         ]);
 
         // //FIXME: 记录用户的APP版本号
@@ -926,5 +928,70 @@ trait UserRepo
         //     return $this;
         // }
         return password_verify($password, $this->password);
+    }
+
+    public function makeInviteCode()
+    {
+        return InviteCoder::encode($this->id);
+    }
+
+    public static function deInviteCode($code)
+    {
+        return is_base64($code) ? base64_decode($code) : InviteCoder::decode($code);
+    }
+
+    public function inviteReward()
+    {
+        $invitation = Invitation::whereNull('invited_in')->where('invited_user_id', $this->id)->first();
+
+        if (!is_null($invitation)) {
+            // 支付宝和微信成功提现一次以上
+            $successWithdrawCount = Withdraw::successWithdrawCountWithPlatform($this->id, [Withdraw::ALIPAY_PLATFORM, Withdraw::WECHAT_PLATFORM, Withdraw::QQ_PLATFORM]);
+            if ($successWithdrawCount > 0) {
+                //邀请人
+                $inviter = $invitation->user;
+                if ($inviter) {
+                    $inviterWallet = Wallet::findOrCreate($inviter->id, Wallet::INVITATION_TYPE);
+                    //新用户首次奖励1元,之后每次邀请奖励0.4-0.6元中随机发放
+                    $rewardAmount = $inviter->successfulInvitations()->count() == 0 ? 1 : mt_rand(4, 6) / 10;
+
+                    //发放奖励
+                    $inviterWallet->makeIncome($rewardAmount, $invitation, '邀请激活奖励');
+
+                    //更新邀请记录
+                    $invitation->update(['invited_in' => now()]);
+                }
+            }
+        }
+
+    }
+
+    //奖励免广告权益
+    public function adFreeReward($invitation)
+    {
+        $profile = $this->profile;
+        $profile->invited_count += 1;
+        $invited_count       = $profile->invited_count;
+        $ad_free_reward_days = 5;
+        if ($invited_count == 3) {
+            $ad_free_reward_days += 5;
+        } else if ($invited_count == 5) {
+            $ad_free_reward_days += 10;
+        } else if ($invited_count == 10) {
+            $ad_free_reward_days += 30;
+        } else if ($invited_count == 10) {
+            //象征性的奖励9999天
+            $ad_free_reward_days = 9999;
+            //免广告
+            $profile->ad_free = true;
+        }
+        $invitation->ad_free_reward_days = $ad_free_reward_days;
+        //过期时间
+        if (is_null($profile->ad_free_expires_at)) {
+            $profile->ad_free_expires_at = now();
+        }
+        $profile->ad_free_expires_at = $profile->ad_free_expires_at->addDays($ad_free_reward_days);
+        $profile->save();
+        $invitation->save();
     }
 }

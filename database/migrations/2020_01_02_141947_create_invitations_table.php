@@ -27,6 +27,8 @@ class CreateInvitationsTable extends Migration
             $table->timestamp('invited_in')->nullable();
             $table->unsignedInteger('app_id')->index()->default(1)->comment('厂长头衔ID');
             $table->unsignedInteger('today_rewards_count')->default(0)->comment('今日奖励次数');
+            $table->integer('ad_free_reward_days')->default(0)->comment('奖励免广告天数');
+            $table->unsignedBigInteger('patriarch_id')->default(0)->comment('邀请源ID');
 
             //TODO: 冗余一个总贡献数，方便ceo查看厂长的总贡献
             $table->unsignedInteger('total_contribute')->default(0)->comment('厂长的总贡献');
