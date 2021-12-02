@@ -26,6 +26,7 @@ if (!function_exists('app_track_event')) {
         $canTrack = config('matomo.on') && (!is_testing_env() && !is_local_env()) && (!config('matomo.matomo_user', false) && !isAdmin());
 
         if ($canTrack) {
+            info("进入matomo处理事件");
             $event['category'] = $category;
             $event['action']   = $action ?? $category;
             $event['name']     = $name;
@@ -34,9 +35,11 @@ if (!function_exists('app_track_event')) {
 
 
             if (config('matomo.use_swoole')) {
+                info("开启 matomo.use_swoole");
                 //TCP发送事件数据
                 return sendMatomoTcpEvent($event);
             } else {
+                info("直接发送matomo事件");
                 //直接发送，兼容matomo 3.13.6
                 $tracker = new \MatomoTracker(config('matomo.matomo_id'), config('matomo.matomo_url'));
 
@@ -46,10 +49,13 @@ if (!function_exists('app_track_event')) {
 				 * https://pm.haxifang.com/browse/JUHAOKAN-184
 				 */
                 if(config('matomo.only_track_app')){ // true 代表开启过滤状态
+                    info("判断是否开启过滤状态");
 					if(!Agent::match('okhttp')){ // app使用的是okhttp框架
+                        info("发起请求的是网页。。。");
 						return false;
 					}
 				}
+                info("处理中。。。");
                 //用户机型
                 // $tracker->setCustomVariable(1, '机型', $event['dimension5'], 'visit');
 
@@ -65,15 +71,17 @@ if (!function_exists('app_track_event')) {
                 $tracker->setCustomVariable(4, '用户', $event['dimension4'] ?? null, 'visit');
                 $tracker->setCustomVariable(5, "服务器", gethostname(), "visit");
                 $tracker->setCustomVariable(6, '机型', $event['dimension5'] ?? null, 'visit');
-
+                info("处理111.。。");
                 try {
                     //直接发送到matomo
                     $tracker->doTrackEvent($category, $action, $name, $value);
                     // $url = $tracker->getUrlTrackEvent($category, $action, $name, $value);
+                    info("处理完毕哦！！");
                 } catch (\Throwable $ex) {
+                    info("处理出错了！！ $ex");
                     return false;
                 }
-
+                info("处理好了！！");
                 return true;
             }
         }
