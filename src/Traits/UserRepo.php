@@ -970,23 +970,31 @@ trait UserRepo
     public function adFreeReward($invitation)
     {
         $profile = $this->profile;
+        //已经永久免广告了，不走下面的逻辑
+        if ($profile->ad_free) {
+            return;
+        }
         $profile->invited_count += 1;
         $invited_count       = $profile->invited_count;
         $ad_free_reward_days = 5;
+
+        //总共邀请人数阶段性奖励
         if ($invited_count == 3) {
             $ad_free_reward_days += 5;
         } else if ($invited_count == 5) {
             $ad_free_reward_days += 10;
         } else if ($invited_count == 10) {
             $ad_free_reward_days += 30;
-        } else if ($invited_count == 10) {
+        } else if ($invited_count == 50) {
             //象征性的奖励9999天
             $ad_free_reward_days = 9999;
-            //免广告
+            //永久免广告
             $profile->ad_free = true;
         }
         $invitation->ad_free_reward_days = $ad_free_reward_days;
-        //过期时间
+        //绑定就算激活了邀请，即时
+        $invitation->invited_in = now();
+        //设置免广告权益过期时间
         if (is_null($profile->ad_free_expires_at)) {
             $profile->ad_free_expires_at = now();
         }
