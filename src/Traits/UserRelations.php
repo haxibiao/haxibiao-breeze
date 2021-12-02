@@ -5,6 +5,7 @@ namespace Haxibiao\Breeze\Traits;
 use App\Action;
 use App\Chat;
 use App\Curation;
+use App\Invitation;
 use App\Product;
 use App\Querylog;
 use App\TechnicianProfile;
@@ -47,6 +48,11 @@ trait UserRelations
     public function stores()
     {
         return $this->hasMany(Store::class);
+    }
+
+    public function invitations(): HasMany
+    {
+        return $this->hasMany(Invitation::class);
     }
 
     //技师信息
