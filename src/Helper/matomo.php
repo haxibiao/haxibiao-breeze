@@ -22,9 +22,11 @@ if (!function_exists('track_web')) {
 if (!function_exists('app_track_event')) {
     function app_track_event($category, $action = null, $name = null, $value = null)
     {
+        info("app_track_event 事件处理哦！！");
         // 开启matomo开关功能 && 测试环境不发送 && 是否开启管理员账号行为不埋点
         $canTrack = config('matomo.on') && (!is_testing_env() && !is_local_env()) && (!config('matomo.matomo_user', false) && !isAdmin());
 
+        info("canTrack... $canTrack");
         if ($canTrack) {
             info("进入matomo处理事件");
             $event['category'] = $category;
