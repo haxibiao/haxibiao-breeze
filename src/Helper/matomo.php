@@ -46,7 +46,7 @@ if (!function_exists('app_track_event')) {
 				 * https://pm.haxifang.com/browse/JUHAOKAN-184
 				 */
                 if(config('matomo.only_track_app')){ // true 代表开启过滤状态
-					if(!Agent::isMobile()){
+					if(!Agent::match('okhttp')){ // app使用的是okhttp框架
 						return false;
 					}
 				}
