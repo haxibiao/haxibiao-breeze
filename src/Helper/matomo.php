@@ -24,7 +24,7 @@ if (!function_exists('app_track_event')) {
     {
         // 开启matomo开关功能 && 测试环境不发送 && 是否开启管理员账号行为不埋点
         $canTrack = config('matomo.on') && (!is_testing_env() && !is_local_env()) && (!config('matomo.matomo_user', false) && !isAdmin());
-        
+
         if ($canTrack) {
             $event['category'] = $category;
             $event['action']   = $action ?? $category;
@@ -32,20 +32,24 @@ if (!function_exists('app_track_event')) {
             //避免进入的value有对象，不是String会异常
             $event['value'] = $value instanceof String ? $value : false;
 
-            
+
             if (config('matomo.use_swoole')) {
                 //TCP发送事件数据
                 return sendMatomoTcpEvent($event);
             } else {
                 //直接发送，兼容matomo 3.13.6
                 $tracker = new \MatomoTracker(config('matomo.matomo_id'), config('matomo.matomo_url'));
-                
-                // pc端埋点事件是否做处理 false:不处理 true:处理(pc埋点事件，不推送到matomo)
-                if(!config('matomo.matomo_agent')){
-                    if(!Agent::isMobile()){
-                        return false;
-                    }
-                }
+
+				/**
+				 * 不是来自App的请求是否过滤掉
+				 * 为什么产生该需求：pwa网页中使用了GQL，用次来区分App和网页端的数据统计
+				 * https://pm.haxifang.com/browse/JUHAOKAN-184
+				 */
+                if(config('matomo.only_track_app')){ // true 代表开启过滤状态
+					if(!Agent::isMobile()){
+						return false;
+					}
+				}
                 //用户机型
                 // $tracker->setCustomVariable(1, '机型', $event['dimension5'], 'visit');
 

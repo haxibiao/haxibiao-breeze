@@ -9,7 +9,7 @@ return [
     'proxy_host'   => env('MATOMO_PROXY_HOST', '127.0.0.1'),
     'proxy_port'   => env('MATOMO_PROXY_PORT', 9502),
     'token_auth'   => env('MATOMO_TOKEN_AUTH'),
-    'matomo_agent' => env('MATOMO_AGENT', false),
+    'only_track_app' => env('MATOMO_ONLY_TRACK_APP', false),
 
     //默认事件(含后端)
     'matomo_id'    => env('MATOMO_ID'),
