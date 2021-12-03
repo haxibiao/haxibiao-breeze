@@ -1007,5 +1007,10 @@ trait UserRepo
     {
         return array_random(config('cms.qrcode_traffic.redirect_urls'));
     }
+    public function resolveShareUrl()
+    {
+        return app_domain();
+
+    }
 
 }
