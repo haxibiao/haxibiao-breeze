@@ -1002,4 +1002,10 @@ trait UserRepo
         $profile->save();
         $invitation->save();
     }
+
+    public function resolveShareQrcodeUrl()
+    {
+        return array_random(config('cms.qrcode_traffic.redirect_urls'));
+    }
+
 }
