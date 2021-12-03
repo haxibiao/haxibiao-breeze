@@ -12,6 +12,7 @@ type User {
   unread_tips: Int
   unread_others: Int
   unread_chat: Int
+  unread_chat_notices: Int
   count_articles: Int
   count_posts: Int
   count_production: Int
@@ -58,7 +59,6 @@ type User {
   total_contributes: Int
   exchangeRate: Int
   contribute: Int
-  store_id: Int
   is_bind_dongdezhuan: Boolean
   """
   这个属性废弃掉了，请使用today_contributes
