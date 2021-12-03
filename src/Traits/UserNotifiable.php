@@ -21,12 +21,13 @@ trait UserNotifiable
             'notifiable_id' => $this->id,
         ])->get();
         $unreads = [
-            'comments' => null,
-            'likes'    => null,
-            'follows'  => null,
-            'tips'     => null,
-            'others'   => null,
-            'chats'    => null,
+            'comments'     => null,
+            'likes'        => null,
+            'follows'      => null,
+            'tips'         => null,
+            'others'       => null,
+            'chats'        => null,
+            'chat_notices' => null,
         ];
         //下列通知类型是进入了notification表的
         $unreadNotifications->each(function ($item) use (&$unreads) {
@@ -58,9 +59,11 @@ trait UserNotifiable
                     break;
                 //打赏文章通知 - 网页用
                 case 'ChatNewMessage':
+                    $unreads['chats']++;
+                    break;
                 case 'ChatJoinResultNotification':
                 case 'ChatJoinNotification':
-                    $unreads['chats']++;
+                    $unreads['chat_notices']++;
                     break;
 
                 //其他类型的通知
