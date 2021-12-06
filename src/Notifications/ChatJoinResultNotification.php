@@ -35,16 +35,18 @@ class ChatJoinResultNotification extends BreezeNotification
         } else {
             $title = "群主拒绝了你的加群申请";
         }
-        //互动对象
-        $data = [
+        //互动用户
+        $data = $this->senderToArray();
+
+        $data = array_merge($data, [
             'type'        => 'chat',
             'id'          => $this->chat->id,
             'status'      => $this->result,
             'name'        => $this->chat->subject,
             'title'       => $title,
             'description' => $this->description, //对象的内容
-            'cover' => $this->chat->icon ?? null,
-        ];
+            'cover'       => $this->chat->icon ?? null,
+        ]);
         return $data;
 
     }
