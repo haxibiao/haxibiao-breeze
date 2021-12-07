@@ -15,8 +15,9 @@ class ChatJoinResultNotification extends BreezeNotification
     public $result;
     public $description;
 
-    public function __construct(Chat $chat, $result, $description)
+    public function __construct(Chat $chat, $user, $result, $description)
     {
+        $this->sender      = $user;
         $this->chat        = $chat;
         $this->result      = $result;
         $this->description = $description;
