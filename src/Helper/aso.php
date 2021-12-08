@@ -127,7 +127,7 @@ function small_logo()
 {
     // 优先返回CDN地址
     if(!blank(config('breeze.logo_path_pattern',null))){
-        return sprintf(config('breeze.logo_path_pattern'),get_app_name().'.small');
+        return sprintf(config('breeze.logo_path_pattern'),get_app_name().'.com.small');
     }
     //APP群
     $logo_path = '/logo/' . get_app_name() . '.small.png';
