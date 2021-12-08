@@ -72,6 +72,10 @@ trait AvatarHelper
             return url($avatar_path);
         }
 
+        if (str_contains($avatar, "http")) {
+            return $avatar;
+        }
+
         //FIXME: 所有头像都不存在本地，直接上传cloud
         $avatar_url = cdnurl($avatar_path);
 
