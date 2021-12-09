@@ -35,7 +35,6 @@ if (!function_exists('app_track_event')) {
             //避免进入的value有对象，不是String会异常
             $event['value'] = $value instanceof String ? $value : false;
 
-
             if (config('matomo.use_swoole')) {
                 info("开启 matomo.use_swoole");
                 //TCP发送事件数据
@@ -45,18 +44,18 @@ if (!function_exists('app_track_event')) {
                 //直接发送，兼容matomo 3.13.6
                 $tracker = new \MatomoTracker(config('matomo.matomo_id'), config('matomo.matomo_url'));
 
-				/**
-				 * 不是来自App的请求是否过滤掉
-				 * 为什么产生该需求：pwa网页中使用了GQL，用次来区分App和网页端的数据统计
-				 * https://pm.haxifang.com/browse/JUHAOKAN-184
-				 */
-                if(config('matomo.only_track_app')){ // true 代表开启过滤状态
+                /**
+                 * 不是来自App的请求是否过滤掉
+                 * 为什么产生该需求：pwa网页中使用了GQL，用次来区分App和网页端的数据统计
+                 * https://pm.haxifang.com/browse/JUHAOKAN-184
+                 */
+                if (config('matomo.only_track_app')) { // true 代表开启过滤状态
                     info("判断是否开启过滤状态");
-					if(!Agent::match('okhttp')){ // app使用的是okhttp框架
+                    if (!Agent::match('okhttp')) { // app使用的是okhttp框架
                         info("发起请求的是网页。。。");
-						return false;
-					}
-				}
+                        return false;
+                    }
+                }
                 info("处理中。。。");
                 //用户机型
                 // $tracker->setCustomVariable(1, '机型', $event['dimension5'], 'visit');
@@ -79,7 +78,7 @@ if (!function_exists('app_track_event')) {
                     $tracker->doTrackEvent($category, $action, $name, $value);
                     // $url = $tracker->getUrlTrackEvent($category, $action, $name, $value);
                     info("处理完毕哦！！");
-                } catch (\Throwable $ex) {
+                } catch (\Throwable$ex) {
                     info("处理出错了！！ $ex");
                     return false;
                 }
@@ -131,7 +130,7 @@ if (!function_exists('sendMatomoTcpEvent')) {
                 'package_body_offset'   => 2,
             ]);
             $client->send(tcp_pack($json));
-        } catch (\Throwable $ex) {
+        } catch (\Throwable$ex) {
             return false;
         }
         return true;
@@ -157,7 +156,7 @@ if (!function_exists('getUniqueUserId')) {
     {
         try {
             return getUserId();
-        } catch (\Exception $ex) {
+        } catch (\Exception$ex) {
             return getIp();
         }
     }
