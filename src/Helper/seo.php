@@ -213,14 +213,18 @@ function seo_value($group, $name)
     return Seo::getValue($group, $name);
 }
 
+function is_sites()
+{
+    return config('cms.enable.sites', false);
+}
+
 /**
  * @deprecated 统计合并到 cms_seo_js 里即可
  */
-
 function get_seo_tj()
 {
     //站群模式
-    if (config('cms.enable_sites')) {
+    if (is_sites()) {
         if ($site = cms_get_site()) {
             return $site->footer_js;
         }
@@ -231,7 +235,7 @@ function get_seo_tj()
 function get_seo_title()
 {
     //站群模式
-    if (config('cms.enable_sites')) {
+    if (is_sites()) {
         if ($site = cms_get_site()) {
             if ($site->title) {
                 return $site->title;
@@ -244,7 +248,7 @@ function get_seo_title()
 function get_seo_keywords()
 {
     //站群模式
-    if (config('cms.enable_sites')) {
+    if (is_sites()) {
         if ($site = cms_get_site()) {
             if ($site->keywords) {
                 return $site->keywords;
@@ -257,7 +261,7 @@ function get_seo_keywords()
 function get_seo_description()
 {
     //站群模式
-    if (config('cms.enable_sites')) {
+    if (is_sites()) {
         if ($site = cms_get_site()) {
             if ($site->description) {
                 return $site->description;
@@ -271,7 +275,7 @@ function get_seo_meta($group_name = "站长")
 {
     //配合调试模式才允许验证站长
     if (env('APP_DEBUG')) {
-        if (config('cms.enable_sites')) {
+        if (is_sites()) {
             //站群模式
 
             if ($site = cms_get_site()) {

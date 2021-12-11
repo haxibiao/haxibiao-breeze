@@ -33,12 +33,15 @@ function resolve_mix_version_path($path, $manifestPaths)
     foreach ($manifestPaths as $manifestPath) {
         if (is_file($manifestPath)) {
             $manifest = json_decode(file_get_contents($manifestPath), true);
-            if (isset($manifest[$path])) {
+            if ($asset_path = $manifest[$path] ?? null) {
                 //启用jsdelivr的cdn加速
                 if (config('breeze.enable.jsdelivr')) {
-
+                    //直接开启最新压缩版本
+                    $asset_path = str_replace('.js', '.min.js', $asset_path);
+                    $asset_path = str_replace('.css', '.min.css', $asset_path);
+                    return "https://cdn.jsdelivr.net/gh/haxibiao/haxibiao-media@latest/public" . $asset_path;
                 }
-                return $manifest[$path];
+                return $asset_path;
             }
         }
     }

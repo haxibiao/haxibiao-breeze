@@ -10,6 +10,8 @@ return [
         'mail_notification' => env('ENABLE_MAIL_NOTIFICATION', false),
         //登录功能
         'login'             => env('BREEZE_DISABLE_LOGIN_PAGE', true),
+        //资源cdn加速
+        'jsdelivr'          => env('ENABLE_JSDELIVR', true),
     ],
 
     //站点logo的模式串
