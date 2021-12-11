@@ -8,6 +8,51 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 /**
+ * breeze的mix, 优先尊重app public path 下的mix-manifest.json
+ */
+function breeze_mix($path)
+{
+    $manifestPaths = [base_path('public/mix-manifest.json'), breeze_path('public/mix-manifest.json'), media_path('public/mix-manifest.json')];
+    return resolve_mix_version_path($path, $manifestPaths);
+}
+
+/**
+ * 尊重manifestPath实现版本更新的mix函数
+ *
+ * @param string $path 资源路径
+ * @param array $manifestPaths
+ * @return string
+ */
+function resolve_mix_version_path($path, $manifestPaths)
+{
+    if (!Str::startsWith($path, '/')) {
+        $path = "/" . $path;
+    }
+
+    //匹配path
+    foreach ($manifestPaths as $manifestPath) {
+        if (is_file($manifestPath)) {
+            $manifest = json_decode(file_get_contents($manifestPath), true);
+            if (isset($manifest[$path])) {
+                //启用jsdelivr的cdn加速
+                if (config('breeze.enable.jsdelivr')) {
+
+                }
+                return $manifest[$path];
+            }
+        }
+    }
+
+    $exception = new Exception("Unable to locate Breeze Mix file: {$path}.");
+    if (!app('config')->get('app.debug')) {
+        report($exception);
+        return $path;
+    } else {
+        throw $exception;
+    }
+}
+
+/**
  * 简化pwa开启逻辑，只要是二级域名都是pwa
  */
 function is_enable_pwa()

@@ -29,7 +29,7 @@ class ArticleCommented extends BreezeNotification
     public function via($notifiable)
     {
         //配置好邮件的项目开启邮件通知
-        if (config('breeze.enable_mail_notification')) {
+        if (config('breeze.enable.mail_notification')) {
             return ['database', 'mail'];
         }
         return ['database'];
@@ -67,8 +67,8 @@ class ArticleCommented extends BreezeNotification
             'lou'           => $this->comment->lou,
         ];
 
-        $data = array_merge($data,[
-            'id'          => $this->article->id,    
+        $data = array_merge($data, [
+            'id'          => $this->article->id,
             'message'     => $this->comment->body,
             'cover'       => $this->article->cover,
             'description' => $this->article->description,

@@ -64,7 +64,7 @@ class BreezeServiceProvider extends ServiceProvider
         ]);
 
         //加载路由
-        if (config('breeze.routes_autoload', true)) {
+        if (config('breeze.enable.routes', true)) {
             $this->loadRoutesFrom(__DIR__ . '/../router.php');
         }
 
@@ -123,7 +123,7 @@ class BreezeServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
 
             // 数据库
-            if (config('breeze.migration_autoload')) {
+            if (config('breeze.enable.migration')) {
                 $this->loadMigrationsFrom($this->app->make('path.haxibiao-breeze.migrations'));
             }
 
