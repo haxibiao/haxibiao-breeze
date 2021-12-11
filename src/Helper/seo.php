@@ -118,7 +118,7 @@ function matomo_id()
     if (!blank($matomoId)) {
         return $matomoId;
     }
-    return config('matomo.web_id', '1');
+    return config('matomo.web_id', 1);
 }
 
 /**

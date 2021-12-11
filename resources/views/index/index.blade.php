@@ -14,18 +14,18 @@
             {{-- 主要内容 --}}
             <div class="main sm-left">
                 {{-- 轮播图 --}}
-                @if(isset($data->carousel))
-                <div class="poster-container">
-                     @include('index.parts.poster', ['items' => $data->carousel])
-                </div>
+                @if (isset($data->carousel))
+                    <div class="poster-container">
+                        @include('index.parts.poster', ['items' => $data->carousel])
+                    </div>
                 @endif
-                @if(config('media.movie.enable',false))
+                @if (config('media.enable.movie', false))
                     {{-- 最新电影 --}}
                     @include('index.parts.top_movies', ['movies'=>$data->movies])
                 @endif
                 {{-- 推荐专题 --}}
                 @include('index.parts.recommend_categories',['categories'=>$data->categories])
-				<recommend-category></recommend-category>
+                <recommend-category></recommend-category>
 
                 {{-- top 4 videos --}}
                 @include('index.parts.top_videos', ['posts' => $data->posts])
