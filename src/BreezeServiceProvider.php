@@ -49,6 +49,8 @@ class BreezeServiceProvider extends ServiceProvider
             ImageLogo::class,
             DeployManifest::class,
 
+            Console\Cdn\JsdelivrPurge::class,
+
             Console\Dimension\ArchiveAll::class,
             Console\Dimension\ArchiveRetention::class,
             Console\Dimension\ArchiveUser::class,
