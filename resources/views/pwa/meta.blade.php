@@ -30,17 +30,4 @@
 <meta name="msapplication-TileColor" content="{{ $config['background_color'] }}">
 <meta name="msapplication-TileImage" content="{{ data_get(end($config['icons']), 'src') }}">
 
-<script type="text/javascript">
-    console.log('准备 Initialize the service worker');
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/serviceworker.js?t='+ new Date().getTime(), {
-            scope: '.'
-        }).then(function (registration) {
-            // Registration was successful
-            console.log('Laravel PWA: ServiceWorker 注册 successful with scope: ', registration.scope);
-        }, function (err) {
-            // registration failed :(
-            console.log('Laravel PWA: ServiceWorker 注册 failed: ', err);
-        });
-    }
-</script>
+<script type="text/javascript">console.log("准备 Initialize the service worker"),"serviceWorker"in navigator&&navigator.serviceWorker.register("/serviceworker.js?t="+(new Date).getTime(),{scope:"."}).then(function(e){console.log("Laravel PWA: ServiceWorker 注册 successful with scope: ",e.scope)},function(e){console.log("Laravel PWA: ServiceWorker 注册 failed: ",e)});</script>
