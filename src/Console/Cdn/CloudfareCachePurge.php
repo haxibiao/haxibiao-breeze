@@ -59,6 +59,11 @@ class CloudfareCachePurge extends Command
 
             $result = json_decode(curl_exec($ch_purge),true);
             curl_close($ch_purge);
+            if(data_get($result,'success') == true){
+                $this->info("$cust_domain purge successful");
+            } else {
+                $this->error("$cust_domain purge fail");
+            }
         }
     }
 
