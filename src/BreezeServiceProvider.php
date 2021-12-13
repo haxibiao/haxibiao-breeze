@@ -50,6 +50,7 @@ class BreezeServiceProvider extends ServiceProvider
             DeployManifest::class,
 
             Console\Cdn\JsdelivrPurge::class,
+            Console\Cdn\CloudfareCachePurge::class,
 
             Console\Dimension\ArchiveAll::class,
             Console\Dimension\ArchiveRetention::class,

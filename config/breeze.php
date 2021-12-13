@@ -16,4 +16,9 @@ return [
 
     //站点logo的模式串
     'logo_path_pattern' => env('BREEZE_LOGO_PATH_PATTERN', null),
+
+    'cloudfare'         => [
+        'key' => env('BREEZE_CLOUDFLARE_KEY'),
+        'email' => env('BREEZE_CLOUDFLARE_EMAIL'),
+    ]
 ];
