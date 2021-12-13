@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Cache;
  * --host ：
  *  代表清理该域名下的所有Cache，如果不传代表清理该账号下所有的域名
  *  不要带http协议。
+ *  eg. php artisan cloudflare:cache:purge --host=example.com --host=example2.com
  */
 class CloudfareCachePurge extends Command
 {
