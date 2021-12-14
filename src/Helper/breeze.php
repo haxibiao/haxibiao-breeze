@@ -36,9 +36,15 @@ function resolve_mix_version_path($path, $manifestPaths)
             if ($asset_path = $manifest[$path] ?? null) {
                 //线上默认启用jsdelivr的cdn加速
                 if (config('breeze.enable.jsdelivr') || is_prod_env()) {
-                    //直接开启最新压缩版本
                     $asset_path = str_replace('.js', '.min.js', $asset_path);
                     $asset_path = str_replace('.css', '.min.css', $asset_path);
+
+                    //breeze模板
+                    if (str_contains($asset_path, 'breeze.')) {
+                        return "https://cdn.jsdelivr.net/gh/haxibiao/haxibiao-breeze@latest/public" . $asset_path;
+                    }
+
+                    //media模板
                     return "https://cdn.jsdelivr.net/gh/haxibiao/haxibiao-media@latest/public" . $asset_path;
                 }
                 return $asset_path;

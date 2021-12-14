@@ -8,9 +8,13 @@ class Seo extends Model
 {
     protected $fillable = ['group', 'name', 'value'];
 
-    public static function getValue($group, $name)
+    public static function getValue($name, $group = null)
     {
-        $item = self::whereGroup($group)->whereName($name)->first();
+        $qb = self::whereName($name);
+        if ($group) {
+            $qb = $qb->whereGroup($group);
+        }
+        $item = $qb->first();
         return $item ? $item->value : '';
     }
 

@@ -54,7 +54,7 @@ function get_app_domain($app_name)
 function get_app_name($domain = null)
 {
     $domain   = $domain ?? get_sub_domain();
-    $app_name = get_domain_key(); //域名中提取的app_name(逻辑优先尊重域名名称，再env)
+    $app_name = env('APP_NAME');
 
     //尊重cms站群配置覆盖
     $names = config('cms.sites') ?? [];
@@ -199,18 +199,16 @@ function cnzz_id()
     }
 }
 
-function seo_value($group, $name)
+function seo_value($name)
 {
     if ($seos = app('seos')) {
         foreach ($seos as $seo) {
-            if ($seo->group == $group) {
-                if ($seo->name == $name) {
-                    return $seo->value;
-                }
+            if ($seo->name == $name) {
+                return $seo->value;
             }
         }
     }
-    return Seo::getValue($group, $name);
+    return Seo::getValue($name);
 }
 
 function is_sites()
@@ -242,7 +240,7 @@ function get_seo_title()
             }
         }
     }
-    return seo_value('TDK', 'title');
+    return seo_value('title');
 }
 
 function get_seo_keywords()
@@ -255,7 +253,7 @@ function get_seo_keywords()
             }
         }
     }
-    return seo_value('TDK', 'keywords');
+    return seo_value('keywords');
 }
 
 function get_seo_description()
@@ -268,7 +266,7 @@ function get_seo_description()
             }
         }
     }
-    return seo_value('TDK', 'description');
+    return seo_value('description');
 }
 
 function get_seo_meta($group_name = "站长")
