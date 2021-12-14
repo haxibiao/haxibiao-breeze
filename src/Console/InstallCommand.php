@@ -131,15 +131,15 @@ class InstallCommand extends Command
 
                 $cos_region = $this->choice("区域", ['ap-guangzhou', 'ap-shanghai'], 'ap-guangzhou');
                 setEnvValues(['COS_REGION' => $cos_region]);
-                $cos_region = $this->ask("存储桶", 'haxibiao');
+                $cos_region = $this->ask("存储桶", '');
                 setEnvValues(['COS_BUCKET' => $cos_region]);
-                $cos_app_id = $this->ask("COS_APP_ID", '1251052432');
+                $cos_app_id = $this->ask("COS_APP_ID", '');
                 setEnvValues(['COS_APP_ID' => $cos_app_id]);
-                $cos_secret_id = $this->ask("COS_SECRET_ID", 'AKIDPbXCbj5C1bz72i7F9oDMHxOaXEgsNX0E');
+                $cos_secret_id = $this->ask("COS_SECRET_ID", '');
                 setEnvValues(['COS_SECRET_ID' => $cos_secret_id]);
                 $cos_secret_key = $this->secret("COS_SECRET_KEY");
                 setEnvValues(['COS_SECRET_KEY' => $cos_secret_key]);
-                $cos_domain = $this->ask("cos加速的cdn域名", 'cos.haxibiao.com');
+                $cos_domain = $this->ask("cos加速的cdn域名", '');
                 setEnvValues(['COS_DOMAIN' => $cos_domain]);
             }
             if ($cloudSolution == "space") {
@@ -148,13 +148,13 @@ class InstallCommand extends Command
 
                 $space_region = $this->choice("区域", ['sfo2', 'nyc3'], 'sfo2');
                 setEnvValues(['SPACE_REGION' => $space_region]);
-                $space_region = $this->ask("存储桶", 'movieimage');
+                $space_region = $this->ask("存储桶", '');
                 setEnvValues(['SPACE_BUCKET' => $space_region]);
-                $space_key = $this->ask("SPACE_KEY", 'CFE7N5U5YHERNBY232OH');
+                $space_key = $this->ask("SPACE_KEY", '');
                 setEnvValues(['SPACE_KEY' => $space_key]);
                 $space_secret = $this->secret("SPACE_SECRET");
                 setEnvValues(['SPACE_SECRET' => $space_secret]);
-                $space_domain = $this->ask("space加速的cdn域名", 'space.haxibiao.com');
+                $space_domain = $this->ask("space加速的cdn域名", '');
                 setEnvValues(['SPACE_DOMAIN' => $space_domain]);
             }
         }
