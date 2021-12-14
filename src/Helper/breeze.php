@@ -61,22 +61,12 @@ function resolve_mix_version_path($path, $manifestPaths)
     }
 }
 
-/**
- * 简化pwa开启逻辑，只要是二级域名都是pwa
- */
 function is_enable_pwa()
 {
     if (isRobot()) {
         return false;
     }
-    //优先尊重breeze.enable_pwa
-    if (!is_null(config('breeze.enable_pwa'))) {
-        return config('breeze.enable_pwa');
-    }
-    if (is_sub_domain()) {
-        return true;
-    }
-    return false;
+    return config('breeze.enable_pwa') ?? false;
 }
 
 /**
