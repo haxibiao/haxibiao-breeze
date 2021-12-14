@@ -172,7 +172,7 @@ function app_qrcode_url()
  */
 function download_url()
 {
-    return config('cms.app_download_apk_url',"https://" . app_domain() . "/app");
+    return config('cms.app_download_apk_url') ?? "https://" . app_domain() . "/app";
 }
 
 /**
