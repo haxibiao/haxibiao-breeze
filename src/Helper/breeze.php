@@ -22,7 +22,7 @@ function breeze_mix($path)
         //用压缩版本的
         $asset_path = ends_with('.min.js', $path) ? $path : str_replace('.js', '.min.js', $path);
         $asset_path = ends_with('.min.css', $path) ? $path : str_replace('.css', '.min.css', $path);
-        return "https://cdn.jsdelivr.net/gh/haxibiao/haxibiao-breeze@latest/public" . $asset_path;
+        return "https://cdn.jsdelivr.net/gh/haxibiao/haxibiao-breeze@latest/public/" . $asset_path;
     }
     $manifestPaths = [
         base_path('public/mix-manifest.json'),
