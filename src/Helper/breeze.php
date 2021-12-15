@@ -7,12 +7,28 @@ use Haxibiao\Breeze\Exceptions\UserException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
+function is_enable_jsdelivr()
+{
+    return config('breeze.enable.jsdelivr');
+}
+
 /**
- * breeze的mix, 优先尊重app public path 下的mix-manifest.json
+ * breeze的mix
  */
 function breeze_mix($path)
 {
-    $manifestPaths = [base_path('public/mix-manifest.json'), breeze_path('public/mix-manifest.json'), media_path('public/mix-manifest.json')];
+    //启用jsdelivr的cdn加速
+    if (is_enable_jsdelivr() && str_contains($path, 'breeze')) {
+        //用压缩版本的
+        $asset_path = ends_with('.min.js', $path) ? $path : str_replace('.js', '.min.js', $path);
+        $asset_path = ends_with('.min.css', $path) ? $path : str_replace('.css', '.min.css', $path);
+        return "https://cdn.jsdelivr.net/gh/haxibiao/haxibiao-breeze@latest/public" . $asset_path;
+    }
+    $manifestPaths = [
+        base_path('public/mix-manifest.json'),
+        breeze_path('public/mix-manifest.json'),
+        media_path('public/mix-manifest.json'),
+    ];
     return resolve_mix_version_path($path, $manifestPaths);
 }
 
@@ -34,19 +50,6 @@ function resolve_mix_version_path($path, $manifestPaths)
         if (is_file($manifestPath)) {
             $manifest = json_decode(file_get_contents($manifestPath), true);
             if ($asset_path = $manifest[$path] ?? null) {
-                //启用jsdelivr的cdn加速
-                if (config('breeze.enable.jsdelivr')) {
-                    $asset_path = str_replace('.js', '.min.js', $asset_path);
-                    $asset_path = str_replace('.css', '.min.css', $asset_path);
-
-                    //breeze模板
-                    if (str_contains($asset_path, 'breeze.')) {
-                        return "https://cdn.jsdelivr.net/gh/haxibiao/haxibiao-breeze@latest/public" . $asset_path;
-                    }
-
-                    //media模板
-                    return "https://cdn.jsdelivr.net/gh/haxibiao/haxibiao-media@0.0.2/public" . $asset_path;
-                }
                 return $asset_path;
             }
         }
