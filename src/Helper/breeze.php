@@ -45,7 +45,7 @@ function resolve_mix_version_path($path, $manifestPaths)
                     }
 
                     //media模板
-                    return "https://cdn.jsdelivr.net/gh/haxibiao/haxibiao-media@latest/public" . $asset_path;
+                    return "https://cdn.jsdelivr.net/gh/haxibiao/haxibiao-media@0.0.1/public" . $asset_path;
                 }
                 return $asset_path;
             }
