@@ -34,8 +34,8 @@ function resolve_mix_version_path($path, $manifestPaths)
         if (is_file($manifestPath)) {
             $manifest = json_decode(file_get_contents($manifestPath), true);
             if ($asset_path = $manifest[$path] ?? null) {
-                //线上默认启用jsdelivr的cdn加速
-                if (config('breeze.enable.jsdelivr') || is_prod_env()) {
+                //启用jsdelivr的cdn加速
+                if (config('breeze.enable.jsdelivr')) {
                     $asset_path = str_replace('.js', '.min.js', $asset_path);
                     $asset_path = str_replace('.css', '.min.css', $asset_path);
 
@@ -45,7 +45,7 @@ function resolve_mix_version_path($path, $manifestPaths)
                     }
 
                     //media模板
-                    return "https://cdn.jsdelivr.net/gh/haxibiao/haxibiao-media@latest/public" . $asset_path;
+                    return "https://cdn.jsdelivr.net/gh/haxibiao/haxibiao-media@0.0.1/public" . $asset_path;
                 }
                 return $asset_path;
             }
@@ -61,22 +61,12 @@ function resolve_mix_version_path($path, $manifestPaths)
     }
 }
 
-/**
- * 简化pwa开启逻辑，只要是二级域名都是pwa
- */
 function is_enable_pwa()
 {
     if (isRobot()) {
         return false;
     }
-    //优先尊重breeze.enable_pwa
-    if (!is_null(config('breeze.enable_pwa'))) {
-        return config('breeze.enable_pwa');
-    }
-    if (is_sub_domain()) {
-        return true;
-    }
-    return false;
+    return config('breeze.enable_pwa') ?? false;
 }
 
 /**
