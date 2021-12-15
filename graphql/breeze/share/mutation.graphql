@@ -11,4 +11,5 @@ enum SharedType {
     Category
     Post
     InCome
+    Movie
 }

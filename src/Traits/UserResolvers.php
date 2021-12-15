@@ -3,6 +3,7 @@
 namespace Haxibiao\Breeze\Traits;
 
 use App\Gold;
+use App\Movie;
 use App\User;
 use GraphQL\Type\Definition\ResolveInfo;
 use Haxibiao\Breeze\Events\NewAddStaff;
@@ -470,6 +471,13 @@ trait UserResolvers
             if ($category) {
                 $category->increment('count_shared');
             }
+
+        } else if ($args['shared_type'] == 'Movie') {
+            $movie = Movie::find($args['shared_id']);
+            if ($movie) {
+                $movie->increment('count_shares');
+            }
+
         } else {
             RedisSharedCounter::updateCounter($user->id);
             //触发分享任务
