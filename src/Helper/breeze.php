@@ -34,8 +34,8 @@ function resolve_mix_version_path($path, $manifestPaths)
         if (is_file($manifestPath)) {
             $manifest = json_decode(file_get_contents($manifestPath), true);
             if ($asset_path = $manifest[$path] ?? null) {
-                //线上默认启用jsdelivr的cdn加速
-                if (config('breeze.enable.jsdelivr') || is_prod_env()) {
+                //启用jsdelivr的cdn加速
+                if (config('breeze.enable.jsdelivr')) {
                     $asset_path = str_replace('.js', '.min.js', $asset_path);
                     $asset_path = str_replace('.css', '.min.css', $asset_path);
 
