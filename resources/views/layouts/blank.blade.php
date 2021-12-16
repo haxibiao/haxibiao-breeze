@@ -29,6 +29,7 @@
     </div>
 
     <!-- Scripts -->
+    @stack('scripts')
     @if (Auth::check())
         <script type="text/javascript">
             window.appName = '{{ seo_site_name() }}';
@@ -49,7 +50,6 @@
                 avatar: '{{ Auth::user()->avatar }}',
                 balance: {{ Auth::user()->balance }}
             }
-
         </script>
     @endif
     <script type="text/javascript">
@@ -57,25 +57,18 @@
     </script>
 
     <script src="{{ breeze_mix('/js/breeze.js') }}"></script>
-
     <script type="text/javascript">
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-
     </script>
 
-    @stack('scripts')
-    @stack('js')
-
     @include('parts.to_up')
-
     @yield('footer')
-
-    {{-- 百度自动推送js 更新模板即可 --}}
     {!! cms_seo_js() !!}
+    @stack('js')
 </body>
 
 </html>

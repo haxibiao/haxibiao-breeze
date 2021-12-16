@@ -62,11 +62,12 @@
     @yield('footer')
 
     <!-- Scripts -->
+    @stack('scripts')
     @if (Auth::check())
-    <script type="text/javascript">
-        window.appName = '{{ seo_site_name() }}';
-			window.app = '{{ env('APP_NAME') }}';
-			window.haxiyun_endpoint = '{{ env('HAXIYUN_ENDPOINT','https://media.haxibiao.com') }}'
+        <script type="text/javascript">
+            window.appName = '{{ seo_site_name() }}';
+            window.app = '{{ env('APP_NAME') }}';
+            window.haxiyun_endpoint = '{{ env('HAXIYUN_ENDPOINT', 'https://media.haxibiao.com') }}'
             window.tokenize = function(api_url) {
                 var api_token = '{{ Auth::user()->api_token }}'
                 if (api_url.indexOf('?') === -1) {
@@ -83,31 +84,21 @@
                 avatar: '{{ Auth::user()->avatar }}',
                 balance: {{ Auth::user()->balance }}
             }
-
-    </script>
+        </script>
     @endif
     <script type="text/javascript">
         window.csrf_token = '{{ csrf_token() }}';
-
     </script>
-
     <script src="{{ breeze_mix('/js/breeze.js') }}"></script>
-
     <script type="text/javascript">
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-
     </script>
-
-
-    @stack('scripts')
-    @stack('js')
-
-
     {!! cms_seo_js() !!}
+    @stack('js')
 </body>
 
 </html>

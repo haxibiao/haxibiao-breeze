@@ -45,6 +45,7 @@
     </div>
 
     <!-- Scripts -->
+    @stack('scripts')
     @if (Auth::check())
         <script type="text/javascript">
             window.appName = '{{ seo_site_name() }}';
@@ -64,23 +65,17 @@
                 avatar: '{{ Auth::user()->avatar }}',
                 balance: {{ Auth::user()->balance }}
             }
-
         </script>
     @endif
-
     <script src="{{ breeze_mix('js/breeze.js') }}"></script>
-
     <script type="text/javascript">
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-
     </script>
-    @stack('scripts')
     @stack('js')
-
 </body>
 
 </html>
