@@ -1,7 +1,11 @@
 {{-- 支持替换vue模板自定义部分 --}}
 <script>
-    {{-- 需要维护单独的pwa后端时覆盖window.gqlUri --}}
-    {{-- window.gqlUri = '/gql'; --}}
+    {{-- pwa后端 --}}
+    @if ($gqlUri = env('PWA_GQL_URI'))
+        window.gqlUri = '{{ $gqlUri }}';
+    @else
+        window.gqlUri = '/gql';
+    @endif
 
     window.logoUrl = '{{ small_logo() }}';
     window.logoIconUrl = '{{ small_logo() }}';
