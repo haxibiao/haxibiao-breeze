@@ -9,7 +9,7 @@ return [
         //邮件通知
         'mail_notification' => env('ENABLE_MAIL_NOTIFICATION', false),
         //登录功能
-        'login'             => env('BREEZE_DISABLE_LOGIN_PAGE', true),
+        'login'             => env('BREEZE_ENABLE_LOGIN_PAGE', true),
         //资源cdn加速
         'jsdelivr'          => env('ENABLE_JSDELIVR', true),
     ],
