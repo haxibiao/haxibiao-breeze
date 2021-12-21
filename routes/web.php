@@ -30,8 +30,6 @@ Route::resource('/tag', 'TagController');
 //片段
 Route::resource('/snippet', 'SnippetController');
 
-Route::get('/chat/with/{uid}', 'ChatController@chat');
-
 //用户
 Route::get('/settings', 'UserController@settings');
 Route::get('/user/{id}/videos', 'UserController@videos');
