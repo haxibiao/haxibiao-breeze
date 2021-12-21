@@ -24,18 +24,6 @@ Route::get('/app', 'IndexController@app');
 Route::get('/about-us', 'IndexController@aboutUs');
 Route::get('/trending', 'IndexController@trending');
 
-//搜索
-Route::get('/search', 'SearchController@search');
-Route::get('/search/users', 'SearchController@searchUsers');
-Route::get('/search/movies', 'SearchController@searchMovies');
-Route::get('/search/video', 'SearchController@searchVideos');
-Route::get('/search/categories', 'SearchController@searchCategories');
-Route::get('/search/collections', 'SearchController@searchCollections');
-
-//管理专题
-//Route::get('/category/list', 'CategoryController@list');
-//Route::resource('/category', 'CategoryController');
-
 Route::get('/tag/{name}', 'TagController@tagname');
 Route::resource('/tag', 'TagController');
 
@@ -71,9 +59,6 @@ Route::get('/wechat', 'WechatController@serve');
 
 //qrcode
 Route::get('/share/qrcode', 'SharingController@qrcode');
-
-//search_log
-Route::get('/searchQuery', 'SearchController@search_all');
 
 //返回URL二维码
 Route::get('/share/qrcode/{url}', 'SharingController@qrcode');
