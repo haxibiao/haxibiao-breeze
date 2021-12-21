@@ -35,6 +35,7 @@ class FeedbackComment extends Action
             $comments->commentable_type = 'feedbacks';
             $comments->commentable_id   = $model->id;
             $comments->save();
+            $model->update(['status' => 2]);
         }
 
         return Action::message('共有' . count($models) . '条反馈创建评论成功');
