@@ -155,7 +155,7 @@ function neihan_tencent_app_id()
 
 function friend_links()
 {
-    return array_random(config('cms.friend_links'), 10) ?? [];
+    return config('cms.friend_links', []);
 }
 
 function sitemap()
