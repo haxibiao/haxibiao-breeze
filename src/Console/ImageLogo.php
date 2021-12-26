@@ -53,8 +53,8 @@ class ImageLogo extends Command
             $this->info('生成breeze网站PWA所需icons...');
             $this->makePwaIcons($domain);
 
-            if (!$this->option('splash') && !file_exists(public_path('splash.png'))) {
-                $this->error("必须在public目录下放入APP的竖版splash图,文件名:splash.png");
+            if (!$this->option('splash') && !file_exists(public_path("splash/$domain.png"))) {
+                $this->error("必须在public目录下放入APP的竖版splash图:splash/$domain.png");
             }
             $this->makePwaSplashs($domain);
         }
@@ -69,7 +69,7 @@ class ImageLogo extends Command
         if (!file_exists(public_path('images/icons/' . $domain))) {
             mkdir(public_path('images/icons/' . $domain));
         }
-        $splash_path = $this->option('splash') ? public_path($this->option('splash')) : public_path('splash.png');
+        $splash_path = $this->option('splash') ? public_path($this->option('splash')) : public_path("splash/$domain.png");
         $image       = Image::make($splash_path);
         $w           = 640;
         $h           = 1136;
@@ -131,7 +131,14 @@ class ImageLogo extends Command
         if (!file_exists(public_path('images/icons/' . $domain))) {
             mkdir(public_path('images/icons/' . $domain));
         }
-        $icon_path = $this->option('icon') ? public_path($this->option('icon')) : public_path('logo.png');
+        $icon_path       = public_path('logo.png');
+        $logo_for_domain = 'logo/' . $domain . '.png';
+        if (file_exists(public_path($logo_for_domain))) {
+            $icon_path = public_path($logo_for_domain);
+        }
+        if ($this->option('icon')) {
+            $icon_path = public_path($this->option('icon'));
+        }
 
         $image = Image::make($icon_path);
         $size  = 72;
