@@ -98,11 +98,12 @@ class CloudfareCachePurge extends Command
             curl_close($ch_query);
 
             if (Arr::get($qresult, 'success') != true) {
-                throw new \Exception("not success" . ($qresult['errors'] ?? '') . ($qresult['messages'] ?? ''));
+                throw new \Exception("getZones fail !!! raw cloudflare result:" . $curl_result);
             }
+
             $result = $qresult['result'];
             if (blank($result)) {
-                throw new \Exception("result null");
+                throw new \Exception("getZones result null");
             }
 
             return array_combine(
