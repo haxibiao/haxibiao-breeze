@@ -156,18 +156,22 @@ class AppController extends Controller
     public function version(Request $request)
     {
         $package  = $request->input('package');
+        $referer  = $request->input('referer');
         $cacheKey = "app_android_version_$package";
         $result   = Cache::get($cacheKey);
         if ($result) {
             return $result;
         }
         // 缓存10分钟
-        return Cache::remember($cacheKey, 10 * 60, function () use ($package) {
+        return Cache::remember($cacheKey, 10 * 60, function () use ($package, $referer) {
             $builder = Version::where('os', 'Android')->orderByDesc('id');
 
-            // if (!empty($package) && config('app.name') != 'juhaokan') {
-            $builder = $builder->where('package', $package);
-            // }
+            if (!empty($package) && config('app.name') != 'juhaokan') {
+                $builder = $builder->where('package', $package);
+            }
+            if (!is_null($referer)) {
+                $builder = $builder->where('referer', $referer);
+            }
 
             if (is_prod_env()) {
                 $builder = $builder->where('type', 1);

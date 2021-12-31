@@ -29,6 +29,7 @@ class CreateVersionsTable extends Migration
             $table->boolean('is_force')->default(0)->comment('是否强制更新: 0否 1:强更');
             $table->boolean('status')->default(0)->comment('状态 1:上架 0:下架 -1:删除');
             $table->string('package', 30)->nullable()->comment('包名');
+            $table->string('referer', 30)->nullable()->comment('渠道');
             $table->timestamps();
         });
     }
