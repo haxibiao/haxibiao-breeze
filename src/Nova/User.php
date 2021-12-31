@@ -6,8 +6,8 @@ use Haxibiao\Breeze\Nova\Actions\User\AddMasterAccount;
 use Haxibiao\Breeze\Nova\Actions\User\UpdateUserRole;
 use Haxibiao\Breeze\Nova\Actions\User\UpdateUserStatus;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\Avatar;
 use Laravel\Nova\Fields\DateTime;
-use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Text;
@@ -28,6 +28,8 @@ class User extends Resource
         return '用户';
     }
 
+    public static $with = ['profile'];
+
     /**
      * Get the fields displayed by the resource.
      *
@@ -39,7 +41,12 @@ class User extends Resource
         return [
             ID::make()->sortable(),
 
-            Gravatar::make()->maxWidth(50),
+            Avatar::make('头像', 'avatar')->disk('cos')->hideFromIndex()
+                ->store(function (Request $request, $model) {
+                    return $model->saveAvatar($request->file('avatar'));
+                })->thumbnail(function () {
+                return $this->avatar_url;
+            }),
 
             Text::make('昵称', 'name')
                 ->sortable()
@@ -52,6 +59,8 @@ class User extends Resource
 
             Text::make('状态', function () {return $this->status_name;}),
 
+            Text::make('渠道来源', 'profile.package'),
+            Text::make('APP版本', 'profile.version'),
             Text::make('Email')
                 ->sortable()
                 ->rules('required', 'email', 'max:254')
