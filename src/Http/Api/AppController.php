@@ -165,9 +165,9 @@ class AppController extends Controller
         return Cache::remember($cacheKey, 10 * 60, function () use ($package) {
             $builder = Version::where('os', 'Android')->orderByDesc('id');
 
-            if (!empty($package) && config('app.name') != 'juhaokan') {
-                $builder = $builder->where('package', $package);
-            }
+            // if (!empty($package) && config('app.name') != 'juhaokan') {
+            $builder = $builder->where('package', $package);
+            // }
 
             if (is_prod_env()) {
                 $builder = $builder->where('type', 1);
