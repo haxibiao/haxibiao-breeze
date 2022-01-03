@@ -4,8 +4,8 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "zengdawei",
-            "email": "zengdawei@haxibiao.com"
+            "name": "ivan",
+            "email": "ivan@haxibiao.com"
         }
     ],
     "minimum-stability": "dev",
@@ -15,6 +15,7 @@
         "laravel/ui": "^3.2",
         "laravel/nova": "*",
         "laravel/scout": "^9.2",
+        "intervention/image": "^2.7",
         "http-interop/http-factory-guzzle": "^1.2",
         "meilisearch/meilisearch-php": "^0.18.3",
         "freyo/flysystem-qcloud-cos-v5": "^2.0",
@@ -27,6 +28,8 @@
         "haxibiao/helpers": "*",
         "haxibiao/sns": "*",
         "haxibiao/wallet": "*",
+        "haxibiao/store": "*",
+        "haxibiao/question": "*",
         "haxibiao/task": "*"
     },
     "repositories": {
